@@ -2,6 +2,7 @@ import { WordSearchDifficulty } from 'src/WordSearchDifficulty/WordSearchDifficu
 import { EasyWordSearchGenerationStrategy } from './EasyWordSearchGenerationStrategy';
 import { Injectable } from '@angular/core';
 import { MediumWordSearchGenerationStrategy } from './MediumWordSearchGenerationStrategy';
+import { HardWordSearchGenerationStrategy } from './HardWordSearchGenerationStrategy';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,8 @@ import { MediumWordSearchGenerationStrategy } from './MediumWordSearchGeneration
 export class WordSearchGenerationStrategyFactory {
     constructor(
         private easyWordSearchGenerationStrategy: EasyWordSearchGenerationStrategy,
-        private mediumWordSearchGenerationStrategy: MediumWordSearchGenerationStrategy
+        private mediumWordSearchGenerationStrategy: MediumWordSearchGenerationStrategy,
+        private hardWordSearchGenerationStrategy: HardWordSearchGenerationStrategy
     ) {
     }
 
@@ -20,6 +22,9 @@ export class WordSearchGenerationStrategyFactory {
 
             case WordSearchDifficulty.Medium:
                 return this.mediumWordSearchGenerationStrategy;
+
+            case WordSearchDifficulty.Hard:
+                return this.hardWordSearchGenerationStrategy;
 
             default:
                 throw new Error("Not implemented!");
