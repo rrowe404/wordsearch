@@ -4,6 +4,12 @@ import { Injectable } from '@angular/core'
     providedIn: 'root'
 })
 export class RandomNumberGeneratorService {
+    public flipACoin() {
+        let flip = this.generateRandomIntWithMax(2);
+        
+        return flip % 2 === 0;
+    }
+
     public generateRandomIntInRange(min: number, max: number) {
         return Math.floor(Math.random() * (max - min) + min);
     }
