@@ -16,10 +16,10 @@ export class HorizontalWordPlacementStrategy extends WordPlacementStrategyBase i
     // a horizontally placed word spans columns and stays on the same row
     public placeWord(currentState: string[][], word: string) {
         // any row will do
-        let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntInRange(rows);
+        let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntWithMax(rows);
         
         // allow enough room in the columns for the full word
-        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntInRange(columns - word.length);
+        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns - word.length);
 
         // always the same
         let getNextRow = (row) => row;

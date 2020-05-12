@@ -20,7 +20,7 @@ export class LetterPlaceholderFillService {
         // currentState.forEach((row, i) => {
         //     row.forEach((value, j) => {
         //         if (value === LetterPlaceholder.value) {
-        //             let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntInRange(this.alphabet.length)];
+        //             let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
         //             currentState[i][j] = fillLetter;
         //         }
         //     })

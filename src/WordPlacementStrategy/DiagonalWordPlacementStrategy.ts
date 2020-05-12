@@ -18,8 +18,8 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
         // TODO: allow diagonal words that read from bottom to top
 
         // there must be enough rows and columns to the bottom and right of the word to fit it
-        let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntInRange(rows - word.length);
-        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntInRange(columns - word.length);
+        let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntWithMax(rows - word.length);
+        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns - word.length);
 
         // hop over one column and row at a time
         let getNextRow = (row, i) => row + i;

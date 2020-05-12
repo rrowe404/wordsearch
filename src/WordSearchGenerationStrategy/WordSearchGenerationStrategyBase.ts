@@ -25,7 +25,7 @@ export abstract class WordSearchGenerationStrategyBase {
         let array = this.arrayGenerationService.generateEmpty2dArray(columns, rows);
         
         options.words.forEach(word => {
-            let direction = this.directions[this.randomNumberGeneratorService.generateRandomIntInRange(this.directions.length)];
+            let direction = this.directions[this.randomNumberGeneratorService.generateRandomIntWithMax(this.directions.length)];
             let wordPlacementStrategy = this.wordPlacementStrategyFactory.createStrategy(direction);
             wordPlacementStrategy.placeWord(array, word);
         });

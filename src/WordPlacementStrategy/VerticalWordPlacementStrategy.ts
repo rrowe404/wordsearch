@@ -16,10 +16,10 @@ export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase imp
     // a vertically placed word spans rows and stays in the same column
     public placeWord(currentState: string[][], word: string) {
         // allow enough room in the rows for the full word
-        let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntInRange(rows - word.length);
+        let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntWithMax(rows - word.length);
  
         // any column will do
-        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntInRange(columns - word.length);
+        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns - word.length);
         
         // hop over one row at a time
         let getNextRow = (row, i) => row + i;
