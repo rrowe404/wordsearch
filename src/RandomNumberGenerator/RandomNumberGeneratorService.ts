@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core'
 })
 export class RandomNumberGeneratorService {
     public generateRandomIntInRange(min: number, max: number) {
-        return Math.floor(Math.random() * Math.floor(max)) + min;
+        return Math.floor(Math.random() * (max - min) + min);
     }
 
     public generateRandomIntWithMax(max: number) {
