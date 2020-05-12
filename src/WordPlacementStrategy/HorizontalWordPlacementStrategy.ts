@@ -1,5 +1,4 @@
 import { RandomNumberGeneratorService } from 'src/RandomNumberGenerator/RandomNumberGeneratorService';
-import { LetterPlaceholder } from 'src/LetterPlaceholder/LetterPlaceholder';
 import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
 import { Injectable } from '@angular/core';
 import { WordPlacementStrategy } from './WordPlacementStrategy';

@@ -2,6 +2,7 @@ import { WordDirection } from 'src/WordDirection/WordDirection';
 import { Injectable } from '@angular/core';
 import { HorizontalWordPlacementStrategy } from './HorizontalWordPlacementStrategy';
 import { VerticalWordPlacementStrategy } from './VerticalWordPlacementStrategy';
+import { DiagonalWordPlacementStrategy } from './DiagonalWordPlacementStrategy';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,8 @@ import { VerticalWordPlacementStrategy } from './VerticalWordPlacementStrategy';
 export class WordPlacementStrategyFactory {
     constructor(
         private horizontalWordPlacementStrategy: HorizontalWordPlacementStrategy,
-        private verticalWordPlacementStrategy: VerticalWordPlacementStrategy
+        private verticalWordPlacementStrategy: VerticalWordPlacementStrategy,
+        private diagonalWordPlacementStrategy: DiagonalWordPlacementStrategy
     ) {
     }
 
@@ -20,6 +22,9 @@ export class WordPlacementStrategyFactory {
 
             case WordDirection.Vertical:
                 return this.verticalWordPlacementStrategy;
+
+            case WordDirection.Diagonal:
+                return this.diagonalWordPlacementStrategy;
 
             default:
                 throw new Error('Not Implemented!');

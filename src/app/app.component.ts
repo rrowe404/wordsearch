@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
-    let difficulty = WordSearchDifficulty.Easy;
+    let difficulty = WordSearchDifficulty.Medium;
     let options: WordSearchGenerationOptions = {
       height: 10,
       width: 10,
