@@ -4,12 +4,14 @@ import { ArrayGenerationService } from 'src/ArrayGeneration/ArrayGenerationServi
 import { RandomNumberGeneratorService } from 'src/RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordPlacementStrategyFactory } from 'src/WordPlacementStrategy/WordPlacementStrategyFactory';
 import { Injectable } from '@angular/core';
+import { WordOrientation } from 'src/WordOrientation/WordOrientation';
 
 @Injectable({
     providedIn: 'root'
 })
 export abstract class WordSearchGenerationStrategyBase {
     protected directions: WordDirection[];
+    protected orientations: WordOrientation[] = [WordOrientation.Forwards];
 
     constructor(
         private arrayGenerationService: ArrayGenerationService,
@@ -27,9 +29,20 @@ export abstract class WordSearchGenerationStrategyBase {
         options.words.forEach(word => {
             let direction = this.directions[this.randomNumberGeneratorService.generateRandomIntWithMax(this.directions.length)];
             let wordPlacementStrategy = this.wordPlacementStrategyFactory.createStrategy(direction);
+
+            let orientation = this.orientations[this.randomNumberGeneratorService.generateRandomIntWithMax(this.orientations.length)];
+
+            if (orientation === WordOrientation.Backwards) {
+                word = this.reverseWord(word);
+            }
+
             wordPlacementStrategy.placeWord(array, word);
         });
 
         return array;
+    }
+
+    private reverseWord(word: string) {
+        return word.split('').reverse().join('');
     }
 }
