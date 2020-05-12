@@ -27,10 +27,10 @@ export abstract class WordSearchGenerationStrategyBase {
         let array = this.arrayGenerationService.generateEmpty2dArray(columns, rows);
         
         options.words.forEach(word => {
-            let direction = this.directions[this.randomNumberGeneratorService.generateRandomIntWithMax(this.directions.length)];
+            let direction = this.getRandomValueFrom(this.directions);
             let wordPlacementStrategy = this.wordPlacementStrategyFactory.createStrategy(direction);
 
-            let orientation = this.orientations[this.randomNumberGeneratorService.generateRandomIntWithMax(this.orientations.length)];
+            let orientation = this.getRandomValueFrom(this.orientations);
 
             if (orientation === WordOrientation.Backwards) {
                 word = this.reverseWord(word);
@@ -40,6 +40,10 @@ export abstract class WordSearchGenerationStrategyBase {
         });
 
         return array;
+    }
+
+    private getRandomValueFrom<T>(array: T[]): T {
+        return array[this.randomNumberGeneratorService.generateRandomIntWithMax(array.length)]
     }
 
     private reverseWord(word: string) {
