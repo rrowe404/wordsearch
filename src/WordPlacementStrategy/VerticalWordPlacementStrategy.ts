@@ -1,67 +1,32 @@
 import { Injectable } from '@angular/core';
 import { WordPlacementStrategy } from './WordPlacementStrategy';
 import { RandomNumberGeneratorService } from 'src/RandomNumberGenerator/RandomNumberGeneratorService';
-import { LetterPlaceholder } from 'src/LetterPlaceholder/LetterPlaceholder';
+import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
 
 @Injectable({
     providedIn: 'root'
 })
-export class VerticalWordPlacementStrategy implements WordPlacementStrategy {
+export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase implements WordPlacementStrategy {
     constructor(
         private randomNumberGeneratorService: RandomNumberGeneratorService
     ) {
+        super();
     }
 
-    placeWord(currentState: string[][], word: string) {
-        let letters = word.split('');
+    // a vertically placed word spans rows and stays in the same column
+    public placeWord(currentState: string[][], word: string) {
+        // allow enough room in the rows for the full word
+        let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntInRange(rows - word.length);
+ 
+        // any column will do
+        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntInRange(columns - word.length);
+        
+        // hop over one row at a time
+        let getNextRow = (row, i) => row + i;
 
-        let columns = currentState[0].length;
-        let rows = currentState.length;
+        // always the same
+        let getNextColumn = (column) => column;
 
-        // muse allow enough room for the word
-        let getStartColumn = () => this.randomNumberGeneratorService.generateRandomIntInRange(columns - word.length);
-
-        // choose a random starting location
-        let getStartRow = () => this.randomNumberGeneratorService.generateRandomIntInRange(rows);
-
-        let startColumn = getStartColumn();
-        let startRow = getStartRow();
-
-        let positioned = false;
-        let attempts = 0;
-        let maxAttempts = 5;
-
-        while (!positioned) {
-            // check to see if there is enough room. loop until we've found a suitable starting point
-            let length = letters.length;
-
-            for (let i = 0; i < length; i++) {
-                let valueAtPosition = currentState[startColumn + i][startRow];
-
-                positioned = valueAtPosition === LetterPlaceholder.value;
-            }
-
-            if (positioned) {
-                break;
-            } else {
-                startColumn = getStartColumn();
-                startRow = getStartRow();
-                attempts++;
-
-                if (attempts > maxAttempts) {
-                    console.log('you fucked up somehow. freeing you from infinite loop...');
-                    positioned = true;
-                }
-            }
-        }
-
-        let length = letters.length;
-
-         // place the letters into position
-        for (let i = 0; i < length; i++) {
-            currentState[startColumn + i][startRow] = letters[i];
-        }
-
-        return currentState;
+        return super.placeWord(currentState, word, getStartRow, getStartColumn, getNextRow, getNextColumn)
     }
 }
