@@ -17,14 +17,14 @@ export class LetterPlaceholderFillService {
     ) {}
 
     public fill(currentState: string[][]) {
-        currentState.forEach((row, i) => {
-            row.forEach((value, j) => {
-                if (value === LetterPlaceholder.value) {
-                    let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntInRange(this.alphabet.length)];
-                    currentState[i][j] = fillLetter;
-                }
-            })
-        });
+        // currentState.forEach((row, i) => {
+        //     row.forEach((value, j) => {
+        //         if (value === LetterPlaceholder.value) {
+        //             let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntInRange(this.alphabet.length)];
+        //             currentState[i][j] = fillLetter;
+        //         }
+        //     })
+        // });
 
         return currentState;
     }
