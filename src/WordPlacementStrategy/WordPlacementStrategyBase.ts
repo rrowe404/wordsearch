@@ -24,7 +24,8 @@ export abstract class WordPlacementStrategyBase {
         while (!positioned) {
             // check to see if there is enough room. loop until we've found a suitable starting point
             positioned = letters.every((letter, i) => {
-                return currentState[getNextRow(startRow, i)][getNextColumn(startColumn, i)] === LetterPlaceholder.value;
+                let valueAtPosition = currentState[getNextRow(startRow, i)][getNextColumn(startColumn, i)]
+                return this.canPlaceLetter(valueAtPosition);
             });
 
             if (positioned) {
@@ -51,5 +52,9 @@ export abstract class WordPlacementStrategyBase {
         }
 
         return currentState;
+    }
+
+    private canPlaceLetter(valueAtPosition) { 
+        return valueAtPosition === LetterPlaceholder.value;
     }
 }
