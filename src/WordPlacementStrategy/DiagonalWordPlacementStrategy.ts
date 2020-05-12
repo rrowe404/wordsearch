@@ -15,6 +15,8 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
 
     // a diagonally placed word spans both columns and rows
     public placeWord(currentState: string[][], word: string) {
+        // TODO: allow diagonal words that read from bottom to top
+
         // there must be enough rows and columns to the bottom and right of the word to fit it
         let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntInRange(rows - word.length);
         let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntInRange(columns - word.length);
