@@ -12,6 +12,7 @@ import { WordOrientation } from 'src/WordOrientation/WordOrientation';
 export abstract class WordSearchGenerationStrategyBase {
     protected directions: WordDirection[];
     protected orientations: WordOrientation[] = [WordOrientation.Forwards];
+    protected allowOverlaps: boolean = false;
 
     constructor(
         private arrayGenerationService: ArrayGenerationService,
@@ -29,6 +30,10 @@ export abstract class WordSearchGenerationStrategyBase {
         options.words.forEach(word => {
             let direction = this.getRandomValueFrom(this.directions);
             let wordPlacementStrategy = this.wordPlacementStrategyFactory.createStrategy(direction);
+
+            if (this.allowOverlaps) {
+                wordPlacementStrategy.enableOverlaps();
+            }
 
             let orientation = this.getRandomValueFrom(this.orientations);
 

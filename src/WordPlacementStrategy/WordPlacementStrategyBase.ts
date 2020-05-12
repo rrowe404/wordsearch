@@ -1,6 +1,13 @@
 import { LetterPlaceholder } from 'src/LetterPlaceholder/LetterPlaceholder';
 
 export abstract class WordPlacementStrategyBase {
+    private allowOverlaps: boolean = false;
+
+    /** Don't override this */
+    public enableOverlaps() {
+        this.allowOverlaps = true;
+    }
+
     placeWord(
         currentState: string[][],
         word: string,
@@ -25,7 +32,7 @@ export abstract class WordPlacementStrategyBase {
             // check to see if there is enough room. loop until we've found a suitable starting point
             positioned = letters.every((letter, i) => {
                 let valueAtPosition = currentState[getNextRow(startRow, i)][getNextColumn(startColumn, i)]
-                return this.canPlaceLetter(valueAtPosition);
+                return this.canPlaceLetter(letter, valueAtPosition);
             });
 
             if (positioned) {
@@ -54,7 +61,11 @@ export abstract class WordPlacementStrategyBase {
         return currentState;
     }
 
-    private canPlaceLetter(valueAtPosition) { 
+    private canPlaceLetter(letter, valueAtPosition) { 
+        if (this.enableOverlaps && letter === valueAtPosition) {
+            return true;
+        }
+
         return valueAtPosition === LetterPlaceholder.value;
     }
 }

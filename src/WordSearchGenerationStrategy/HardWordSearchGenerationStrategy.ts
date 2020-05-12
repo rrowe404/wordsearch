@@ -10,4 +10,5 @@ import { WordOrientation } from 'src/WordOrientation/WordOrientation';
 export class HardWordSearchGenerationStrategy extends WordSearchGenerationStrategyBase implements WordSearchGenerationStrategy {
     protected directions = [WordDirection.Horizontal, WordDirection.Vertical, WordDirection.Diagonal];
     protected orientations = [WordOrientation.Forwards, WordOrientation.Backwards];
+    protected allowOverlaps = true;
 }
