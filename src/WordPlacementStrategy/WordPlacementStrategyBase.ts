@@ -23,13 +23,9 @@ export abstract class WordPlacementStrategyBase {
 
         while (!positioned) {
             // check to see if there is enough room. loop until we've found a suitable starting point
-            let length = letters.length;
-
-            for (let i = 0; i < length; i++) {
-                let valueAtPosition = currentState[getNextRow(startColumn, i)][getNextColumn(startRow, i)];
-
-                positioned = valueAtPosition === LetterPlaceholder.value;
-            }
+            positioned = letters.every((letter, i) => {
+                return currentState[getNextRow(startColumn, i)][getNextColumn(startRow, i)] === LetterPlaceholder.value;
+            });
 
             if (positioned) {
                 break;

@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     let options: WordSearchGenerationOptions = {
       height: 10,
       width: 10,
-      words: ['pig', 'hog', 'sow']
+      words: ['pig', 'hog', 'sow', 'sty', 'oink', 'hoof', 'stink']
     }
 
     let result = this.wordSearchGenerationService.generateWordSearch(options, difficulty);
