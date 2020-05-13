@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
 import { WordSearchDifficulty } from 'src/Rules/WordSearchDifficulty/WordSearchDifficulty';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { DropdownOption } from 'src/UI/Dropdown/DropdownOption';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +17,15 @@ export class AppComponent implements OnInit {
   ) {
   }
 
+  public difficultyOptions: DropdownOption<WordSearchDifficulty>[] = [
+    { value: WordSearchDifficulty.Easy, viewValue: 'Easy' },
+    { value: WordSearchDifficulty.Medium, viewValue: 'Medium' },
+    { value: WordSearchDifficulty.Hard, viewValue: 'Hard' }
+  ];
+
+  public difficulty: WordSearchDifficulty = WordSearchDifficulty.Easy;
+
   public ngOnInit() {
-    let difficulty = WordSearchDifficulty.Hard;
     let options: WordSearchGenerationOptions = {
       height: 10,
       width: 10,
@@ -26,8 +34,12 @@ export class AppComponent implements OnInit {
       ]
     }
 
-    let result = this.wordSearchGenerationService.generateWordSearch(options, difficulty);
+    let result = this.wordSearchGenerationService.generateWordSearch(options, this.difficulty);
 
     result.forEach(row => console.log(row));
+  }
+
+  public setDifficulty(difficulty: WordSearchDifficulty) {
+    this.difficulty = difficulty;
   }
 }

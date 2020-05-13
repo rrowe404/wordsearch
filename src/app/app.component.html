@@ -76,6 +76,8 @@
 
 <div class="content" role="main">
   <span>{{ title }} app is running!</span>
+
+  <wordsearch-dropdown [options]="difficultyOptions" (onChange)="setDifficulty($event)" [selected]="difficulty"></wordsearch-dropdown>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
