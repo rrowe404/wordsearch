@@ -28,13 +28,39 @@ export abstract class WordSearchGenerationStrategyBase {
 
         let array: string[][] = this.arrayGenerationService.generateEmpty2dArray(columns, rows);
 
-        options.words.forEach(word => this.placeWord(array, word));
+        options.words.forEach(word => {
+            let place = this.checkWord(options, word);
+            
+            if (place) {
+                this.placeWord(array, word)
+            } else {
+                this.handleRejectedWord(word);
+            }
+        });
 
         return array;
     }
 
+    /**
+     * @returns true if the word can be placed, false if not
+     */
+    private checkWord(options: WordSearchGenerationOptions, word: string) {
+        let tooWide = () => word.length > options.width;
+        let tooTall = () => word.length > options.height;
+
+        if (tooWide() || tooTall()) {
+            return false;
+        }
+
+        return true;
+    }
+
     private getRandomValueFrom<T>(array: T[]): T {
         return array[this.randomNumberGeneratorService.generateRandomIntWithMax(array.length)]
+    }
+
+    private handleRejectedWord(word) {
+        console.log(`Could not place '${word}!'`)
     }
 
     private placeWord(array: string[][], word: string) {
