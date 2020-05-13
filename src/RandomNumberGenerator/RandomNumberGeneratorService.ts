@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core'
+import { RandomNumberGeneratorModule } from './RandomNumberGeneratorModule';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: RandomNumberGeneratorModule
 })
 export class RandomNumberGeneratorService {
     public flipACoin() {

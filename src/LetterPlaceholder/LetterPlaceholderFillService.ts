@@ -1,9 +1,10 @@
 import { LetterPlaceholder } from './LetterPlaceholder';
 import { Injectable } from '@angular/core';
 import { RandomNumberGeneratorService } from 'src/RandomNumberGenerator/RandomNumberGeneratorService';
+import { LetterPlaceholderModule } from './LetterPlaceholderModule';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: LetterPlaceholderModule
 })
 export class LetterPlaceholderFillService {
     private alphabet = [

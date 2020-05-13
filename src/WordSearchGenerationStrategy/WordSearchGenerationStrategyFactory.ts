@@ -3,9 +3,10 @@ import { EasyWordSearchGenerationStrategy } from './EasyWordSearchGenerationStra
 import { Injectable } from '@angular/core';
 import { MediumWordSearchGenerationStrategy } from './MediumWordSearchGenerationStrategy';
 import { HardWordSearchGenerationStrategy } from './HardWordSearchGenerationStrategy';
+import { WordSearchGenerationStrategyModule } from './WordSearchGenerationStrategyModule';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: WordSearchGenerationStrategyModule
 })
 export class WordSearchGenerationStrategyFactory {
     constructor(

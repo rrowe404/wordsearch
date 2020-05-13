@@ -5,9 +5,10 @@ import { RandomNumberGeneratorService } from 'src/RandomNumberGenerator/RandomNu
 import { WordPlacementStrategyFactory } from 'src/WordPlacementStrategy/WordPlacementStrategyFactory';
 import { Injectable } from '@angular/core';
 import { WordOrientation } from 'src/WordOrientation/WordOrientation';
+import { WordSearchGenerationStrategyModule } from './WordSearchGenerationStrategyModule';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: WordSearchGenerationStrategyModule
 })
 export abstract class WordSearchGenerationStrategyBase {
     protected directions: WordDirection[];
