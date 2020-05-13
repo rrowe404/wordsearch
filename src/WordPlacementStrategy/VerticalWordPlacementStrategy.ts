@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { WordPlacementStrategy } from './WordPlacementStrategy';
 import { RandomNumberGeneratorService } from 'src/RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
+import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: WordPlacementStrategyModule
 })
 export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase implements WordPlacementStrategy {
     constructor(

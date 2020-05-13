@@ -1,11 +1,12 @@
 import { WordDirection } from 'src/WordDirection/WordDirection';
-import { Injectable } from '@angular/core';
 import { HorizontalWordPlacementStrategy } from './HorizontalWordPlacementStrategy';
 import { VerticalWordPlacementStrategy } from './VerticalWordPlacementStrategy';
 import { DiagonalWordPlacementStrategy } from './DiagonalWordPlacementStrategy';
+import { Injectable } from '@angular/core';
+import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: WordPlacementStrategyModule
 })
 export class WordPlacementStrategyFactory {
     constructor(

@@ -1,11 +1,12 @@
 import { WordSearchGenerationOptions } from 'src/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordSearchDifficulty } from 'src/WordSearchDifficulty/WordSearchDifficulty';
-import { Injectable } from '@angular/core';
 import { WordSearchGenerationStrategyFactory } from 'src/WordSearchGenerationStrategy/WordSearchGenerationStrategyFactory';
 import { LetterPlaceholderFillService } from 'src/LetterPlaceholder/LetterPlaceholderFillService';
+import { Injectable } from '@angular/core';
+import { WordSearchGenerationModule } from './WordSearchGenerationModule';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: WordSearchGenerationModule
 })
 export class WordSearchGenerationService {
     constructor(
