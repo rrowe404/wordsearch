@@ -24,31 +24,33 @@ export abstract class WordSearchGenerationStrategyBase {
     generate(options: WordSearchGenerationOptions) {
         let columns = options.width;
         let rows = options.height;
-        
-        let array = this.arrayGenerationService.generateEmpty2dArray(columns, rows);
-        
-        options.words.forEach(word => {
-            let direction = this.getRandomValueFrom(this.directions);
-            let wordPlacementStrategy = this.wordPlacementStrategyFactory.createStrategy(direction);
 
-            if (this.allowOverlaps) {
-                wordPlacementStrategy.enableOverlaps();
-            }
+        let array: string[][] = this.arrayGenerationService.generateEmpty2dArray(columns, rows);
 
-            let orientation = this.getRandomValueFrom(this.orientations);
-
-            if (orientation === WordOrientation.Backwards) {
-                word = this.reverseWord(word);
-            }
-
-            wordPlacementStrategy.placeWord(array, word);
-        });
+        options.words.forEach(word => this.placeWord(array, word));
 
         return array;
     }
 
     private getRandomValueFrom<T>(array: T[]): T {
         return array[this.randomNumberGeneratorService.generateRandomIntWithMax(array.length)]
+    }
+
+    private placeWord(array: string[][], word: string) {
+        let direction = this.getRandomValueFrom(this.directions);
+        let wordPlacementStrategy = this.wordPlacementStrategyFactory.createStrategy(direction);
+
+        if (this.allowOverlaps) {
+            wordPlacementStrategy.enableOverlaps();
+        }
+
+        let orientation = this.getRandomValueFrom(this.orientations);
+
+        if (orientation === WordOrientation.Backwards) {
+            word = this.reverseWord(word);
+        }
+
+        wordPlacementStrategy.placeWord(array, word);
     }
 
     private reverseWord(word: string) {
