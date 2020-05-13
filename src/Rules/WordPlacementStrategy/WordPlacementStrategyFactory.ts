@@ -1,4 +1,4 @@
-import { WordDirection } from 'src/WordDirection/WordDirection';
+import { WordDirection } from 'src/Rules/WordDirection/WordDirection';
 import { HorizontalWordPlacementStrategy } from './HorizontalWordPlacementStrategy';
 import { VerticalWordPlacementStrategy } from './VerticalWordPlacementStrategy';
 import { DiagonalWordPlacementStrategy } from './DiagonalWordPlacementStrategy';

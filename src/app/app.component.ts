@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { WordSearchGenerationService } from 'src/WordSearchGeneration/WordSearchGenerationService';
-import { WordSearchDifficulty } from 'src/WordSearchDifficulty/WordSearchDifficulty';
-import { WordSearchGenerationOptions } from 'src/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
+import { WordSearchDifficulty } from 'src/Rules/WordSearchDifficulty/WordSearchDifficulty';
+import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 
 @Component({
   selector: 'app-root',

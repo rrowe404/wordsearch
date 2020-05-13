@@ -1,12 +1,12 @@
-import { WordSearchGenerationOptions } from 'src/WordSearchGenerationOptions/WordSearchGenerationOptions';
-import { WordDirection } from 'src/WordDirection/WordDirection';
-import { ArrayGenerationService } from 'src/ArrayGeneration/ArrayGenerationService';
-import { RandomNumberGeneratorService } from 'src/RandomNumberGenerator/RandomNumberGeneratorService';
-import { WordPlacementStrategyFactory } from 'src/WordPlacementStrategy/WordPlacementStrategyFactory';
+import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { WordDirection } from 'src/Rules/WordDirection/WordDirection';
+import { ArrayGenerationService } from 'src/Rules/ArrayGeneration/ArrayGenerationService';
+import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
+import { WordPlacementStrategyFactory } from 'src/Rules/WordPlacementStrategy/WordPlacementStrategyFactory';
 import { Injectable } from '@angular/core';
-import { WordOrientation } from 'src/WordOrientation/WordOrientation';
+import { WordOrientation } from 'src/Rules/WordOrientation/WordOrientation';
 import { WordSearchGenerationStrategyModule } from './WordSearchGenerationStrategyModule';
-import { WordValidationService } from 'src/WordValidation/WordValidationService';
+import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 
 @Injectable({
     providedIn: WordSearchGenerationStrategyModule

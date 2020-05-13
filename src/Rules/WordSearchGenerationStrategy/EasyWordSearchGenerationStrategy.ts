@@ -1,5 +1,5 @@
 import { WordSearchGenerationStrategy } from './WordSearchGenerationStrategy';
-import { WordDirection } from 'src/WordDirection/WordDirection';
+import { WordDirection } from 'src/Rules/WordDirection/WordDirection';
 import { Injectable } from '@angular/core';
 import { WordSearchGenerationStrategyBase } from './WordSearchGenerationStrategyBase';
 import { WordSearchGenerationStrategyModule } from './WordSearchGenerationStrategyModule';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WordPlacementStrategy } from './WordPlacementStrategy';
-import { RandomNumberGeneratorService } from 'src/RandomNumberGenerator/RandomNumberGeneratorService';
+import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
 import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
 

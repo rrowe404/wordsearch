@@ -1,4 +1,4 @@
-import { LetterPlaceholder } from 'src/LetterPlaceholder/LetterPlaceholder';
+import { LetterPlaceholder } from 'src/Rules/LetterPlaceholder/LetterPlaceholder';
 
 export abstract class WordPlacementStrategyBase {
     private allowOverlaps: boolean = false;

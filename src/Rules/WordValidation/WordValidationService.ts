@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WordValidationModule } from './WordValidationModule';
-import { WordSearchGenerationOptions } from 'src/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordLengthValidator } from './WordLengthValidator';
 import { WordValidator } from './WordValidator';
 

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RandomNumberGeneratorModule } from 'src/RandomNumberGenerator/RandomNumberGeneratorModule';
+import { RandomNumberGeneratorModule } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorModule';
 
 @NgModule({
     imports: [

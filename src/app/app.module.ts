@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WordSearchGenerationModule } from 'src/WordSearchGeneration/WordSearchGenerationModule';
+import { WordSearchGenerationModule } from 'src/Rules/WordSearchGeneration/WordSearchGenerationModule';
 
 @NgModule({
   declarations: [

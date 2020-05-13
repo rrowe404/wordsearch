@@ -1,4 +1,4 @@
-import { WordSearchDifficulty } from 'src/WordSearchDifficulty/WordSearchDifficulty';
+import { WordSearchDifficulty } from 'src/Rules/WordSearchDifficulty/WordSearchDifficulty';
 import { EasyWordSearchGenerationStrategy } from './EasyWordSearchGenerationStrategy';
 import { Injectable } from '@angular/core';
 import { MediumWordSearchGenerationStrategy } from './MediumWordSearchGenerationStrategy';

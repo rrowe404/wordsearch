@@ -1,7 +1,7 @@
-import { WordSearchGenerationOptions } from 'src/WordSearchGenerationOptions/WordSearchGenerationOptions';
-import { WordSearchDifficulty } from 'src/WordSearchDifficulty/WordSearchDifficulty';
-import { WordSearchGenerationStrategyFactory } from 'src/WordSearchGenerationStrategy/WordSearchGenerationStrategyFactory';
-import { LetterPlaceholderFillService } from 'src/LetterPlaceholder/LetterPlaceholderFillService';
+import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { WordSearchDifficulty } from 'src/Rules/WordSearchDifficulty/WordSearchDifficulty';
+import { WordSearchGenerationStrategyFactory } from 'src/Rules/WordSearchGenerationStrategy/WordSearchGenerationStrategyFactory';
+import { LetterPlaceholderFillService } from 'src/Rules/LetterPlaceholder/LetterPlaceholderFillService';
 import { Injectable } from '@angular/core';
 import { WordSearchGenerationModule } from './WordSearchGenerationModule';
 

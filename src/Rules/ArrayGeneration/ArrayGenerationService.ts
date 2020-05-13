@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LetterPlaceholder } from 'src/LetterPlaceholder/LetterPlaceholder';
+import { LetterPlaceholder } from 'src/Rules/LetterPlaceholder/LetterPlaceholder';
 import { ArrayGenerationModule } from './ArrayGenerationModule';
 
 @Injectable({

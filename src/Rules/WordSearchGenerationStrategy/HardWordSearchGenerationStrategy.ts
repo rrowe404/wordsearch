@@ -1,8 +1,8 @@
 import { WordSearchGenerationStrategyBase } from './WordSearchGenerationStrategyBase';
 import { WordSearchGenerationStrategy } from './WordSearchGenerationStrategy';
-import { WordDirection } from 'src/WordDirection/WordDirection';
+import { WordDirection } from 'src/Rules/WordDirection/WordDirection';
 import { Injectable } from '@angular/core';
-import { WordOrientation } from 'src/WordOrientation/WordOrientation';
+import { WordOrientation } from 'src/Rules/WordOrientation/WordOrientation';
 import { WordSearchGenerationStrategyModule } from './WordSearchGenerationStrategyModule';
 
 @Injectable({
