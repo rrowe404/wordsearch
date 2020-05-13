@@ -6,6 +6,7 @@ import { WordPlacementStrategyFactory } from 'src/WordPlacementStrategy/WordPlac
 import { Injectable } from '@angular/core';
 import { WordOrientation } from 'src/WordOrientation/WordOrientation';
 import { WordSearchGenerationStrategyModule } from './WordSearchGenerationStrategyModule';
+import { WordValidationService } from 'src/WordValidation/WordValidationService';
 
 @Injectable({
     providedIn: WordSearchGenerationStrategyModule
@@ -18,7 +19,8 @@ export abstract class WordSearchGenerationStrategyBase {
     constructor(
         private arrayGenerationService: ArrayGenerationService,
         private randomNumberGeneratorService: RandomNumberGeneratorService,
-        private wordPlacementStrategyFactory: WordPlacementStrategyFactory
+        private wordPlacementStrategyFactory: WordPlacementStrategyFactory,
+        private wordValidationService: WordValidationService
     ) {
     }
 
@@ -45,14 +47,7 @@ export abstract class WordSearchGenerationStrategyBase {
      * @returns true if the word can be placed, false if not
      */
     private checkWord(options: WordSearchGenerationOptions, word: string) {
-        let tooWide = () => word.length > options.width;
-        let tooTall = () => word.length > options.height;
-
-        if (tooWide() || tooTall()) {
-            return false;
-        }
-
-        return true;
+        return this.wordValidationService.validateWord(options, word);
     }
 
     private getRandomValueFrom<T>(array: T[]): T {
