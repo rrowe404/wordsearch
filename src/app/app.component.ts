@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
       height: 10,
       width: 10,
       words: ['pig', 'hog', 'sow', 'sty', 'oink', 'hoof', 'stink',
-       //'antidisestablishmentarianism'
+       'antidisestablishmentarianism'
       ]
     }
 
