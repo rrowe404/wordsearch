@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { LetterPlaceholder } from 'src/LetterPlaceholder/LetterPlaceholder';
+import { ArrayGenerationModule } from './ArrayGenerationModule';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: ArrayGenerationModule
 })
 export class ArrayGenerationService {
     public generateEmpty2dArray(columns: number, rows: number, fillValue: LetterPlaceholder = LetterPlaceholder.value) {
