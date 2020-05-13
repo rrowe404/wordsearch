@@ -8,11 +8,19 @@ import { WordValidator } from './WordValidator';
     providedIn: WordValidationModule
 })
 export class WordValidationService {
-    public validateWord(options: WordSearchGenerationOptions, word: string) {
-        let validators: WordValidator[] = [
-            new WordLengthValidator()
-        ];
+    private validators: WordValidator[] = [
+        new WordLengthValidator()
+    ];
 
-        return validators.every(validator => validator.validate(options, word));
+    public getMessages(options: WordSearchGenerationOptions, word: string) {
+        let violatedValidators = this.validators.filter(validator => !validator.validate(options, word));
+
+        let messages = violatedValidators.map(validator => validator.getMessage(word));
+
+        return messages;
+    }
+
+    public validateWord(options: WordSearchGenerationOptions, word: string) {
+        return this.validators.every(validator => validator.validate(options, word));
     }
 }

@@ -36,7 +36,7 @@ export abstract class WordSearchGenerationStrategyBase {
             if (place) {
                 this.placeWord(array, word)
             } else {
-                this.handleRejectedWord(word);
+                this.handleRejectedWord(options, word);
             }
         });
 
@@ -54,8 +54,9 @@ export abstract class WordSearchGenerationStrategyBase {
         return array[this.randomNumberGeneratorService.generateRandomIntWithMax(array.length)]
     }
 
-    private handleRejectedWord(word) {
-        console.log(`Could not place '${word}!'`)
+    private handleRejectedWord(options: WordSearchGenerationOptions, word: string) {
+        let messages = this.wordValidationService.getMessages(options, word);
+        messages.forEach(message => console.log(message));
     }
 
     private placeWord(array: string[][], word: string) {
