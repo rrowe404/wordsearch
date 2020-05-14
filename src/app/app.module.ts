@@ -7,6 +7,7 @@ import { WordSearchGenerationModule } from 'src/Rules/WordSearchGeneration/WordS
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { UIModule } from 'src/UI/UIModule';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { UIModule } from 'src/UI/UIModule';
     AppRoutingModule,
     WordSearchGenerationModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     UIModule
   ],
   providers: [],

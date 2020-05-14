@@ -3,6 +3,7 @@ import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/Word
 import { WordSearchDifficulty } from 'src/Rules/WordSearchDifficulty/WordSearchDifficulty';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { DropdownOption } from 'src/UI/Dropdown/DropdownOption';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -24,8 +25,11 @@ export class AppComponent implements OnInit {
   ];
 
   public difficulty: WordSearchDifficulty = WordSearchDifficulty.Easy;
+  public inputFormGroup: FormGroup;
 
   public ngOnInit() {
+    this.inputFormGroup = new FormGroup({});
+
     let options: WordSearchGenerationOptions = {
       height: 10,
       width: 10,
