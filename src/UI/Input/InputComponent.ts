@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 
+/** Barrier between app and third-party inputs */
 @Component({
     selector: 'wordsearch-input',
     template: `

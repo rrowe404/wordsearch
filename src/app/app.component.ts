@@ -29,13 +29,13 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     this.inputFormGroup = new FormGroup({});
+  }
 
+  public generate() {
     let options: WordSearchGenerationOptions = {
       height: 10,
       width: 10,
-      words: ['pig', 'hog', 'sow', 'sty', 'oink', 'hoof', 'stink',
-       'antidisestablishmentarianism'
-      ]
+      words: this.getWordsFromForm()
     }
 
     let result = this.wordSearchGenerationService.generateWordSearch(options, this.difficulty);
@@ -45,5 +45,9 @@ export class AppComponent implements OnInit {
 
   public setDifficulty(difficulty: WordSearchDifficulty) {
     this.difficulty = difficulty;
+  }
+
+  private getWordsFromForm() {
+    return Object.keys(this.inputFormGroup.controls).map(key => this.inputFormGroup.controls[key].value);
   }
 }

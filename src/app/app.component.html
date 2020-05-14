@@ -78,7 +78,8 @@
   <span>{{ title }} app is running!</span>
 
   <wordsearch-dropdown [options]="difficultyOptions" (onChange)="setDifficulty($event)" [selected]="difficulty"></wordsearch-dropdown>
-  <wordsearch-input name="test" [formGroup]="inputFormGroup"></wordsearch-input>
+  <wordsearch-input-list [formGroup]="inputFormGroup"></wordsearch-input-list>
+  <wordsearch-button color="accent" text="Generate" (click)="generate()"></wordsearch-button>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
