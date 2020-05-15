@@ -3,6 +3,8 @@ import { WordSearchGenerationOptions } from '../WordSearchGenerationOptions/Word
 export class WordSearchState {
     private matrix: string[][];
     private options: WordSearchGenerationOptions;
+    private acceptedWords: string[] = [];
+    private rejectedWords: string[] = [];
 
     public get columns() {
         return this.options.width;
@@ -16,9 +18,14 @@ export class WordSearchState {
         return this.options.words;
     }
 
+    private get totalMessage() {
+        return `Placed ${this.acceptedWords.length} of ${this.options.words.length}`;
+    }
+
     // debugger only
     public print() {
         this.matrix.forEach(row => console.log(row));
+        console.log(this.totalMessage);
     }
 
     public getValueAt(row: number, column: number) {
@@ -35,5 +42,13 @@ export class WordSearchState {
 
     public setOptions(options: WordSearchGenerationOptions) {
         this.options = options;
+    }
+
+    public acceptWord(word: string) {
+        this.acceptedWords.push(word);
+    }
+
+    public rejectWord(word: string) {
+        this.rejectedWords.push(word);
     }
 }

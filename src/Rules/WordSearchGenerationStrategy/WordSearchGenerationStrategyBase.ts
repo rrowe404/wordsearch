@@ -51,6 +51,7 @@ export abstract class WordSearchGenerationStrategyBase {
     private handleRejectedWord(currentState: WordSearchState, word: string) {
         let messages = this.wordValidationService.getMessages(currentState, word);
         messages.forEach(message => console.log(message));
+        currentState.rejectWord(word);
     }
 
     private placeWord(currentState: WordSearchState, word: string) {
@@ -68,6 +69,7 @@ export abstract class WordSearchGenerationStrategyBase {
         }
 
         wordPlacementStrategy.placeWord(currentState, word);
+        currentState.acceptWord(word);
     }
 
     private reverseWord(word: string) {

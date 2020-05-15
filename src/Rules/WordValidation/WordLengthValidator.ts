@@ -1,5 +1,4 @@
 import { WordValidator } from './WordValidator';
-import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 export class WordLengthValidator implements WordValidator {
