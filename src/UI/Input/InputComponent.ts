@@ -8,6 +8,11 @@ import { FormControl, FormGroup, ValidatorFn } from "@angular/forms";
         <mat-form-field>
             <mat-label *ngIf="label">{{ label }}</mat-label>
             <input matInput [formControl]="formControl" />
+            <mat-error *ngIf="formControl.invalid">
+                <div *ngFor="let message of getErrorMessages()">
+                    {{ message }}
+                </div>
+            </mat-error>
         </mat-form-field>
     `
 })
@@ -26,5 +31,9 @@ export class InputComponent implements OnDestroy, OnInit {
     public ngOnInit() {
         this.formControl = new FormControl('', this.validators);
         this.formGroup.addControl(this.name, this.formControl);
+    }
+
+    public getErrorMessages() {
+        return Object.keys(this.formControl.errors).map(key => this.formControl.errors[key]);
     }
 }

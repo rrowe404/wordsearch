@@ -2,6 +2,10 @@ import { WordValidator } from './WordValidator';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 export class WordLengthValidator implements WordValidator {
+    getErrorKey() {
+        return 'length';
+    }
+
     getMessage(word: string) {
         return `${word} is longer than both the height and width!`;
     }

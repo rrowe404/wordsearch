@@ -49,8 +49,12 @@ export abstract class WordSearchGenerationStrategyBase {
     }
 
     private handleRejectedWord(currentState: WordSearchState, word: string) {
-        let messages = this.wordValidationService.getMessages(currentState, word);
-        messages.forEach(message => console.log(message));
+        let errors = this.wordValidationService.getErrors(currentState, word);
+
+        for (let error in errors) {
+            console.log(errors[error]);
+        }
+
         currentState.rejectWord(word);
     }
 

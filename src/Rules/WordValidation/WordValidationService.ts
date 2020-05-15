@@ -12,12 +12,16 @@ export class WordValidationService {
         new WordLengthValidator()
     ];
 
-    public getMessages(currentState: WordSearchState, word: string) {
+    public getErrors(currentState: WordSearchState, word: string) {
         let violatedValidators = this.validators.filter(validator => !validator.validate(currentState, word));
 
-        let messages = violatedValidators.map(validator => validator.getMessage(word));
+        let errors = {};
+        
+        violatedValidators.forEach(validator => {
+            errors[validator.getErrorKey()] = validator.getMessage(word);
+        });
 
-        return messages;
+        return errors;
     }
 
     public validateWord(currentState: WordSearchState, word: string) {

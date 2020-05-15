@@ -76,7 +76,7 @@
 
 <div class="content" role="main">
   <wordsearch-dropdown label="Difficulty" [options]="difficultyOptions" (onChange)="setDifficulty($event)" [selected]="difficulty"></wordsearch-dropdown>
-  <wordsearch-input-list [formGroup]="inputFormGroup"></wordsearch-input-list>
+  <wordsearch-input-list [formGroup]="inputFormGroup" [validators]="validators"></wordsearch-input-list>
   <wordsearch-button color="accent" text="Generate" (click)="generate()"></wordsearch-button>
 </div>
 

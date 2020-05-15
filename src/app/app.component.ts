@@ -3,7 +3,10 @@ import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/Word
 import { WordSearchDifficulty } from 'src/Rules/WordSearchDifficulty/WordSearchDifficulty';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { DropdownOption } from 'src/UI/Dropdown/DropdownOption';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ValidatorFn, AbstractControl } from '@angular/forms';
+import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
+import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
+import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +17,9 @@ export class AppComponent implements OnInit {
   title = 'wordsearch';
 
   constructor(
-    private wordSearchGenerationService: WordSearchGenerationService
+    private wordSearchGenerationService: WordSearchGenerationService,
+    private wordSearchStateFactory: WordSearchStateFactory,
+    private wordValidationService: WordValidationService
   ) {
   }
 
@@ -27,13 +32,31 @@ export class AppComponent implements OnInit {
   public difficulty: WordSearchDifficulty = WordSearchDifficulty.Easy;
   public inputFormGroup: FormGroup;
 
+  /** We need a WordSearchState in order to validate the words as they are typed.
+   *  This one will not actually be used to compute the final result. */
+  public dummyState: WordSearchState;
+
   public generationOptions: WordSearchGenerationOptions = {
     height: 10,
     width: 10,
     words: []
   }
 
+  public validators: ValidatorFn[];
+
   public ngOnInit() {
+    this.dummyState = this.wordSearchStateFactory.createWordSearch(this.generationOptions);
+
+    this.validators = [
+      (control: AbstractControl) => {
+        if (this.wordValidationService.validateWord(this.dummyState, control.value)) {
+          return null;
+        }
+
+        return this.wordValidationService.getErrors(this.dummyState, control.value);
+      }
+    ]
+
     this.inputFormGroup = new FormGroup({});
   }
 
