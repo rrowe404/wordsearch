@@ -2,6 +2,7 @@ import { LetterPlaceholder } from './LetterPlaceholder';
 import { Injectable } from '@angular/core';
 import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
 import { LetterPlaceholderModule } from './LetterPlaceholderModule';
+import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 @Injectable({
     providedIn: LetterPlaceholderModule
@@ -17,7 +18,7 @@ export class LetterPlaceholderFillService {
         private randomNumberGeneratorService: RandomNumberGeneratorService
     ) {}
 
-    public fill(currentState: string[][]) {
+    public fill(currentState: WordSearchState) {
         // currentState.forEach((row, i) => {
         //     row.forEach((value, j) => {
         //         if (value === LetterPlaceholder.value) {

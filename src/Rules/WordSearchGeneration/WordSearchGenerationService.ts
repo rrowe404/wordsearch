@@ -23,11 +23,9 @@ export class WordSearchGenerationService {
         let wordSearch = this.wordSearchStateFactory.createWordSearch();
         wordSearch.options = options;
 
-        let result = strategy.generate(wordSearch);
+        strategy.generate(wordSearch);
 
-        result = this.letterPlaceholderFillService.fill(result);
-
-        wordSearch.matrix = result;
+        this.letterPlaceholderFillService.fill(wordSearch);
 
         return wordSearch;
     }

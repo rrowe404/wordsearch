@@ -30,19 +30,19 @@ export abstract class WordSearchGenerationStrategyBase {
         let columns = options.width;
         let rows = options.height;
 
-        let array: string[][] = this.arrayGenerationService.generateEmpty2dArray(columns, rows);
+        currentState.matrix = this.arrayGenerationService.generateEmpty2dArray(columns, rows);
 
         options.words.forEach(word => {
             let place = this.checkWord(options, word);
             
             if (place) {
-                this.placeWord(array, word)
+                this.placeWord(currentState, word)
             } else {
                 this.handleRejectedWord(options, word);
             }
         });
 
-        return array;
+        return currentState;
     }
 
     /**
@@ -61,7 +61,7 @@ export abstract class WordSearchGenerationStrategyBase {
         messages.forEach(message => console.log(message));
     }
 
-    private placeWord(array: string[][], word: string) {
+    private placeWord(currentState: WordSearchState, word: string) {
         let direction = this.getRandomValueFrom(this.directions);
         let wordPlacementStrategy = this.wordPlacementStrategyFactory.createStrategy(direction);
 
@@ -75,7 +75,7 @@ export abstract class WordSearchGenerationStrategyBase {
             word = this.reverseWord(word);
         }
 
-        wordPlacementStrategy.placeWord(array, word);
+        wordPlacementStrategy.placeWord(currentState, word);
     }
 
     private reverseWord(word: string) {

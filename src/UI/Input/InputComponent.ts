@@ -6,11 +6,13 @@ import { FormControl, FormGroup } from "@angular/forms";
     selector: 'wordsearch-input',
     template: `
         <mat-form-field>
+            <mat-label *ngIf="label">{{ label }}</mat-label>
             <input matInput [formControl]="formControl" />
         </mat-form-field>
     `
 })
 export class InputComponent implements OnDestroy, OnInit {
+    @Input() public label: string;
     @Input() public name: string;
     @Input() public formGroup: FormGroup;
 

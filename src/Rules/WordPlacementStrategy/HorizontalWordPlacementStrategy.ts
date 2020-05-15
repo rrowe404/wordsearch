@@ -3,6 +3,7 @@ import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
 import { Injectable } from '@angular/core';
 import { WordPlacementStrategy } from './WordPlacementStrategy';
 import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
+import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 @Injectable({
     providedIn: WordPlacementStrategyModule
@@ -15,7 +16,7 @@ export class HorizontalWordPlacementStrategy extends WordPlacementStrategyBase i
     }
 
     // a horizontally placed word spans columns and stays on the same row
-    public placeWord(currentState: string[][], word: string) {
+    public placeWord(currentState: WordSearchState, word: string) {
         // any row will do
         let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntWithMax(rows);
         

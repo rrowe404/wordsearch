@@ -1,4 +1,5 @@
 import { LetterPlaceholder } from 'src/Rules/LetterPlaceholder/LetterPlaceholder';
+import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 export abstract class WordPlacementStrategyBase {
     private allowOverlaps: boolean = false;
@@ -9,7 +10,7 @@ export abstract class WordPlacementStrategyBase {
     }
 
     placeWord(
-        currentState: string[][],
+        currentState: WordSearchState,
         word: string,
         getStartRow: (columns: number) => number,
         getStartColumn: (rows) => number,
@@ -18,8 +19,8 @@ export abstract class WordPlacementStrategyBase {
     ) {
         let letters = word.split('');
 
-        let rows = currentState[0].length;
-        let columns = currentState.length;
+        let rows = currentState.matrix[0].length;
+        let columns = currentState.matrix.length;
 
         let startRow = getStartRow(rows);
         let startColumn = getStartColumn(columns);
@@ -31,7 +32,7 @@ export abstract class WordPlacementStrategyBase {
         while (!positioned) {
             // check to see if there is enough room. loop until we've found a suitable starting point
             positioned = letters.every((letter, i) => {
-                let valueAtPosition = currentState[getNextRow(startRow, i)][getNextColumn(startColumn, i)]
+                let valueAtPosition = currentState.matrix[getNextRow(startRow, i)][getNextColumn(startColumn, i)]
                 return this.canPlaceLetter(letter, valueAtPosition);
             });
 
@@ -54,7 +55,7 @@ export abstract class WordPlacementStrategyBase {
 
             // place the letters into position
             for (let i = 0; i < length; i++) {
-                currentState[getNextRow(startRow, i)][getNextColumn(startColumn, i)] = letters[i];
+                currentState.matrix[getNextRow(startRow, i)][getNextColumn(startColumn, i)] = letters[i];
             }
         }
 

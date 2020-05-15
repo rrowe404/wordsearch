@@ -3,6 +3,7 @@ import { WordPlacementStrategy } from './WordPlacementStrategy';
 import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
 import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
+import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 @Injectable({
     providedIn: WordPlacementStrategyModule
@@ -15,7 +16,7 @@ export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase imp
     }
 
     // a vertically placed word spans rows and stays in the same column
-    public placeWord(currentState: string[][], word: string) {
+    public placeWord(currentState: WordSearchState, word: string) {
         // allow enough room in the rows for the full word
         let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntWithMax(rows - word.length);
  

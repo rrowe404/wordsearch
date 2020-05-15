@@ -3,6 +3,7 @@ import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
 import { WordPlacementStrategy } from './WordPlacementStrategy';
 import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
+import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 @Injectable({
     providedIn: WordPlacementStrategyModule
@@ -15,13 +16,13 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
     }
 
     // a diagonally placed word spans both columns and rows
-    public placeWord(currentState: string[][], word: string) {
+    public placeWord(currentState: WordSearchState, word: string) {
         return this.randomNumberGeneratorService.flipACoin() ?
                this.placeWordBottomUp(currentState, word) :
                this.placeWordTopDown(currentState, word);
     }
 
-    private placeWordBottomUp(currentState: string[][], word: string) {
+    private placeWordBottomUp(currentState: WordSearchState, word: string) {
         // there must be enough rows and columns to the top and right of the word to fit it
         let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntInRange(word.length, rows);
         let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns - word.length);
@@ -33,7 +34,7 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
         return super.placeWord(currentState, word, getStartRow, getStartColumn, getNextRow, getNextColumn);
     }
 
-    private placeWordTopDown(currentState: string[][], word: string) {
+    private placeWordTopDown(currentState: WordSearchState, word: string) {
         // there must be enough rows and columns to the bottom and right of the word to fit it
         let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntWithMax(rows - word.length);
         let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns - word.length);

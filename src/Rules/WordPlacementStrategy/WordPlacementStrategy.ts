@@ -1,3 +1,5 @@
+import { WordSearchState } from '../WordSearchState/WordSearchState';
+
 export interface WordPlacementStrategy {
-    placeWord(currentState: string[][], word: string);
+    placeWord(currentState: WordSearchState, word: string);
 }
