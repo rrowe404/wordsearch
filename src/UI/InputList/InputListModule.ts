@@ -3,12 +3,14 @@ import { InputModule } from '../Input/InputModule';
 import { InputListComponent } from './InputListComponent';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '../Button/ButtonModule';
+import { IconButtonModule } from '../IconButton/IconButtonModule';
 
 @NgModule({
     imports: [
         CommonModule,
         ButtonModule,
-        InputModule
+        InputModule,
+        IconButtonModule
     ],
     declarations: [
         InputListComponent

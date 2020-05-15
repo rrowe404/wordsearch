@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, OnDestroy } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 
 /** Barrier between app and third-party inputs */
@@ -10,11 +10,15 @@ import { FormControl, FormGroup } from "@angular/forms";
         </mat-form-field>
     `
 })
-export class InputComponent implements OnInit {
+export class InputComponent implements OnDestroy, OnInit {
     @Input() public name: string;
     @Input() public formGroup: FormGroup;
 
     public formControl: FormControl;
+
+    public ngOnDestroy() {
+        this.formGroup.removeControl(this.name);
+    }
 
     public ngOnInit() {
         this.formControl = new FormControl('');

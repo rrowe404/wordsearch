@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
     template: `
         <div *ngFor="let input of inputs; let i = index;">
             <wordsearch-input [name]="getName(i)" [formGroup]="formGroup"></wordsearch-input>
+            <wordsearch-icon-button icon="close" (click)="removeSlot(i)"></wordsearch-icon-button>
         </div>
 
         <wordsearch-button text="Add Slot" (click)="addSlot()"></wordsearch-button>
@@ -22,5 +23,9 @@ export class InputListComponent {
 
     public getName(index: number) {
         return `input-${index}`;
+    }
+
+    public removeSlot(index: number) {
+        this.inputs.splice(index, 1);
     }
 }
