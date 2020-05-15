@@ -71,13 +71,11 @@
 
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
-  <span>Welcome</span>
+  <span>Word Search Generator</span>
 </div>
 
 <div class="content" role="main">
-  <span>{{ title }} app is running!</span>
-
-  <wordsearch-dropdown [options]="difficultyOptions" (onChange)="setDifficulty($event)" [selected]="difficulty"></wordsearch-dropdown>
+  <wordsearch-dropdown label="Difficulty" [options]="difficultyOptions" (onChange)="setDifficulty($event)" [selected]="difficulty"></wordsearch-dropdown>
   <wordsearch-input-list [formGroup]="inputFormGroup"></wordsearch-input-list>
   <wordsearch-button color="accent" text="Generate" (click)="generate()"></wordsearch-button>
 </div>
