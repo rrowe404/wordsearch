@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ValidatorFn } from '@angular/forms';
 
 @Component({
     selector: 'wordsearch-input-list',
     template: `
         <div *ngFor="let input of inputs; let i = index;">
-            <wordsearch-input [name]="getName(i)" [formGroup]="formGroup"></wordsearch-input>
+            <wordsearch-input [name]="getName(i)" [formGroup]="formGroup" [validators]="validators"></wordsearch-input>
             <wordsearch-icon-button icon="close" (click)="removeSlot(i)"></wordsearch-icon-button>
         </div>
 
@@ -14,6 +14,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class InputListComponent {
     @Input() public formGroup: FormGroup;
+    @Input() public validators: ValidatorFn[];
 
     public inputs: string[] = [''];
 
