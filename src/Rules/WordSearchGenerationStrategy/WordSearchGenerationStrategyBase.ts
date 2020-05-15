@@ -24,15 +24,13 @@ export abstract class WordSearchGenerationStrategyBase {
     }
 
     generate(currentState: WordSearchState) {
-        let options = currentState.getOptions();
-
         currentState.words.forEach(word => {
-            let place = this.checkWord(options, word);
+            let place = this.checkWord(currentState, word);
             
             if (place) {
                 this.placeWord(currentState, word)
             } else {
-                this.handleRejectedWord(options, word);
+                this.handleRejectedWord(currentState, word);
             }
         });
 
@@ -42,16 +40,16 @@ export abstract class WordSearchGenerationStrategyBase {
     /**
      * @returns true if the word can be placed, false if not
      */
-    private checkWord(options: WordSearchGenerationOptions, word: string) {
-        return this.wordValidationService.validateWord(options, word);
+    private checkWord(currentState: WordSearchState, word: string) {
+        return this.wordValidationService.validateWord(currentState, word);
     }
 
     private getRandomValueFrom<T>(array: T[]): T {
         return array[this.randomNumberGeneratorService.generateRandomIntWithMax(array.length)]
     }
 
-    private handleRejectedWord(options: WordSearchGenerationOptions, word: string) {
-        let messages = this.wordValidationService.getMessages(options, word);
+    private handleRejectedWord(currentState: WordSearchState, word: string) {
+        let messages = this.wordValidationService.getMessages(currentState, word);
         messages.forEach(message => console.log(message));
     }
 

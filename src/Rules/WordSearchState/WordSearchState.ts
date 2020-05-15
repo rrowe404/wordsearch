@@ -9,7 +9,7 @@ export class WordSearchState {
     }
 
     public get rows() {
-        return this.options.height
+        return this.options.height;
     }
 
     public get words() {
@@ -31,10 +31,6 @@ export class WordSearchState {
 
     public seedMatrix(matrix: string[][]) {
         this.matrix = matrix;
-    }
-
-    public getOptions() {
-        return this.options;
     }
 
     public setOptions(options: WordSearchGenerationOptions) {
