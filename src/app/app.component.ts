@@ -27,18 +27,20 @@ export class AppComponent implements OnInit {
   public difficulty: WordSearchDifficulty = WordSearchDifficulty.Easy;
   public inputFormGroup: FormGroup;
 
+  public generationOptions: WordSearchGenerationOptions = {
+    height: 10,
+    width: 10,
+    words: []
+  }
+
   public ngOnInit() {
     this.inputFormGroup = new FormGroup({});
   }
 
   public generate() {
-    let options: WordSearchGenerationOptions = {
-      height: 10,
-      width: 10,
-      words: this.getWordsFromForm()
-    }
+    this.generationOptions.words = this.getWordsFromForm();
 
-    let result = this.wordSearchGenerationService.generateWordSearch(options, this.difficulty);
+    let result = this.wordSearchGenerationService.generateWordSearch(this.generationOptions, this.difficulty);
 
     result.print();
   }
