@@ -20,8 +20,7 @@ export class WordSearchGenerationService {
     public generateWordSearch(options: WordSearchGenerationOptions, difficulty: WordSearchDifficulty) {
         let strategy = this.wordSearchGenerationStrategyFactory.createStrategy(difficulty);
 
-        let wordSearch = this.wordSearchStateFactory.createWordSearch();
-        wordSearch.options = options;
+        let wordSearch = this.wordSearchStateFactory.createWordSearch(options);
 
         strategy.generate(wordSearch);
 

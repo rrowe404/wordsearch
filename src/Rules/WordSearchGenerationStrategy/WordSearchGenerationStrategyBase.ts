@@ -1,6 +1,5 @@
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordDirection } from 'src/Rules/WordDirection/WordDirection';
-import { ArrayGenerationService } from 'src/Rules/ArrayGeneration/ArrayGenerationService';
 import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordPlacementStrategyFactory } from 'src/Rules/WordPlacementStrategy/WordPlacementStrategyFactory';
 import { Injectable } from '@angular/core';
@@ -18,7 +17,6 @@ export abstract class WordSearchGenerationStrategyBase {
     protected allowOverlaps: boolean = false;
 
     constructor(
-        private arrayGenerationService: ArrayGenerationService,
         private randomNumberGeneratorService: RandomNumberGeneratorService,
         private wordPlacementStrategyFactory: WordPlacementStrategyFactory,
         private wordValidationService: WordValidationService
@@ -26,13 +24,9 @@ export abstract class WordSearchGenerationStrategyBase {
     }
 
     generate(currentState: WordSearchState) {
-        let options = currentState.options;
-        let columns = options.width;
-        let rows = options.height;
+        let options = currentState.getOptions();
 
-        currentState.matrix = this.arrayGenerationService.generateEmpty2dArray(columns, rows);
-
-        options.words.forEach(word => {
+        currentState.words.forEach(word => {
             let place = this.checkWord(options, word);
             
             if (place) {
