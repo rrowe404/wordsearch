@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
 
     let result = this.wordSearchGenerationService.generateWordSearch(options, this.difficulty);
 
-    result.forEach(row => console.log(row));
+    result.matrix.forEach(row => console.log(row));
   }
 
   public setDifficulty(difficulty: WordSearchDifficulty) {

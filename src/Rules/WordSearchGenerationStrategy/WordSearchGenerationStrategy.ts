@@ -1,5 +1,5 @@
-import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 export interface WordSearchGenerationStrategy {
-    generate(options: WordSearchGenerationOptions): string[][];
+    generate(currentState: WordSearchState): WordSearchState;
 }

@@ -4,6 +4,7 @@ import { WordSearchGenerationStrategyFactory } from 'src/Rules/WordSearchGenerat
 import { LetterPlaceholderFillService } from 'src/Rules/LetterPlaceholder/LetterPlaceholderFillService';
 import { Injectable } from '@angular/core';
 import { WordSearchGenerationModule } from './WordSearchGenerationModule';
+import { WordSearchStateFactory } from '../WordSearchState/WordSearchStateFactory';
 
 @Injectable({
     providedIn: WordSearchGenerationModule
@@ -11,16 +12,23 @@ import { WordSearchGenerationModule } from './WordSearchGenerationModule';
 export class WordSearchGenerationService {
     constructor(
         private letterPlaceholderFillService: LetterPlaceholderFillService,
-        private wordSearchGenerationStrategyFactory: WordSearchGenerationStrategyFactory
+        private wordSearchGenerationStrategyFactory: WordSearchGenerationStrategyFactory,
+        private wordSearchStateFactory: WordSearchStateFactory
     ) {
     }
 
     public generateWordSearch(options: WordSearchGenerationOptions, difficulty: WordSearchDifficulty) {
         let strategy = this.wordSearchGenerationStrategyFactory.createStrategy(difficulty);
-        let result = strategy.generate(options);
+
+        let wordSearch = this.wordSearchStateFactory.createWordSearch();
+        wordSearch.options = options;
+
+        let result = strategy.generate(wordSearch);
 
         result = this.letterPlaceholderFillService.fill(result);
 
-        return result;
+        wordSearch.matrix = result;
+
+        return wordSearch;
     }
 }

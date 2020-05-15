@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { WordOrientation } from 'src/Rules/WordOrientation/WordOrientation';
 import { WordSearchGenerationStrategyModule } from './WordSearchGenerationStrategyModule';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
+import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 @Injectable({
     providedIn: WordSearchGenerationStrategyModule
@@ -24,7 +25,8 @@ export abstract class WordSearchGenerationStrategyBase {
     ) {
     }
 
-    generate(options: WordSearchGenerationOptions) {
+    generate(currentState: WordSearchState) {
+        let options = currentState.options;
         let columns = options.width;
         let rows = options.height;
 
