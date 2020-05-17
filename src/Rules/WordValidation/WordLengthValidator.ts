@@ -14,7 +14,7 @@ export class WordLengthValidator implements WordValidator {
         let tooWide = () => word.length > currentState.columns;
         let tooTall = () => word.length > currentState.rows;
 
-        if (tooWide() || tooTall()) {
+        if (tooWide() && tooTall()) {
             return false;
         }
 

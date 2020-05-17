@@ -33,7 +33,8 @@ export class AppComponent implements OnInit {
   public inputFormGroup: FormGroup;
 
   /** We need a WordSearchState in order to validate the words as they are typed.
-   *  This one will not actually be used to compute the final result. */
+   *  This one will not actually be used to compute the final result.
+   *  Changes to generationOptions should be immediately reflected in dummyState. */
   public dummyState: WordSearchState;
 
   public generationOptions: WordSearchGenerationOptions = {
@@ -70,5 +71,13 @@ export class AppComponent implements OnInit {
 
   private getWordsFromForm() {
     return Object.keys(this.inputFormGroup.controls).map(key => this.inputFormGroup.controls[key].value);
+  }
+
+  public setColumns(columns: string) {
+    this.generationOptions.width = parseInt(columns, 10);
+  }
+
+  public setRows(rows: string) {
+    this.generationOptions.height = parseInt(rows, 10);
   }
 }

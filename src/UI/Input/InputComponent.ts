@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from "@angular/core";
 import { FormControl, FormGroup, ValidatorFn } from "@angular/forms";
 
 /** Barrier between app and third-party inputs */
@@ -7,7 +7,7 @@ import { FormControl, FormGroup, ValidatorFn } from "@angular/forms";
     template: `
         <mat-form-field>
             <mat-label *ngIf="label">{{ label }}</mat-label>
-            <input matInput [formControl]="formControl" />
+            <input matInput [formControl]="formControl" (keyup)="onChange.emit($event.target.value)" />
             <mat-error *ngIf="formControl.invalid">
                 <div *ngFor="let message of getErrorMessages()">
                     {{ message }}
@@ -22,6 +22,10 @@ export class InputComponent implements OnDestroy, OnInit {
     @Input() public formGroup: FormGroup;
     @Input() public validators: ValidatorFn[];
 
+    @Input() public value: string;
+
+    @Output() public onChange: EventEmitter<string> = new EventEmitter();
+
     public formControl: FormControl;
 
     public ngOnDestroy() {
@@ -29,8 +33,15 @@ export class InputComponent implements OnDestroy, OnInit {
     }
 
     public ngOnInit() {
-        this.formControl = new FormControl('', this.validators);
-        this.formGroup.addControl(this.name, this.formControl);
+        if (!this.name) {
+            throw new Error("All InputComponents must have a name!");
+        }
+
+        this.formControl = new FormControl(this.value ? this.value : '', this.validators);
+
+        if (this.formGroup) {
+            this.formGroup.addControl(this.name, this.formControl);
+        }
     }
 
     public getErrorMessages() {
