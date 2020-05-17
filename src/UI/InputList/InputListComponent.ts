@@ -3,6 +3,15 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
 
 @Component({
     selector: 'wordsearch-input-list',
+    styles: [`
+        :host {
+            position: relative;
+        }
+
+        wordsearch-icon-button {
+            position: absolute;
+        }
+    `],
     template: `
         <div *ngFor="let input of inputs; let i = index;">
             <wordsearch-input [name]="getName(i)" [formGroup]="formGroup" [validators]="validators"></wordsearch-input>
