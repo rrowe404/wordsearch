@@ -41,7 +41,7 @@ export abstract class WordSearchGenerationStrategyBase {
      * @returns true if the word can be placed, false if not
      */
     private checkWord(currentState: WordSearchState, word: string) {
-        return this.wordValidationService.validateWord(currentState, word);
+        return Object.keys(this.wordValidationService.getErrors(currentState, word)).length === 0;
     }
 
     private getRandomValueFrom<T>(array: T[]): T {

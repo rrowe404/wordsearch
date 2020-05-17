@@ -23,8 +23,4 @@ export class WordValidationService {
 
         return errors;
     }
-
-    public validateWord(currentState: WordSearchState, word: string) {
-        return this.validators.every(validator => validator.validate(currentState, word));
-    }
 }

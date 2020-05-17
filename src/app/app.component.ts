@@ -49,10 +49,6 @@ export class AppComponent implements OnInit {
 
     this.validators = [
       (control: AbstractControl) => {
-        if (this.wordValidationService.validateWord(this.dummyState, control.value)) {
-          return null;
-        }
-
         return this.wordValidationService.getErrors(this.dummyState, control.value);
       }
     ]
