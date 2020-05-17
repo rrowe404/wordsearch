@@ -21,7 +21,7 @@ export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase imp
         let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntWithMax(rows - word.length);
  
         // any column will do
-        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns - word.length);
+        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns);
         
         // hop over one row at a time
         let getNextRow = (row, i) => row + i;
