@@ -38,8 +38,8 @@ export class AppComponent implements OnInit {
   public dummyState: WordSearchState;
 
   public generationOptions: WordSearchGenerationOptions = {
-    height: 10,
-    width: 10,
+    height: 3,
+    width: 3,
     words: []
   }
 
