@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef } from '@angular/core';
 import { FormGroup, ValidatorFn } from '@angular/forms';
+import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
 
 @Component({
     selector: 'wordsearch-input-list',
@@ -25,10 +26,16 @@ export class InputListComponent {
     @Input() public formGroup: FormGroup;
     @Input() public validators: ValidatorFn[];
 
+    constructor(
+        private inputFocusEventService: InputFocusEventService
+    ) {
+    }
+
     public inputs: string[] = [''];
 
     public addSlot() {
         this.inputs.push('');
+        this.focusNewestInput();
     }
 
     public getName(index: number) {
@@ -37,5 +44,11 @@ export class InputListComponent {
 
     public removeSlot(index: number) {
         this.inputs.splice(index, 1);
+    }
+
+    private focusNewestInput() {
+        setTimeout(() => {
+            this.inputFocusEventService.inputFocusEvent.emit(this.getName(this.inputs.length - 1));
+        });
     }
 }

@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, OnDestroy, Output, ElementRef } from "@angular/core";
 import { FormControl, FormGroup, ValidatorFn } from "@angular/forms";
+import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
 
 /** Barrier between app and third-party inputs */
 @Component({
@@ -29,6 +30,11 @@ export class InputComponent implements OnDestroy, OnInit {
 
     public formControl: FormControl;
 
+    constructor(
+        private element: ElementRef,
+        private inputFocusEventService: InputFocusEventService
+    ) {}
+
     public ngOnDestroy() {
         this.formGroup.removeControl(this.name);
     }
@@ -43,6 +49,12 @@ export class InputComponent implements OnDestroy, OnInit {
         if (this.formGroup) {
             this.formGroup.addControl(this.name, this.formControl);
         }
+
+        this.inputFocusEventService.inputFocusEvent.subscribe(name => {
+            if (this.name === name) {
+                this.element.nativeElement.querySelector('input').focus();
+            }
+        });
     }
 
     public getErrorMessages() {
