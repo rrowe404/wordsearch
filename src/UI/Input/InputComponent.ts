@@ -7,7 +7,7 @@ import { FormControl, FormGroup, ValidatorFn } from "@angular/forms";
     template: `
         <mat-form-field>
             <mat-label *ngIf="label">{{ label }}</mat-label>
-            <input matInput [formControl]="formControl" (keyup)="onChange.emit($event.target.value)" />
+            <input matInput [formControl]="formControl" (keyup)="onChange.emit($event.target.value)" [type]="type" />
             <mat-error *ngIf="formControl.invalid">
                 <div *ngFor="let message of getErrorMessages()">
                     {{ message }}
@@ -20,6 +20,7 @@ export class InputComponent implements OnDestroy, OnInit {
     @Input() public label: string;
     @Input() public name: string;
     @Input() public formGroup: FormGroup;
+    @Input() public type: string = 'text';
     @Input() public validators: ValidatorFn[];
 
     @Input() public value: string;
