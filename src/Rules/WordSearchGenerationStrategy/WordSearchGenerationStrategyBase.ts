@@ -1,4 +1,3 @@
-import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordDirection } from 'src/Rules/WordDirection/WordDirection';
 import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordPlacementStrategyFactory } from 'src/Rules/WordPlacementStrategy/WordPlacementStrategyFactory';
@@ -44,6 +43,45 @@ export abstract class WordSearchGenerationStrategyBase {
         return Object.keys(this.wordValidationService.getErrors(currentState, word)).length === 0;
     }
 
+    /**
+     * We'll try to randomly select a direction.
+     * If that doesn't work, we'll randomly select another one.
+     * If none of them work, there's a big problem.
+     */
+    private chooseDirection(currentState: WordSearchState, word: string) {
+        let attemptedDirections = [];
+        
+        do {
+            let directionsLeftToAttempt = this.directions.filter(direction => !attemptedDirections.includes(direction));
+            let directionToAttempt = this.getRandomValueFrom(directionsLeftToAttempt);
+
+            if (this.checkDirection(currentState, directionToAttempt, word)) {
+                return directionToAttempt;
+            }
+
+            attemptedDirections.push(directionToAttempt);
+        } while (attemptedDirections.length < this.directions.length)
+
+        throw new Error("You fucked up!");
+    }
+
+    /** Before using a direction, we have to validate that the word can fit in that direction. */
+    private checkDirection(currentState: WordSearchState, direction: WordDirection, word: string) {
+        switch(direction) {
+            case WordDirection.Horizontal:
+                return word.length <= currentState.columns;
+
+            case WordDirection.Vertical:
+                return word.length <= currentState.rows;
+
+            case WordDirection.Diagonal:
+                return word.length <= currentState.columns && word.length <= currentState.rows;
+
+            default:
+                throw new Error("That ain't no direction I ever heard of!");
+        }
+    }
+
     private getRandomValueFrom<T>(array: T[]): T {
         return array[this.randomNumberGeneratorService.generateRandomIntWithMax(array.length)]
     }
@@ -59,7 +97,7 @@ export abstract class WordSearchGenerationStrategyBase {
     }
 
     private placeWord(currentState: WordSearchState, word: string) {
-        let direction = this.getRandomValueFrom(this.directions);
+        let direction = this.chooseDirection(currentState, word);;
         let wordPlacementStrategy = this.wordPlacementStrategyFactory.createStrategy(direction);
 
         if (this.allowOverlaps) {
