@@ -21,6 +21,10 @@ export class WordSearchState {
     public get words() {
         return this.options.words;
     }
+
+    public get alphabetizeWordList() {
+        return this.options.alphabetizeWordList;
+    }
     
     public get showWordList() {
         return this.options.showWordList;
@@ -37,6 +41,10 @@ export class WordSearchState {
         console.log(this.totalMessage);
 
         if (this.showWordList) {
+            if (this.alphabetizeWordList) {
+                this.acceptedWords = this.acceptedWords.sort();
+            }
+
             this.acceptedWords.forEach(word => console.log(word));
         }
     }
