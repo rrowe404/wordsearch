@@ -21,6 +21,10 @@ export class WordSearchState {
     public get words() {
         return this.options.words;
     }
+    
+    public get showWordList() {
+        return this.options.showWordList;
+    }
 
     private get totalMessage() {
         return `Placed ${this.acceptedWords.length} of ${this.options.words.length}`;
@@ -31,6 +35,10 @@ export class WordSearchState {
         console.log(this.title);
         this.matrix.forEach(row => console.log(row));
         console.log(this.totalMessage);
+
+        if (this.showWordList) {
+            this.acceptedWords.forEach(word => console.log(word));
+        }
     }
 
     public getValueAt(row: number, column: number) {
