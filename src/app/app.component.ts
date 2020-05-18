@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
   public generationOptions: WordSearchGenerationOptions = {
     height: 3,
     width: 3,
+    title: '',
     words: []
   }
 
@@ -79,5 +80,9 @@ export class AppComponent implements OnInit {
 
   public setRows(rows: string) {
     this.generationOptions.height = parseInt(rows, 10);
+  }
+
+  public setTitle(title: string) {
+    this.generationOptions.title = title;
   }
 }

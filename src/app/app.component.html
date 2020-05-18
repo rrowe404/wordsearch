@@ -76,6 +76,7 @@
 
 <div class="content" role="main">
   <wordsearch-dropdown label="Difficulty" [options]="difficultyOptions" (onChange)="setDifficulty($event)" [selected]="difficulty"></wordsearch-dropdown>
+  <wordsearch-input label="Title" name="title" (onChange)="setTitle($event)" [value]="generationOptions.title"></wordsearch-input>
   <wordsearch-input label="Columns" name="columns" (onChange)="setColumns($event)" type="number" [value]="generationOptions.width"></wordsearch-input>
   <wordsearch-input label="Rows" name="rows" (onChange)="setRows($event)" type="number" [value]="generationOptions.height"></wordsearch-input>
   <wordsearch-input-list [formGroup]="inputFormGroup" [validators]="validators"></wordsearch-input-list>

@@ -14,6 +14,10 @@ export class WordSearchState {
         return this.options.height;
     }
 
+    public get title() {
+        return this.options.title;
+    }
+
     public get words() {
         return this.options.words;
     }
@@ -24,6 +28,7 @@ export class WordSearchState {
 
     // debugger only
     public print() {
+        console.log(this.title);
         this.matrix.forEach(row => console.log(row));
         console.log(this.totalMessage);
     }
