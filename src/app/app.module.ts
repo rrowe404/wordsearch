@@ -1,13 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WordSearchGenerationModule } from 'src/Rules/WordSearchGeneration/WordSearchGenerationModule';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { RulesModule } from 'src/Rules/RulesModule';
 import { UIModule } from 'src/UI/UIModule';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,9 +16,9 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    WordSearchGenerationModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    RulesModule,
     UIModule
   ],
   providers: [],
