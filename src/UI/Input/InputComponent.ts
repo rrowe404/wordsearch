@@ -36,7 +36,9 @@ export class InputComponent implements OnDestroy, OnInit {
     ) {}
 
     public ngOnDestroy() {
-        this.formGroup.removeControl(this.name);
+        if (this.formGroup) {
+            this.formGroup.removeControl(this.name);
+        }
     }
 
     public ngOnInit() {
