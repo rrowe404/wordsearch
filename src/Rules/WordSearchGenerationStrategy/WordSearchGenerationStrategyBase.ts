@@ -6,6 +6,7 @@ import { WordOrientation } from 'src/Rules/WordOrientation/WordOrientation';
 import { WordSearchGenerationStrategyModule } from './WordSearchGenerationStrategyModule';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { WordDirectionCheckerFactory } from '../WordDirection/WordDirectionCheckerFactory';
 
 @Injectable({
     providedIn: WordSearchGenerationStrategyModule
@@ -17,6 +18,7 @@ export abstract class WordSearchGenerationStrategyBase {
 
     constructor(
         private randomNumberGeneratorService: RandomNumberGeneratorService,
+        private wordDirectionCheckerFactory: WordDirectionCheckerFactory,
         private wordPlacementStrategyFactory: WordPlacementStrategyFactory,
         private wordValidationService: WordValidationService
     ) {
@@ -54,8 +56,9 @@ export abstract class WordSearchGenerationStrategyBase {
         do {
             let directionsLeftToAttempt = this.directions.filter(direction => !attemptedDirections.includes(direction));
             let directionToAttempt = this.getRandomValueFrom(directionsLeftToAttempt);
+            let directionChecker = this.wordDirectionCheckerFactory.getDirectionChecker(directionToAttempt);
 
-            if (this.checkDirection(currentState, directionToAttempt, word)) {
+            if (directionChecker.checkDirection(currentState, word)) {
                 return directionToAttempt;
             }
 
@@ -63,23 +66,6 @@ export abstract class WordSearchGenerationStrategyBase {
         } while (attemptedDirections.length < this.directions.length)
 
         throw new Error("You fucked up!");
-    }
-
-    /** Before using a direction, we have to validate that the word can fit in that direction. */
-    private checkDirection(currentState: WordSearchState, direction: WordDirection, word: string) {
-        switch(direction) {
-            case WordDirection.Horizontal:
-                return word.length <= currentState.columns;
-
-            case WordDirection.Vertical:
-                return word.length <= currentState.rows;
-
-            case WordDirection.Diagonal:
-                return word.length <= currentState.columns && word.length <= currentState.rows;
-
-            default:
-                throw new Error("That ain't no direction I ever heard of!");
-        }
     }
 
     private getRandomValueFrom<T>(array: T[]): T {
