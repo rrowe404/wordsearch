@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   ];
 
   public difficulty: WordSearchDifficulty = WordSearchDifficulty.Easy;
-  public inputFormGroup: FormGroup;
+  public wordFormGroup: FormGroup;
 
   /** We need a WordSearchState in order to validate the words as they are typed.
    *  This one will not actually be used to compute the final result.
@@ -46,18 +46,18 @@ export class AppComponent implements OnInit {
     words: []
   }
 
-  public validators: ValidatorFn[];
+  public wordValidators: ValidatorFn[];
 
   public ngOnInit() {
     this.dummyState = this.wordSearchStateFactory.createWordSearch(this.generationOptions);
 
-    this.validators = [
+    this.wordValidators = [
       (control: AbstractControl) => {
         return this.wordValidationService.getErrors(this.dummyState, control.value);
       }
     ]
 
-    this.inputFormGroup = new FormGroup({});
+    this.wordFormGroup = new FormGroup({});
   }
 
   public generate() {
@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
   }
 
   private getWordsFromForm() {
-    return Object.keys(this.inputFormGroup.controls).map(key => this.inputFormGroup.controls[key].value);
+    return Object.keys(this.wordFormGroup.controls).map(key => this.wordFormGroup.controls[key].value);
   }
 
   public setColumns(columns: string) {
