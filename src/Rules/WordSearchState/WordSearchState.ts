@@ -72,4 +72,13 @@ export class WordSearchState {
     public rejectWord(word: string) {
         this.rejectedWords.push(word);
     }
+
+    /* Allows a function to run once for each position in the matrix */
+    public iterate(fn: (letter: string, row: number, column: number) => void) {
+        this.matrix.forEach((row, i) => {
+            row.forEach((value, j) => {
+                fn(value, i, j);
+            })
+        })
+    }
 }

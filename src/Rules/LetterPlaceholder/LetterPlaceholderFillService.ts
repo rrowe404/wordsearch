@@ -19,14 +19,12 @@ export class LetterPlaceholderFillService {
     ) {}
 
     public fill(currentState: WordSearchState) {
-        // currentState.forEach((row, i) => {
-        //     row.forEach((value, j) => {
-        //         if (value === LetterPlaceholder.value) {
-        //             let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
-        //             currentState[i][j] = fillLetter;
-        //         }
-        //     })
-        // });
+        currentState.iterate((letter, row, column) => {
+            if (letter === LetterPlaceholder.value) {
+                let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
+                currentState.setValueAt(row, column, fillLetter);
+            }
+        });
 
         return currentState;
     }
