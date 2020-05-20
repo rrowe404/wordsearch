@@ -28,7 +28,7 @@ export abstract class WordSearchGenerationStrategyBase {
 
     generate(currentState: WordSearchState) {
         currentState.words.forEach(word => {
-            let place = this.checkWord(currentState, word);
+            let place = this.wordValidationService.hasErrors(currentState, word);
             
             if (place) {
                 this.placeWord(currentState, word)
@@ -38,13 +38,6 @@ export abstract class WordSearchGenerationStrategyBase {
         });
 
         return currentState;
-    }
-
-    /**
-     * @returns true if the word can be placed, false if not
-     */
-    private checkWord(currentState: WordSearchState, word: string) {
-        return Object.keys(this.wordValidationService.getErrors(currentState, word)).length === 0;
     }
 
     /**
