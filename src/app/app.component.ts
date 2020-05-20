@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   ];
 
   public difficulty: WordSearchDifficulty = WordSearchDifficulty.Easy;
+  public gameFormGroup: FormGroup;
   public wordFormGroup: FormGroup;
 
   /** We need a WordSearchState in order to validate the words as they are typed.
@@ -57,7 +58,9 @@ export class AppComponent implements OnInit {
       }
     ]
 
+    this.gameFormGroup = new FormGroup({});
     this.wordFormGroup = new FormGroup({});
+    this.gameFormGroup.addControl('word', this.wordFormGroup);
   }
 
   public generate() {

@@ -82,7 +82,7 @@
   <wordsearch-checkbox label="Show Word List" name="wordList" (onChange)="setShowWordList($event)" [value]="generationOptions.showWordList"></wordsearch-checkbox>
   <wordsearch-checkbox *ngIf="generationOptions.showWordList" label="Alphabetize Word List" name="alphabetize" (onChange)="setAlphabetizeWordList($event)" [value]="generationOptions.alphabetizeWordList"></wordsearch-checkbox>
   <wordsearch-input-list [formGroup]="wordFormGroup" [validators]="wordValidators"></wordsearch-input-list>
-  <wordsearch-button color="accent" text="Generate" (click)="generate()"></wordsearch-button>
+  <wordsearch-button color="accent" text="Generate" (click)="generate()" [disabled]="gameFormGroup.pristine || gameFormGroup.invalid"></wordsearch-button>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
