@@ -28,7 +28,7 @@ export abstract class WordSearchGenerationStrategyBase {
 
     generate(currentState: WordSearchState) {
         currentState.words.forEach(word => {
-            let place = this.wordValidationService.hasErrors(currentState, word);
+            let place = !this.wordValidationService.hasErrors(currentState, word);
             
             if (place) {
                 this.placeWord(currentState, word)

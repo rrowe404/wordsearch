@@ -25,6 +25,6 @@ export class WordValidationService {
     }
 
     public hasErrors(currentState: WordSearchState, word: string) {
-        return Object.keys(this.getErrors(currentState, word)).length === 0;
+        return Object.keys(this.getErrors(currentState, word)).length !== 0;
     }
 }
