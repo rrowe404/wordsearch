@@ -5,12 +5,14 @@ import { LetterPlaceholderFillService } from 'src/Rules/LetterPlaceholder/Letter
 import { Injectable } from '@angular/core';
 import { WordSearchGenerationModule } from './WordSearchGenerationModule';
 import { WordSearchStateFactory } from '../WordSearchState/WordSearchStateFactory';
+import { LetterCasingService } from '../LetterCasing/LetterCasingService';
 
 @Injectable({
     providedIn: WordSearchGenerationModule
 })
 export class WordSearchGenerationService {
     constructor(
+        private letterCasingService: LetterCasingService,
         private letterPlaceholderFillService: LetterPlaceholderFillService,
         private wordSearchGenerationStrategyFactory: WordSearchGenerationStrategyFactory,
         private wordSearchStateFactory: WordSearchStateFactory
@@ -25,6 +27,7 @@ export class WordSearchGenerationService {
         strategy.generate(wordSearch);
 
         this.letterPlaceholderFillService.fill(wordSearch);
+        this.letterCasingService.case(wordSearch);
 
         return wordSearch;
     }
