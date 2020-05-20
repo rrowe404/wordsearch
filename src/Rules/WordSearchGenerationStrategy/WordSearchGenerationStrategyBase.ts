@@ -74,7 +74,7 @@ export abstract class WordSearchGenerationStrategyBase {
     }
 
     private placeWord(currentState: WordSearchState, word: string) {
-        let direction = this.chooseDirection(currentState, word);;
+        let direction = this.chooseDirection(currentState, word);
         let wordPlacementStrategy = this.wordPlacementStrategyFactory.createStrategy(direction);
 
         if (this.allowOverlaps) {
