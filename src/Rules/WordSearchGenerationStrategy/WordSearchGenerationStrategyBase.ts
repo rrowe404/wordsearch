@@ -7,6 +7,7 @@ import { WordSearchGenerationStrategyModule } from './WordSearchGenerationStrate
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordDirectionCheckerFactory } from '../WordDirection/WordDirectionCheckerFactory';
+import { StringUtils } from '../StringUtils/StringUtils';
 
 @Injectable({
     providedIn: WordSearchGenerationStrategyModule
@@ -18,6 +19,7 @@ export abstract class WordSearchGenerationStrategyBase {
 
     constructor(
         private randomNumberGeneratorService: RandomNumberGeneratorService,
+        private stringUtils: StringUtils,
         private wordDirectionCheckerFactory: WordDirectionCheckerFactory,
         private wordPlacementStrategyFactory: WordPlacementStrategyFactory,
         private wordValidationService: WordValidationService
@@ -89,14 +91,10 @@ export abstract class WordSearchGenerationStrategyBase {
         let orientation = this.randomNumberGeneratorService.getRandomValueFrom(this.orientations);
 
         if (orientation === WordOrientation.Backwards) {
-            word = this.reverseWord(word);
+            word = this.stringUtils.reverseWord(word);
         }
 
         wordPlacementStrategy.placeWord(currentState, word);
         currentState.acceptWord(word);
-    }
-
-    private reverseWord(word: string) {
-        return word.split('').reverse().join('');
     }
 }

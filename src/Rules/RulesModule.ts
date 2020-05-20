@@ -8,12 +8,14 @@ import { WordSearchGenerationStrategyModule } from './WordSearchGenerationStrate
 import { WordSearchStateModule } from './WordSearchState/WordSearchStateModule';
 import { WordValidationModule } from './WordValidation/WordValidationModule';
 import { WordDirectionModule } from './WordDirection/WordDirectionModule';
+import { StringUtilsModule } from './StringUtils/StringUtilsModule';
 
 @NgModule({
     imports: [
         ArrayGenerationModule,
         LetterPlaceholderModule,
         RandomNumberGeneratorModule,
+        StringUtilsModule,
         WordDirectionModule,
         WordPlacementStrategyModule,
         WordSearchGenerationModule,
@@ -25,6 +27,7 @@ import { WordDirectionModule } from './WordDirection/WordDirectionModule';
         ArrayGenerationModule,
         LetterPlaceholderModule,
         RandomNumberGeneratorModule,
+        StringUtilsModule,
         WordDirectionModule,
         WordPlacementStrategyModule,
         WordSearchGenerationModule,
