@@ -55,7 +55,7 @@ export abstract class WordSearchGenerationStrategyBase {
         
         do {
             let directionsLeftToAttempt = this.directions.filter(direction => !attemptedDirections.includes(direction));
-            let directionToAttempt = this.getRandomValueFrom(directionsLeftToAttempt);
+            let directionToAttempt = this.randomNumberGeneratorService.getRandomValueFrom(directionsLeftToAttempt);
             let directionChecker = this.wordDirectionCheckerFactory.getDirectionChecker(directionToAttempt);
 
             if (directionChecker.checkDirection(currentState, word)) {
@@ -66,10 +66,6 @@ export abstract class WordSearchGenerationStrategyBase {
         } while (attemptedDirections.length < this.directions.length)
 
         throw new Error("You fucked up!");
-    }
-
-    private getRandomValueFrom<T>(array: T[]): T {
-        return array[this.randomNumberGeneratorService.generateRandomIntWithMax(array.length)]
     }
 
     private handleRejectedWord(currentState: WordSearchState, word: string) {
@@ -90,7 +86,7 @@ export abstract class WordSearchGenerationStrategyBase {
             wordPlacementStrategy.enableOverlaps();
         }
 
-        let orientation = this.getRandomValueFrom(this.orientations);
+        let orientation = this.randomNumberGeneratorService.getRandomValueFrom(this.orientations);
 
         if (orientation === WordOrientation.Backwards) {
             word = this.reverseWord(word);

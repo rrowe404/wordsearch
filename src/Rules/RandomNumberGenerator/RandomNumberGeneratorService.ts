@@ -18,4 +18,8 @@ export class RandomNumberGeneratorService {
     public generateRandomIntWithMax(max: number) {
         return this.generateRandomIntInRange(0, max);
     }
+
+    public getRandomValueFrom<T>(array: T[]): T {
+        return array[this.generateRandomIntWithMax(array.length)];
+    }
 }
