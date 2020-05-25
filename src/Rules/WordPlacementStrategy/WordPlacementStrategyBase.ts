@@ -18,17 +18,18 @@ export abstract class WordPlacementStrategyBase {
     public getStartColumn(currentState: WordSearchState, word: string): number {
         throw new Error(this.mustOverrideMessage);
     }
+
+    public getNextRow(startRow: number, currentIndex: number): number {
+        throw new Error(this.mustOverrideMessage);
+    }
     /***/
 
     placeWord(
         currentState: WordSearchState,
         word: string,
-        getNextRow: (row: number, i: number) => number,
         getNextColumn: (column: number, i: number) => number
     ) {
         let letters = word.split('');
-
-        let columns = currentState.columns;
 
         let startRow = this.getStartRow(currentState, word);
         let startColumn = this.getStartColumn(currentState, word);
@@ -40,7 +41,7 @@ export abstract class WordPlacementStrategyBase {
         while (!positioned) {
             // check to see if there is enough room. loop until we've found a suitable starting point
             positioned = letters.every((letter, i) => {
-                let valueAtPosition = currentState.getValueAt(getNextRow(startRow, i), getNextColumn(startColumn, i));
+                let valueAtPosition = currentState.getValueAt(this.getNextRow(startRow, i), getNextColumn(startColumn, i));
                 return this.canPlaceLetter(letter, valueAtPosition);
             });
 
@@ -63,7 +64,7 @@ export abstract class WordPlacementStrategyBase {
 
             // place the letters into position
             for (let i = 0; i < length; i++) {
-                currentState.setValueAt(getNextRow(startRow, i), getNextColumn(startColumn, i), letters[i]);
+                currentState.setValueAt(this.getNextRow(startRow, i), getNextColumn(startColumn, i), letters[i]);
             }
         }
 

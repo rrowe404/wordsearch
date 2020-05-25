@@ -33,6 +33,11 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
         return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.columns - word.length);
     }
 
+    // hop over one row at a time
+    public getNextRow(currentRow: number, currentIndex: number) {
+        return this.bottomsUp ? currentRow - currentIndex : currentRow + currentIndex;
+    }
+
     // a diagonally placed word spans both columns and rows
     public placeWord(currentState: WordSearchState, word: string) {
         this.bottomsUp = this.randomNumberGeneratorService.flipACoin();
@@ -43,18 +48,14 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
     }
 
     private placeWordBottomUp(currentState: WordSearchState, word: string) {
-        // hop over one column and row at a time
-        let getNextRow = (row, i) => row - i;
         let getNextColumn = (column, i) => column + i;
 
-        return super.placeWord(currentState, word, getNextRow, getNextColumn);
+        return super.placeWord(currentState, word, getNextColumn);
     }
 
     private placeWordTopDown(currentState: WordSearchState, word: string) {
-        // hop over one column and row at a time
-        let getNextRow = (row, i) => row + i;
         let getNextColumn = (column, i) => column + i;
 
-        return super.placeWord(currentState, word, getNextRow, getNextColumn);
+        return super.placeWord(currentState, word, getNextColumn);
     }
 }

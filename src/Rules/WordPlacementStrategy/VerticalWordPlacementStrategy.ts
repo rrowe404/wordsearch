@@ -25,14 +25,16 @@ export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase imp
         return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.columns);
     }
 
+    // hop over one row at a time
+    public getNextRow(currentRow: number, currentIndex: number) {
+        return currentRow + currentIndex;
+    }
+
     // a vertically placed word spans rows and stays in the same column
     public placeWord(currentState: WordSearchState, word: string) {
-        // hop over one row at a time
-        let getNextRow = (row, i) => row + i;
-
         // always the same
         let getNextColumn = (column) => column;
 
-        return super.placeWord(currentState, word, getNextRow, getNextColumn)
+        return super.placeWord(currentState, word, getNextColumn)
     }
 }
