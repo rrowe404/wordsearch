@@ -20,12 +20,17 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
 
     public getStartRow(currentState: WordSearchState, word: string) {
         if (this.bottomsUp) {
-            // there must be enough rows and columns to the top and right of the word to fit it
+            // there must be enough rows and columns to the top of the word to fit it
             return this.randomNumberGeneratorService.generateRandomIntInRange(word.length, currentState.rows);
         }
 
-        // there must be enough rows and columns to the bottom and right of the word to fit it
+        // there must be enough rows and columns to the bottom of the word to fit it
         return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.rows - word.length);
+    }
+
+    // there must be enough rows and columns to the right of the word to fit it
+    public getStartColumn(currentState: WordSearchState, word: string) {
+        return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.columns - word.length);
     }
 
     // a diagonally placed word spans both columns and rows
@@ -38,23 +43,18 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
     }
 
     private placeWordBottomUp(currentState: WordSearchState, word: string) {
-        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns - word.length);
-
         // hop over one column and row at a time
         let getNextRow = (row, i) => row - i;
         let getNextColumn = (column, i) => column + i;
 
-        return super.placeWord(currentState, word, getStartColumn, getNextRow, getNextColumn);
+        return super.placeWord(currentState, word, getNextRow, getNextColumn);
     }
 
     private placeWordTopDown(currentState: WordSearchState, word: string) {
-       
-        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns - word.length);
-
         // hop over one column and row at a time
         let getNextRow = (row, i) => row + i;
         let getNextColumn = (column, i) => column + i;
 
-        return super.placeWord(currentState, word, getStartColumn, getNextRow, getNextColumn);
+        return super.placeWord(currentState, word, getNextRow, getNextColumn);
     }
 }

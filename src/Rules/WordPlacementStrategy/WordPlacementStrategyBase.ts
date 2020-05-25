@@ -14,22 +14,24 @@ export abstract class WordPlacementStrategyBase {
     public getStartRow(currentState: WordSearchState, word: string): number {
         throw new Error(this.mustOverrideMessage);
     }
+
+    public getStartColumn(currentState: WordSearchState, word: string): number {
+        throw new Error(this.mustOverrideMessage);
+    }
     /***/
 
     placeWord(
         currentState: WordSearchState,
         word: string,
-        getStartColumn: (rows) => number,
         getNextRow: (row: number, i: number) => number,
         getNextColumn: (column: number, i: number) => number
     ) {
         let letters = word.split('');
 
-        let rows = currentState.rows;
         let columns = currentState.columns;
 
         let startRow = this.getStartRow(currentState, word);
-        let startColumn = getStartColumn(columns);
+        let startColumn = this.getStartColumn(currentState, word);
 
         let positioned = false;
         let attempts = 0;
@@ -45,7 +47,7 @@ export abstract class WordPlacementStrategyBase {
             if (positioned) {
                 break;
             } else {
-                startColumn = getStartColumn(columns);
+                startColumn = this.getStartColumn(currentState, word);
                 startRow = this.getStartRow(currentState, word);
                 attempts++;
 

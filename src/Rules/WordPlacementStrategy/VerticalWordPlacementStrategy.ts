@@ -20,17 +20,19 @@ export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase imp
         return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.rows - word.length);
     }
 
+    // any column will do
+    public getStartColumn(currentState: WordSearchState, word: string) {
+        return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.columns);
+    }
+
     // a vertically placed word spans rows and stays in the same column
     public placeWord(currentState: WordSearchState, word: string) {
-        // any column will do
-        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns);
-        
         // hop over one row at a time
         let getNextRow = (row, i) => row + i;
 
         // always the same
         let getNextColumn = (column) => column;
 
-        return super.placeWord(currentState, word, getStartColumn, getNextRow, getNextColumn)
+        return super.placeWord(currentState, word, getNextRow, getNextColumn)
     }
 }

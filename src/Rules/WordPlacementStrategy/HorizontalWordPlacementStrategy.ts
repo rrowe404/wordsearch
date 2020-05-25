@@ -20,17 +20,19 @@ export class HorizontalWordPlacementStrategy extends WordPlacementStrategyBase i
         return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.rows);
     }
 
+    // allow enough room in the columns for the full word
+    public getStartColumn(currentState: WordSearchState, word: string) {
+        return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.columns - word.length);
+    }
+
     // a horizontally placed word spans columns and stays on the same row
     public placeWord(currentState: WordSearchState, word: string) {
-        // allow enough room in the columns for the full word
-        let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns - word.length);
-
         // always the same
         let getNextRow = (row) => row;
 
         // hop over one column at a time
         let getNextColumn = (column, i) => column + i;
 
-        return super.placeWord(currentState, word, getStartColumn, getNextRow, getNextColumn);
+        return super.placeWord(currentState, word, getNextRow, getNextColumn);
     }
 }
