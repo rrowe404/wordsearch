@@ -30,11 +30,8 @@ export class HorizontalWordPlacementStrategy extends WordPlacementStrategyBase i
         return startRow;
     }
 
-    // a horizontally placed word spans columns and stays on the same row
-    public placeWord(currentState: WordSearchState, word: string) {
-        // hop over one column at a time
-        let getNextColumn = (column, i) => column + i;
-
-        return super.placeWord(currentState, word, getNextColumn);
+    // hop over one column at a time
+    public getNextColumn(startColumn: number, currentIndex: number) {
+        return startColumn + currentIndex;
     }
 }

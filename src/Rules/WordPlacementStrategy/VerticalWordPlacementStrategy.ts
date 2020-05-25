@@ -30,11 +30,8 @@ export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase imp
         return startRow + currentIndex;
     }
 
-    // a vertically placed word spans rows and stays in the same column
-    public placeWord(currentState: WordSearchState, word: string) {
-        // always the same
-        let getNextColumn = (column) => column;
-
-        return super.placeWord(currentState, word, getNextColumn)
+    // always the same
+    public getNextColumn(startRow: number) {
+        return startRow;
     }
 }

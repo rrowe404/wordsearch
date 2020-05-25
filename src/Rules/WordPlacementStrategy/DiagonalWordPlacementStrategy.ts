@@ -38,24 +38,13 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
         return this.bottomsUp ? startRow - currentIndex : startRow + currentIndex;
     }
 
+    public getNextColumn(startColumn: number, currentIndex: number) {
+        return startColumn + currentIndex;
+    }
+
     // a diagonally placed word spans both columns and rows
     public placeWord(currentState: WordSearchState, word: string) {
         this.bottomsUp = this.randomNumberGeneratorService.flipACoin();
-
-        return this.randomNumberGeneratorService.flipACoin() ?
-               this.placeWordBottomUp(currentState, word) :
-               this.placeWordTopDown(currentState, word);
-    }
-
-    private placeWordBottomUp(currentState: WordSearchState, word: string) {
-        let getNextColumn = (column, i) => column + i;
-
-        return super.placeWord(currentState, word, getNextColumn);
-    }
-
-    private placeWordTopDown(currentState: WordSearchState, word: string) {
-        let getNextColumn = (column, i) => column + i;
-
-        return super.placeWord(currentState, word, getNextColumn);
+        return super.placeWord(currentState, word);
     }
 }
