@@ -21,7 +21,7 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
     public getStartRow(currentState: WordSearchState, word: string) {
         if (this.bottomsUp) {
             // there must be enough rows and columns to the top of the word to fit it
-            return this.randomNumberGeneratorService.generateRandomIntInRange(word.length, currentState.rows);
+            return this.randomNumberGeneratorService.generateRandomIntInRange(word.length, currentState.rows) - 1;
         }
 
         // there must be enough rows and columns to the bottom of the word to fit it
