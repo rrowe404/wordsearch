@@ -9,40 +9,52 @@ import { WordSearchState } from '../WordSearchState/WordSearchState';
     providedIn: WordPlacementStrategyModule
 })
 export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase implements WordPlacementStrategy {
+    /** If true, place the word from bottom to top. Otherwise, place it from top to bottom. */
+    private bottomsUp: boolean;
+
     constructor(
         private randomNumberGeneratorService: RandomNumberGeneratorService
     ) {
         super();
     }
 
+    public getStartRow(currentState: WordSearchState, word: string) {
+        if (this.bottomsUp) {
+            // there must be enough rows and columns to the top and right of the word to fit it
+            return this.randomNumberGeneratorService.generateRandomIntInRange(word.length, currentState.rows);
+        }
+
+        // there must be enough rows and columns to the bottom and right of the word to fit it
+        return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.rows - word.length);
+    }
+
     // a diagonally placed word spans both columns and rows
     public placeWord(currentState: WordSearchState, word: string) {
+        this.bottomsUp = this.randomNumberGeneratorService.flipACoin();
+
         return this.randomNumberGeneratorService.flipACoin() ?
                this.placeWordBottomUp(currentState, word) :
                this.placeWordTopDown(currentState, word);
     }
 
     private placeWordBottomUp(currentState: WordSearchState, word: string) {
-        // there must be enough rows and columns to the top and right of the word to fit it
-        let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntInRange(word.length, rows);
         let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns - word.length);
 
         // hop over one column and row at a time
         let getNextRow = (row, i) => row - i;
         let getNextColumn = (column, i) => column + i;
 
-        return super.placeWord(currentState, word, getStartRow, getStartColumn, getNextRow, getNextColumn);
+        return super.placeWord(currentState, word, getStartColumn, getNextRow, getNextColumn);
     }
 
     private placeWordTopDown(currentState: WordSearchState, word: string) {
-        // there must be enough rows and columns to the bottom and right of the word to fit it
-        let getStartRow = (rows) => this.randomNumberGeneratorService.generateRandomIntWithMax(rows - word.length);
+       
         let getStartColumn = (columns) => this.randomNumberGeneratorService.generateRandomIntWithMax(columns - word.length);
 
         // hop over one column and row at a time
         let getNextRow = (row, i) => row + i;
         let getNextColumn = (column, i) => column + i;
 
-        return super.placeWord(currentState, word, getStartRow, getStartColumn, getNextRow, getNextColumn);
+        return super.placeWord(currentState, word, getStartColumn, getNextRow, getNextColumn);
     }
 }

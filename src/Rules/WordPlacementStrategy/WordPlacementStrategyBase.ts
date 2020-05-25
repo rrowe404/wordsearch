@@ -3,16 +3,22 @@ import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 export abstract class WordPlacementStrategyBase {
     private allowOverlaps: boolean = false;
+    private mustOverrideMessage: string = 'This must be overriden!';
 
     /** Don't override this */
     public enableOverlaps() {
         this.allowOverlaps = true;
     }
 
+    /** Do override these */
+    public getStartRow(currentState: WordSearchState, word: string): number {
+        throw new Error(this.mustOverrideMessage);
+    }
+    /***/
+
     placeWord(
         currentState: WordSearchState,
         word: string,
-        getStartRow: (columns: number) => number,
         getStartColumn: (rows) => number,
         getNextRow: (row: number, i: number) => number,
         getNextColumn: (column: number, i: number) => number
@@ -22,7 +28,7 @@ export abstract class WordPlacementStrategyBase {
         let rows = currentState.rows;
         let columns = currentState.columns;
 
-        let startRow = getStartRow(rows);
+        let startRow = this.getStartRow(currentState, word);
         let startColumn = getStartColumn(columns);
 
         let positioned = false;
@@ -40,7 +46,7 @@ export abstract class WordPlacementStrategyBase {
                 break;
             } else {
                 startColumn = getStartColumn(columns);
-                startRow = getStartRow(rows);
+                startRow = this.getStartRow(currentState, word);
                 attempts++;
 
                 if (attempts > maxAttempts) {
