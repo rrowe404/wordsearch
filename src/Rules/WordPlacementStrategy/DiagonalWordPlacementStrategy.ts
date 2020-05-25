@@ -34,8 +34,8 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
     }
 
     // hop over one row at a time
-    public getNextRow(currentRow: number, currentIndex: number) {
-        return this.bottomsUp ? currentRow - currentIndex : currentRow + currentIndex;
+    public getNextRow(startRow: number, currentIndex: number) {
+        return this.bottomsUp ? startRow - currentIndex : startRow + currentIndex;
     }
 
     // a diagonally placed word spans both columns and rows

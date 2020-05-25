@@ -26,8 +26,8 @@ export class HorizontalWordPlacementStrategy extends WordPlacementStrategyBase i
     }
 
     // always the same
-    public getNextRow(currentRow: number) {
-        return currentRow;
+    public getNextRow(startRow: number) {
+        return startRow;
     }
 
     // a horizontally placed word spans columns and stays on the same row

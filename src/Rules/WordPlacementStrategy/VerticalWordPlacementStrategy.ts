@@ -26,8 +26,8 @@ export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase imp
     }
 
     // hop over one row at a time
-    public getNextRow(currentRow: number, currentIndex: number) {
-        return currentRow + currentIndex;
+    public getNextRow(startRow: number, currentIndex: number) {
+        return startRow + currentIndex;
     }
 
     // a vertically placed word spans rows and stays in the same column
