@@ -2,6 +2,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { HorizontalWordSearchStateSlicer } from './HorizontalWordSearchStateSlicer';
 import { WordSearchStateSlicerModule } from './WordSearchStateSlicerModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { WordSearchStateSlicerTestHelpers } from './WordSearchStateSlicerTestHelpers';
 
 describe('HorizontalWordSearchStateSlicer', () => {
     let service: HorizontalWordSearchStateSlicer;
@@ -26,19 +27,7 @@ describe('HorizontalWordSearchStateSlicer', () => {
             ['c', 'd']
         ];
 
-        let state = new WordSearchState();
-        state.setOptions({
-            alphabetizeWordList: false,
-            height: matrix.length,
-            width: matrix[0].length,
-            showWordList: false,
-            title: '',
-            words: []
-        });
-        state.seedMatrix(matrix);
-
-        let lettersWithPositions = state.getLettersWithPositions();
-        let slice = service.createSlice(state, lettersWithPositions);
+        let slice = WordSearchStateSlicerTestHelpers.getSlice(service, matrix);
 
         let row0 = slice[0];
         expect(row0[0].letter).toBe('a');
