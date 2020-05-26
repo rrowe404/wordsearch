@@ -24,8 +24,6 @@ export class LetterPlaceholderFillService {
     ) {}
 
     public fill(currentState: WordSearchState) {
-        let filledPositions: Array<{ row: number, column: number}> = [];
-
         currentState.iterate((letter, row, column) => {
             if (letter === LetterPlaceholder.value) {
                 let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
