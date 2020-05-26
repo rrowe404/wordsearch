@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
 import { LetterPlaceholderModule } from './LetterPlaceholderModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
-import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
 import { HorizontalWordSearchStateSlicer } from '../WordSearchStateSlicer/HorizontalWordSearchStateSlicer';
 import { VerticalWordSearchStateSlicer } from '../WordSearchStateSlicer/VerticalWordSearchStateSlicer';
 import { TopLeftToBottomRightDiagonalWordSearchStateSlicer } from '../WordSearchStateSlicer/TopLeftToBottomRightDiagonalWordSearchStateSlicer';

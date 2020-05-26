@@ -31,7 +31,7 @@ export class TopLeftToBottomRightDiagonalWordSearchStateSlicer implements WordSe
         
         let temp;
         
-        for (let i = 0; i <= 2 * (maxLength - 1); ++i) {
+        for (let i = 0; i <= 2 * maxLength; ++i) {
             temp = [];
 
             for (let y = yLength - 1; y >= 0; --y) {
