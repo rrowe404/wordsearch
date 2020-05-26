@@ -5,6 +5,7 @@ import { LetterPlaceholderModule } from './LetterPlaceholderModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
 import { HorizontalWordSearchStateSlicer } from '../WordSearchStateSlicer/HorizontalWordSearchStateSlicer';
+import { VerticalWordSearchStateSlicer } from '../WordSearchStateSlicer/VerticalWordSearchStateSlicer';
 
 @Injectable({
     providedIn: LetterPlaceholderModule
@@ -18,6 +19,7 @@ export class LetterPlaceholderFillService {
 
     constructor(
         private horizontalWordSearchStateSlicer: HorizontalWordSearchStateSlicer,
+        private verticalWordSearchStateSlicer: VerticalWordSearchStateSlicer,
         private randomNumberGeneratorService: RandomNumberGeneratorService
     ) {}
 
@@ -41,25 +43,13 @@ export class LetterPlaceholderFillService {
         let arr = currentState.getLettersWithPositions();
         
         let horizontalSlice = this.horizontalWordSearchStateSlicer.createSlice(currentState, arr);
-        let verticalSlice = this.createVerticalSlice(currentState, arr);
+        let verticalSlice = this.verticalWordSearchStateSlicer.createSlice(currentState, arr);
         let diagonalSlice = this.createDiagonalSlice(currentState, arr);
         let otherDiagonalSlice = this.createBottomLeftDiagonalSlice(currentState, arr);
 
         console.log('oink');
     }
     
-
-    // also pretty simple, get an array for each column as-is
-    private createVerticalSlice(currentState: WordSearchState, lettersWithPositions: Array<LetterWithPosition>) {
-        let slice = [];
-
-        for (let i = 0; i < currentState.columns; i++) {
-            slice.push(lettersWithPositions.filter(lwp => lwp.column === i));
-        }
-
-        return slice;
-    }
-
     // the most complex.
     // [q, m, c]
     // [j, n, b]
