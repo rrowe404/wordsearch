@@ -38,12 +38,7 @@ export class LetterPlaceholderFillService {
 
     
     private filterProfanity(currentState: WordSearchState) {
-        // first create an array with all the letters and positions from the actual matrix
-        let arr: Array<LetterWithPosition> = [];
-        
-        currentState.iterate((letter, row, column) => {
-            arr.push({ letter, row, column });
-        });
+        let arr = currentState.getLettersWithPositions();
         
         let horizontalSlice = this.horizontalWordSearchStateSlicer.createSlice(currentState, arr);
         let verticalSlice = this.createVerticalSlice(currentState, arr);

@@ -1,4 +1,5 @@
 import { WordSearchGenerationOptions } from '../WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
 
 export class WordSearchState {
     private matrix: string[][];
@@ -80,5 +81,16 @@ export class WordSearchState {
                 fn(value, i, j);
             })
         })
+    }
+
+    /** create an array with all the letters and positions from the actual matrix */
+    public getLettersWithPositions(): Array<LetterWithPosition> {
+        let result = [];
+        
+        this.iterate((letter, row, column) => {
+            result.push({ letter, row, column });
+        });
+
+        return result;
     }
 }

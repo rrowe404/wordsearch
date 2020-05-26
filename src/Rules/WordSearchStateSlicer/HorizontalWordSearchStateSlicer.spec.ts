@@ -3,7 +3,7 @@ import { HorizontalWordSearchStateSlicer } from './HorizontalWordSearchStateSlic
 import { WordSearchStateSlicerModule } from './WordSearchStateSlicerModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 
-describe('ArrayGenerationService', () => {
+describe('HorizontalWordSearchStateSlicer', () => {
     let service: HorizontalWordSearchStateSlicer;
 
     beforeEach(async(() => {
@@ -37,12 +37,7 @@ describe('ArrayGenerationService', () => {
         });
         state.seedMatrix(matrix);
 
-        let lettersWithPositions = [];
-        
-        state.iterate((letter, row, column) => {
-            lettersWithPositions.push({ letter, row, column });
-        })
-
+        let lettersWithPositions = state.getLettersWithPositions();
         let slice = service.createSlice(state, lettersWithPositions);
 
         let row0 = slice[0];
