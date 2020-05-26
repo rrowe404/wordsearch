@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
 import { LetterPlaceholderModule } from './LetterPlaceholderModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
+import { HorizontalWordSearchStateSlicer } from '../WordSearchStateSlicer/HorizontalWordSearchStateSlicer';
 
 @Injectable({
     providedIn: LetterPlaceholderModule
@@ -15,6 +17,7 @@ export class LetterPlaceholderFillService {
     ];
 
     constructor(
+        private horizontalWordSearchStateSlicer: HorizontalWordSearchStateSlicer,
         private randomNumberGeneratorService: RandomNumberGeneratorService
     ) {}
 
@@ -25,18 +28,16 @@ export class LetterPlaceholderFillService {
             if (letter === LetterPlaceholder.value) {
                 let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
                 currentState.setValueAt(row, column, fillLetter);
-            } else {
-                filledPositions.push({ row, column });
-            }
+            } 
         });
 
-        this.filterProfanity(currentState, filledPositions);
+        this.filterProfanity(currentState);
 
         return currentState;
     }
 
     
-    private filterProfanity(currentState: WordSearchState, filledPositions: Array<{ row: number, column: number}>) {
+    private filterProfanity(currentState: WordSearchState) {
         // first create an array with all the letters and positions from the actual matrix
         let arr: Array<LetterWithPosition> = [];
         
@@ -44,7 +45,7 @@ export class LetterPlaceholderFillService {
             arr.push({ letter, row, column });
         });
         
-        let horizontalSlice = this.createHorizontalSlice(currentState, arr);
+        let horizontalSlice = this.horizontalWordSearchStateSlicer.createSlice(currentState, arr);
         let verticalSlice = this.createVerticalSlice(currentState, arr);
         let diagonalSlice = this.createDiagonalSlice(currentState, arr);
         let otherDiagonalSlice = this.createBottomLeftDiagonalSlice(currentState, arr);
@@ -52,16 +53,6 @@ export class LetterPlaceholderFillService {
         console.log('oink');
     }
     
-    // the simplest one, just get an array for each row as-is
-    private createHorizontalSlice(currentState: WordSearchState, lettersWithPositions: Array<LetterWithPosition>) {
-        let slice = [];
-
-        for (let i = 0; i < currentState.rows; i++) {
-            slice.push(lettersWithPositions.filter(lwp => lwp.row === i));
-        }
-
-        return slice;
-    }
 
     // also pretty simple, get an array for each column as-is
     private createVerticalSlice(currentState: WordSearchState, lettersWithPositions: Array<LetterWithPosition>) {
@@ -147,10 +138,4 @@ export class LetterPlaceholderFillService {
         return slice;
     }
 
-}
-
-interface LetterWithPosition {
-    letter: string;
-    row: number;
-    column: number;
 }
