@@ -20,7 +20,7 @@ import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
     providedIn: WordSearchStateSlicerModule
 })
 export class BottomLeftToTopRightDiagonalWordSearchStateSlicer implements WordSearchStateSlicer {
-    createSlice(currentState: WordSearchState, lettersWithPositions: LetterWithPosition[]): import("../LetterWithPosition/LetterWithPosition").LetterWithPosition[][] {
+    createSlice(currentState: WordSearchState, lettersWithPositions: LetterWithPosition[]): LetterWithPosition[][] {
         // this had to be modified further from the other implementation on stackOverflow because
         // the given answer skipped the last letter. will recombine after writing tests.
         let slice = [];

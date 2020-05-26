@@ -20,7 +20,7 @@ import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
     providedIn: WordSearchStateSlicerModule
 })
 export class TopLeftToBottomRightDiagonalWordSearchStateSlicer implements WordSearchStateSlicer {
-    createSlice(currentState: WordSearchState, lettersWithPositions: LetterWithPosition[]): import("../LetterWithPosition/LetterWithPosition").LetterWithPosition[][] {
+    createSlice(currentState: WordSearchState, lettersWithPositions: LetterWithPosition[]): LetterWithPosition[][] {
         // totally stolen from https://stackoverflow.com/questions/35917734/how-do-i-traverse-an-array-diagonally-in-javascript
         // what, you thought I wanted to think about this?? :D :D :D
         let slice = [];
