@@ -84,5 +84,51 @@ describe('ProfanityFilterService', () => {
             expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);;
             expect(result).toBeTrue();
         });
+
+        it('vertical', () => {
+            let matrix = [
+                ['f', 'e', 't'],
+                ['a', 's', 'n'],
+                ['g', 'k', 'l']
+            ];
+
+            let state = createState(matrix);
+            
+            let userPlacedLetters = [
+                { letter: 'a', row: 1, column: 0 },
+                { letter: 's', row: 1, column: 1 },
+                { letter: 'k', row: 1, column: 2 }
+            ];
+
+            let result = service.filterProfanity(state, userPlacedLetters);
+
+            expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
+            expect(state.getValueAt(1, 0)).toBe('a');
+            expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);;
+            expect(result).toBeTrue();
+        });
+
+        it('vertical and backwards', () => {
+            let matrix = [
+                ['g', 'e', 't'],
+                ['a', 's', 'n'],
+                ['f', 'k', 'l']
+            ];
+
+            let state = createState(matrix);
+            
+            let userPlacedLetters = [
+                { letter: 'a', row: 1, column: 0 },
+                { letter: 's', row: 1, column: 1 },
+                { letter: 'k', row: 1, column: 2 }
+            ];
+
+            let result = service.filterProfanity(state, userPlacedLetters);
+
+            expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
+            expect(state.getValueAt(1, 0)).toBe('a');
+            expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);;
+            expect(result).toBeTrue();
+        });
     });
 });
