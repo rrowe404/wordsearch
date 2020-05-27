@@ -50,26 +50,41 @@ export class ProfanityFilterService {
 
         slices.forEach(slice => {
             slice.forEach(subslice => {
-                let str = subslice.map(x => x.letter).join('');
+                let didAnythingForSubslice = this.replaceProfanityInSubSlice(currentState, subslice, userPlacedLetters);
 
-                this.profanity.forEach(curse => {
-                    let index = str.indexOf(curse);
-
-                    if (index === -1) {
-                        return;
-                    } else {
-                        let letters = subslice.slice(index, curse.length);
-
-                        letters.forEach(lwp => {
-                            if (!userPlacedLetters.filter(upl => lwp.column === upl.column && lwp.row === upl.row).length) {
-                                currentState.setValueAt(lwp.row, lwp.column, LetterPlaceholder.value);
-                                didAnything = true;
-                            }
-                        });
-                    }
-                });
+                if (didAnythingForSubslice) {
+                    didAnything = true;
+                }
             });
         });
+
+        return didAnything;
+    }
+
+    private replaceProfanityInSubSlice(currentState: WordSearchState, subslice: LetterWithPosition[], userPlacedLetters: LetterWithPosition[]) {
+        let str = subslice.map(x => x.letter).join('');
+        let didAnything = false;
+
+        let replace = () => this.profanity.forEach(curse => {
+            let index = str.indexOf(curse);
+
+            if (index === -1) {
+                return;
+            } else {
+                let letters = subslice.slice(index, curse.length);
+
+                letters.forEach(lwp => {
+                    if (!userPlacedLetters.filter(upl => lwp.column === upl.column && lwp.row === upl.row).length) {
+                        currentState.setValueAt(lwp.row, lwp.column, LetterPlaceholder.value);
+                        didAnything = true;
+                    }
+                });
+            }
+        });
+
+        replace();
+        str = subslice.reverse().map(x => x.letter).join('');
+        replace();
 
         return didAnything;
     }
