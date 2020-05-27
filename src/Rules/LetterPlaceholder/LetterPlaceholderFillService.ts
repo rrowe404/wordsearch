@@ -3,10 +3,8 @@ import { Injectable } from '@angular/core';
 import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
 import { LetterPlaceholderModule } from './LetterPlaceholderModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
-import { HorizontalWordSearchStateSlicer } from '../WordSearchStateSlicer/HorizontalWordSearchStateSlicer';
-import { VerticalWordSearchStateSlicer } from '../WordSearchStateSlicer/VerticalWordSearchStateSlicer';
-import { TopLeftToBottomRightDiagonalWordSearchStateSlicer } from '../WordSearchStateSlicer/TopLeftToBottomRightDiagonalWordSearchStateSlicer';
-import { BottomLeftToTopRightDiagonalWordSearchStateSlicer } from '../WordSearchStateSlicer/BottomLeftToTopRightDiagonalWordSearchStateSlicer';
+import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
+import { ProfanityFilterService } from '../ProfanityFilter/ProfanityFilterService';
 
 @Injectable({
     providedIn: LetterPlaceholderModule
@@ -19,35 +17,37 @@ export class LetterPlaceholderFillService {
     ];
 
     constructor(
-        private horizontalStateSlicer: HorizontalWordSearchStateSlicer,
-        private verticalSlicer: VerticalWordSearchStateSlicer,
-        private topLeftToBottomRightSlicer: TopLeftToBottomRightDiagonalWordSearchStateSlicer,
-        private bottomLeftToTopRightSlicer: BottomLeftToTopRightDiagonalWordSearchStateSlicer,
+        private profanityFilterService: ProfanityFilterService,
         private randomNumberGeneratorService: RandomNumberGeneratorService
     ) {}
 
     public fill(currentState: WordSearchState) {
+        let userPlacedLetters: LetterWithPosition[] = [];
+
+        currentState.iterate((letter, row, column) => {
+            if (letter === LetterPlaceholder.value) {
+                let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
+                currentState.setValueAt(row, column, fillLetter);
+            } else {
+                userPlacedLetters.push({ letter, row, column });
+            }
+        });
+
+        let filtered = this.profanityFilterService.filterProfanity(currentState, userPlacedLetters);
+
+        // need to keep doing this until no profanity is left
+        while (filtered) {
+            filtered = this.profanityFilterService.filterProfanity(currentState, userPlacedLetters);
+        }
+
+        // then iterate and fill again
         currentState.iterate((letter, row, column) => {
             if (letter === LetterPlaceholder.value) {
                 let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
                 currentState.setValueAt(row, column, fillLetter);
             } 
-        });
-
-        this.filterProfanity(currentState);
+        })
 
         return currentState;
-    }
-
-    
-    private filterProfanity(currentState: WordSearchState) {
-        let arr = currentState.getLettersWithPositions();
-        
-        let horizontalSlice = this.horizontalStateSlicer.createSlice(currentState, arr);
-        let verticalSlice = this.verticalSlicer.createSlice(currentState, arr);
-        let diagonalSlice = this.topLeftToBottomRightSlicer.createSlice(currentState, arr);
-        let otherDiagonalSlice = this.bottomLeftToTopRightSlicer.createSlice(currentState, arr);
-
-        console.log('oink');
     }
 }

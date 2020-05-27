@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RandomNumberGeneratorModule } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorModule';
-import { WordSearchStateSlicerModule } from '../WordSearchStateSlicer/WordSearchStateSlicerModule';
+import { ProfanityFilterModule } from '../ProfanityFilter/ProfanityFilterModule';
 
 @NgModule({
     imports: [
+        ProfanityFilterModule,
         RandomNumberGeneratorModule,
-        WordSearchStateSlicerModule
     ]
 })
 export class LetterPlaceholderModule {
