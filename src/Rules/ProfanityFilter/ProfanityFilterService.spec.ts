@@ -111,7 +111,7 @@ describe('ProfanityFilterService', () => {
         it('vertical and backwards', () => {
             let matrix = [
                 ['g', 'e', 't'],
-                ['a', 's', 'n'],
+                ['a', 's', 'k'],
                 ['f', 'k', 'l']
             ];
 
@@ -127,7 +127,99 @@ describe('ProfanityFilterService', () => {
 
             expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
             expect(state.getValueAt(1, 0)).toBe('a');
-            expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);;
+            expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);
+            expect(result).toBeTrue();
+        });
+
+        it('diagonal from top to bottom', () => {
+            let matrix = [
+                ['f', 'e', 't'],
+                ['s', 'a', 'n'],
+                ['f', 'k', 'g']
+            ];
+
+            let state = createState(matrix);
+            
+            let userPlacedLetters = [
+                { letter: 's', row: 1, column: 0 },
+                { letter: 'a', row: 1, column: 1 },
+                { letter: 'n', row: 1, column: 2 }
+            ];
+
+            let result = service.filterProfanity(state, userPlacedLetters);
+
+            expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
+            expect(state.getValueAt(1, 1)).toBe('a');
+            expect(state.getValueAt(2, 2)).toBe(LetterPlaceholder.value);
+            expect(result).toBeTrue();
+        });
+
+        it('diagonal from top to bottom and backwards', () => {
+            let matrix = [
+                ['g', 'e', 't'],
+                ['s', 'a', 'n'],
+                ['f', 'k', 'f']
+            ];
+
+            let state = createState(matrix);
+            
+            let userPlacedLetters = [
+                { letter: 's', row: 1, column: 0 },
+                { letter: 'a', row: 1, column: 1 },
+                { letter: 'n', row: 1, column: 2 }
+            ];
+
+            let result = service.filterProfanity(state, userPlacedLetters);
+
+            expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
+            expect(state.getValueAt(1, 1)).toBe('a');
+            expect(state.getValueAt(2, 2)).toBe(LetterPlaceholder.value);
+            expect(result).toBeTrue();
+        });
+
+        it('diagonal from bottom to top', () => {
+            let matrix = [
+                ['s', 'e', 'g'],
+                ['s', 'a', 'n'],
+                ['f', 'k', 'g']
+            ];
+
+            let state = createState(matrix);
+            
+            let userPlacedLetters = [
+                { letter: 's', row: 1, column: 0 },
+                { letter: 'a', row: 1, column: 1 },
+                { letter: 'n', row: 1, column: 2 }
+            ];
+
+            let result = service.filterProfanity(state, userPlacedLetters);
+
+            expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);
+            expect(state.getValueAt(1, 1)).toBe('a');
+            expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);
+            expect(result).toBeTrue();
+        });
+
+        it('diagonal from bottom to top and backwards', () => {
+            let matrix = [
+                ['s', 'e', 'f'],
+                ['s', 'a', 'n'],
+                ['g', 'k', 'g']
+            ];
+
+            let state = createState(matrix);
+            
+            let userPlacedLetters = [
+                { letter: 's', row: 1, column: 0 },
+                { letter: 'a', row: 1, column: 1 },
+                { letter: 'n', row: 1, column: 2 }
+            ];
+
+            let result = service.filterProfanity(state, userPlacedLetters);
+
+            expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);
+            expect(state.getValueAt(1, 1)).toBe('a');
+            expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
     });
