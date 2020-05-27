@@ -31,6 +31,7 @@ describe('ProfanityFilterService', () => {
         });
 
         service = TestBed.get(ProfanityFilterService);
+        service.setProfanityList(['fag']);
     }));
 
     it('should create the service', () => {
@@ -47,11 +48,10 @@ describe('ProfanityFilterService', () => {
 
             let state = createState(matrix);
             
-            service.setProfanityList(['fag']);
             let userPlacedLetters = [
                 { letter: 'a', row: 0, column: 1 },
                 { letter: 's', row: 1, column: 1 },
-                { letter: 'd', row: 2, column: 1 }
+                { letter: 'k', row: 2, column: 1 }
             ];
 
             let result = service.filterProfanity(state, userPlacedLetters);
@@ -69,22 +69,12 @@ describe('ProfanityFilterService', () => {
                 ['x', 'k', 'l']
             ];
 
-            let state = new WordSearchState();
-            state.setOptions({
-                alphabetizeWordList: false,
-                height: matrix.length,
-                width: matrix[0].length,
-                showWordList: false,
-                title: '',
-                words: []
-            });
-            state.seedMatrix(matrix);
+            let state = createState(matrix);
 
-            service.setProfanityList(['fag']);
             let userPlacedLetters = [
                 { letter: 'a', row: 0, column: 1 },
                 { letter: 's', row: 1, column: 1 },
-                { letter: 'd', row: 2, column: 1 }
+                { letter: 'k', row: 2, column: 1 }
             ];
 
             let result = service.filterProfanity(state, userPlacedLetters);
