@@ -33,20 +33,24 @@ export class LetterPlaceholderFillService {
             }
         });
 
-        let filtered = this.profanityFilterService.filterProfanity(currentState, userPlacedLetters);
+        if (currentState.filterAccidentalProfanity) {
+            let changesMade = true;
 
-        // need to keep doing this until no profanity is left
-        while (filtered) {
-            filtered = this.profanityFilterService.filterProfanity(currentState, userPlacedLetters);
+            // need to keep doing this until no profanity is left
+            while (changesMade) {
+                changesMade = this.profanityFilterService.filterProfanity(currentState, userPlacedLetters);
+
+                if (changesMade) {
+                    // then iterate and fill again
+                    currentState.iterate((letter, row, column) => {
+                        if (letter === LetterPlaceholder.value) {
+                            let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
+                            currentState.setValueAt(row, column, fillLetter);
+                        } 
+                    });
+                }
+            }
         }
-
-        // then iterate and fill again
-        currentState.iterate((letter, row, column) => {
-            if (letter === LetterPlaceholder.value) {
-                let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
-                currentState.setValueAt(row, column, fillLetter);
-            } 
-        })
 
         return currentState;
     }

@@ -44,7 +44,8 @@ export class AppComponent implements OnInit {
     alphabetizeWordList: false,
     showWordList: true,
     title: '',
-    words: []
+    words: [],
+    filterAccidentalProfanity: false
   }
 
   public wordValidators: ValidatorFn[];
@@ -97,5 +98,9 @@ export class AppComponent implements OnInit {
 
   public setAlphabetizeWordList(alphabetizeWordList: boolean) {
     this.generationOptions.alphabetizeWordList = alphabetizeWordList;
+  }
+
+  public setFilterProfanity(filterProfanity: boolean) {
+    this.generationOptions.filterAccidentalProfanity = filterProfanity;
   }
 }

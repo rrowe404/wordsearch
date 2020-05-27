@@ -11,7 +11,8 @@ export class WordSearchStateSlicerTestHelpers {
             width: matrix[0].length,
             showWordList: false,
             title: '',
-            words: []
+            words: [],
+            filterAccidentalProfanity: false
         });
         state.seedMatrix(matrix);
 

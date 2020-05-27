@@ -26,6 +26,10 @@ export class WordSearchState {
     public get alphabetizeWordList() {
         return this.options.alphabetizeWordList;
     }
+
+    public get filterAccidentalProfanity() {
+        return this.options.filterAccidentalProfanity;
+    }
     
     public get showWordList() {
         return this.options.showWordList;

@@ -21,7 +21,15 @@ export class ProfanityFilterService {
 
     }
 
-    private profanity: string[];
+    private profanity: string[] = [
+        'shit',
+        'piss',
+        'fuck',
+        'cunt',
+        'cocksucker',
+        'motherfucker',
+        'tits'
+    ];
 
     public setProfanityList(list: string[]) {
         this.profanity = list;

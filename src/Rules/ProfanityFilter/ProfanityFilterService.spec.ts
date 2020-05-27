@@ -3,7 +3,6 @@ import { ProfanityFilterService } from './ProfanityFilterService';
 import { ProfanityFilterModule } from './ProfanityFilterModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { LetterPlaceholder } from '../LetterPlaceholder/LetterPlaceholder';
-import { create } from 'domain';
 
 describe('ProfanityFilterService', () => {
     let service: ProfanityFilterService;
@@ -16,7 +15,8 @@ describe('ProfanityFilterService', () => {
             width: matrix[0].length,
             showWordList: false,
             title: '',
-            words: []
+            words: [],
+            filterAccidentalProfanity: true
         });
         state.seedMatrix(matrix);
 
