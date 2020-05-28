@@ -7,7 +7,7 @@ import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 
 @Component({
-  selector: 'word-search-generator-form',
+  selector: 'wordsearch-generator-form',
   styleUrls: ['./WordSearchGeneratorFormComponent.less'],
   templateUrl: './WordSearchGeneratorFormComponent.html'
 })

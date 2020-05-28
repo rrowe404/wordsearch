@@ -56,6 +56,6 @@ export class LetterPlaceholderFillService {
     }
 
     private getFillLetter() {
-        return this.randomNumberGeneratorService.getRandomValueFrom(this.alphabet); 
+        return this.randomNumberGeneratorService.getRandomValueFrom(this.alphabet);
     }
 }

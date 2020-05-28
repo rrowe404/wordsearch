@@ -13,7 +13,7 @@ describe('VerticalWordSearchStateSlicer', () => {
             ]
         });
 
-        service = TestBed.get(VerticalWordSearchStateSlicer);
+        service = TestBed.inject(VerticalWordSearchStateSlicer);
     }));
 
     it('should create the service', () => {

@@ -13,7 +13,7 @@ describe('TopLeftToBottomRightDiagonalWordSearchStateSlicer', () => {
             ]
         });
 
-        service = TestBed.get(TopLeftToBottomRightDiagonalWordSearchStateSlicer);
+        service = TestBed.inject(TopLeftToBottomRightDiagonalWordSearchStateSlicer);
     }));
 
     it('should create the service', () => {

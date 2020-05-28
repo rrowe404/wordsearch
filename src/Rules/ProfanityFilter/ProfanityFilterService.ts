@@ -143,7 +143,11 @@ export class ProfanityFilterService {
         return didAnything;
     }
 
-    private replaceProfanityInSubSlice(currentState: WordSearchState, subslice: LetterWithPosition[], userPlacedLetters: LetterWithPosition[]) {
+    private replaceProfanityInSubSlice(
+        currentState: WordSearchState,
+        subslice: LetterWithPosition[],
+        userPlacedLetters: LetterWithPosition[]
+    ) {
         let str = subslice.map(x => x.letter).join('');
         let didAnything = false;
 
