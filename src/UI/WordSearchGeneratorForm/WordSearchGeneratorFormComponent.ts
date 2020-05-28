@@ -11,20 +11,7 @@ import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptio
 @Component({
     selector: 'word-search-generator-form',
     styleUrls: ['./WordSearchGeneratorFormComponent.less'],
-    template: `
-        <wordsearch-dropdown label="Difficulty" [options]="difficultyOptions" (onChange)="setDifficulty($event)" [selected]="difficulty"></wordsearch-dropdown>
-        <wordsearch-input label="Title" name="title" (onChange)="setTitle($event)" [value]="generationOptions.title"></wordsearch-input>
-        <wordsearch-input label="Columns" name="columns" (onChange)="setColumns($event)" type="number" min="5" max="30" [value]="generationOptions.width" required="true"></wordsearch-input>
-        <wordsearch-input label="Rows" name="rows" (onChange)="setRows($event)" type="number" min="5" max="30" [value]="generationOptions.height" required="true"></wordsearch-input>
-        <wordsearch-checkbox label="Show Word List" name="wordList" (onChange)="setShowWordList($event)" [value]="generationOptions.showWordList"></wordsearch-checkbox>
-        <wordsearch-checkbox *ngIf="generationOptions.showWordList" label="Alphabetize Word List" name="alphabetize" (onChange)="setAlphabetizeWordList($event)" [value]="generationOptions.alphabetizeWordList"></wordsearch-checkbox>
-        <wordsearch-checkbox label="Filter Accidental Profanity" name="filterProfanity" (onChange)="setFilterProfanity($event)" [value]="generationOptions.filterAccidentalProfanity"></wordsearch-checkbox>
-        <wordsearch-input-list [formGroup]="wordFormGroup" [validators]="wordValidators"></wordsearch-input-list>
-
-        <div class="generate">
-            <wordsearch-button color="accent" text="Generate" (click)="generate()" [disabled]="gameFormGroup.pristine || gameFormGroup.invalid"></wordsearch-button>
-        </div>
-    `
+    templateUrl: './WordSearchGeneratorFormComponent.html'
 })
 export class WordSearchGeneratorFormComponent {
     constructor(
