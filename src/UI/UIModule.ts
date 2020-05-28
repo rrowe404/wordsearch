@@ -4,6 +4,7 @@ import { InputModule } from "./Input/InputModule";
 import { InputListModule } from './InputList/InputListModule';
 import { ButtonModule } from './Button/ButtonModule';
 import { CheckboxModule } from './Checkbox/CheckboxModule';
+import { WordSearchGeneratorFormModule } from './WordSearchGeneratorForm/WordSearchGeneratorFormModule';
 
 @NgModule({
     imports: [
@@ -11,14 +12,16 @@ import { CheckboxModule } from './Checkbox/CheckboxModule';
         CheckboxModule,
         DropdownModule,
         InputModule,
-        InputListModule
+        InputListModule,
+        WordSearchGeneratorFormModule
     ],
     exports: [
         ButtonModule,
         CheckboxModule,
         DropdownModule,
         InputModule,
-        InputListModule
+        InputListModule,
+        WordSearchGeneratorFormModule
     ]
 })
 export class UIModule {
