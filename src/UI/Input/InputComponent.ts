@@ -30,7 +30,7 @@ export class InputComponent implements OnDestroy, OnInit {
 
     @Input() public value: string;
 
-    @Output() public onChange: EventEmitter<string> = new EventEmitter();
+    @Output() public change: EventEmitter<string> = new EventEmitter();
 
     public formControl: FormControl;
 
@@ -80,7 +80,7 @@ export class InputComponent implements OnDestroy, OnInit {
     }
 
     public updateValue(event: any) {
-        this.onChange.emit(event.target.value);
+        this.change.emit(event.target.value);
     }
 
     private getErrorMessage(key: string) {
