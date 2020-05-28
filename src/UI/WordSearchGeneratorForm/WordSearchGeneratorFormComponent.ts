@@ -20,6 +20,7 @@ export class WordSearchGeneratorFormComponent {
   }
 
   public gameFormGroup: FormGroup;
+  public directionFormGroup: FormGroup;
   public wordFormGroup: FormGroup;
 
   /** We need a WordSearchState in order to validate the words as they are typed.
@@ -54,7 +55,16 @@ export class WordSearchGeneratorFormComponent {
     ]
 
     this.gameFormGroup = new FormGroup({});
+
+    this.directionFormGroup = new FormGroup({}, (group: FormGroup) => {
+      let isValid = Object.keys(group.controls).some(key => group.controls[key].value);
+
+      return isValid ? null : { 'required': 'At least one direction must be selected!' }
+    });
+
     this.wordFormGroup = new FormGroup({});
+
+    this.gameFormGroup.addControl('direction', this.directionFormGroup);
     this.gameFormGroup.addControl('word', this.wordFormGroup);
   }
 

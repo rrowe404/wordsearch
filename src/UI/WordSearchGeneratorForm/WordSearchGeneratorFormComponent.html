@@ -2,9 +2,9 @@
 
 <fieldset>
     <legend>Allowed Word Directions</legend>
-    <wordsearch-checkbox label="Horizontal" name="horizontal" (onChange)="setAllowHorizontal($event)" [value]="generationOptions.allowHorizontal"></wordsearch-checkbox>
-    <wordsearch-checkbox label="Vertical" name="vertical" (onChange)="setAllowVertical($event)" [value]="generationOptions.allowVertical"></wordsearch-checkbox>
-    <wordsearch-checkbox label="Diagonal" name="diagonal" (onChange)="setAllowDiagonal($event)" [value]="generationOptions.allowDiagonal"></wordsearch-checkbox>
+    <wordsearch-checkbox [formGroup]="directionFormGroup" label="Horizontal" name="horizontal" (onChange)="setAllowHorizontal($event)" [value]="generationOptions.allowHorizontal"></wordsearch-checkbox>
+    <wordsearch-checkbox [formGroup]="directionFormGroup" label="Vertical" name="vertical" (onChange)="setAllowVertical($event)" [value]="generationOptions.allowVertical"></wordsearch-checkbox>
+    <wordsearch-checkbox [formGroup]="directionFormGroup" label="Diagonal" name="diagonal" (onChange)="setAllowDiagonal($event)" [value]="generationOptions.allowDiagonal"></wordsearch-checkbox>
 </fieldset>
 
 <wordsearch-input label="Columns" name="columns" (onChange)="setColumns($event)" type="number" min="5" max="30" [value]="generationOptions.width" required="true"></wordsearch-input>
