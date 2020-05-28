@@ -80,6 +80,7 @@ export class WordSearchGenerationService {
     private handleRejectedWord(currentState: WordSearchState, word: string) {
         let errors = this.wordValidationService.getErrors(currentState, word);
 
+        // tslint:disable-next-line
         for (let error in errors) {
             console.log(errors[error]);
         }
