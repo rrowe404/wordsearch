@@ -48,6 +48,7 @@ export class WordSearchGeneratorFormComponent {
     allowVertical: true,
     allowDiagonal: false,
     allowBackwards: false,
+    allowOverlaps: false,
   }
 
   public wordValidators: ValidatorFn[];
@@ -120,5 +121,9 @@ export class WordSearchGeneratorFormComponent {
 
   public setAllowBackwards(allow: boolean) {
     this.generationOptions.allowBackwards = allow;
+  }
+
+  public setAllowOverlaps(allow: boolean ) {
+    this.generationOptions.allowOverlaps = allow;
   }
 }

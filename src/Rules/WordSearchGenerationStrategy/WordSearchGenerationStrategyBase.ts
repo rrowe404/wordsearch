@@ -13,8 +13,6 @@ import { StringUtils } from '../StringUtils/StringUtils';
     providedIn: WordSearchGenerationStrategyModule
 })
 export abstract class WordSearchGenerationStrategyBase {
-    protected allowOverlaps: boolean = false;
-
     constructor(
         private randomNumberGeneratorService: RandomNumberGeneratorService,
         private stringUtils: StringUtils,
@@ -75,10 +73,6 @@ export abstract class WordSearchGenerationStrategyBase {
     private placeWord(currentState: WordSearchState, word: string) {
         let direction = this.chooseDirection(currentState, word);
         let wordPlacementStrategy = this.wordPlacementStrategyFactory.createStrategy(direction);
-
-        if (this.allowOverlaps) {
-            wordPlacementStrategy.enableOverlaps();
-        }
 
         let orientation = this.randomNumberGeneratorService.getRandomValueFrom(currentState.orientations);
 

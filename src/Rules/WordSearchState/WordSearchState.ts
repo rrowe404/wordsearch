@@ -31,6 +31,10 @@ export class WordSearchState {
         return result;
     }
 
+    public get enableOverlaps() {
+        return this.options.allowOverlaps;
+    }
+
     public get orientations(): WordOrientation[] {
         let result = [WordOrientation.Forwards];
 

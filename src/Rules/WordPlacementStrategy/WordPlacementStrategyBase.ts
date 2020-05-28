@@ -2,13 +2,7 @@ import { LetterPlaceholder } from 'src/Rules/LetterPlaceholder/LetterPlaceholder
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 export abstract class WordPlacementStrategyBase {
-    private allowOverlaps: boolean = false;
     private mustOverrideMessage: string = 'This must be overriden!';
-
-    /** Don't override this */
-    public enableOverlaps() {
-        this.allowOverlaps = true;
-    }
 
     /** Do override these */
     public getStartRow(currentState: WordSearchState, word: string): number {
@@ -45,7 +39,7 @@ export abstract class WordPlacementStrategyBase {
             // check to see if there is enough room. loop until we've found a suitable starting point
             positioned = letters.every((letter, i) => {
                 let valueAtPosition = currentState.getValueAt(this.getNextRow(startRow, i), this.getNextColumn(startColumn, i));
-                return this.canPlaceLetter(letter, valueAtPosition);
+                return this.canPlaceLetter(currentState, letter, valueAtPosition);
             });
 
             if (positioned) {
@@ -74,8 +68,8 @@ export abstract class WordPlacementStrategyBase {
         return currentState;
     }
 
-    private canPlaceLetter(letter, valueAtPosition) { 
-        if (this.enableOverlaps && letter === valueAtPosition) {
+    private canPlaceLetter(currentState: WordSearchState, letter: string, valueAtPosition: string) { 
+        if (currentState.enableOverlaps && letter === valueAtPosition) {
             return true;
         }
 

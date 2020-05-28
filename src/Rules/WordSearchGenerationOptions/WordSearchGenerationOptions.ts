@@ -14,4 +14,5 @@ export interface WordSearchGenerationOptions {
     allowDiagonal: boolean;
 
     allowBackwards: boolean;
+    allowOverlaps: boolean;
 }
