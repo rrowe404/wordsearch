@@ -26,7 +26,7 @@ export class LetterPlaceholderFillService {
 
         currentState.iterate((letter, row, column) => {
             if (letter === LetterPlaceholder.value) {
-                let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
+                let fillLetter = this.getFillLetter();
                 currentState.setValueAt(row, column, fillLetter);
             } else {
                 userPlacedLetters.push({ letter, row, column });
@@ -44,7 +44,7 @@ export class LetterPlaceholderFillService {
                     // then iterate and fill again
                     currentState.iterate((letter, row, column) => {
                         if (letter === LetterPlaceholder.value) {
-                            let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
+                            let fillLetter = this.getFillLetter();
                             currentState.setValueAt(row, column, fillLetter);
                         }
                     });
@@ -53,5 +53,9 @@ export class LetterPlaceholderFillService {
         }
 
         return currentState;
+    }
+
+    private getFillLetter() {
+        return this.randomNumberGeneratorService.getRandomValueFrom(this.alphabet); 
     }
 }

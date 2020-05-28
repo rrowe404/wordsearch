@@ -63,8 +63,9 @@ export abstract class WordPlacementStrategyBase {
             // place the letters into position
             for (let i = 0; i < length; i++) {
                 currentState.setValueAt(this.getNextRow(startRow, i), this.getNextColumn(startColumn, i), letters[i]);
-                currentState.acceptWord(word);
             }
+
+            currentState.acceptWord(word);
         }
 
         return currentState;
