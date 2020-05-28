@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import { ArrayGenerationModule } from './ArrayGeneration/ArrayGenerationModule';
 import { LetterPlaceholderModule } from './LetterPlaceholder/LetterPlaceholderModule';
 import { RandomNumberGeneratorModule } from './RandomNumberGenerator/RandomNumberGeneratorModule';

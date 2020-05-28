@@ -11,7 +11,7 @@ import { ProfanityFilterService } from '../ProfanityFilter/ProfanityFilterServic
 })
 export class LetterPlaceholderFillService {
     private alphabet = [
-        'a','b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
         'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
         'w', 'x', 'y', 'z'
     ];
@@ -46,7 +46,7 @@ export class LetterPlaceholderFillService {
                         if (letter === LetterPlaceholder.value) {
                             let fillLetter = this.alphabet[this.randomNumberGeneratorService.generateRandomIntWithMax(this.alphabet.length)];
                             currentState.setValueAt(row, column, fillLetter);
-                        } 
+                        }
                     });
                 }
             }

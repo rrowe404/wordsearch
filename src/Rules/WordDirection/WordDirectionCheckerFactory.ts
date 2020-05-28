@@ -18,7 +18,7 @@ export class WordDirectionCheckerFactory {
     }
 
     public getDirectionChecker(direction: WordDirection): WordDirectionChecker {
-        switch(direction) {
+        switch (direction) {
             case WordDirection.Horizontal:
                 return this.horizontalChecker;
 
@@ -29,7 +29,7 @@ export class WordDirectionCheckerFactory {
                 return this.diagonalChecker;
 
             default:
-                throw new Error("That ain't no direction I ever heard of!");
+                throw new Error(`That ain't no direction I ever heard of!`);
         }
     }
 }

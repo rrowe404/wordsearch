@@ -115,7 +115,7 @@ export class ProfanityFilterService {
      */
     public filterProfanity(currentState: WordSearchState, userPlacedLetters: LetterWithPosition[]) {
         let arr = currentState.getLettersWithPositions();
-        
+
         let horizontalSlice = this.horizontalStateSlicer.createSlice(currentState, arr);
         let verticalSlice = this.verticalSlicer.createSlice(currentState, arr);
         let diagonalSlice = this.topLeftToBottomRightSlicer.createSlice(currentState, arr);

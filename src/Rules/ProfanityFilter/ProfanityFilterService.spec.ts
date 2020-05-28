@@ -30,7 +30,7 @@ describe('ProfanityFilterService', () => {
             ]
         });
 
-        service = TestBed.get(ProfanityFilterService);
+        service = TestBed.inject(ProfanityFilterService);
         service.setProfanityList(['fag']);
     }));
 
@@ -47,7 +47,7 @@ describe('ProfanityFilterService', () => {
             ];
 
             let state = createState(matrix);
-            
+  
             let userPlacedLetters = [
                 { letter: 'a', row: 0, column: 1 },
                 { letter: 's', row: 1, column: 1 },
@@ -58,7 +58,7 @@ describe('ProfanityFilterService', () => {
 
             expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
             expect(state.getValueAt(0, 1)).toBe('a');
-            expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);;
+            expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
 
@@ -81,7 +81,7 @@ describe('ProfanityFilterService', () => {
 
             expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
             expect(state.getValueAt(0, 1)).toBe('a');
-            expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);;
+            expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
 
@@ -93,7 +93,7 @@ describe('ProfanityFilterService', () => {
             ];
 
             let state = createState(matrix);
-            
+           
             let userPlacedLetters = [
                 { letter: 'a', row: 1, column: 0 },
                 { letter: 's', row: 1, column: 1 },
@@ -104,7 +104,7 @@ describe('ProfanityFilterService', () => {
 
             expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
             expect(state.getValueAt(1, 0)).toBe('a');
-            expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);;
+            expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
 
@@ -116,7 +116,7 @@ describe('ProfanityFilterService', () => {
             ];
 
             let state = createState(matrix);
-            
+           
             let userPlacedLetters = [
                 { letter: 'a', row: 1, column: 0 },
                 { letter: 's', row: 1, column: 1 },
@@ -139,7 +139,7 @@ describe('ProfanityFilterService', () => {
             ];
 
             let state = createState(matrix);
-            
+           
             let userPlacedLetters = [
                 { letter: 's', row: 1, column: 0 },
                 { letter: 'a', row: 1, column: 1 },
@@ -162,7 +162,7 @@ describe('ProfanityFilterService', () => {
             ];
 
             let state = createState(matrix);
-            
+           
             let userPlacedLetters = [
                 { letter: 's', row: 1, column: 0 },
                 { letter: 'a', row: 1, column: 1 },
@@ -185,7 +185,7 @@ describe('ProfanityFilterService', () => {
             ];
 
             let state = createState(matrix);
-            
+           
             let userPlacedLetters = [
                 { letter: 's', row: 1, column: 0 },
                 { letter: 'a', row: 1, column: 1 },
@@ -208,7 +208,7 @@ describe('ProfanityFilterService', () => {
             ];
 
             let state = createState(matrix);
-            
+           
             let userPlacedLetters = [
                 { letter: 's', row: 1, column: 0 },
                 { letter: 'a', row: 1, column: 1 },
