@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { LetterPlaceholderModule } from 'src/Rules/LetterPlaceholder/LetterPlaceholderModule';
-import { WordSearchGenerationStrategyModule } from 'src/Rules/WordSearchGenerationStrategy/WordSearchGenerationStrategyModule';
 import { WordSearchStateModule } from 'src/Rules/WordSearchState/WordSearchStateModule';
+import { WordPlacementStrategyModule } from '../WordPlacementStrategy/WordPlacementStrategyModule';
+import { WordValidationModule } from '../WordValidation/WordValidationModule';
 
 @NgModule({
     imports: [
         LetterPlaceholderModule,
-        WordSearchGenerationStrategyModule,
-        WordSearchStateModule
+        WordPlacementStrategyModule,
+        WordSearchStateModule,
+        WordValidationModule
     ]
 })
 export class WordSearchGenerationModule {

@@ -3,8 +3,6 @@ import { ValidatorFn, AbstractControl, FormGroup } from '@angular/forms';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
 import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
-import { WordSearchDifficulty } from 'src/Rules/WordSearchDifficulty/WordSearchDifficulty';
-import { DropdownOption } from '../Dropdown/DropdownOption';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 
@@ -21,13 +19,6 @@ export class WordSearchGeneratorFormComponent {
   ) {
   }
 
-  public difficultyOptions: DropdownOption<WordSearchDifficulty>[] = [
-    { value: WordSearchDifficulty.Easy, viewValue: 'Easy' },
-    { value: WordSearchDifficulty.Medium, viewValue: 'Medium' },
-    { value: WordSearchDifficulty.Hard, viewValue: 'Hard' }
-  ];
-
-  public difficulty: WordSearchDifficulty = WordSearchDifficulty.Easy;
   public gameFormGroup: FormGroup;
   public wordFormGroup: FormGroup;
 
@@ -70,13 +61,9 @@ export class WordSearchGeneratorFormComponent {
   public generate() {
     this.generationOptions.words = this.getWordsFromForm();
 
-    let result = this.wordSearchGenerationService.generateWordSearch(this.generationOptions, this.difficulty);
+    let result = this.wordSearchGenerationService.generateWordSearch(this.generationOptions);
 
     result.print();
-  }
-
-  public setDifficulty(difficulty: WordSearchDifficulty) {
-    this.difficulty = difficulty;
   }
 
   private getWordsFromForm() {
