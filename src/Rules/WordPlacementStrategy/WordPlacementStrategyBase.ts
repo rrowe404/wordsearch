@@ -51,6 +51,7 @@ export abstract class WordPlacementStrategyBase {
 
                 if (attempts > maxAttempts) {
                     console.log('you fucked up somehow. freeing you from infinite loop...');
+                    currentState.rejectWord(word);
                     break;
                 }
             }
@@ -62,6 +63,7 @@ export abstract class WordPlacementStrategyBase {
             // place the letters into position
             for (let i = 0; i < length; i++) {
                 currentState.setValueAt(this.getNextRow(startRow, i), this.getNextColumn(startColumn, i), letters[i]);
+                currentState.acceptWord(word);
             }
         }
 

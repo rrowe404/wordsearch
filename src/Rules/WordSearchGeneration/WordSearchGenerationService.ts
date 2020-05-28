@@ -98,6 +98,5 @@ export class WordSearchGenerationService {
         }
 
         wordPlacementStrategy.placeWord(currentState, word);
-        currentState.acceptWord(word);
     }
 }
