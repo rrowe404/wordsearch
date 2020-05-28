@@ -80,6 +80,7 @@
       true,
       "single"
     ],
+    "prefer-const": false,
     "semicolon": {
       "options": [
         "always"
