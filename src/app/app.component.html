@@ -42,10 +42,10 @@
     height: 60px;
     display: flex;
     align-items: center;
+    justify-content: center;
     background-color: #1976d2;
     color: white;
     font-weight: 600;
-    padding-left: 60px;
   }
 
   .content {
@@ -67,6 +67,10 @@
   a:hover {
     color: #125699;
   }
+
+  .generate {
+    margin-top: 16px;
+  }
 </style>
 
 <!-- Toolbar -->
@@ -83,7 +87,10 @@
   <wordsearch-checkbox *ngIf="generationOptions.showWordList" label="Alphabetize Word List" name="alphabetize" (onChange)="setAlphabetizeWordList($event)" [value]="generationOptions.alphabetizeWordList"></wordsearch-checkbox>
   <wordsearch-checkbox label="Filter Accidental Profanity" name="filterProfanity" (onChange)="setFilterProfanity($event)" [value]="generationOptions.filterAccidentalProfanity"></wordsearch-checkbox>
   <wordsearch-input-list [formGroup]="wordFormGroup" [validators]="wordValidators"></wordsearch-input-list>
-  <wordsearch-button color="accent" text="Generate" (click)="generate()" [disabled]="gameFormGroup.pristine || gameFormGroup.invalid"></wordsearch-button>
+
+  <div class="generate">
+    <wordsearch-button color="accent" text="Generate" (click)="generate()" [disabled]="gameFormGroup.pristine || gameFormGroup.invalid"></wordsearch-button>
+  </div>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
