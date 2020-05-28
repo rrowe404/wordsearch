@@ -9,6 +9,6 @@ import { Component, Input } from '@angular/core';
 })
 export class ButtonComponent {
     @Input() public text: string;
-    @Input() public color: string = 'primary';
-    @Input() public disabled: boolean = false;
+    @Input() public color = 'primary';
+    @Input() public disabled = false;
 }

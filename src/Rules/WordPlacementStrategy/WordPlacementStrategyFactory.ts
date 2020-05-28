@@ -17,7 +17,7 @@ export class WordPlacementStrategyFactory {
     }
 
     public createStrategy(direction: WordDirection) {
-        switch(direction) {
+        switch (direction) {
             case WordDirection.Horizontal:
                 return this.horizontalWordPlacementStrategy;
 

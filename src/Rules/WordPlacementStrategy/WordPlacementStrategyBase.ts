@@ -2,7 +2,7 @@ import { LetterPlaceholder } from 'src/Rules/LetterPlaceholder/LetterPlaceholder
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 export abstract class WordPlacementStrategyBase {
-    private mustOverrideMessage: string = 'This must be overriden!';
+    private mustOverrideMessage = 'This must be overriden!';
 
     /** Do override these */
     public getStartRow(currentState: WordSearchState, word: string): number {
@@ -70,7 +70,7 @@ export abstract class WordPlacementStrategyBase {
         return currentState;
     }
 
-    private canPlaceLetter(currentState: WordSearchState, letter: string, valueAtPosition: string) { 
+    private canPlaceLetter(currentState: WordSearchState, letter: string, valueAtPosition: string) {
         if (currentState.enableOverlaps && letter === valueAtPosition) {
             return true;
         }

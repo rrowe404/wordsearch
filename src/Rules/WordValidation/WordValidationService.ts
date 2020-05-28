@@ -16,7 +16,7 @@ export class WordValidationService {
         let violatedValidators = this.validators.filter(validator => !validator.validate(currentState, word));
 
         let errors = {};
-        
+
         violatedValidators.forEach(validator => {
             errors[validator.getErrorKey()] = validator.getMessage(word);
         });

@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import { WordSearchGeneratorFormComponent } from './WordSearchGeneratorFormComponent';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ValidatorFn, AbstractControl, FormGroup } from '@angular/forms';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
 import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
@@ -11,7 +11,7 @@ import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptio
   styleUrls: ['./WordSearchGeneratorFormComponent.less'],
   templateUrl: './WordSearchGeneratorFormComponent.html'
 })
-export class WordSearchGeneratorFormComponent {
+export class WordSearchGeneratorFormComponent implements OnInit {
   constructor(
     private wordSearchGenerationService: WordSearchGenerationService,
     private wordSearchStateFactory: WordSearchStateFactory,
@@ -23,9 +23,11 @@ export class WordSearchGeneratorFormComponent {
   public directionFormGroup: FormGroup;
   public wordFormGroup: FormGroup;
 
-  /** We need a WordSearchState in order to validate the words as they are typed.
-   *  This one will not actually be used to compute the final result.
-   *  Changes to generationOptions should be immediately reflected in dummyState. */
+  /**
+   * We need a WordSearchState in order to validate the words as they are typed.
+   * This one will not actually be used to compute the final result.
+   * Changes to generationOptions should be immediately reflected in dummyState.
+   */
   public dummyState: WordSearchState;
 
   public generationOptions: WordSearchGenerationOptions = {
@@ -41,7 +43,7 @@ export class WordSearchGeneratorFormComponent {
     allowDiagonal: false,
     allowBackwards: false,
     allowOverlaps: false,
-  }
+  };
 
   public wordValidators: ValidatorFn[];
 
@@ -52,14 +54,14 @@ export class WordSearchGeneratorFormComponent {
       (control: AbstractControl) => {
         return this.wordValidationService.getErrors(this.dummyState, control.value);
       }
-    ]
+    ];
 
     this.gameFormGroup = new FormGroup({});
 
     this.directionFormGroup = new FormGroup({}, (group: FormGroup) => {
       let isValid = Object.keys(group.controls).some(key => group.controls[key].value);
 
-      return isValid ? null : { 'required': 'At least one direction must be selected!' }
+      return isValid ? null : { required: 'At least one direction must be selected!' };
     });
 
     this.wordFormGroup = new FormGroup({});

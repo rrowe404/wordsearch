@@ -11,7 +11,7 @@ export class WordSearchStateFactory {
     constructor(
         private arrayGenerationService: ArrayGenerationService
     ) {}
-    
+
     public createWordSearch(options: WordSearchGenerationOptions) {
         let state = new WordSearchState();
         state.setOptions(options);

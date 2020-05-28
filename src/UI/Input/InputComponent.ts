@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, OnDestroy, Output, ElementRef } from "@angular/core";
-import { FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
+import { Component, EventEmitter, Input, OnInit, OnDestroy, Output, ElementRef } from '@angular/core';
+import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
 
 /** Barrier between app and third-party inputs */
@@ -21,12 +21,12 @@ export class InputComponent implements OnDestroy, OnInit {
     @Input() public label: string;
     @Input() public name: string;
     @Input() public formGroup: FormGroup;
-    @Input() public type: string = 'text';
+    @Input() public type = 'text';
     @Input() public validators: ValidatorFn[] = [];
 
     @Input() public min: number;
     @Input() public max: number;
-    @Input() public required: boolean = false;
+    @Input() public required = false;
 
     @Input() public value: string;
 
@@ -47,7 +47,7 @@ export class InputComponent implements OnDestroy, OnInit {
 
     public ngOnInit() {
         if (!this.name) {
-            throw new Error("All InputComponents must have a name!");
+            throw new Error('All InputComponents must have a name!');
         }
 
         if (this.min) {
@@ -84,12 +84,12 @@ export class InputComponent implements OnDestroy, OnInit {
     }
 
     private getErrorMessage(key: string) {
-        switch(key) {
-            case "required":
-                return "Required";
+        switch (key) {
+            case 'required':
+                return 'Required';
 
-            case "min":
-            case "max":
+            case 'min':
+            case 'max':
                 return `(${this.min}-${this.max})`;
 
             default:

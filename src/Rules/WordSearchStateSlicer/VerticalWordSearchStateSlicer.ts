@@ -9,7 +9,7 @@ import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
     providedIn: WordSearchStateSlicerModule
 })
 export class VerticalWordSearchStateSlicer implements WordSearchStateSlicer {
-    createSlice(currentState: WordSearchState, lettersWithPositions: LetterWithPosition[]): import("../LetterWithPosition/LetterWithPosition").LetterWithPosition[][] {
+    createSlice(currentState: WordSearchState, lettersWithPositions: LetterWithPosition[]): LetterWithPosition[][] {
         let slice = [];
 
         for (let i = 0; i < currentState.columns; i++) {

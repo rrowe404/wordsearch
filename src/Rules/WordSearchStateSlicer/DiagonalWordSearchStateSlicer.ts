@@ -6,7 +6,7 @@ import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
  * It's only used to share the main loop between the two injectable services
  */
 export class DiagonalWordSearchStateSlicer {
-    private bottomsUp: boolean = false;
+    private bottomsUp = false;
 
     /**
      * totally stolen from https://stackoverflow.com/questions/35917734/how-do-i-traverse-an-array-diagonally-in-javascript
@@ -18,7 +18,7 @@ export class DiagonalWordSearchStateSlicer {
         let yLength = currentState.rows;
         let xLength = currentState.columns;
         let maxLength = Math.max(yLength, xLength);
-        
+
         let temp;
 
         for (let i = 0; i <= 2 * maxLength; ++i) {

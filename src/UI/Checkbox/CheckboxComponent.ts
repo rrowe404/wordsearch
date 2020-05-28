@@ -13,12 +13,12 @@ export class CheckboxComponent implements OnInit {
     @Input() public value: boolean;
 
     @Output() public onChange: EventEmitter<boolean> = new EventEmitter();
-    
+
     public formControl: FormControl;
 
     public ngOnInit() {
         if (!this.name) {
-            throw new Error("All CheckboxComponents must have a name!");
+            throw new Error('All CheckboxComponents must have a name!');
         }
 
         this.formControl = new FormControl(this.value, []);

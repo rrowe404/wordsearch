@@ -42,9 +42,9 @@ export class WordSearchGenerationService {
     private placeWords(currentState: WordSearchState) {
         currentState.words.forEach(word => {
             let place = !this.wordValidationService.hasErrors(currentState, word);
-            
+
             if (place) {
-                this.placeWord(currentState, word)
+                this.placeWord(currentState, word);
             } else {
                 this.handleRejectedWord(currentState, word);
             }
@@ -61,7 +61,7 @@ export class WordSearchGenerationService {
     private chooseDirection(currentState: WordSearchState, word: string) {
         let attemptedDirections = [];
         let directions = currentState.directions;
-        
+
         do {
             let directionsLeftToAttempt = directions.filter(direction => !attemptedDirections.includes(direction));
             let directionToAttempt = this.randomNumberGeneratorService.getRandomValueFrom(directionsLeftToAttempt);
@@ -72,9 +72,9 @@ export class WordSearchGenerationService {
             }
 
             attemptedDirections.push(directionToAttempt);
-        } while (attemptedDirections.length < directions.length)
+        } while (attemptedDirections.length < directions.length);
 
-        throw new Error("You fucked up!");
+        throw new Error('You fucked up!');
     }
 
     private handleRejectedWord(currentState: WordSearchState, word: string) {

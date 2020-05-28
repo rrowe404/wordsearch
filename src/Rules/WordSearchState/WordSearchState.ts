@@ -64,7 +64,7 @@ export class WordSearchState {
     public get filterAccidentalProfanity() {
         return this.options.filterAccidentalProfanity;
     }
-    
+
     public get showWordList() {
         return this.options.showWordList;
     }
@@ -117,14 +117,14 @@ export class WordSearchState {
         this.matrix.forEach((row, i) => {
             row.forEach((value, j) => {
                 fn(value, i, j);
-            })
-        })
+            });
+        });
     }
 
     /** create an array with all the letters and positions from the actual matrix */
     public getLettersWithPositions(): Array<LetterWithPosition> {
         let result = [];
-        
+
         this.iterate((letter, row, column) => {
             result.push({ letter, row, column });
         });
