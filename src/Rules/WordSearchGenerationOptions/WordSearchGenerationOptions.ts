@@ -8,4 +8,8 @@ export interface WordSearchGenerationOptions {
 
     words: string[];
     filterAccidentalProfanity: boolean;
+
+    allowHorizontal: boolean;
+    allowVertical: boolean;
+    allowDiagonal: boolean;
 }

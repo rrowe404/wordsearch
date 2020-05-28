@@ -1,5 +1,6 @@
 import { WordSearchGenerationOptions } from '../WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
+import { WordDirection } from '../WordDirection/WordDirection';
 
 export class WordSearchState {
     private matrix: string[][];
@@ -9,6 +10,24 @@ export class WordSearchState {
 
     public get columns() {
         return this.options.width;
+    }
+
+    public get directions(): WordDirection[] {
+        let result = [];
+
+        if (this.options.allowHorizontal) {
+            result.push(WordDirection.Horizontal);
+        }
+
+        if (this.options.allowVertical) {
+            result.push(WordDirection.Vertical);
+        }
+
+        if (this.options.allowDiagonal) {
+            result.push(WordDirection.Diagonal);
+        }
+
+        return result;
     }
 
     public get rows() {

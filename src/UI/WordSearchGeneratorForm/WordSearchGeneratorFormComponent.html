@@ -1,5 +1,13 @@
 <wordsearch-input label="Title" name="title" (onChange)="setTitle($event)" [value]="generationOptions.title"></wordsearch-input>
 <wordsearch-dropdown label="Difficulty" [options]="difficultyOptions" (onChange)="setDifficulty($event)" [selected]="difficulty"></wordsearch-dropdown>
+
+<fieldset>
+    <legend>Allowed Word Directions</legend>
+    <wordsearch-checkbox label="Horizontal" name="horizontal" (onChange)="setAllowHorizontal($event)" [value]="generationOptions.allowHorizontal"></wordsearch-checkbox>
+    <wordsearch-checkbox label="Vertical" name="vertical" (onChange)="setAllowVertical($event)" [value]="generationOptions.allowVertical"></wordsearch-checkbox>
+    <wordsearch-checkbox label="Diagonal" name="diagonal" (onChange)="setAllowDiagonal($event)" [value]="generationOptions.allowDiagonal"></wordsearch-checkbox>
+</fieldset>
+
 <wordsearch-input label="Columns" name="columns" (onChange)="setColumns($event)" type="number" min="5" max="30" [value]="generationOptions.width" required="true"></wordsearch-input>
 <wordsearch-input label="Rows" name="rows" (onChange)="setRows($event)" type="number" min="5" max="30" [value]="generationOptions.height" required="true"></wordsearch-input>
 <wordsearch-checkbox label="Show Word List" name="wordList" (onChange)="setShowWordList($event)" [value]="generationOptions.showWordList"></wordsearch-checkbox>

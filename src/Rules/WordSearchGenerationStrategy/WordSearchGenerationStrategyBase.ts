@@ -13,7 +13,6 @@ import { StringUtils } from '../StringUtils/StringUtils';
     providedIn: WordSearchGenerationStrategyModule
 })
 export abstract class WordSearchGenerationStrategyBase {
-    protected directions: WordDirection[];
     protected orientations: WordOrientation[] = [WordOrientation.Forwards];
     protected allowOverlaps: boolean = false;
 
@@ -47,9 +46,10 @@ export abstract class WordSearchGenerationStrategyBase {
      */
     private chooseDirection(currentState: WordSearchState, word: string) {
         let attemptedDirections = [];
+        let directions = currentState.directions;
         
         do {
-            let directionsLeftToAttempt = this.directions.filter(direction => !attemptedDirections.includes(direction));
+            let directionsLeftToAttempt = directions.filter(direction => !attemptedDirections.includes(direction));
             let directionToAttempt = this.randomNumberGeneratorService.getRandomValueFrom(directionsLeftToAttempt);
             let directionChecker = this.wordDirectionCheckerFactory.getDirectionChecker(directionToAttempt);
 
@@ -58,7 +58,7 @@ export abstract class WordSearchGenerationStrategyBase {
             }
 
             attemptedDirections.push(directionToAttempt);
-        } while (attemptedDirections.length < this.directions.length)
+        } while (attemptedDirections.length < directions.length)
 
         throw new Error("You fucked up!");
     }

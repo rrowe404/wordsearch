@@ -43,7 +43,10 @@ export class WordSearchGeneratorFormComponent {
     showWordList: true,
     title: '',
     words: [],
-    filterAccidentalProfanity: false
+    filterAccidentalProfanity: false,
+    allowHorizontal: true,
+    allowVertical: true,
+    allowDiagonal: false
   }
 
   public wordValidators: ValidatorFn[];
@@ -100,5 +103,17 @@ export class WordSearchGeneratorFormComponent {
 
   public setFilterProfanity(filterProfanity: boolean) {
     this.generationOptions.filterAccidentalProfanity = filterProfanity;
+  }
+
+  public setAllowHorizontal(allow: boolean) {
+    this.generationOptions.allowHorizontal = allow;
+  }
+
+  public setAllowVertical(allow: boolean) {
+    this.generationOptions.allowVertical = allow;
+  }
+
+  public setAllowDiagonal(allow: boolean) {
+    this.generationOptions.allowDiagonal = allow;
   }
 }
