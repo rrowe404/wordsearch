@@ -12,4 +12,6 @@ export interface WordSearchGenerationOptions {
     allowHorizontal: boolean;
     allowVertical: boolean;
     allowDiagonal: boolean;
+
+    allowBackwards: boolean;
 }

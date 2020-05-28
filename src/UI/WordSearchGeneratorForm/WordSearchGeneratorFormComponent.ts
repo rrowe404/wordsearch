@@ -46,7 +46,8 @@ export class WordSearchGeneratorFormComponent {
     filterAccidentalProfanity: false,
     allowHorizontal: true,
     allowVertical: true,
-    allowDiagonal: false
+    allowDiagonal: false,
+    allowBackwards: false,
   }
 
   public wordValidators: ValidatorFn[];
@@ -115,5 +116,9 @@ export class WordSearchGeneratorFormComponent {
 
   public setAllowDiagonal(allow: boolean) {
     this.generationOptions.allowDiagonal = allow;
+  }
+
+  public setAllowBackwards(allow: boolean) {
+    this.generationOptions.allowBackwards = allow;
   }
 }

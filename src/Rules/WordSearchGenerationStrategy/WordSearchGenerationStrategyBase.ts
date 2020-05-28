@@ -13,7 +13,6 @@ import { StringUtils } from '../StringUtils/StringUtils';
     providedIn: WordSearchGenerationStrategyModule
 })
 export abstract class WordSearchGenerationStrategyBase {
-    protected orientations: WordOrientation[] = [WordOrientation.Forwards];
     protected allowOverlaps: boolean = false;
 
     constructor(
@@ -81,7 +80,7 @@ export abstract class WordSearchGenerationStrategyBase {
             wordPlacementStrategy.enableOverlaps();
         }
 
-        let orientation = this.randomNumberGeneratorService.getRandomValueFrom(this.orientations);
+        let orientation = this.randomNumberGeneratorService.getRandomValueFrom(currentState.orientations);
 
         if (orientation === WordOrientation.Backwards) {
             word = this.stringUtils.reverseWord(word);

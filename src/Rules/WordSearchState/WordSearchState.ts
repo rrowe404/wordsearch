@@ -1,6 +1,7 @@
 import { WordSearchGenerationOptions } from '../WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
 import { WordDirection } from '../WordDirection/WordDirection';
+import { WordOrientation } from '../WordOrientation/WordOrientation';
 
 export class WordSearchState {
     private matrix: string[][];
@@ -25,6 +26,16 @@ export class WordSearchState {
 
         if (this.options.allowDiagonal) {
             result.push(WordDirection.Diagonal);
+        }
+
+        return result;
+    }
+
+    public get orientations(): WordOrientation[] {
+        let result = [WordOrientation.Forwards];
+
+        if (this.options.allowBackwards) {
+            result.push(WordOrientation.Backwards);
         }
 
         return result;
