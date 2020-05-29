@@ -8,6 +8,7 @@ import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptio
 import { ConsoleWordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/ConsoleWordSearchOutputStrategy';
 import { DropdownOption } from '../Dropdown/DropdownOption';
 import { WordSearchOutputStrategyFactory } from 'src/Rules/WordSearchOutput/WordSearchOutputStrategyFactory';
+import { ImageWordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/ImageWordSearchOutputStrategy';
 
 @Component({
   selector: 'wordsearch-generator-form',
@@ -50,7 +51,8 @@ export class WordSearchGeneratorFormComponent implements OnInit {
   };
 
   public outputOptions: DropdownOption<string>[] = [
-    { value: ConsoleWordSearchOutputStrategy.getValue(), viewValue: ConsoleWordSearchOutputStrategy.getViewValue() }
+    { value: ConsoleWordSearchOutputStrategy.getValue(), viewValue: ConsoleWordSearchOutputStrategy.getViewValue() },
+    { value: ImageWordSearchOutputStrategy.getValue(), viewValue: ImageWordSearchOutputStrategy.getViewValue() }
   ];
 
   public selectedOutputOption: string;
@@ -104,6 +106,10 @@ export class WordSearchGeneratorFormComponent implements OnInit {
   }
 
   public setTitle(title: string) {
+    if ((title as any).target) {
+      debugger
+    }
+
     this.generationOptions.title = title;
   }
 
