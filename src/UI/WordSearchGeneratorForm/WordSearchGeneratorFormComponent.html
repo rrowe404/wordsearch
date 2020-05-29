@@ -16,6 +16,8 @@
 <wordsearch-checkbox label="Allow Backwards Words" name="allowBackwards" (change)="setAllowBackwards($event)" [value]="generationOptions.allowBackwards"></wordsearch-checkbox>
 <wordsearch-checkbox label="Allow Overlaps" name="allowOverlaps" (change)="setAllowOverlaps($event)" [value]="generationOptions.allowOverlaps"></wordsearch-checkbox>
 
+<wordsearch-dropdown *ngIf="selectedOutputOption" label="Output Method" [options]="outputOptions" [selected]="selectedOutputOption" (change)="setOutputOption($event)"></wordsearch-dropdown>
+
 <wordsearch-input-list [formGroup]="wordFormGroup" [validators]="wordValidators"></wordsearch-input-list>
 
 <div class="generate">

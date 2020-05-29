@@ -4,7 +4,6 @@ import { WordSearchState } from '../WordSearchState/WordSearchState';
 export abstract class WordSearchOutputStrategyBase implements WordSearchOutputStrategy {
     protected currentState: WordSearchState;
     
-    /** Don't override this */
     public output(currentState: WordSearchState) {
         this.currentState = currentState;
 

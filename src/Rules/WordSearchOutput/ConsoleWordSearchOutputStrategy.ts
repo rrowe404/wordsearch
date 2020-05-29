@@ -7,6 +7,14 @@ import { WordSearchOutputStrategyBase } from './WordSearchOutputStrategyBase';
     providedIn: WordSearchOutputModule
 })
 export class ConsoleWordSearchOutputStrategy extends WordSearchOutputStrategyBase {
+    public static getValue() {
+        return 'console'
+    }
+
+    public static getViewValue() {
+        return 'Console';
+    }
+
     protected outputTitle() {
         console.log(this.currentState.title);
     }

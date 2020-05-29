@@ -6,6 +6,8 @@ import { WordValidationService } from 'src/Rules/WordValidation/WordValidationSe
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { ConsoleWordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/ConsoleWordSearchOutputStrategy';
+import { DropdownOption } from '../Dropdown/DropdownOption';
+import { WordSearchOutputStrategyFactory } from 'src/Rules/WordSearchOutput/WordSearchOutputStrategyFactory';
 
 @Component({
   selector: 'wordsearch-generator-form',
@@ -14,9 +16,9 @@ import { ConsoleWordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/Cons
 })
 export class WordSearchGeneratorFormComponent implements OnInit {
   constructor(
-    private consoleWordSearchOutputStrategy: ConsoleWordSearchOutputStrategy,
     private wordSearchGenerationService: WordSearchGenerationService,
     private wordSearchStateFactory: WordSearchStateFactory,
+    private wordSearchOutputStrategyFactory: WordSearchOutputStrategyFactory,
     private wordValidationService: WordValidationService
   ) {
   }
@@ -47,9 +49,17 @@ export class WordSearchGeneratorFormComponent implements OnInit {
     allowOverlaps: false,
   };
 
+  public outputOptions: DropdownOption<string>[] = [
+    { value: ConsoleWordSearchOutputStrategy.getValue(), viewValue: ConsoleWordSearchOutputStrategy.getViewValue() }
+  ];
+
+  public selectedOutputOption: string;
+
   public wordValidators: ValidatorFn[];
 
   public ngOnInit() {
+    this.selectedOutputOption = this.outputOptions[0].value;
+
     this.dummyState = this.wordSearchStateFactory.createWordSearch(this.generationOptions);
 
     this.wordValidators = [
@@ -77,7 +87,8 @@ export class WordSearchGeneratorFormComponent implements OnInit {
 
     let result = this.wordSearchGenerationService.generateWordSearch(this.generationOptions);
 
-    this.consoleWordSearchOutputStrategy.output(result);
+    let outputStrategy = this.wordSearchOutputStrategyFactory.createOutputStrategy(this.selectedOutputOption);
+    outputStrategy.output(result);
   }
 
   private getWordsFromForm() {
@@ -126,5 +137,9 @@ export class WordSearchGeneratorFormComponent implements OnInit {
 
   public setAllowOverlaps(allow: boolean ) {
     this.generationOptions.allowOverlaps = allow;
+  }
+  
+  public setOutputOption(outputOption: string) {
+    this.selectedOutputOption = outputOption;
   }
 }
