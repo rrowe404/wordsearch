@@ -12,7 +12,7 @@ export class CheckboxComponent implements OnInit {
     @Input() public name: string;
     @Input() public value: boolean;
 
-    @Output() public change: EventEmitter<boolean> = new EventEmitter();
+    @Output() public changed: EventEmitter<boolean> = new EventEmitter();
 
     public formControl: FormControl;
 
@@ -31,7 +31,7 @@ export class CheckboxComponent implements OnInit {
     public update() {
         // need timeout for formControl.value to be accurate for some reason
         setTimeout(() => {
-            this.change.emit(this.formControl.value);
+            this.changed.emit(this.formControl.value);
         });
     }
 }

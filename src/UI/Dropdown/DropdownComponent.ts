@@ -21,9 +21,9 @@ export class DropdownComponent {
     @Input() public label: string;
     @Input() public options: DropdownOption<any>[];
     @Input() public selected: DropdownOption<any>;
-    @Output() public change: EventEmitter<any> = new EventEmitter();
+    @Output() public changed: EventEmitter<any> = new EventEmitter();
 
     public selectionChanged(event: MatSelectChange) {
-        this.change.emit(event.value);
+        this.changed.emit(event.value);
     }
 }
