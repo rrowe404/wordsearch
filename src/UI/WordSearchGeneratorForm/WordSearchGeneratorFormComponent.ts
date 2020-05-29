@@ -5,6 +5,7 @@ import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStat
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { ConsoleWordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/ConsoleWordSearchOutputStrategy';
 
 @Component({
   selector: 'wordsearch-generator-form',
@@ -13,6 +14,7 @@ import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptio
 })
 export class WordSearchGeneratorFormComponent implements OnInit {
   constructor(
+    private consoleWordSearchOutputStrategy: ConsoleWordSearchOutputStrategy,
     private wordSearchGenerationService: WordSearchGenerationService,
     private wordSearchStateFactory: WordSearchStateFactory,
     private wordValidationService: WordValidationService
@@ -75,7 +77,7 @@ export class WordSearchGeneratorFormComponent implements OnInit {
 
     let result = this.wordSearchGenerationService.generateWordSearch(this.generationOptions);
 
-    result.print();
+    this.consoleWordSearchOutputStrategy.output(result);
   }
 
   private getWordsFromForm() {

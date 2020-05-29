@@ -2,9 +2,10 @@ import { WordSearchGenerationOptions } from '../WordSearchGenerationOptions/Word
 import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
 import { WordDirection } from '../WordDirection/WordDirection';
 import { WordOrientation } from '../WordOrientation/WordOrientation';
+import { ObjectUtils } from '../ObjectUtils/ObjectUtils';
 
 export class WordSearchState {
-    private matrix: string[][];
+    private _matrix: string[][];
     private options: WordSearchGenerationOptions;
     private acceptedWords: string[] = [];
     private rejectedWords: string[] = [];
@@ -29,6 +30,13 @@ export class WordSearchState {
         }
 
         return result;
+    }
+
+    /**
+     * Returns a copy of the current puzzle
+     */
+    public get matrix() {
+        return ObjectUtils.copy(this._matrix);
     }
 
     public get enableOverlaps() {
@@ -69,35 +77,37 @@ export class WordSearchState {
         return this.options.showWordList;
     }
 
-    private get totalMessage() {
+    public get totalMessage() {
         return `Placed ${this.acceptedWords.length} of ${this.options.words.length}`;
     }
 
-    // debugger only
-    public print() {
-        console.log(this.title);
-        this.matrix.forEach(row => console.log(row));
-        console.log(this.totalMessage);
+    /**
+     * Applies options and returns a copy of the current word list
+     */
+    public get wordList(): string[] {
+        let result = [];
 
         if (this.showWordList) {
             if (this.alphabetizeWordList) {
-                this.acceptedWords = this.acceptedWords.sort();
+                result = this.acceptedWords.sort();
+            } else {
+                result = this.acceptedWords;
             }
-
-            this.acceptedWords.forEach(word => console.log(word));
         }
+
+        return ObjectUtils.copy(result);
     }
 
     public getValueAt(row: number, column: number) {
-        return this.matrix[row][column];
+        return this._matrix[row][column];
     }
 
     public setValueAt(row: number, column: number, value: string) {
-        this.matrix[row][column] = value;
+        this._matrix[row][column] = value;
     }
 
     public seedMatrix(matrix: string[][]) {
-        this.matrix = matrix;
+        this._matrix = matrix;
     }
 
     public setOptions(options: WordSearchGenerationOptions) {
@@ -114,7 +124,7 @@ export class WordSearchState {
 
     /* Allows a function to run once for each position in the matrix */
     public iterate(fn: (letter: string, row: number, column: number) => void) {
-        this.matrix.forEach((row, i) => {
+        this._matrix.forEach((row, i) => {
             row.forEach((value, j) => {
                 fn(value, i, j);
             });

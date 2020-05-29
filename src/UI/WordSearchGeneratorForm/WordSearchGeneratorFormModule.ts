@@ -8,6 +8,7 @@ import { DropdownModule } from '../Dropdown/DropdownModule';
 import { IconButtonModule } from '../IconButton/IconButtonModule';
 import { InputModule } from '../Input/InputModule';
 import { InputListModule } from '../InputList/InputListModule';
+import { WordSearchOutputModule } from 'src/Rules/WordSearchOutput/WordSearchOutputModule';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { InputListModule } from '../InputList/InputListModule';
         IconButtonModule,
         InputModule,
         InputListModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        WordSearchOutputModule
     ],
     declarations: [
         WordSearchGeneratorFormComponent,
