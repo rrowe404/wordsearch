@@ -2,25 +2,10 @@ import { LetterPlaceholder } from 'src/Rules/LetterPlaceholder/LetterPlaceholder
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 export abstract class WordPlacementStrategyBase {
-    private mustOverrideMessage = 'This must be overriden!';
-
-    /** Do override these */
-    public getStartRow(currentState: WordSearchState, word: string): number {
-        throw new Error(this.mustOverrideMessage);
-    }
-
-    public getStartColumn(currentState: WordSearchState, word: string): number {
-        throw new Error(this.mustOverrideMessage);
-    }
-
-    public getNextRow(startRow: number, currentIndex: number): number {
-        throw new Error(this.mustOverrideMessage);
-    }
-
-    public getNextColumn(startColumn: number, currentIndex: number): number {
-        throw new Error(this.mustOverrideMessage);
-    }
-    /***/
+    public abstract getStartRow(currentState: WordSearchState, word: string): number;
+    public abstract getStartColumn(currentState: WordSearchState, word: string): number;
+    public abstract getNextRow(startRow: number, currentIndex: number): number;
+    public abstract getNextColumn(startColumn: number, currentIndex: number): number;
 
     placeWord(
         currentState: WordSearchState,
