@@ -53,7 +53,6 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
     }
 
     private getCanvasHeight() {
-        let letterArea = this.currentState.rows * this.letterGap;
         let wordListArea = 0;
 
         if (this.currentState.showWordList) {
@@ -61,7 +60,11 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
             wordListArea = (this.currentState.wordList.length * this.letterGap) + extraSpace;
         }
 
-        return this.titleSpace + letterArea + wordListArea;
+        return this.titleSpace + this.getPuzzleHeight() + wordListArea;
+    }
+
+    private getPuzzleHeight() {
+        return this.currentState.rows * this.letterGap;
     }
 
     protected outputTitle() {
@@ -88,12 +91,49 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
     }
 
     protected outputWordList() {
-        this.context.textAlign = 'center';
-        let x = this.canvas.width / 2;
+        this.context.textAlign = 'left';
+
+        let baseX = this.letterGap / 2;
+        let wordListColumns = this.getWordListColumns();
+        let columnWidth = Math.floor(this.canvas.width / wordListColumns);
 
         this.currentState.wordList.forEach((word, i) => {
-            let y = ((this.letterGap * this.currentState.columns) + (this.letterGap * 2)) + (i * this.letterGap);
+            let column = i % wordListColumns;
+            let x = baseX + (column * columnWidth);
+
+            let row = Math.floor(i / wordListColumns);
+
+            let y = (this.getPuzzleHeight() + (this.letterGap * 2)) + (row * this.letterGap);
             this.context.fillText(word, x, y);
+        });
+    }
+
+    private getWordListColumns() {
+        return Math.floor(this.canvas.width / (this.getLongestWordWidth() + this.letterGap));
+    }
+
+    private getLongestWordWidth() {
+        let longest = this.getLongestWord();
+        return longest.width;
+    }
+
+    private getLongestWord() {
+        let measuredWords = this.measureWords();
+
+        let sorted = measuredWords.sort((a, b) => a.width - b.width);
+
+        let result = sorted[sorted.length - 1];
+
+        return result;
+    }
+
+    private measureWords() {
+        // do not modify original
+        return this.currentState.wordList.slice().map(word => {
+            return {
+                word,
+                width: this.context.measureText(word).width
+            };
         });
     }
 }
