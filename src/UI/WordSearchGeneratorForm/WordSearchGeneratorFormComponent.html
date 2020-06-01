@@ -10,11 +10,14 @@
 <wordsearch-input label="Columns" name="columns" (changed)="setColumns($event)" type="number" min="5" max="30" [value]="generationOptions.width" required="true"></wordsearch-input>
 <wordsearch-input label="Rows" name="rows" (changed)="setRows($event)" type="number" min="5" max="30" [value]="generationOptions.height" required="true"></wordsearch-input>
 
-<wordsearch-checkbox label="Show Word List" name="wordList" (changed)="setShowWordList($event)" [value]="generationOptions.showWordList"></wordsearch-checkbox>
-<wordsearch-checkbox *ngIf="generationOptions.showWordList" label="Alphabetize Word List" name="alphabetize" (changed)="setAlphabetizeWordList($event)" [value]="generationOptions.alphabetizeWordList"></wordsearch-checkbox>
-<wordsearch-checkbox label="Filter Accidental Profanity" name="filterProfanity" (changed)="setFilterProfanity($event)" [value]="generationOptions.filterAccidentalProfanity"></wordsearch-checkbox>
-<wordsearch-checkbox label="Allow Backwards Words" name="allowBackwards" (changed)="setAllowBackwards($event)" [value]="generationOptions.allowBackwards"></wordsearch-checkbox>
-<wordsearch-checkbox label="Allow Overlaps" name="allowOverlaps" (changed)="setAllowOverlaps($event)" [value]="generationOptions.allowOverlaps"></wordsearch-checkbox>
+<fieldset>
+    <legend>Misc. Options</legend>
+    <wordsearch-checkbox label="Show Word List" name="wordList" (changed)="setShowWordList($event)" [value]="generationOptions.showWordList"></wordsearch-checkbox>
+    <wordsearch-checkbox *ngIf="generationOptions.showWordList" label="Alphabetize Word List" name="alphabetize" (changed)="setAlphabetizeWordList($event)" [value]="generationOptions.alphabetizeWordList"></wordsearch-checkbox>
+    <wordsearch-checkbox label="Filter Accidental Profanity" name="filterProfanity" (changed)="setFilterProfanity($event)" [value]="generationOptions.filterAccidentalProfanity"></wordsearch-checkbox>
+    <wordsearch-checkbox label="Allow Backwards Words" name="allowBackwards" (changed)="setAllowBackwards($event)" [value]="generationOptions.allowBackwards"></wordsearch-checkbox>
+    <wordsearch-checkbox label="Allow Overlaps" name="allowOverlaps" (changed)="setAllowOverlaps($event)" [value]="generationOptions.allowOverlaps"></wordsearch-checkbox>
+</fieldset>
 
 <wordsearch-dropdown *ngIf="selectedOutputOption" label="Output Method" [options]="outputOptions" [selected]="selectedOutputOption" (changed)="setOutputOption($event)"></wordsearch-dropdown>
 
