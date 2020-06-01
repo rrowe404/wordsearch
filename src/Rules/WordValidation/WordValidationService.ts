@@ -3,12 +3,14 @@ import { WordValidationModule } from './WordValidationModule';
 import { WordLengthValidator } from './WordLengthValidator';
 import { WordValidator } from './WordValidator';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { NoSpaceValidator } from './NoSpaceValidator';
 
 @Injectable({
     providedIn: WordValidationModule
 })
 export class WordValidationService {
     private validators: WordValidator[] = [
+        new NoSpaceValidator(),
         new WordLengthValidator()
     ];
 
