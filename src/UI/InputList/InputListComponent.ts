@@ -19,7 +19,7 @@ import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
             <wordsearch-icon-button icon="close" (click)="removeSlot(i)"></wordsearch-icon-button>
         </div>
 
-        <wordsearch-button text="Add Slot" (click)="addSlot()"></wordsearch-button>
+        <wordsearch-button text="Add Word Slot" (click)="addSlot()"></wordsearch-button>
     `
 })
 export class InputListComponent {

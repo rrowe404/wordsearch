@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, OnDestroy, Output, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { InvalidErrorStateMatcher } from '../ErrorStateMatcher/InvalidErrorStateMatcher';
 
 /** Barrier between app and third-party inputs */
 @Component({
@@ -8,7 +10,7 @@ import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
     template: `
         <mat-form-field>
             <mat-label *ngIf="label">{{ label }}</mat-label>
-            <input matInput [formControl]="formControl" (keyup)="updateValue($event)" (mouseup)="updateValue($event)" [type]="type" />
+            <input matInput [errorStateMatcher]="matcher" [formControl]="formControl" (keyup)="updateValue($event)" (mouseup)="updateValue($event)" [type]="type" />
             <mat-error *ngIf="formControl.invalid">
                 <div *ngFor="let message of getErrorMessages()">
                     {{ message }}
@@ -33,6 +35,7 @@ export class InputComponent implements OnDestroy, OnInit {
     @Output() public changed: EventEmitter<string> = new EventEmitter();
 
     public formControl: FormControl;
+    public matcher: ErrorStateMatcher = new InvalidErrorStateMatcher();
 
     constructor(
         private element: ElementRef,

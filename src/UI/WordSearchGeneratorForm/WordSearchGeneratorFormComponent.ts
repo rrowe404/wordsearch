@@ -36,8 +36,8 @@ export class WordSearchGeneratorFormComponent implements OnInit {
   public dummyState: WordSearchState;
 
   public generationOptions: WordSearchGenerationOptions = {
-    height: 3,
-    width: 3,
+    height: 5,
+    width: 5,
     alphabetizeWordList: false,
     showWordList: true,
     title: '',
