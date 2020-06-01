@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
 import { WordPlacementStrategy } from './WordPlacementStrategy';
-import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 
@@ -11,12 +10,6 @@ import { WordSearchState } from '../WordSearchState/WordSearchState';
 export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase implements WordPlacementStrategy {
     /** If true, place the word from bottom to top. Otherwise, place it from top to bottom. */
     private bottomsUp: boolean;
-
-    constructor(
-        private randomNumberGeneratorService: RandomNumberGeneratorService
-    ) {
-        super();
-    }
 
     public getStartRow(currentState: WordSearchState, word: string) {
         if (this.bottomsUp) {

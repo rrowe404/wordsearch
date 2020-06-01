@@ -1,4 +1,3 @@
-import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
 import { Injectable } from '@angular/core';
 import { WordPlacementStrategy } from './WordPlacementStrategy';
@@ -9,12 +8,6 @@ import { WordSearchState } from '../WordSearchState/WordSearchState';
     providedIn: WordPlacementStrategyModule
 })
 export class HorizontalWordPlacementStrategy extends WordPlacementStrategyBase implements WordPlacementStrategy {
-    constructor(
-        private randomNumberGeneratorService: RandomNumberGeneratorService
-    ) {
-        super();
-    }
-
     // any row will do
     public getStartRow(currentState: WordSearchState, word: string) {
         return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.rows);

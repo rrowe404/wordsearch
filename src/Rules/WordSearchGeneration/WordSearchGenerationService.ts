@@ -7,10 +7,8 @@ import { LetterCasingService } from '../LetterCasing/LetterCasingService';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordValidationService } from '../WordValidation/WordValidationService';
 import { RandomNumberGeneratorService } from '../RandomNumberGenerator/RandomNumberGeneratorService';
-import { StringUtils } from '../StringUtils/StringUtils';
 import { WordDirectionCheckerFactory } from '../WordDirection/WordDirectionCheckerFactory';
 import { WordPlacementStrategyFactory } from '../WordPlacementStrategy/WordPlacementStrategyFactory';
-import { WordOrientation } from '../WordOrientation/WordOrientation';
 
 @Injectable({
     providedIn: WordSearchGenerationModule
@@ -20,7 +18,6 @@ export class WordSearchGenerationService {
         private letterCasingService: LetterCasingService,
         private letterPlaceholderFillService: LetterPlaceholderFillService,
         private randomNumberGeneratorService: RandomNumberGeneratorService,
-        private stringUtils: StringUtils,
         private wordDirectionCheckerFactory: WordDirectionCheckerFactory,
         private wordPlacementStrategyFactory: WordPlacementStrategyFactory,
         private wordSearchStateFactory: WordSearchStateFactory,
@@ -91,13 +88,6 @@ export class WordSearchGenerationService {
     private placeWord(currentState: WordSearchState, word: string) {
         let direction = this.chooseDirection(currentState, word);
         let wordPlacementStrategy = this.wordPlacementStrategyFactory.createStrategy(direction);
-
-        let orientation = this.randomNumberGeneratorService.getRandomValueFrom(currentState.orientations);
-
-        if (orientation === WordOrientation.Backwards) {
-            word = this.stringUtils.reverseWord(word);
-        }
-
         wordPlacementStrategy.placeWord(currentState, word);
     }
 }

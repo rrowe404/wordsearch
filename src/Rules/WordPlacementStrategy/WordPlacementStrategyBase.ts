@@ -1,16 +1,39 @@
 import { LetterPlaceholder } from 'src/Rules/LetterPlaceholder/LetterPlaceholder';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { RandomNumberGeneratorService } from '../RandomNumberGenerator/RandomNumberGeneratorService';
+import { WordOrientation } from '../WordOrientation/WordOrientation';
+import { StringUtils } from '../StringUtils/StringUtils';
+import { Injectable } from '@angular/core';
+import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
 
+@Injectable({
+    providedIn: WordPlacementStrategyModule
+})
 export abstract class WordPlacementStrategyBase {
     public abstract getStartRow(currentState: WordSearchState, word: string): number;
     public abstract getStartColumn(currentState: WordSearchState, word: string): number;
     public abstract getNextRow(startRow: number, currentIndex: number): number;
     public abstract getNextColumn(startColumn: number, currentIndex: number): number;
 
+    constructor(
+        protected randomNumberGeneratorService: RandomNumberGeneratorService,
+        protected stringUtils: StringUtils
+    ) {
+    }
+
     placeWord(
         currentState: WordSearchState,
         word: string,
     ) {
+        // prevent reversed words from showing up reversed in word list
+        let logWord = word;
+
+        let orientation = this.randomNumberGeneratorService.getRandomValueFrom(currentState.orientations);
+
+        if (orientation === WordOrientation.Backwards) {
+            word = this.stringUtils.reverseWord(word);
+        }
+
         let letters = word.split('');
 
         let startRow = this.getStartRow(currentState, word);
@@ -36,7 +59,7 @@ export abstract class WordPlacementStrategyBase {
 
                 if (attempts > maxAttempts) {
                     console.log('you fucked up somehow. freeing you from infinite loop...');
-                    currentState.rejectWord(word);
+                    currentState.rejectWord(logWord);
                     break;
                 }
             }
@@ -50,7 +73,7 @@ export abstract class WordPlacementStrategyBase {
                 currentState.setValueAt(this.getNextRow(startRow, i), this.getNextColumn(startColumn, i), letters[i]);
             }
 
-            currentState.acceptWord(word);
+            currentState.acceptWord(logWord);
         }
 
         return currentState;
