@@ -19,12 +19,13 @@ import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
             <wordsearch-icon-button icon="close" (click)="removeSlot(i)"></wordsearch-icon-button>
         </div>
 
-        <wordsearch-button text="Add Word Slot" (click)="addSlot()"></wordsearch-button>
+        <wordsearch-button [text]="addSlotButtonText" (click)="addSlot()"></wordsearch-button>
     `
 })
 export class InputListComponent {
     @Input() public formGroup: FormGroup;
     @Input() public validators: ValidatorFn[];
+    @Input() public addSlotButtonText: string = 'Add Slot';
 
     constructor(
         private inputFocusEventService: InputFocusEventService
