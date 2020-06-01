@@ -42,7 +42,16 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
         this.canvas.width = this.getCanvasWidth();
         this.canvas.height = this.getCanvasHeight();
         super.output(currentState);
+        this.fillBackground();
         document.body.appendChild(this.canvas);
+    }
+
+    private fillBackground() {
+        // add behind other elements
+        this.context.globalCompositeOperation = 'destination-over';
+
+        this.context.fillStyle = 'white';
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     private getCanvasWidth() {
