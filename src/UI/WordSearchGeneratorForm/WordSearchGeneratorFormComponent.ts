@@ -9,6 +9,7 @@ import { ConsoleWordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/Cons
 import { DropdownOption } from '../Dropdown/DropdownOption';
 import { WordSearchOutputStrategyFactory } from 'src/Rules/WordSearchOutput/WordSearchOutputStrategyFactory';
 import { ImageWordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/ImageWordSearchOutputStrategy';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'wordsearch-generator-form',
@@ -51,7 +52,6 @@ export class WordSearchGeneratorFormComponent implements OnInit {
   };
 
   public outputOptions: DropdownOption<string>[] = [
-    { value: ConsoleWordSearchOutputStrategy.getValue(), viewValue: ConsoleWordSearchOutputStrategy.getViewValue() },
     { value: ImageWordSearchOutputStrategy.getValue(), viewValue: ImageWordSearchOutputStrategy.getViewValue() }
   ];
 
@@ -60,6 +60,10 @@ export class WordSearchGeneratorFormComponent implements OnInit {
   public wordValidators: ValidatorFn[];
 
   public ngOnInit() {
+    if (!environment.production) {
+      this.outputOptions.push( { value: ConsoleWordSearchOutputStrategy.getValue(), viewValue: ConsoleWordSearchOutputStrategy.getViewValue() });
+    }
+
     this.selectedOutputOption = this.outputOptions[0].value;
 
     this.dummyState = this.wordSearchStateFactory.createWordSearch(this.generationOptions);

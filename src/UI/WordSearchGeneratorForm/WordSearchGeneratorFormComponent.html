@@ -19,12 +19,12 @@
     <wordsearch-checkbox label="Allow Overlaps" name="allowOverlaps" (changed)="setAllowOverlaps($event)" [value]="generationOptions.allowOverlaps"></wordsearch-checkbox>
 </fieldset>
 
-<wordsearch-dropdown *ngIf="selectedOutputOption" label="Output Method" [options]="outputOptions" [selected]="selectedOutputOption" (changed)="setOutputOption($event)"></wordsearch-dropdown>
-
 <fieldset>
     <legend>Word List</legend>
     <wordsearch-input-list addSlotButtonText="Add Word Slot" [formGroup]="wordFormGroup" [validators]="wordValidators"></wordsearch-input-list>
 </fieldset>
+
+<wordsearch-dropdown [hidden]="outputOptions.length < 2" *ngIf="selectedOutputOption" label="Output Method" [options]="outputOptions" [selected]="selectedOutputOption" (changed)="setOutputOption($event)"></wordsearch-dropdown>
 
 <div class="generate">
     <wordsearch-button color="accent" text="Generate" (click)="generate()" [disabled]="gameFormGroup.pristine || gameFormGroup.invalid"></wordsearch-button>
