@@ -113,10 +113,12 @@ export class WordSearchGeneratorFormComponent implements OnInit {
 
   public setColumns(columns: string) {
     this.generationOptions.width = parseInt(columns, 10);
+    this.updateWordListValidity();
   }
 
   public setRows(rows: string) {
     this.generationOptions.height = parseInt(rows, 10);
+    this.updateWordListValidity();
   }
 
   public setTitle(title: string) {
@@ -157,5 +159,12 @@ export class WordSearchGeneratorFormComponent implements OnInit {
 
   public setOutputOption(outputOption: string) {
     this.selectedOutputOption = outputOption;
+  }
+
+  /** The functions that call this will fire after a UI change that may change whether currently-entered words are still valid */
+  private updateWordListValidity() {
+    Object.keys(this.wordFormGroup.controls).forEach(key => {
+      this.wordFormGroup.controls[key].updateValueAndValidity();
+    });
   }
 }
