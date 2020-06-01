@@ -16,7 +16,12 @@ describe('ProfanityFilterService', () => {
             showWordList: false,
             title: '',
             words: [],
-            filterAccidentalProfanity: true
+            filterAccidentalProfanity: true,
+            allowVertical: true,
+            allowBackwards: true,
+            allowDiagonal: true,
+            allowHorizontal: true,
+            allowOverlaps: true
         });
         state.seedMatrix(matrix);
 

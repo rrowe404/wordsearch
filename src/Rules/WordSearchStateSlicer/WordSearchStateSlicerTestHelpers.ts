@@ -12,7 +12,12 @@ export class WordSearchStateSlicerTestHelpers {
             showWordList: false,
             title: '',
             words: [],
-            filterAccidentalProfanity: false
+            filterAccidentalProfanity: false,
+            allowVertical: true,
+            allowBackwards: true,
+            allowDiagonal: true,
+            allowHorizontal: true,
+            allowOverlaps: true
         });
         state.seedMatrix(matrix);
 
