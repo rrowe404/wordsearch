@@ -1,12 +1,13 @@
 import { WordSearchOutputStrategyBase } from './WordSearchOutputStrategyBase';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
-import { Injectable } from '@angular/core';
+import { Injectable, ElementRef } from '@angular/core';
 import { WordSearchOutputModule } from './WordSearchOutputModule';
+import { WordSearchOutputStrategy } from './WordSearchOutputStrategy';
 
 @Injectable({
     providedIn: WordSearchOutputModule
 })
-export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase {
+export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase implements WordSearchOutputStrategy {
     private canvas: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
 
@@ -21,14 +22,20 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
         return 'Image';
     }
 
-
     constructor() {
         super();
     }
 
-    public output(currentState: WordSearchState): void {
-        document.getElementsByTagName('canvas');
+    public clean() {
+        let leftovers = document.getElementsByTagName('canvas');
 
+        // loop backwards since HTMLCollection is a live list
+        for (let i = leftovers.length - 1; i >= 0; --i) {
+            leftovers[i].remove();
+        }
+    }
+
+    public output(currentState: WordSearchState): void {
         this.currentState = currentState;
         this.canvas = document.createElement('canvas');
         this.context = this.canvas.getContext('2d');

@@ -1,7 +1,6 @@
-import { WordSearchOutputStrategy } from './WordSearchOutputStrategy';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 
-export abstract class WordSearchOutputStrategyBase implements WordSearchOutputStrategy {
+export abstract class WordSearchOutputStrategyBase {
     protected currentState: WordSearchState;
 
     public output(currentState: WordSearchState) {
