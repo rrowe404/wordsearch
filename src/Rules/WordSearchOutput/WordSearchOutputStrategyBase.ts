@@ -3,14 +3,14 @@ import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 export abstract class WordSearchOutputStrategyBase implements WordSearchOutputStrategy {
     protected currentState: WordSearchState;
-    
+
     public output(currentState: WordSearchState) {
         this.currentState = currentState;
 
         this.outputTitle();
         this.outputPuzzle();
-        this.outputWordList()
-        this.outputTotal()
+        this.outputWordList();
+        this.outputTotal();
     }
 
     protected abstract outputTitle();

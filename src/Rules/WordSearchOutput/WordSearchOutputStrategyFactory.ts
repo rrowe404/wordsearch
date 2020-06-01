@@ -24,7 +24,6 @@ export class WordSearchOutputStrategyFactory {
 
             default:
                 throw new Error('You werent supposed to be able to get here you know');
-                
         }
     }
 }

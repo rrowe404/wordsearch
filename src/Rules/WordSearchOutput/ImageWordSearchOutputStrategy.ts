@@ -7,6 +7,12 @@ import { WordSearchOutputModule } from './WordSearchOutputModule';
     providedIn: WordSearchOutputModule
 })
 export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase {
+    private canvas: HTMLCanvasElement;
+    private context: CanvasRenderingContext2D;
+
+    private letterGap = 20;
+    private titleSpace = 20;
+
     public static getValue() {
         return 'image';
     }
@@ -15,22 +21,17 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
         return 'Image';
     }
 
-    private canvas: HTMLCanvasElement;
-    private context: CanvasRenderingContext2D;
-
-    private letterGap = 20;
-    private titleSpace = 20;
 
     constructor() {
         super();
     }
-    
+
     public output(currentState: WordSearchState): void {
-        document.getElementsByTagName('canvas')
+        document.getElementsByTagName('canvas');
 
         this.currentState = currentState;
         this.canvas = document.createElement('canvas');
-        this.context = this.canvas.getContext("2d");
+        this.context = this.canvas.getContext('2d');
         this.canvas.width = this.getCanvasWidth();
         this.canvas.height = this.getCanvasHeight();
         super.output(currentState);
@@ -49,7 +50,8 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
         let wordListArea = 0;
 
         if (this.currentState.showWordList) {
-            wordListArea = (this.currentState.wordList.length * this.letterGap) + 5; // a little extra in case the last word has letters with descenders
+            let extraSpace = 5; // in case the last word has letters with descenders
+            wordListArea = (this.currentState.wordList.length * this.letterGap) + extraSpace;
         }
 
         return this.titleSpace + letterArea + wordListArea;
@@ -58,8 +60,8 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
     protected outputTitle() {
         this.context.textAlign = 'center';
 
-        var x = this.canvas.width / 2;
-        var y = this.titleSpace / 2;
+        let x = this.canvas.width / 2;
+        let y = this.titleSpace / 2;
         this.context.fillText(this.currentState.title, x, y);
     }
 

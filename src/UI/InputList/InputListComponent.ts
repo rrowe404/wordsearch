@@ -16,7 +16,7 @@ import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
 export class InputListComponent {
     @Input() public formGroup: FormGroup;
     @Input() public validators: ValidatorFn[];
-    @Input() public addSlotButtonText: string = 'Add Slot';
+    @Input() public addSlotButtonText = 'Add Slot';
 
     constructor(
         private inputFocusEventService: InputFocusEventService

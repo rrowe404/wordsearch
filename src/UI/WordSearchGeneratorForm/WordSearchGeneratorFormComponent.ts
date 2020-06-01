@@ -61,7 +61,10 @@ export class WordSearchGeneratorFormComponent implements OnInit {
 
   public ngOnInit() {
     if (!environment.production) {
-      this.outputOptions.push( { value: ConsoleWordSearchOutputStrategy.getValue(), viewValue: ConsoleWordSearchOutputStrategy.getViewValue() });
+      this.outputOptions.push({
+        value: ConsoleWordSearchOutputStrategy.getValue(),
+        viewValue: ConsoleWordSearchOutputStrategy.getViewValue()
+      });
     }
 
     this.selectedOutputOption = this.outputOptions[0].value;
@@ -110,10 +113,6 @@ export class WordSearchGeneratorFormComponent implements OnInit {
   }
 
   public setTitle(title: string) {
-    if ((title as any).target) {
-      debugger
-    }
-
     this.generationOptions.title = title;
   }
 
@@ -148,7 +147,7 @@ export class WordSearchGeneratorFormComponent implements OnInit {
   public setAllowOverlaps(allow: boolean ) {
     this.generationOptions.allowOverlaps = allow;
   }
-  
+
   public setOutputOption(outputOption: string) {
     this.selectedOutputOption = outputOption;
   }

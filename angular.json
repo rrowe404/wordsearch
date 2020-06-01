@@ -124,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "wordsearch"
+    }
+  },
+  "defaultProject": "wordsearch",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -5,6 +5,7 @@ import { WordOrientation } from '../WordOrientation/WordOrientation';
 import { ObjectUtils } from '../ObjectUtils/ObjectUtils';
 
 export class WordSearchState {
+    // tslint:disable-next-line
     private _matrix: string[][];
     private options: WordSearchGenerationOptions;
     private acceptedWords: string[] = [];

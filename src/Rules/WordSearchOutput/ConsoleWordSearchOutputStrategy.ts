@@ -8,7 +8,7 @@ import { WordSearchOutputStrategyBase } from './WordSearchOutputStrategyBase';
 })
 export class ConsoleWordSearchOutputStrategy extends WordSearchOutputStrategyBase {
     public static getValue() {
-        return 'console'
+        return 'console';
     }
 
     public static getViewValue() {
