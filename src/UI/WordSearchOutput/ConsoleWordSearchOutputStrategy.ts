@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WordSearchOutputModule } from './WordSearchOutputModule';
-import { WordSearchOutputStrategyBase } from './WordSearchOutputStrategyBase';
+import { WordSearchOutputStrategyBase } from '../../Rules/WordSearchOutput/WordSearchOutputStrategyBase';
 
 /** Debug only. Should not be available in prod mode. */
 @Injectable({

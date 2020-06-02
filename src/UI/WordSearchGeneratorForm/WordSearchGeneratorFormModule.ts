@@ -8,7 +8,7 @@ import { DropdownModule } from '../Dropdown/DropdownModule';
 import { IconButtonModule } from '../IconButton/IconButtonModule';
 import { InputModule } from '../Input/InputModule';
 import { InputListModule } from '../InputList/InputListModule';
-import { WordSearchOutputModule } from 'src/Rules/WordSearchOutput/WordSearchOutputModule';
+import { WordSearchOutputModule } from 'src/UI/WordSearchOutput/WordSearchOutputModule';
 
 @NgModule({
     imports: [

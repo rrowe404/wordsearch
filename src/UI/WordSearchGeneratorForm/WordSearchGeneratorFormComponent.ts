@@ -5,10 +5,10 @@ import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStat
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
-import { ConsoleWordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/ConsoleWordSearchOutputStrategy';
+import { ConsoleWordSearchOutputStrategy } from 'src/UI/WordSearchOutput/ConsoleWordSearchOutputStrategy';
 import { DropdownOption } from '../Dropdown/DropdownOption';
-import { WordSearchOutputStrategyFactory } from 'src/Rules/WordSearchOutput/WordSearchOutputStrategyFactory';
-import { ImageWordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/ImageWordSearchOutputStrategy';
+import { WordSearchOutputStrategyFactory } from 'src/UI/WordSearchOutput/WordSearchOutputStrategyFactory';
+import { ImageWordSearchOutputStrategy } from 'src/UI/WordSearchOutput/ImageWordSearchOutputStrategy';
 import { environment } from 'src/environments/environment';
 import { WordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/WordSearchOutputStrategy';
 

@@ -1,8 +1,8 @@
-import { WordSearchOutputStrategyBase } from './WordSearchOutputStrategyBase';
-import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { WordSearchOutputStrategyBase } from '../../Rules/WordSearchOutput/WordSearchOutputStrategyBase';
+import { WordSearchState } from '../../Rules/WordSearchState/WordSearchState';
 import { Injectable, ElementRef } from '@angular/core';
 import { WordSearchOutputModule } from './WordSearchOutputModule';
-import { WordSearchOutputStrategy } from './WordSearchOutputStrategy';
+import { WordSearchOutputStrategy } from '../../Rules/WordSearchOutput/WordSearchOutputStrategy';
 
 @Injectable({
     providedIn: WordSearchOutputModule
