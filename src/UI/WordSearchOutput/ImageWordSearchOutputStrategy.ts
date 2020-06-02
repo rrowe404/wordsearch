@@ -66,13 +66,18 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
 
     private getCanvasHeight() {
         let wordListArea = 0;
+        let total = 0;
+
+        total += this.titleSpace;
+        total += this.getPuzzleHeight();
 
         if (this.currentState.showWordList) {
             let extraSpace = 5; // in case the last word has letters with descenders
             wordListArea = (this.currentState.wordList.length * this.letterGap) + extraSpace;
+            total += wordListArea;
         }
 
-        return this.titleSpace + this.getPuzzleHeight() + wordListArea;
+        return total;
     }
 
     private getPuzzleHeight() {
