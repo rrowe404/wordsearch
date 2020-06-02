@@ -63,17 +63,11 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
     }
 
     private getCanvasHeight() {
-        let wordListArea = 0;
         let total = 0;
 
         total += this.titleSpace;
         total += this.getPuzzleHeight();
-
-        if (this.currentState.showWordList) {
-            let extraSpace = 5; // in case the last word has letters with descenders
-            wordListArea = (this.currentState.wordList.length * this.letterGap) + extraSpace;
-            total += wordListArea;
-        }
+        total += this.getWordListHeight();
 
         return total;
     }
@@ -126,5 +120,15 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
     private getWordListColumns() {
         let longestWordWidth = this.wordMeasurementService.getLongestWordWidth(this.context, this.currentState.wordList);
         return Math.floor(this.canvas.width / (longestWordWidth + this.letterGap));
+    }
+
+    private getWordListHeight() {
+        if (this.currentState.showWordList) {
+            let extraSpace = 5; // in case the last word has letters with descenders
+            let wordListArea = (this.currentState.wordList.length * this.letterGap) + extraSpace;
+            return wordListArea;
+        }
+
+        return 0;
     }
 }
