@@ -1,8 +1,9 @@
 import { WordSearchOutputStrategyBase } from '../../Rules/WordSearchOutput/WordSearchOutputStrategyBase';
 import { WordSearchState } from '../../Rules/WordSearchState/WordSearchState';
-import { Injectable, ElementRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { WordSearchOutputModule } from './WordSearchOutputModule';
 import { WordSearchOutputStrategy } from '../../Rules/WordSearchOutput/WordSearchOutputStrategy';
+import { WordMeasurementService } from '../CanvasUtils/WordMeasurementService';
 
 @Injectable({
     providedIn: WordSearchOutputModule
@@ -22,7 +23,9 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
         return 'Image';
     }
 
-    constructor() {
+    constructor(
+        private wordMeasurementService: WordMeasurementService
+    ) {
         super();
     }
 
@@ -118,31 +121,7 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
     }
 
     private getWordListColumns() {
-        return Math.floor(this.canvas.width / (this.getLongestWordWidth() + this.letterGap));
-    }
-
-    private getLongestWordWidth() {
-        let longest = this.getLongestWord();
-        return longest.width;
-    }
-
-    private getLongestWord() {
-        let measuredWords = this.measureWords();
-
-        let sorted = measuredWords.sort((a, b) => a.width - b.width);
-
-        let result = sorted[sorted.length - 1];
-
-        return result;
-    }
-
-    private measureWords() {
-        // do not modify original
-        return this.currentState.wordList.slice().map(word => {
-            return {
-                word,
-                width: this.context.measureText(word).width
-            };
-        });
+        let longestWordWidth = this.wordMeasurementService.getLongestWordWidth(this.context, this.currentState.wordList);
+        return Math.floor(this.canvas.width / (longestWordWidth + this.letterGap));
     }
 }
