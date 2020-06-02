@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { WordSearchOutputModule } from './WordSearchOutputModule';
 import { WordSearchOutputStrategy } from '../../Rules/WordSearchOutput/WordSearchOutputStrategy';
 import { WordMeasurementService } from '../CanvasUtils/WordMeasurementService';
+import { ElementRemovalService } from '../HTMLUtils/ElementRemovalService';
 
 @Injectable({
     providedIn: WordSearchOutputModule
@@ -24,6 +25,7 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
     }
 
     constructor(
+        private elementRemovalService: ElementRemovalService,
         private wordMeasurementService: WordMeasurementService
     ) {
         super();
@@ -31,11 +33,7 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
 
     public clean() {
         let leftovers = document.getElementsByTagName('canvas');
-
-        // loop backwards since HTMLCollection is a live list
-        for (let i = leftovers.length - 1; i >= 0; --i) {
-            leftovers[i].remove();
-        }
+        this.elementRemovalService.removeAll(leftovers);
     }
 
     public output(currentState: WordSearchState): void {
