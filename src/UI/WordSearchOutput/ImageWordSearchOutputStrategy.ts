@@ -72,10 +72,6 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
         return total;
     }
 
-    private getPuzzleHeight() {
-        return this.currentState.rows * this.letterGap;
-    }
-
     protected outputTitle() {
         this.context.textAlign = 'center';
 
@@ -87,12 +83,10 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
     protected outputPuzzle() {
         this.context.textAlign = 'center';
 
-        this.currentState.matrix.forEach((row, i) => {
-            row.forEach((letter, j) => {
-                let x = (j + 1) * this.letterGap;
-                let y = (i + 1) * this.letterGap + this.titleSpace;
-                this.context.fillText(letter, x, y);
-            });
+        this.currentState.iterate((letter, row, column) => {
+            let x = (column + 1) * this.letterGap;
+            let y = (row + 1) * this.letterGap + this.titleSpace;
+            this.context.fillText(letter, x, y);
         });
     }
 
@@ -115,6 +109,10 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
             let y = (this.getPuzzleHeight() + (this.letterGap * 2)) + (row * this.letterGap);
             this.context.fillText(word, x, y);
         });
+    }
+
+    private getPuzzleHeight() {
+        return this.currentState.rows * this.letterGap;
     }
 
     private getWordListColumns() {
