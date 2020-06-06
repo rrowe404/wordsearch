@@ -1,18 +1,26 @@
+@import (reference) "../Styles/Mixins.less";
+
 :host {
     @margin: 16px;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    fieldset {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: @margin;
-    }
+    .center-flex;
 
     .generate {
       margin-top: @margin;
+    }
+
+    wordsearch-card {
+      margin-top: @margin;
+      width: 225px;
+
+      .center-flex;
+    }
+
+    wordsearch-checkbox {
+      display: block;
+    }
+
+    wordsearch-input {
+      display: block;
     }
 }

@@ -1,30 +1,31 @@
 <wordsearch-input label="Title" name="title" (changed)="setTitle($event)" [value]="generationOptions.title"></wordsearch-input>
 
-<fieldset>
-    <legend>Allowed Word Directions</legend>
+<wordsearch-card title="Allowed Word Directions">
     <wordsearch-checkbox [formGroup]="directionFormGroup" label="Horizontal" name="horizontal" (changed)="setAllowHorizontal($event)" [value]="generationOptions.allowHorizontal"></wordsearch-checkbox>
     <wordsearch-checkbox [formGroup]="directionFormGroup" label="Vertical" name="vertical" (changed)="setAllowVertical($event)" [value]="generationOptions.allowVertical"></wordsearch-checkbox>
     <wordsearch-checkbox [formGroup]="directionFormGroup" label="Diagonal" name="diagonal" (changed)="setAllowDiagonal($event)" [value]="generationOptions.allowDiagonal"></wordsearch-checkbox>
-</fieldset>
+</wordsearch-card>
 
-<wordsearch-input label="Columns" name="columns" (changed)="setColumns($event)" type="number" min="5" max="30" [value]="generationOptions.width" required="true"></wordsearch-input>
-<wordsearch-input label="Rows" name="rows" (changed)="setRows($event)" type="number" min="5" max="30" [value]="generationOptions.height" required="true"></wordsearch-input>
+<wordsearch-card title="Size">
+    <wordsearch-input label="Columns" name="columns" (changed)="setColumns($event)" type="number" min="5" max="30" [value]="generationOptions.width" required="true"></wordsearch-input>
+    <wordsearch-input label="Rows" name="rows" (changed)="setRows($event)" type="number" min="5" max="30" [value]="generationOptions.height" required="true"></wordsearch-input>
+</wordsearch-card>
 
-<fieldset>
-    <legend>Misc. Options</legend>
+<wordsearch-card title="Misc. Options">
     <wordsearch-checkbox label="Show Word List" name="wordList" (changed)="setShowWordList($event)" [value]="generationOptions.showWordList"></wordsearch-checkbox>
     <wordsearch-checkbox *ngIf="generationOptions.showWordList" label="Alphabetize Word List" name="alphabetize" (changed)="setAlphabetizeWordList($event)" [value]="generationOptions.alphabetizeWordList"></wordsearch-checkbox>
     <wordsearch-checkbox label="Filter Accidental Profanity" name="filterProfanity" (changed)="setFilterProfanity($event)" [value]="generationOptions.filterAccidentalProfanity"></wordsearch-checkbox>
     <wordsearch-checkbox label="Allow Backwards Words" name="allowBackwards" (changed)="setAllowBackwards($event)" [value]="generationOptions.allowBackwards"></wordsearch-checkbox>
     <wordsearch-checkbox label="Allow Overlaps" name="allowOverlaps" (changed)="setAllowOverlaps($event)" [value]="generationOptions.allowOverlaps"></wordsearch-checkbox>
-</fieldset>
+</wordsearch-card>
 
-<fieldset>
-    <legend>Word List</legend>
+<wordsearch-card title="Word List">
     <wordsearch-input-list addSlotButtonText="Add Word Slot" [formGroup]="wordFormGroup" [validators]="wordValidators"></wordsearch-input-list>
-</fieldset>
+</wordsearch-card>
 
-<wordsearch-dropdown [hidden]="outputOptions.length < 2" *ngIf="selectedOutputOption" label="Output Method" [options]="outputOptions" [selected]="selectedOutputOption" (changed)="setOutputOption($event)"></wordsearch-dropdown>
+<wordsearch-card title="Output">
+    <wordsearch-dropdown [hidden]="outputOptions.length < 2" *ngIf="selectedOutputOption" label="Output Method" [options]="outputOptions" [selected]="selectedOutputOption" (changed)="setOutputOption($event)"></wordsearch-dropdown>
+</wordsearch-card>
 
 <div class="generate">
     <wordsearch-button color="accent" text="Generate" (click)="generate()" [disabled]="gameFormGroup.pristine || gameFormGroup.invalid"></wordsearch-button>

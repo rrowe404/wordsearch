@@ -5,10 +5,12 @@ import { InputListModule } from './InputList/InputListModule';
 import { ButtonModule } from './Button/ButtonModule';
 import { CheckboxModule } from './Checkbox/CheckboxModule';
 import { WordSearchGeneratorFormModule } from './WordSearchGeneratorForm/WordSearchGeneratorFormModule';
+import { CardModule } from './Card/CardModule';
 
 @NgModule({
     imports: [
         ButtonModule,
+        CardModule,
         CheckboxModule,
         DropdownModule,
         InputModule,
@@ -17,6 +19,7 @@ import { WordSearchGeneratorFormModule } from './WordSearchGeneratorForm/WordSea
     ],
     exports: [
         ButtonModule,
+        CardModule,
         CheckboxModule,
         DropdownModule,
         InputModule,
