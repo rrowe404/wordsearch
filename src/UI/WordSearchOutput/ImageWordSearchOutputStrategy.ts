@@ -100,14 +100,20 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
         let wordListColumns = this.getWordListColumns();
         let columnWidth = Math.floor(this.canvas.width / wordListColumns);
 
+        let getWordListX = (index: number) => {
+            let column = index % wordListColumns;
+            let result = baseX + (column * columnWidth);
+            return result;
+        };
+
+        let getWordListY = (index: number) => {
+            let row = Math.floor(index / wordListColumns);
+            let result = this.getTitleSpace() + this.getPuzzleHeight() + ((row + 1) * this.letterGap);
+            return result;
+        };
+
         this.currentState.wordList.forEach((word, i) => {
-            let column = i % wordListColumns;
-            let x = baseX + (column * columnWidth);
-
-            let row = Math.floor(i / wordListColumns);
-
-            let y = this.getTitleSpace() + this.getPuzzleHeight() + ((row + 1) * this.letterGap);
-            this.context.fillText(word, x, y);
+            this.context.fillText(word, getWordListX(i), getWordListY(i));
         });
     }
 
