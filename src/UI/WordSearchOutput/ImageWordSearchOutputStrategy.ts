@@ -65,7 +65,7 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
     private getCanvasHeight() {
         let total = 0;
 
-        total += this.titleSpace;
+        total += this.getTitleSpace();
         total += this.getPuzzleHeight();
         total += this.getWordListHeight();
 
@@ -85,7 +85,7 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
 
         this.currentState.iterate((letter, row, column) => {
             let x = (column + 1) * this.letterGap;
-            let y = (row + 1) * this.letterGap + this.titleSpace;
+            let y = (row + 1) * this.letterGap + this.getTitleSpace();
             this.context.fillText(letter, x, y);
         });
     }
@@ -106,13 +106,21 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
 
             let row = Math.floor(i / wordListColumns);
 
-            let y = (this.getPuzzleHeight() + (this.letterGap * 2)) + (row * this.letterGap);
+            let y = this.getTitleSpace() + this.getPuzzleHeight() + ((row + 1) * this.letterGap);
             this.context.fillText(word, x, y);
         });
     }
 
     private getPuzzleHeight() {
         return this.currentState.rows * this.letterGap;
+    }
+
+    private getTitleSpace() {
+        if (this.currentState.title) {
+            return this.titleSpace;
+        }
+
+        return 0;
     }
 
     private getWordListColumns() {
