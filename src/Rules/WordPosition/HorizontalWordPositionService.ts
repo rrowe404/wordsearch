@@ -2,55 +2,35 @@ import { Injectable } from '@angular/core';
 import { WordPositionModule } from './WordPositionModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordPosition } from './WordPosition';
-import { LetterPlaceholder } from '../LetterPlaceholder/LetterPlaceholder';
+import { WordPositionService } from './WordPositionService';
 
 @Injectable({
     providedIn: WordPositionModule
 })
 export class HorizontalWordPositionService {
+    constructor(
+        private wordPositionService: WordPositionService
+    ) {
+    }
+
     public getValidPositions(currentState: WordSearchState, word: string): WordPosition[] {
-        let result = [];
+        return this.wordPositionService.getValidPositions(currentState, this.getNextPosition.bind(this), word);
+    }
 
-        currentState.iterate((letter, row, column) => {
-            let startPosition = { row, column };
-
-            if (this.isValid(currentState, startPosition, word)) {
-                result.push(startPosition);
-            }
-        });
-
-        return result;
+    public getNextPosition(startPosition: WordPosition, index: number) {
+        return {
+            row: this.getNextRow(startPosition.row),
+            column: this.getNextColumn(startPosition.column, index)
+        };
     }
 
     // always the same
-    public getNextRow(startRow: number) {
+    private getNextRow(startRow: number) {
         return startRow;
     }
 
     // hop over one column at a time
-    public getNextColumn(startColumn: number, index: number) {
+    private getNextColumn(startColumn: number, index: number) {
         return startColumn + index;
-    }
-
-    private isValid(currentState: WordSearchState, startPosition: WordPosition, word: string) {
-        let letters = word.split('');
-
-        return letters.every((letter, i) => {
-            let nextPosition = {
-                row: this.getNextRow(startPosition.row),
-                column: this.getNextColumn(startPosition.column, i)
-            };
-
-            let valueAtPosition = currentState.getValueAt(nextPosition.row, nextPosition.column);
-            return this.canPlaceLetter(currentState, letter, valueAtPosition);
-        });
-    }
-
-    private canPlaceLetter(currentState: WordSearchState, letter: string, valueAtPosition: string) {
-        if (currentState.enableOverlaps && letter === valueAtPosition) {
-            return true;
-        }
-
-        return valueAtPosition === LetterPlaceholder.value;
     }
 }

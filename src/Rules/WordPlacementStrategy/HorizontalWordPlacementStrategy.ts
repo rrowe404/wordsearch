@@ -35,9 +35,6 @@ export class HorizontalWordPlacementStrategy extends WordPlacementStrategyBase i
     }
 
     public getNextPosition(startPosition: WordPosition, index: number) {
-        return {
-            row: this.horizontalWordPositionService.getNextRow(startPosition.row),
-            column: this.horizontalWordPositionService.getNextColumn(startPosition.column, index)
-        };
+        return this.horizontalWordPositionService.getNextPosition(startPosition, index);
     }
 }
