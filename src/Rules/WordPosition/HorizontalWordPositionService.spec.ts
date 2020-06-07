@@ -53,6 +53,8 @@ describe('WordDirectionSelectorService', () => {
             { column: 0, row: 2 }
         ];
 
-        expected.forEach(x => expect(result.indexOf(x)).toBeGreaterThan(-1));
+        expected.forEach((x, i) => {
+            expect(x).toEqual(result[i]);
+        });
     });
 });
