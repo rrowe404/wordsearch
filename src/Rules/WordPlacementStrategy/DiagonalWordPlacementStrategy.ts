@@ -4,11 +4,25 @@ import { WordPlacementStrategy } from './WordPlacementStrategy';
 import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordPosition } from '../WordPosition/WordPosition';
+import { TopDownDiagonalWordPositionService } from '../WordPosition/TopDownDiagonalWordPositionService';
+import { RandomNumberGeneratorService } from '../RandomNumberGenerator/RandomNumberGeneratorService';
+import { StringUtils } from '../StringUtils/StringUtils';
+import { BottomUpDiagonalWordPositionService } from '../WordPosition/BottomUpDiagonalWordPositionService';
 
 @Injectable({
     providedIn: WordPlacementStrategyModule
 })
 export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase implements WordPlacementStrategy {
+    constructor(
+        private bottomUpDiagonalWordPositionService: BottomUpDiagonalWordPositionService,
+        private topDownDiagonalWordPositionService: TopDownDiagonalWordPositionService,
+        protected randomNumberGeneratorService: RandomNumberGeneratorService,
+        protected stringUtils: StringUtils
+    ) {
+        super(randomNumberGeneratorService, stringUtils);
+    }
+
+
     /** If true, place the word from bottom to top. Otherwise, place it from top to bottom. */
     private bottomsUp: boolean;
 
@@ -31,20 +45,10 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
         return { column: this.getStartColumn(currentState, word), row: this.getStartRow(currentState, word) };
     }
 
-    // hop over one row at a time
-    private getNextRow(startRow: number, currentIndex: number) {
-        return this.bottomsUp ? startRow - currentIndex : startRow + currentIndex;
-    }
-
-    private getNextColumn(startColumn: number, currentIndex: number) {
-        return startColumn + currentIndex;
-    }
-
     public getNextPosition(startPosition: WordPosition, index: number) {
-        return {
-            row: this.getNextRow(startPosition.row, index),
-            column: this.getNextColumn(startPosition.column, index)
-        };
+        return this.bottomsUp ?
+               this.bottomUpDiagonalWordPositionService.getNextPosition(startPosition, index) :
+               this.topDownDiagonalWordPositionService.getNextPosition(startPosition, index);
     }
 
     // a diagonally placed word spans both columns and rows
