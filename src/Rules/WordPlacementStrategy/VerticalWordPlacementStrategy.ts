@@ -20,18 +20,14 @@ export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase imp
         super(randomNumberGeneratorService, stringUtils);
     }
 
-    // allow enough room in the rows for the full word
-    private getStartRow(currentState: WordSearchState, word: string) {
-        return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.rows - word.length);
-    }
-
-    // any column will do
-    private getStartColumn(currentState: WordSearchState, word: string) {
-        return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.columns);
-    }
-
     public getStartPosition(currentState: WordSearchState, word: string) {
-        return { column: this.getStartColumn(currentState, word), row: this.getStartRow(currentState, word) };
+        let validPositions = this.verticalWordPositionService.getValidPositions(currentState, word);
+
+        if (!validPositions.length) {
+            return null;
+        }
+
+        return this.randomNumberGeneratorService.getRandomValueFrom(validPositions);
     }
 
     public getNextPosition(startPosition: WordPosition, index: number) {

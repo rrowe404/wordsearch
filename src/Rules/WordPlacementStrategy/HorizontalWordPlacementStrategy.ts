@@ -20,18 +20,14 @@ export class HorizontalWordPlacementStrategy extends WordPlacementStrategyBase i
         super(randomNumberGeneratorService, stringUtils);
     }
 
-    // any row will do
-    private getStartRow(currentState: WordSearchState, word: string) {
-        return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.rows);
-    }
-
-    // allow enough room in the columns for the full word
-    private getStartColumn(currentState: WordSearchState, word: string) {
-        return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.columns - word.length);
-    }
-
     public getStartPosition(currentState: WordSearchState, word: string) {
-        return { column: this.getStartColumn(currentState, word), row: this.getStartRow(currentState, word) };
+        let validPositions = this.horizontalWordPositionService.getValidPositions(currentState, word);
+
+        if (!validPositions.length) {
+            return null;
+        }
+
+        return this.randomNumberGeneratorService.getRandomValueFrom(validPositions);
     }
 
     public getNextPosition(startPosition: WordPosition, index: number) {

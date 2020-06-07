@@ -37,34 +37,7 @@ export abstract class WordPlacementStrategyBase {
 
         let startPosition = this.getStartPosition(currentState, word);
 
-        let positioned = false;
-        let attempts = 0;
-        let maxAttempts = 5;
-
-        while (!positioned) {
-            // check to see if there is enough room. loop until we've found a suitable starting point
-            positioned = letters.every((letter, i) => {
-                let nextPosition = this.getNextPosition(startPosition, i);
-                let valueAtPosition = currentState.getValueAt(nextPosition.row, nextPosition.column);
-
-                return this.canPlaceLetter(currentState, letter, valueAtPosition);
-            });
-
-            if (positioned) {
-                break;
-            } else {
-                startPosition = this.getStartPosition(currentState, word);
-                attempts++;
-
-                if (attempts > maxAttempts) {
-                    console.log('you fucked up somehow. freeing you from infinite loop...');
-                    currentState.rejectWord(logWord);
-                    break;
-                }
-            }
-        }
-
-        if (positioned) {
+        if (startPosition) {
             let length = letters.length;
 
             // place the letters into position
@@ -74,6 +47,8 @@ export abstract class WordPlacementStrategyBase {
             }
 
             currentState.acceptWord(logWord);
+        } else {
+            currentState.rejectWord(logWord);
         }
 
         return currentState;
