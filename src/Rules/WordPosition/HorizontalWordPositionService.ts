@@ -10,4 +10,14 @@ export class HorizontalWordPositionService {
     public getValidPositions(currentState: WordSearchState, word: string): WordPosition[] {
         return [];
     }
+
+    // always the same
+    public getNextRow(startRow: number) {
+        return startRow;
+    }
+
+    // hop over one column at a time
+    public getNextColumn(startColumn: number, index: number) {
+        return startColumn + index;
+    }
 }
