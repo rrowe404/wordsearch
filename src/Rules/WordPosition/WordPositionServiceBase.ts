@@ -37,7 +37,7 @@ export abstract class WordPositionServiceBase {
         };
     }
 
-    private getValidPositions(currentState: WordSearchState, word: string): WordPosition[] {
+    public getValidPositions(currentState: WordSearchState, word: string): WordPosition[] {
         let getNextPosition = (start: WordPosition, index: number) => {
             return this.getNextPosition(start, index);
         };
