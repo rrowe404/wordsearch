@@ -4,11 +4,22 @@ import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
 import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordPosition } from '../WordPosition/WordPosition';
+import { VerticalWordPositionService } from '../WordPosition/VerticalWordPositionService';
+import { RandomNumberGeneratorService } from '../RandomNumberGenerator/RandomNumberGeneratorService';
+import { StringUtils } from '../StringUtils/StringUtils';
 
 @Injectable({
     providedIn: WordPlacementStrategyModule
 })
 export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase implements WordPlacementStrategy {
+    constructor(
+        private verticalWordPositionService: VerticalWordPositionService,
+        protected randomNumberGeneratorService: RandomNumberGeneratorService,
+        protected stringUtils: StringUtils
+    ) {
+        super(randomNumberGeneratorService, stringUtils);
+    }
+
     // allow enough room in the rows for the full word
     private getStartRow(currentState: WordSearchState, word: string) {
         return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.rows - word.length);
@@ -23,20 +34,7 @@ export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase imp
         return { column: this.getStartColumn(currentState, word), row: this.getStartRow(currentState, word) };
     }
 
-    // hop over one row at a time
-    private getNextRow(startRow: number, currentIndex: number) {
-        return startRow + currentIndex;
-    }
-
-    // always the same
-    private getNextColumn(startRow: number) {
-        return startRow;
-    }
-
     public getNextPosition(startPosition: WordPosition, index: number) {
-        return {
-            row: this.getNextRow(startPosition.row, index),
-            column: this.getNextColumn(startPosition.column)
-        };
+        return this.verticalWordPositionService.getNextPosition(startPosition, index);
     }
 }

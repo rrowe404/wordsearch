@@ -1,13 +1,13 @@
 import { TestBed, async } from '@angular/core/testing';
 import { WordPositionModule } from './WordPositionModule';
-import { HorizontalWordPositionService } from './HorizontalWordPositionService';
+import { VerticalWordPositionService } from './VerticalWordPositionService';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { TestUtils } from '../TestUtils/TestUtils';
 import { LetterPlaceholder } from '../LetterPlaceholder/LetterPlaceholder';
 import { WordPosition } from './WordPosition';
 
-describe('HorizontalWordPositionService', () => {
-    let service: HorizontalWordPositionService;
+describe('VerticalWordPositionService', () => {
+    let service: VerticalWordPositionService;
 
     function createState(matrix: string[][]): WordSearchState {
         let state = new WordSearchState();
@@ -25,7 +25,7 @@ describe('HorizontalWordPositionService', () => {
             ]
         });
 
-        service = TestBed.inject(HorizontalWordPositionService);
+        service = TestBed.inject(VerticalWordPositionService);
     }));
 
     it('should create the service', () => {
@@ -48,9 +48,9 @@ describe('HorizontalWordPositionService', () => {
         let result = service.getValidPositions(state, word);
 
         let expected: WordPosition[] = [
-            { column: 0, row: 0 },
-            { column: 0, row: 1 },
-            { column: 0, row: 2 }
+            { row: 0, column: 0 },
+            { row: 0, column: 1 },
+            { row: 0, column: 2 }
         ];
 
         expected.forEach((x, i) => {
