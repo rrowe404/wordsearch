@@ -3,26 +3,16 @@ import { ProfanityFilterService } from './ProfanityFilterService';
 import { ProfanityFilterModule } from './ProfanityFilterModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { LetterPlaceholder } from '../LetterPlaceholder/LetterPlaceholder';
+import { TestUtils } from '../TestUtils/TestUtils';
 
 describe('ProfanityFilterService', () => {
     let service: ProfanityFilterService;
 
     function createState(matrix: string[][]): WordSearchState {
         let state = new WordSearchState();
-        state.setOptions({
-            alphabetizeWordList: false,
-            height: matrix.length,
-            width: matrix[0].length,
-            showWordList: false,
-            title: '',
-            words: [],
-            filterAccidentalProfanity: true,
-            allowVertical: true,
-            allowBackwards: true,
-            allowDiagonal: true,
-            allowHorizontal: true,
-            allowOverlaps: true
-        });
+        let options = TestUtils.createOptions(matrix);
+        options.filterAccidentalProfanity = true;
+        state.setOptions(options);
         state.seedMatrix(matrix);
 
         return state;

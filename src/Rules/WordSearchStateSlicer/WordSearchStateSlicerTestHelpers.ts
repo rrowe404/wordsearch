@@ -1,24 +1,12 @@
 import { WordSearchStateSlicer } from './WordSearchStateSlicer';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { TestUtils } from '../TestUtils/TestUtils';
 
 /** Common logic for testing WordSearchStateSlicers */
 export class WordSearchStateSlicerTestHelpers {
     public static getSlice(slicer: WordSearchStateSlicer, matrix: string[][]) {
         let state = new WordSearchState();
-        state.setOptions({
-            alphabetizeWordList: false,
-            height: matrix.length,
-            width: matrix[0].length,
-            showWordList: false,
-            title: '',
-            words: [],
-            filterAccidentalProfanity: false,
-            allowVertical: true,
-            allowBackwards: true,
-            allowDiagonal: true,
-            allowHorizontal: true,
-            allowOverlaps: true
-        });
+        state.setOptions(TestUtils.createOptions(matrix));
         state.seedMatrix(matrix);
 
         let lettersWithPositions = state.getLettersWithPositions();
