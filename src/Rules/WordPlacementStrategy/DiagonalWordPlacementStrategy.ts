@@ -11,7 +11,7 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
     /** If true, place the word from bottom to top. Otherwise, place it from top to bottom. */
     private bottomsUp: boolean;
 
-    public getStartRow(currentState: WordSearchState, word: string) {
+    private getStartRow(currentState: WordSearchState, word: string) {
         if (this.bottomsUp) {
             // there must be enough rows and columns to the top of the word to fit it
             return this.randomNumberGeneratorService.generateRandomIntInRange(word.length, currentState.rows) - 1;
@@ -22,8 +22,12 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
     }
 
     // there must be enough rows and columns to the right of the word to fit it
-    public getStartColumn(currentState: WordSearchState, word: string) {
+    private getStartColumn(currentState: WordSearchState, word: string) {
         return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.columns - word.length);
+    }
+
+    public getStartPosition(currentState: WordSearchState, word: string) {
+        return { column: this.getStartColumn(currentState, word), row: this.getStartRow(currentState, word) };
     }
 
     // hop over one row at a time

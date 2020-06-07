@@ -5,13 +5,13 @@ import { WordOrientation } from '../WordOrientation/WordOrientation';
 import { StringUtils } from '../StringUtils/StringUtils';
 import { Injectable } from '@angular/core';
 import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
+import { WordPosition } from '../WordPosition/WordPosition';
 
 @Injectable({
     providedIn: WordPlacementStrategyModule
 })
 export abstract class WordPlacementStrategyBase {
-    public abstract getStartRow(currentState: WordSearchState, word: string): number;
-    public abstract getStartColumn(currentState: WordSearchState, word: string): number;
+    public abstract getStartPosition(currentState: WordSearchState, word: string): WordPosition;
     public abstract getNextRow(startRow: number, currentIndex: number): number;
     public abstract getNextColumn(startColumn: number, currentIndex: number): number;
 
@@ -36,8 +36,7 @@ export abstract class WordPlacementStrategyBase {
 
         let letters = word.split('');
 
-        let startRow = this.getStartRow(currentState, word);
-        let startColumn = this.getStartColumn(currentState, word);
+        let startPosition = this.getStartPosition(currentState, word);
 
         let positioned = false;
         let attempts = 0;
@@ -46,15 +45,16 @@ export abstract class WordPlacementStrategyBase {
         while (!positioned) {
             // check to see if there is enough room. loop until we've found a suitable starting point
             positioned = letters.every((letter, i) => {
-                let valueAtPosition = currentState.getValueAt(this.getNextRow(startRow, i), this.getNextColumn(startColumn, i));
+                let valueAtPosition =
+                    currentState.getValueAt(this.getNextRow(startPosition.row, i), this.getNextColumn(startPosition.column, i));
+
                 return this.canPlaceLetter(currentState, letter, valueAtPosition);
             });
 
             if (positioned) {
                 break;
             } else {
-                startColumn = this.getStartColumn(currentState, word);
-                startRow = this.getStartRow(currentState, word);
+                startPosition = this.getStartPosition(currentState, word);
                 attempts++;
 
                 if (attempts > maxAttempts) {
@@ -70,7 +70,7 @@ export abstract class WordPlacementStrategyBase {
 
             // place the letters into position
             for (let i = 0; i < length; i++) {
-                currentState.setValueAt(this.getNextRow(startRow, i), this.getNextColumn(startColumn, i), letters[i]);
+                currentState.setValueAt(this.getNextRow(startPosition.row, i), this.getNextColumn(startPosition.column, i), letters[i]);
             }
 
             currentState.acceptWord(logWord);

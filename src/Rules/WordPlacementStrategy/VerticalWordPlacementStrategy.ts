@@ -9,13 +9,17 @@ import { WordSearchState } from '../WordSearchState/WordSearchState';
 })
 export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase implements WordPlacementStrategy {
     // allow enough room in the rows for the full word
-    public getStartRow(currentState: WordSearchState, word: string) {
+    private getStartRow(currentState: WordSearchState, word: string) {
         return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.rows - word.length);
     }
 
     // any column will do
-    public getStartColumn(currentState: WordSearchState, word: string) {
+    private getStartColumn(currentState: WordSearchState, word: string) {
         return this.randomNumberGeneratorService.generateRandomIntWithMax(currentState.columns);
+    }
+
+    public getStartPosition(currentState: WordSearchState, word: string) {
+        return { column: this.getStartColumn(currentState, word), row: this.getStartRow(currentState, word) };
     }
 
     // hop over one row at a time
