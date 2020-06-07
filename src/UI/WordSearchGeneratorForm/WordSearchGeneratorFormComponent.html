@@ -23,8 +23,8 @@
     <wordsearch-input-list addSlotButtonText="Add Word Slot" [formGroup]="wordFormGroup" [validators]="wordValidators"></wordsearch-input-list>
 </wordsearch-card>
 
-<wordsearch-card title="Output">
-    <wordsearch-dropdown [hidden]="outputOptions.length < 2" *ngIf="selectedOutputOption" label="Output Method" [options]="outputOptions" [selected]="selectedOutputOption" (changed)="setOutputOption($event)"></wordsearch-dropdown>
+<wordsearch-card title="Output" [hidden]="outputOptions.length < 2">
+    <wordsearch-dropdown label="Output Method" [options]="outputOptions" [selected]="selectedOutputOption" (changed)="setOutputOption($event)"></wordsearch-dropdown>
 </wordsearch-card>
 
 <div class="generate">
