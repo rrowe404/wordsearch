@@ -14,9 +14,15 @@ export class VerticalWordPositionService {
     }
 
     public getValidPositions(currentState: WordSearchState, word: string): WordPosition[] {
-        return this.wordPositionService.getValidPositions(currentState, (start: WordPosition, index: number) => {
-           return this.getNextPosition(start, index);
-        }, word);
+        let getNextPosition = (start: WordPosition, index: number) => {
+            return this.getNextPosition(start, index);
+        };
+
+        let isOutOfBounds = (start: WordPosition) => {
+            return this.isOutOfBounds(currentState, start, word);
+        };
+
+        return this.wordPositionService.getValidPositions(currentState, getNextPosition, isOutOfBounds, word);
     }
 
     public getNextPosition(startPosition: WordPosition, index: number) {
@@ -34,5 +40,9 @@ export class VerticalWordPositionService {
     // always the same
     private getNextColumn(startRow: number) {
         return startRow;
+    }
+
+    public isOutOfBounds(currentState: WordSearchState, startPosition: WordPosition, word: string) {
+        return startPosition.row + word.length > currentState.rows;
     }
 }

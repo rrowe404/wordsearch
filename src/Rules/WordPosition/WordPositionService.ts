@@ -11,6 +11,7 @@ export class WordPositionService {
     public getValidPositions(
         currentState: WordSearchState,
         getNextPosition: (startPosition: WordPosition, index: number) => WordPosition,
+        isOutOfBounds: (startPosition: WordPosition) => boolean,
         word: string
     ): WordPosition[] {
         let result = [];
@@ -18,7 +19,7 @@ export class WordPositionService {
         currentState.iterate((letter, row, column) => {
             let startPosition = { row, column };
 
-            if (this.isValid(currentState, startPosition, getNextPosition, word)) {
+            if (!isOutOfBounds(startPosition) && this.isValid(currentState, startPosition, getNextPosition, word)) {
                 result.push(startPosition);
             }
         });
