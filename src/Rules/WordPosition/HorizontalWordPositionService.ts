@@ -14,7 +14,9 @@ export class HorizontalWordPositionService {
     }
 
     public getValidPositions(currentState: WordSearchState, word: string): WordPosition[] {
-        return this.wordPositionService.getValidPositions(currentState, this.getNextPosition.bind(this), word);
+        return this.wordPositionService.getValidPositions(currentState, (start: WordPosition, index: number) => {
+           return this.getNextPosition(start, index);
+        }, word);
     }
 
     public getNextPosition(startPosition: WordPosition, index: number) {
