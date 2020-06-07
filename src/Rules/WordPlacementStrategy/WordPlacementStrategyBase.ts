@@ -53,12 +53,4 @@ export abstract class WordPlacementStrategyBase {
 
         return currentState;
     }
-
-    private canPlaceLetter(currentState: WordSearchState, letter: string, valueAtPosition: string) {
-        if (currentState.enableOverlaps && letter === valueAtPosition) {
-            return true;
-        }
-
-        return valueAtPosition === LetterPlaceholder.value;
-    }
 }
