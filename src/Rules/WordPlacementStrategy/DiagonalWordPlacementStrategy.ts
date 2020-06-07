@@ -3,6 +3,7 @@ import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
 import { WordPlacementStrategy } from './WordPlacementStrategy';
 import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { WordPosition } from '../WordPosition/WordPosition';
 
 @Injectable({
     providedIn: WordPlacementStrategyModule
@@ -31,12 +32,19 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
     }
 
     // hop over one row at a time
-    public getNextRow(startRow: number, currentIndex: number) {
+    private getNextRow(startRow: number, currentIndex: number) {
         return this.bottomsUp ? startRow - currentIndex : startRow + currentIndex;
     }
 
-    public getNextColumn(startColumn: number, currentIndex: number) {
+    private getNextColumn(startColumn: number, currentIndex: number) {
         return startColumn + currentIndex;
+    }
+
+    public getNextPosition(startPosition: WordPosition, index: number) {
+        return {
+            row: this.getNextRow(startPosition.row, index),
+            column: this.getNextColumn(startPosition.column, index)
+        };
     }
 
     // a diagonally placed word spans both columns and rows

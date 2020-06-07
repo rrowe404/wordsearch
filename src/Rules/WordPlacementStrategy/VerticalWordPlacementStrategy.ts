@@ -3,6 +3,7 @@ import { WordPlacementStrategy } from './WordPlacementStrategy';
 import { WordPlacementStrategyBase } from './WordPlacementStrategyBase';
 import { WordPlacementStrategyModule } from './WordPlacementStrategyModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { WordPosition } from '../WordPosition/WordPosition';
 
 @Injectable({
     providedIn: WordPlacementStrategyModule
@@ -23,12 +24,19 @@ export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase imp
     }
 
     // hop over one row at a time
-    public getNextRow(startRow: number, currentIndex: number) {
+    private getNextRow(startRow: number, currentIndex: number) {
         return startRow + currentIndex;
     }
 
     // always the same
-    public getNextColumn(startRow: number) {
+    private getNextColumn(startRow: number) {
         return startRow;
+    }
+
+    public getNextPosition(startPosition: WordPosition, index: number) {
+        return {
+            row: this.getNextRow(startPosition.row, index),
+            column: this.getNextColumn(startPosition.column)
+        };
     }
 }
