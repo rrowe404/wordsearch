@@ -21,13 +21,7 @@ export class VerticalWordPlacementStrategy extends WordPlacementStrategyBase imp
     }
 
     public getStartPosition(currentState: WordSearchState, word: string) {
-        let validPositions = this.verticalWordPositionService.getValidPositions(currentState, word);
-
-        if (!validPositions.length) {
-            return null;
-        }
-
-        return this.randomNumberGeneratorService.getRandomValueFrom(validPositions);
+        return this.verticalWordPositionService.getStartPosition(currentState, word);
     }
 
     public getNextPosition(startPosition: WordPosition, index: number) {

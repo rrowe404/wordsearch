@@ -21,13 +21,7 @@ export class HorizontalWordPlacementStrategy extends WordPlacementStrategyBase i
     }
 
     public getStartPosition(currentState: WordSearchState, word: string) {
-        let validPositions = this.horizontalWordPositionService.getValidPositions(currentState, word);
-
-        if (!validPositions.length) {
-            return null;
-        }
-
-        return this.randomNumberGeneratorService.getRandomValueFrom(validPositions);
+        return this.horizontalWordPositionService.getStartPosition(currentState, word);
     }
 
     public getNextPosition(startPosition: WordPosition, index: number) {

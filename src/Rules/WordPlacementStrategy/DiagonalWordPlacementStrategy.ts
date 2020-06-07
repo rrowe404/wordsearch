@@ -26,15 +26,9 @@ export class DiagonalWordPlacementStrategy extends WordPlacementStrategyBase imp
     private bottomsUp: boolean;
 
     public getStartPosition(currentState: WordSearchState, word: string) {
-        let validPositions = this.bottomsUp ?
-                             this.bottomUpDiagonalWordPositionService.getValidPositions(currentState, word) :
-                             this.topDownDiagonalWordPositionService.getValidPositions(currentState, word);
-
-        if (!validPositions.length) {
-            return null;
-        }
-
-        return this.randomNumberGeneratorService.getRandomValueFrom(validPositions);
+        return this.bottomsUp ?
+               this.bottomUpDiagonalWordPositionService.getStartPosition(currentState, word) :
+               this.topDownDiagonalWordPositionService.getStartPosition(currentState, word);
     }
 
     public getNextPosition(startPosition: WordPosition, index: number) {
