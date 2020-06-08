@@ -4,4 +4,5 @@
 export interface WordPosition {
     column: number;
     row: number;
+    hasOverlaps?: boolean;
 }

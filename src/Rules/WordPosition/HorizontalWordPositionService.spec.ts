@@ -57,4 +57,30 @@ describe('HorizontalWordPositionService', () => {
             expect(x).toEqual(result[i]);
         });
     });
+
+    it('should return valid data for a matrix with overlaps', () => {
+        let n = LetterPlaceholder.value;
+
+        let matrix = [
+            [n,  n,  n],
+            [n, 'i', n],
+            [n,  n,  n]
+        ];
+
+        let state = createState(matrix);
+
+        let word = 'pig';
+
+        let result = service.getValidPositions(state, word);
+
+        let expected: WordPosition[] = [
+            { column: 0, row: 0 },
+            { column: 0, row: 1, hasOverlaps: true },
+            { column: 0, row: 2 }
+        ];
+
+        expected.forEach((x, i) => {
+            expect(x).toEqual(result[i]);
+        });
+    });
 });

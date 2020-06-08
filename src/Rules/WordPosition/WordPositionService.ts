@@ -18,12 +18,16 @@ export class WordPositionService {
         let result = [];
 
         currentState.iterate((letter, row, column) => {
-            let startPosition = { row, column };
+            let startPosition: WordPosition = { row, column };
 
             if (!isOutOfBounds(startPosition)) {
                 let validationResult = this.validate(currentState, startPosition, getNextPosition, word);
 
                 if (this.isValid(validationResult)) {
+                    if (validationResult === WordPositionValidationResult.Overlap) {
+                        startPosition.hasOverlaps = true;
+                    }
+
                     result.push(startPosition);
                 }
             }
