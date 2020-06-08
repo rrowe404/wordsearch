@@ -11,6 +11,7 @@ import { RandomNumberGeneratorService } from '../RandomNumberGenerator/RandomNum
 import { WordPositionServiceFactory } from '../WordPosition/WordPositionServiceFactory';
 import { StringUtils } from '../StringUtils/StringUtils';
 import { WordOrientation } from '../WordOrientation/WordOrientation';
+import { WordPosition } from '../WordPosition/WordPosition';
 
 @Injectable({
     providedIn: WordSearchGenerationModule
@@ -80,6 +81,11 @@ export class WordSearchGenerationService {
         let letters = word.split('');
 
         let validStartPositions = wordPositionService.getValidStartPositions(currentState, word);
+
+        if (this.useZealousOverlapping(currentState)) {
+            validStartPositions = this.getZealousOverlappingStartPositions(currentState, validStartPositions);
+        }
+
         let startPosition = validStartPositions.length ? this.randomNumberGeneratorService.getRandomValueFrom(validStartPositions) : null;
 
         if (startPosition) {
@@ -97,5 +103,19 @@ export class WordSearchGenerationService {
         }
 
         return currentState;
+    }
+
+    private useZealousOverlapping(currentState: WordSearchState) {
+        return currentState.zealousOverlaps;
+    }
+
+    private getZealousOverlappingStartPositions(currentState: WordSearchState, validStartPositions: WordPosition[]) {
+        let overlappingStartPositions = validStartPositions.filter(p => p.hasOverlaps);
+
+        if (overlappingStartPositions.length) {
+            validStartPositions = overlappingStartPositions;
+        }
+
+        return validStartPositions;
     }
 }

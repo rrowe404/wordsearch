@@ -15,7 +15,8 @@ export class TestUtils {
             allowBackwards: true,
             allowDiagonal: true,
             allowHorizontal: true,
-            allowOverlaps: true
+            allowOverlaps: true,
+            zealousOverlaps: false
         };
     }
 }

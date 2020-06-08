@@ -17,6 +17,7 @@
     <wordsearch-checkbox label="Filter Accidental Profanity" name="filterProfanity" (changed)="setFilterProfanity($event)" [value]="generationOptions.filterAccidentalProfanity"></wordsearch-checkbox>
     <wordsearch-checkbox label="Allow Backwards Words" name="allowBackwards" (changed)="setAllowBackwards($event)" [value]="generationOptions.allowBackwards"></wordsearch-checkbox>
     <wordsearch-checkbox label="Allow Overlaps" name="allowOverlaps" (changed)="setAllowOverlaps($event)" [value]="generationOptions.allowOverlaps"></wordsearch-checkbox>
+    <wordsearch-checkbox *ngIf="generationOptions.allowOverlaps" label="Zealous Overlaps" name="zealousOverlaps" (changed)="setZealousOverlaps($event)" [value]="generationOptions.zealousOverlaps"></wordsearch-checkbox>
 </wordsearch-card>
 
 <wordsearch-card title="Word List">

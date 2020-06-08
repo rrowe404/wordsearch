@@ -50,6 +50,7 @@ export class WordSearchGeneratorFormComponent implements OnInit {
     allowDiagonal: false,
     allowBackwards: false,
     allowOverlaps: false,
+    zealousOverlaps: false
   };
 
   public outputOptions: DropdownOption<string>[] = [
@@ -159,6 +160,10 @@ export class WordSearchGeneratorFormComponent implements OnInit {
 
   public setOutputOption(outputOption: string) {
     this.selectedOutputOption = outputOption;
+  }
+
+  public setZealousOverlaps(zealous: boolean) {
+    this.generationOptions.zealousOverlaps = zealous;
   }
 
   /** The functions that call this will fire after a UI change that may change whether currently-entered words are still valid */

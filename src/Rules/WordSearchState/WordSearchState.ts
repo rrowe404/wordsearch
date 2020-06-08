@@ -99,6 +99,10 @@ export class WordSearchState {
         return ObjectUtils.copy(result);
     }
 
+    public get zealousOverlaps(): boolean {
+        return this.enableOverlaps && this.options.zealousOverlaps;
+    }
+
     public getValueAt(row: number, column: number) {
         return this._matrix[row][column];
     }
