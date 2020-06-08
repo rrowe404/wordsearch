@@ -3,6 +3,7 @@ import { WordPositionModule } from './WordPositionModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordPosition } from './WordPosition';
 import { LetterPlaceholder } from '../LetterPlaceholder/LetterPlaceholder';
+import { WordPositionValidationResult } from './WordPositionValidationResult';
 
 @Injectable({
     providedIn: WordPositionModule
@@ -19,35 +20,56 @@ export class WordPositionService {
         currentState.iterate((letter, row, column) => {
             let startPosition = { row, column };
 
-            if (!isOutOfBounds(startPosition) && this.isValid(currentState, startPosition, getNextPosition, word)) {
-                result.push(startPosition);
+            if (!isOutOfBounds(startPosition)) {
+                let validationResult = this.validate(currentState, startPosition, getNextPosition, word);
+
+                if (this.isValid(validationResult)) {
+                    result.push(startPosition);
+                }
             }
         });
 
         return result;
     }
 
-    private isValid(
+    private validate(
         currentState: WordSearchState,
         startPosition: WordPosition,
         getNextPosition: (startPosition: WordPosition, index: number) => WordPosition,
         word: string
     ) {
         let letters = word.split('');
+        let overlap = false;
 
-        return letters.every((letter, i) => {
+        let valid = letters.every((letter, i) => {
             let nextPosition = getNextPosition(startPosition, i);
 
             let valueAtPosition = currentState.getValueAt(nextPosition.row, nextPosition.column);
-            return this.canPlaceLetter(currentState, letter, valueAtPosition);
-        });
-    }
 
-    private canPlaceLetter(currentState: WordSearchState, letter: string, valueAtPosition: string) {
-        if (currentState.enableOverlaps && letter === valueAtPosition) {
-            return true;
+            if (this.canPlaceLetterWithOverlaps(currentState, letter, valueAtPosition)) {
+                overlap = true;
+                return true;
+            }
+
+            return this.canPlaceLetterWithoutOverlaps(valueAtPosition);
+        });
+
+        if (valid) {
+            return overlap ? WordPositionValidationResult.Overlap : WordPositionValidationResult.Clean;
         }
 
+        return WordPositionValidationResult.Invalid;
+    }
+
+    private isValid(validationResult: WordPositionValidationResult) {
+        return [WordPositionValidationResult.Clean, WordPositionValidationResult.Overlap].indexOf(validationResult) > -1;
+    }
+
+    private canPlaceLetterWithOverlaps(currentState: WordSearchState, letter: string, valueAtPosition: string) {
+        return currentState.enableOverlaps && letter === valueAtPosition;
+    }
+
+    private canPlaceLetterWithoutOverlaps(valueAtPosition: string) {
         return valueAtPosition === LetterPlaceholder.value;
     }
 }
