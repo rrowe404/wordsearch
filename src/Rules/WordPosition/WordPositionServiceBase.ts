@@ -3,7 +3,6 @@ import { WordPositionModule } from './WordPositionModule';
 import { WordPositionService } from './WordPositionService';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordPosition } from './WordPosition';
-import { RandomNumberGeneratorService } from '../RandomNumberGenerator/RandomNumberGeneratorService';
 
 /** Abstract base class for the directional services, to extract the common logic */
 @Injectable({
@@ -15,19 +14,8 @@ export abstract class WordPositionServiceBase {
     protected abstract isOutOfBounds(currentState: WordSearchState, startPosition: WordPosition, word: string);
 
     constructor(
-        private randomNumberGeneratorService: RandomNumberGeneratorService,
         private wordPositionService: WordPositionService
     ) {
-    }
-
-    public getStartPosition(currentState: WordSearchState, word: string) {
-        let validPositions = this.getValidStartPositions(currentState, word);
-
-        if (!validPositions.length) {
-            return null;
-        }
-
-        return this.randomNumberGeneratorService.getRandomValueFrom(validPositions);
     }
 
     public getNextPosition(startPosition: WordPosition, index: number) {

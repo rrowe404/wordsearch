@@ -79,7 +79,8 @@ export class WordSearchGenerationService {
 
         let letters = word.split('');
 
-        let startPosition = wordPositionService.getStartPosition(currentState, word);
+        let validStartPositions = wordPositionService.getValidStartPositions(currentState, word);
+        let startPosition = validStartPositions.length ? this.randomNumberGeneratorService.getRandomValueFrom(validStartPositions) : null;
 
         if (startPosition) {
             let length = letters.length;
