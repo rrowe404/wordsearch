@@ -9,7 +9,7 @@ import { WordPositionValidationResult } from './WordPositionValidationResult';
     providedIn: WordPositionModule
 })
 export class WordPositionService {
-    public getValidPositions(
+    public getValidStartPositions(
         currentState: WordSearchState,
         getNextPosition: (startPosition: WordPosition, index: number) => WordPosition,
         isOutOfBounds: (startPosition: WordPosition) => boolean,

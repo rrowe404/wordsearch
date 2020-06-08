@@ -45,7 +45,7 @@ describe('BottomUpDiagonalWordPositionService', () => {
 
         let word = 'pig';
 
-        let result = service.getValidPositions(state, word);
+        let result = service.getValidStartPositions(state, word);
 
         let expected: WordPosition[] = [
             { column: 0, row: 2 }
@@ -70,7 +70,7 @@ describe('BottomUpDiagonalWordPositionService', () => {
 
         let word = 'pig';
 
-        let result = service.getValidPositions(state, word);
+        let result = service.getValidStartPositions(state, word);
 
         let expected: WordPosition[] = [
             { column: 0, row: 2, hasOverlaps: true }

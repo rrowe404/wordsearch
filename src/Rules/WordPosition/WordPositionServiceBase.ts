@@ -21,7 +21,7 @@ export abstract class WordPositionServiceBase {
     }
 
     public getStartPosition(currentState: WordSearchState, word: string) {
-        let validPositions = this.getValidPositions(currentState, word);
+        let validPositions = this.getValidStartPositions(currentState, word);
 
         if (!validPositions.length) {
             return null;
@@ -37,7 +37,7 @@ export abstract class WordPositionServiceBase {
         };
     }
 
-    public getValidPositions(currentState: WordSearchState, word: string): WordPosition[] {
+    public getValidStartPositions(currentState: WordSearchState, word: string): WordPosition[] {
         let getNextPosition = (start: WordPosition, index: number) => {
             return this.getNextPosition(start, index);
         };
@@ -46,6 +46,6 @@ export abstract class WordPositionServiceBase {
             return this.isOutOfBounds(currentState, start, word);
         };
 
-        return this.wordPositionService.getValidPositions(currentState, getNextPosition, isOutOfBounds, word);
+        return this.wordPositionService.getValidStartPositions(currentState, getNextPosition, isOutOfBounds, word);
     }
 }

@@ -45,7 +45,7 @@ describe('VerticalWordPositionService', () => {
 
         let word = 'pig';
 
-        let result = service.getValidPositions(state, word);
+        let result = service.getValidStartPositions(state, word);
 
         let expected: WordPosition[] = [
             { row: 0, column: 0 },
@@ -71,7 +71,7 @@ describe('VerticalWordPositionService', () => {
 
         let word = 'pig';
 
-        let result = service.getValidPositions(state, word);
+        let result = service.getValidStartPositions(state, word);
 
         let expected: WordPosition[] = [
             { row: 0, column: 0 },
