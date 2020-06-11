@@ -3,6 +3,7 @@ import { WordDirectionModule } from './WordDirectionModule';
 import { WordDirectionCheckerFactory } from './WordDirectionCheckerFactory';
 import { RandomNumberGeneratorService } from '../RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { WordDirection } from './WordDirection';
 
 @Injectable({
     providedIn: WordDirectionModule
@@ -15,26 +16,13 @@ export class WordDirectionSelectorService {
     }
 
     /**
-     * We'll try to randomly select a direction.
-     * If that doesn't work, we'll randomly select another one.
-     * If none of them work, there's a big problem.
+     * Get the directions that the current word can fit in
      */
-    public selectDirection(currentState: WordSearchState, word: string) {
-        let attemptedDirections = [];
-        let directions = currentState.directions;
+    public selectDirections(currentState: WordSearchState, word: string): WordDirection[] {
+        return currentState.directions.filter(direction => {
+            let checker = this.wordDirectionCheckerFactory.getDirectionChecker(direction);
 
-        do {
-            let directionsLeftToAttempt = directions.filter(direction => !attemptedDirections.includes(direction));
-            let directionToAttempt = this.randomNumberGeneratorService.getRandomValueFrom(directionsLeftToAttempt);
-            let directionChecker = this.wordDirectionCheckerFactory.getDirectionChecker(directionToAttempt);
-
-            if (directionChecker.checkDirection(currentState, word)) {
-                return directionToAttempt;
-            }
-
-            attemptedDirections.push(directionToAttempt);
-        } while (attemptedDirections.length < directions.length);
-
-        throw new Error('You fucked up!');
+            return checker.checkDirection(currentState, word);
+        });
     }
 }

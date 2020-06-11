@@ -12,6 +12,7 @@ import { WordPositionServiceFactory } from '../WordPosition/WordPositionServiceF
 import { StringUtils } from '../StringUtils/StringUtils';
 import { WordOrientation } from '../WordOrientation/WordOrientation';
 import { WordPosition } from '../WordPosition/WordPosition';
+import { WordPositionServiceBase } from '../WordPosition/WordPositionServiceBase';
 
 @Injectable({
     providedIn: WordSearchGenerationModule
@@ -66,8 +67,9 @@ export class WordSearchGenerationService {
     }
 
     private placeWord(currentState: WordSearchState, word: string) {
-        let direction = this.wordDirectionSelectorService.selectDirection(currentState, word);
-        let wordPositionService = this.wordPositionServiceFactory.getService(direction);
+        let validDirections = this.wordDirectionSelectorService.selectDirections(currentState, word);
+        let attemptedDirections = [];
+        let escape = false;
 
         // prevent reversed words from showing up reversed in word list
         let logWord = word;
@@ -78,15 +80,42 @@ export class WordSearchGenerationService {
             word = this.stringUtils.reverseWord(word);
         }
 
+        /*
+         * determine start position.
+         * try one randomly selected direction at a time.
+         * if no valid start positions exist, try another direction.
+         * if zealous overlapping is on, we'll first try to find start positions with overlaps.
+         * if there are none in any direction, then do it again without.
+         */
+        let startPosition = null;
+        let wordPositionService: WordPositionServiceBase;
+        let zealousOverlaps = currentState.zealousOverlaps;
+
+        do {
+            let directionsLeftToAttempt = validDirections.filter(d => !attemptedDirections.includes(d));
+            let direction = this.randomNumberGeneratorService.getRandomValueFrom(directionsLeftToAttempt);
+
+            wordPositionService = this.wordPositionServiceFactory.getService(direction);
+            let validStartPositions = wordPositionService.getValidStartPositions(currentState, word);
+
+            if (zealousOverlaps) {
+                validStartPositions = this.getZealousOverlappingStartPositions(currentState, validStartPositions);
+            }
+
+            if (validStartPositions.length) {
+                startPosition = this.randomNumberGeneratorService.getRandomValueFrom(validStartPositions);
+                escape = true;
+            }
+
+            attemptedDirections.push(direction);
+
+            if (zealousOverlaps && attemptedDirections.length === validDirections.length && !startPosition) {
+                zealousOverlaps = false;
+                attemptedDirections = [];
+            }
+        } while (attemptedDirections.length < validDirections.length && !escape);
+
         let letters = word.split('');
-
-        let validStartPositions = wordPositionService.getValidStartPositions(currentState, word);
-
-        if (this.useZealousOverlapping(currentState)) {
-            validStartPositions = this.getZealousOverlappingStartPositions(currentState, validStartPositions);
-        }
-
-        let startPosition = validStartPositions.length ? this.randomNumberGeneratorService.getRandomValueFrom(validStartPositions) : null;
 
         if (startPosition) {
             let length = letters.length;
@@ -105,17 +134,9 @@ export class WordSearchGenerationService {
         return currentState;
     }
 
-    private useZealousOverlapping(currentState: WordSearchState) {
-        return currentState.zealousOverlaps;
-    }
-
     private getZealousOverlappingStartPositions(currentState: WordSearchState, validStartPositions: WordPosition[]) {
         let overlappingStartPositions = validStartPositions.filter(p => p.hasOverlaps);
 
-        if (overlappingStartPositions.length) {
-            validStartPositions = overlappingStartPositions;
-        }
-
-        return validStartPositions;
+        return overlappingStartPositions;
     }
 }
