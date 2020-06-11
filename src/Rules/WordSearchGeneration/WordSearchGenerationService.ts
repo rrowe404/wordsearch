@@ -13,6 +13,7 @@ import { StringUtils } from '../StringUtils/StringUtils';
 import { WordOrientation } from '../WordOrientation/WordOrientation';
 import { WordPosition } from '../WordPosition/WordPosition';
 import { WordPositionServiceBase } from '../WordPosition/WordPositionServiceBase';
+import { WordStartParameters } from '../WordStartParameters/WordStartParameters';
 
 @Injectable({
     providedIn: WordSearchGenerationModule
@@ -67,10 +68,6 @@ export class WordSearchGenerationService {
     }
 
     private placeWord(currentState: WordSearchState, word: string) {
-        let validDirections = this.wordDirectionSelectorService.selectDirections(currentState, word);
-        let attemptedDirections = [];
-        let escape = false;
-
         // prevent reversed words from showing up reversed in word list
         let logWord = word;
 
@@ -80,52 +77,10 @@ export class WordSearchGenerationService {
             word = this.stringUtils.reverseWord(word);
         }
 
-        /*
-         * determine start position.
-         * try one randomly selected direction at a time.
-         * if no valid start positions exist, try another direction.
-         * if zealous overlapping is on, we'll first try to find start positions with overlaps.
-         * if there are none in any direction, then do it again without.
-         */
-        let startPosition = null;
-        let wordPositionService: WordPositionServiceBase;
-        let zealousOverlaps = currentState.zealousOverlaps;
+        let startParams = this.getStartParameters(currentState, word);
 
-        do {
-            let directionsLeftToAttempt = validDirections.filter(d => !attemptedDirections.includes(d));
-            let direction = this.randomNumberGeneratorService.getRandomValueFrom(directionsLeftToAttempt);
-
-            wordPositionService = this.wordPositionServiceFactory.getService(direction);
-            let validStartPositions = wordPositionService.getValidStartPositions(currentState, word);
-
-            if (zealousOverlaps) {
-                validStartPositions = this.getZealousOverlappingStartPositions(currentState, validStartPositions);
-            }
-
-            if (validStartPositions.length) {
-                startPosition = this.randomNumberGeneratorService.getRandomValueFrom(validStartPositions);
-                escape = true;
-            }
-
-            attemptedDirections.push(direction);
-
-            if (zealousOverlaps && attemptedDirections.length === validDirections.length && !startPosition) {
-                zealousOverlaps = false;
-                attemptedDirections = [];
-            }
-        } while (attemptedDirections.length < validDirections.length && !escape);
-
-        let letters = word.split('');
-
-        if (startPosition) {
-            let length = letters.length;
-
-            // place the letters into position
-            for (let i = 0; i < length; i++) {
-                let nextPosition = wordPositionService.getNextPosition(startPosition, i);
-                currentState.setValueAt(nextPosition.row, nextPosition.column, letters[i]);
-            }
-
+        if (startParams && startParams.startPosition) {
+            this.placeLetters(currentState, word, startParams);
             currentState.acceptWord(logWord);
         } else {
             currentState.rejectWord(logWord);
@@ -134,9 +89,66 @@ export class WordSearchGenerationService {
         return currentState;
     }
 
-    private getZealousOverlappingStartPositions(currentState: WordSearchState, validStartPositions: WordPosition[]) {
+    /**
+     * determine start position.
+     * try one randomly selected direction at a time.
+     * if no valid start positions exist, try another direction.
+     * if zealous overlapping is on, we'll first try to find start positions with overlaps.
+     * if there are none in any direction, then do it again without.
+     */
+    private getStartParameters(currentState: WordSearchState, word: string): WordStartParameters {
+        let validDirections = this.wordDirectionSelectorService.selectDirections(currentState, word);
+        let attemptedDirections = [];
+
+        let startPosition = null;
+        let positionService: WordPositionServiceBase;
+        let zealousOverlaps = currentState.zealousOverlaps;
+
+        do {
+            let directionsLeftToAttempt = validDirections.filter(d => !attemptedDirections.includes(d));
+            let direction = this.randomNumberGeneratorService.getRandomValueFrom(directionsLeftToAttempt);
+
+            positionService = this.wordPositionServiceFactory.getService(direction);
+            let validStartPositions = positionService.getValidStartPositions(currentState, word);
+
+            if (zealousOverlaps) {
+                validStartPositions = this.getZealousOverlappingStartPositions(validStartPositions);
+            }
+
+            if (validStartPositions.length) {
+                startPosition = this.randomNumberGeneratorService.getRandomValueFrom(validStartPositions);
+
+                return {
+                    startPosition,
+                    positionService
+                };
+            }
+
+            attemptedDirections.push(direction);
+
+            if (zealousOverlaps && attemptedDirections.length === validDirections.length && !startPosition) {
+                zealousOverlaps = false;
+                attemptedDirections = [];
+            }
+        } while (attemptedDirections.length < validDirections.length);
+
+        return null;
+    }
+
+    private getZealousOverlappingStartPositions(validStartPositions: WordPosition[]) {
         let overlappingStartPositions = validStartPositions.filter(p => p.hasOverlaps);
 
         return overlappingStartPositions;
+    }
+
+    private placeLetters(currentState: WordSearchState, word: string, startParams: WordStartParameters) {
+        let letters = word.split('');
+        let length = letters.length;
+
+        // place the letters into position
+        for (let i = 0; i < length; i++) {
+            let nextPosition = startParams.positionService.getNextPosition(startParams.startPosition, i);
+            currentState.setValueAt(nextPosition.row, nextPosition.column, letters[i]);
+        }
     }
 }
