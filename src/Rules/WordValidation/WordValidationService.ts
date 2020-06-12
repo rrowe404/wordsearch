@@ -1,18 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { WordValidationModule } from './WordValidationModule';
-import { WordLengthValidator } from './WordLengthValidator';
 import { WordValidator } from './WordValidator';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
-import { NoSpaceValidator } from './NoSpaceValidator';
+import { VALIDATORS } from './VALIDATORS';
 
 @Injectable({
     providedIn: WordValidationModule
 })
 export class WordValidationService {
-    private validators: WordValidator[] = [
-        new NoSpaceValidator(),
-        new WordLengthValidator()
-    ];
+    constructor(
+        @Inject(VALIDATORS) private validators: WordValidator[]
+    ) {
+    }
 
     public getErrors(currentState: WordSearchState, word: string) {
         let violatedValidators = this.validators.filter(validator => !validator.validate(currentState, word));
