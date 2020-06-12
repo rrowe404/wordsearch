@@ -109,7 +109,12 @@ export class WordSearchGeneratorFormComponent implements OnInit {
   }
 
   private getWordsFromForm() {
-    return Object.keys(this.wordFormGroup.controls).map(key => this.wordFormGroup.controls[key].value);
+    let formValues = Object.keys(this.wordFormGroup.controls).map(key => this.wordFormGroup.controls[key].value);
+
+    // don't include blanks
+    let result = formValues.filter(val => !!val);
+
+    return result;
   }
 
   public setColumns(columns: string) {
