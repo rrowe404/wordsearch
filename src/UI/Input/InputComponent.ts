@@ -43,7 +43,9 @@ export class InputComponent implements OnDestroy, OnInit {
     ) {}
 
     public ngOnDestroy() {
-        if (this.formGroup) {
+        // this is a fallback, if the input is being removed by a parent component,
+        // it should be removed from the formGroup there
+        if (this.formGroup && this.formGroup.controls[this.name]) {
             this.formGroup.removeControl(this.name);
         }
     }

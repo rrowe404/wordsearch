@@ -37,6 +37,8 @@ export class InputListComponent {
     }
 
     public removeSlot(index: number) {
+        // removing here instead of letting ngOnDestroy run prevents ExpressionChangedAfterItHasBeenChecked error
+        this.formGroup.removeControl(this.inputs[index].name);
         this.inputs.splice(index, 1);
     }
 

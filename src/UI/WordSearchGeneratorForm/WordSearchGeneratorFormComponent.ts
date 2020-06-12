@@ -93,6 +93,9 @@ export class WordSearchGeneratorFormComponent implements OnInit {
 
     this.gameFormGroup.addControl('direction', this.directionFormGroup);
     this.gameFormGroup.addControl('word', this.wordFormGroup);
+    this.gameFormGroup.setValidators((group) => {
+      return this.getWordsFromForm().length > 0 ? null : { required: 'At least one word must be present!' }
+    });
   }
 
   public generate() {
