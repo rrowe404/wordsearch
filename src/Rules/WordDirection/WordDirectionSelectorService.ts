@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WordDirectionModule } from './WordDirectionModule';
 import { WordDirectionCheckerFactory } from './WordDirectionCheckerFactory';
-import { RandomNumberGeneratorService } from '../RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordDirection } from './WordDirection';
 
@@ -10,8 +9,7 @@ import { WordDirection } from './WordDirection';
 })
 export class WordDirectionSelectorService {
     constructor(
-        private randomNumberGeneratorService: RandomNumberGeneratorService,
-        private wordDirectionCheckerFactory: WordDirectionCheckerFactory,
+        private wordDirectionCheckerFactory: WordDirectionCheckerFactory
     ) {
     }
 
