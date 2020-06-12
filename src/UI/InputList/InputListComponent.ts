@@ -6,7 +6,7 @@ import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
     selector: 'wordsearch-input-list',
     template: `
         <div *ngFor="let input of inputs; let i = index;">
-            <wordsearch-input [name]="getName(i)" [formGroup]="formGroup" [validators]="validators"></wordsearch-input>
+            <wordsearch-input [name]="input.name" [formGroup]="formGroup" [validators]="validators"></wordsearch-input>
             <wordsearch-icon-button icon="close" (click)="removeSlot(i)"></wordsearch-icon-button>
         </div>
 
@@ -18,20 +18,22 @@ export class InputListComponent {
     @Input() public validators: ValidatorFn[];
     @Input() public addSlotButtonText = 'Add Slot';
 
+    private counter = 0;
+
     constructor(
         private inputFocusEventService: InputFocusEventService
     ) {
     }
 
-    public inputs: any[] = [{}];
+    public inputs: Array<{name: string }> = [{ name: this.getNextName() }];
 
     public addSlot() {
-        this.inputs.push({});
+        this.inputs.push({ name: this.getNextName() });
         this.focusNewestInput();
     }
 
-    public getName(index: number) {
-        return `input-${index}`;
+    public getNextName() {
+        return `input-${this.counter++}`;
     }
 
     public removeSlot(index: number) {
@@ -40,7 +42,7 @@ export class InputListComponent {
 
     private focusNewestInput() {
         setTimeout(() => {
-            this.inputFocusEventService.inputFocusEvent.emit(this.getName(this.inputs.length - 1));
+            this.inputFocusEventService.inputFocusEvent.emit(this.inputs[this.inputs.length - 1].name);
         });
     }
 }
