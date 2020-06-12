@@ -23,10 +23,10 @@ export class InputListComponent {
     ) {
     }
 
-    public inputs: string[] = [''];
+    public inputs: any[] = [{}];
 
     public addSlot() {
-        this.inputs.push('');
+        this.inputs.push({});
         this.focusNewestInput();
     }
 
