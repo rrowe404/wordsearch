@@ -1,14 +1,11 @@
 import { WordBuilder } from './WordBuilder';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosition';
-import { Injectable } from '@angular/core';
-import { WordBuilderModule } from './WordBuilderModule';
 import { StringUtils } from '../StringUtils/StringUtils';
 import { WordBuilderResult } from './WordBuilderResult';
+import { Injectable } from '@angular/core';
 
-@Injectable({
-    providedIn: WordBuilderModule
-})
+@Injectable()
 export class HorizontalWordBuilder implements WordBuilder {
     constructor(
         private stringUtils: StringUtils
@@ -36,5 +33,9 @@ export class HorizontalWordBuilder implements WordBuilder {
             word,
             lettersWithPositions
         };
+    }
+
+    shouldUse(start: LetterWithPosition, end: LetterWithPosition) {
+        return start.row === end.row;
     }
 }

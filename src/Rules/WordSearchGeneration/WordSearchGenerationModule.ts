@@ -3,10 +3,12 @@ import { LetterPlaceholderModule } from 'src/Rules/LetterPlaceholder/LetterPlace
 import { WordSearchStateModule } from 'src/Rules/WordSearchState/WordSearchStateModule';
 import { WordValidationModule } from '../WordValidation/WordValidationModule';
 import { WordPositionModule } from '../WordPosition/WordPositionModule';
+import { PlayableWordSearchModule } from 'src/UI/PlayableWordSearch/PlayableWordSearchModule';
 
 @NgModule({
     imports: [
         LetterPlaceholderModule,
+        PlayableWordSearchModule,
         WordPositionModule,
         WordSearchStateModule,
         WordValidationModule

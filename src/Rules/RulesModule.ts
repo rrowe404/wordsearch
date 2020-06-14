@@ -9,6 +9,7 @@ import { WordDirectionModule } from './WordDirection/WordDirectionModule';
 import { StringUtilsModule } from './StringUtils/StringUtilsModule';
 import { LetterCasingModule } from './LetterCasing/LetterCasingModule';
 import { WordPositionModule } from './WordPosition/WordPositionModule';
+import { WordBuilderModule } from './WordBuilder/WordBuilderModule';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { WordPositionModule } from './WordPosition/WordPositionModule';
         LetterPlaceholderModule,
         RandomNumberGeneratorModule,
         StringUtilsModule,
+        WordBuilderModule,
         WordDirectionModule,
         WordPositionModule,
         WordSearchGenerationModule,
@@ -29,13 +31,13 @@ import { WordPositionModule } from './WordPosition/WordPositionModule';
         LetterPlaceholderModule,
         RandomNumberGeneratorModule,
         StringUtilsModule,
+        WordBuilderModule,
         WordDirectionModule,
         WordPositionModule,
         WordSearchGenerationModule,
         WordSearchStateModule,
         WordValidationModule
     ]
-
 })
 export class RulesModule {
 }

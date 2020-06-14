@@ -1,14 +1,11 @@
 import { WordBuilder } from './WordBuilder';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosition';
-import { Injectable } from '@angular/core';
-import { WordBuilderModule } from './WordBuilderModule';
 import { StringUtils } from '../StringUtils/StringUtils';
 import { WordBuilderResult } from './WordBuilderResult';
+import { Injectable } from '@angular/core';
 
-@Injectable({
-    providedIn: WordBuilderModule
-})
+@Injectable()
 export class DiagonalWordBuilder implements WordBuilder {
     constructor(
         private stringUtils: StringUtils
@@ -34,6 +31,11 @@ export class DiagonalWordBuilder implements WordBuilder {
             word: isBackwards ? this.stringUtils.reverseWord(result.word) : result.word,
             lettersWithPositions: result.lettersWithPositions
         };
+    }
+
+    shouldUse(start: LetterWithPosition, end: LetterWithPosition) {
+        return start.row - end.row === start.column - end.column ||
+               start.row - end.row === end.column - start.column;
     }
 
     private isTopDown(start: LetterWithPosition, end: LetterWithPosition) {
