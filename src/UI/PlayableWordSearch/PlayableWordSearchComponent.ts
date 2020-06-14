@@ -27,8 +27,8 @@ export class PlayableWordSearchComponent implements OnInit {
     }
 
     // these have to be arrays to use with ngFor
-    public rows: any[];
-    public columns: any[];
+    public rows: number[];
+    public columns: number[];
 
     public wordList: string[];
 
