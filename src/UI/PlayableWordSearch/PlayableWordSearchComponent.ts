@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { ArrayGenerationService } from 'src/Rules/ArrayGeneration/ArrayGenerationService';
 
@@ -15,12 +15,12 @@ import { ArrayGenerationService } from 'src/Rules/ArrayGeneration/ArrayGeneratio
             </tr>
         </table>
 
-        <div *ngFor="let word of state.wordList">
+        <div *ngFor="let word of wordList">
             {{ word }}
         </div>
     `
 })
-export class PlayableWordSearchComponent implements OnInit {
+export class PlayableWordSearchComponent implements OnInit, OnChanges {
     @Input() public state: WordSearchState;
 
     constructor(private arrayGenerationService: ArrayGenerationService)  {
@@ -35,9 +35,22 @@ export class PlayableWordSearchComponent implements OnInit {
     public ngOnInit() {
         this.rows = this.generateIndexArray(this.state.rows);
         this.columns = this.generateIndexArray(this.state.columns);
+        this.setWordList();
+    }
+
+    public ngOnChanges() {
+        this.setWordList();
     }
 
     private generateIndexArray(length: number) {
         return this.arrayGenerationService.generateEmptyArray(length).map((value, i) => i);
+    }
+
+    /**
+     * the getter for state.wordList performs operations,
+     * so it should only be updated when necessary
+     */
+    private setWordList() {
+        this.wordList = this.state.wordList;
     }
 }
