@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { ArrayGenerationService } from 'src/Rules/ArrayGeneration/ArrayGenerationService';
+import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosition';
+import { WordBuilderService } from '../../Rules/WordBuilder/WordBuilderService';
 
 @Component({
     selector: 'wordsearch-playable',
@@ -9,7 +11,7 @@ import { ArrayGenerationService } from 'src/Rules/ArrayGeneration/ArrayGeneratio
         <div class="title">{{ state.title }}</div>
         <table>
             <tr *ngFor="let row of rows">
-                <td *ngFor="let column of columns">
+                <td *ngFor="let column of columns;" (click)="markLetter(row, column)">
                     {{ state.getValueAt(row, column) }}
                 </td>
             </tr>
@@ -23,7 +25,10 @@ import { ArrayGenerationService } from 'src/Rules/ArrayGeneration/ArrayGeneratio
 export class PlayableWordSearchComponent implements OnInit, OnChanges {
     @Input() public state: WordSearchState;
 
-    constructor(private arrayGenerationService: ArrayGenerationService)  {
+    constructor(
+        private arrayGenerationService: ArrayGenerationService,
+        private wordBuilderService: WordBuilderService,
+    )  {
     }
 
     // these have to be arrays to use with ngFor
@@ -31,6 +36,35 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
     public columns: number[];
 
     public wordList: string[];
+
+    // all lower for comparison purposes. must be updated with wordList.
+    public lowercaseWordList: string[];
+
+    // used to track current selection
+    private startLetter: LetterWithPosition;
+    private endLetter: LetterWithPosition;
+
+    public markLetter(row, column) {
+        let letterWithPosition = { row, column, letter: this.state.getValueAt(row, column) };
+
+        if (this.startLetter) {
+            this.endLetter = letterWithPosition;
+        } else {
+            this.startLetter = letterWithPosition;
+        }
+
+        if (this.startLetter && this.endLetter) {
+            let word = this.wordBuilderService.build(this.state, this.startLetter, this.endLetter);
+            console.log(word);
+
+            if (this.isInWordList(word)) {
+                console.log('bingo!');
+            }
+
+            this.startLetter = null;
+            this.endLetter = null;
+        }
+    }
 
     public ngOnInit() {
         this.rows = this.generateIndexArray(this.state.rows);
@@ -52,5 +86,10 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
      */
     private setWordList() {
         this.wordList = this.state.wordList;
+        this.lowercaseWordList = this.wordList.map(word => word.toLowerCase());
+    }
+
+    private isInWordList(word: string) {
+        return this.lowercaseWordList.indexOf(word.toLowerCase()) > -1;
     }
 }
