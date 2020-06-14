@@ -24,6 +24,7 @@ export class WordSearchStateFactory {
         let result = new WordSearchState();
         result.setOptions(state.options);
         result.seedMatrix(state.matrix);
+        result.acceptedWordOverride(state.wordList);
 
         return result;
     }

@@ -111,6 +111,10 @@ export class WordSearchState {
         return this.enableOverlaps && this._options.zealousOverlaps;
     }
 
+    public acceptedWordOverride(list: string[]) {
+        this.acceptedWords = list;
+    }
+
     public getValueAt(row: number, column: number) {
         return this._matrix[row][column];
     }

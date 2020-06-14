@@ -6,6 +6,7 @@ import { ButtonModule } from './Button/ButtonModule';
 import { CheckboxModule } from './Checkbox/CheckboxModule';
 import { WordSearchGeneratorFormModule } from './WordSearchGeneratorForm/WordSearchGeneratorFormModule';
 import { CardModule } from './Card/CardModule';
+import { PlayableWordSearchModule } from './PlayableWordSearch/PlayableWordSearchModule';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { CardModule } from './Card/CardModule';
         DropdownModule,
         InputModule,
         InputListModule,
+        PlayableWordSearchModule,
         WordSearchGeneratorFormModule
     ],
     exports: [
@@ -24,6 +26,7 @@ import { CardModule } from './Card/CardModule';
         DropdownModule,
         InputModule,
         InputListModule,
+        PlayableWordSearchModule,
         WordSearchGeneratorFormModule
     ]
 })
