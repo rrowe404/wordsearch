@@ -31,3 +31,7 @@
 <div class="generate">
     <wordsearch-button color="accent" text="Generate" (click)="generate()" [disabled]="gameFormGroup.pristine || gameFormGroup.invalid"></wordsearch-button>
 </div>
+
+<div class="playable" *ngIf="playableState">
+    <wordsearch-playable [state]="playableState"></wordsearch-playable>
+</div>

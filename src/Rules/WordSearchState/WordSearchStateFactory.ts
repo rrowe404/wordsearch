@@ -19,4 +19,12 @@ export class WordSearchStateFactory {
 
         return state;
     }
+
+    public createWordSearchCopy(state: WordSearchState) {
+        let result = new WordSearchState();
+        result.setOptions(state.options);
+        result.seedMatrix(state.matrix);
+
+        return result;
+    }
 }

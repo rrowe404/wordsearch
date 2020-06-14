@@ -11,6 +11,8 @@ import { WordSearchOutputStrategyFactory } from 'src/UI/WordSearchOutput/WordSea
 import { ImageWordSearchOutputStrategy } from 'src/UI/WordSearchOutput/ImageWordSearchOutputStrategy';
 import { environment } from 'src/environments/environment';
 import { WordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/WordSearchOutputStrategy';
+import { PlayableEventService } from '../PlayableEvent/PlayableEventService';
+import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
 
 @Component({
   selector: 'wordsearch-generator-form',
@@ -19,6 +21,7 @@ import { WordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/WordSearchO
 })
 export class WordSearchGeneratorFormComponent implements OnInit {
   constructor(
+    private playableEventService: PlayableEventService,
     private wordSearchGenerationService: WordSearchGenerationService,
     private wordSearchStateFactory: WordSearchStateFactory,
     private wordSearchOutputStrategyFactory: WordSearchOutputStrategyFactory,
@@ -37,6 +40,9 @@ export class WordSearchGeneratorFormComponent implements OnInit {
    */
   public dummyState: WordSearchState;
 
+  /** if this is populated, we should display a component that allows it to be played */
+  public playableState: WordSearchState;
+
   public generationOptions: WordSearchGenerationOptions = {
     height: 5,
     width: 5,
@@ -54,6 +60,7 @@ export class WordSearchGeneratorFormComponent implements OnInit {
   };
 
   public outputOptions: DropdownOption<string>[] = [
+    { value: PlayableWordSearchOutputStrategy.getValue(), viewValue: PlayableWordSearchOutputStrategy.getViewValue() },
     { value: ImageWordSearchOutputStrategy.getValue(), viewValue: ImageWordSearchOutputStrategy.getViewValue() }
   ];
 
@@ -96,6 +103,12 @@ export class WordSearchGeneratorFormComponent implements OnInit {
     this.gameFormGroup.setValidators((group) => {
       return this.getWordsFromForm().length > 0 ? null : { required: 'At least one word must be present!' }
     });
+
+    this.playableEventService.activate.subscribe((state: WordSearchState) => {
+      this.playableState = this.wordSearchStateFactory.createWordSearchCopy(state);
+    });
+
+    this.playableEventService.deactivate.subscribe(() => this.playableState = null);
   }
 
   public generate() {

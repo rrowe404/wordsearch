@@ -3,6 +3,7 @@ import { WordSearchOutputModule } from './WordSearchOutputModule';
 import { WordSearchOutputStrategy } from '../../Rules/WordSearchOutput/WordSearchOutputStrategy';
 import { ConsoleWordSearchOutputStrategy } from './ConsoleWordSearchOutputStrategy';
 import { ImageWordSearchOutputStrategy } from './ImageWordSearchOutputStrategy';
+import { PlayableWordSearchOutputStrategy } from './PlayableWordSearchOutputStrategy';
 
 @Injectable({
     providedIn: WordSearchOutputModule
@@ -10,7 +11,8 @@ import { ImageWordSearchOutputStrategy } from './ImageWordSearchOutputStrategy';
 export class WordSearchOutputStrategyFactory {
     constructor(
         private consoleWordSearchOutputStrategy: ConsoleWordSearchOutputStrategy,
-        private imageWordSearchOutputStrategy: ImageWordSearchOutputStrategy
+        private imageWordSearchOutputStrategy: ImageWordSearchOutputStrategy,
+        private playableWordSearchOutputStrategy: PlayableWordSearchOutputStrategy
     ) {
     }
 
@@ -21,6 +23,9 @@ export class WordSearchOutputStrategyFactory {
 
             case ImageWordSearchOutputStrategy.getValue():
                 return this.imageWordSearchOutputStrategy;
+
+            case PlayableWordSearchOutputStrategy.getValue():
+                return this.playableWordSearchOutputStrategy;
 
             default:
                 throw new Error('You werent supposed to be able to get here you know');

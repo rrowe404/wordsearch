@@ -7,26 +7,27 @@ import { ObjectUtils } from '../ObjectUtils/ObjectUtils';
 export class WordSearchState {
     // tslint:disable-next-line
     private _matrix: string[][];
-    private options: WordSearchGenerationOptions;
+    // tslint:disable-next-line
+    private _options: WordSearchGenerationOptions;
     private acceptedWords: string[] = [];
     private rejectedWords: string[] = [];
 
     public get columns() {
-        return this.options.width;
+        return this._options.width;
     }
 
     public get directions(): WordDirection[] {
         let result = [];
 
-        if (this.options.allowHorizontal) {
+        if (this._options.allowHorizontal) {
             result.push(WordDirection.Horizontal);
         }
 
-        if (this.options.allowVertical) {
+        if (this._options.allowVertical) {
             result.push(WordDirection.Vertical);
         }
 
-        if (this.options.allowDiagonal) {
+        if (this._options.allowDiagonal) {
             result.push(WordDirection.Diagonal);
         }
 
@@ -41,13 +42,20 @@ export class WordSearchState {
     }
 
     public get enableOverlaps() {
-        return this.options.allowOverlaps;
+        return this._options.allowOverlaps;
+    }
+
+    /**
+     * Returns a copy of the current options
+     */
+    public get options() {
+        return ObjectUtils.copy(this._options);
     }
 
     public get orientations(): WordOrientation[] {
         let result = [WordOrientation.Forwards];
 
-        if (this.options.allowBackwards) {
+        if (this._options.allowBackwards) {
             result.push(WordOrientation.Backwards);
         }
 
@@ -55,31 +63,31 @@ export class WordSearchState {
     }
 
     public get rows() {
-        return this.options.height;
+        return this._options.height;
     }
 
     public get title() {
-        return this.options.title;
+        return this._options.title;
     }
 
     public get words() {
-        return this.options.words;
+        return this._options.words;
     }
 
     public get alphabetizeWordList() {
-        return this.options.alphabetizeWordList;
+        return this._options.alphabetizeWordList;
     }
 
     public get filterAccidentalProfanity() {
-        return this.options.filterAccidentalProfanity;
+        return this._options.filterAccidentalProfanity;
     }
 
     public get showWordList() {
-        return this.options.showWordList;
+        return this._options.showWordList;
     }
 
     public get totalMessage() {
-        return `Placed ${this.acceptedWords.length} of ${this.options.words.length}`;
+        return `Placed ${this.acceptedWords.length} of ${this._options.words.length}`;
     }
 
     /**
@@ -100,7 +108,7 @@ export class WordSearchState {
     }
 
     public get zealousOverlaps(): boolean {
-        return this.enableOverlaps && this.options.zealousOverlaps;
+        return this.enableOverlaps && this._options.zealousOverlaps;
     }
 
     public getValueAt(row: number, column: number) {
@@ -116,7 +124,7 @@ export class WordSearchState {
     }
 
     public setOptions(options: WordSearchGenerationOptions) {
-        this.options = options;
+        this._options = options;
     }
 
     public acceptWord(word: string) {

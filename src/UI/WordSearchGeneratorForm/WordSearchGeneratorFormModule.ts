@@ -10,6 +10,7 @@ import { InputModule } from '../Input/InputModule';
 import { InputListModule } from '../InputList/InputListModule';
 import { WordSearchOutputModule } from 'src/UI/WordSearchOutput/WordSearchOutputModule';
 import { CardModule } from '../Card/CardModule';
+import { PlayableWordSearchModule } from '../PlayableWordSearch/PlayableWordSearchModule';
 
 @NgModule({
     imports: [
@@ -21,6 +22,7 @@ import { CardModule } from '../Card/CardModule';
         IconButtonModule,
         InputModule,
         InputListModule,
+        PlayableWordSearchModule,
         ReactiveFormsModule,
         WordSearchOutputModule
     ],
