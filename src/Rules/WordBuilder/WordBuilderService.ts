@@ -5,6 +5,7 @@ import { HorizontalWordBuilder } from './HorizontalWordBuilder';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosition';
 import { VerticalWordBuilder } from './VerticalWordBuilder';
+import { WordBuilderResult } from './WordBuilderResult';
 
 @Injectable({
     providedIn: WordBuilderModule
@@ -16,7 +17,7 @@ export class WordBuilderService implements WordBuilder {
     ) {
     }
 
-    build(currentState: WordSearchState, start: LetterWithPosition, end: LetterWithPosition): string {
+    build(currentState: WordSearchState, start: LetterWithPosition, end: LetterWithPosition): WordBuilderResult {
         if (this.isHorizontal(start, end)) {
             return this.horizontalWordBuilder.build(currentState, start, end);
         }
@@ -25,7 +26,7 @@ export class WordBuilderService implements WordBuilder {
             return this.verticalWordBuilder.build(currentState, start, end);
         }
 
-        return '';
+        return null;
     }
 
     private isHorizontal(start: LetterWithPosition, end: LetterWithPosition) {

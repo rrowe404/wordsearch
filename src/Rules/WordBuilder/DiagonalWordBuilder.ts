@@ -4,6 +4,7 @@ import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosit
 import { Injectable } from '@angular/core';
 import { WordBuilderModule } from './WordBuilderModule';
 import { StringUtils } from '../StringUtils/StringUtils';
+import { WordBuilderResult } from './WordBuilderResult';
 
 @Injectable({
     providedIn: WordBuilderModule
@@ -14,22 +15,25 @@ export class DiagonalWordBuilder implements WordBuilder {
     ) {
     }
 
-    build(currentState: WordSearchState, start: LetterWithPosition, end: LetterWithPosition): string {
-        let word = '';
+    build(currentState: WordSearchState, start: LetterWithPosition, end: LetterWithPosition): WordBuilderResult {
+        let result: WordBuilderResult;
 
         let isTopDown = this.isTopDown(start, end);
 
         if (isTopDown) {
-            word = this.buildTopDown(currentState, start, end);
+            result = this.buildTopDown(currentState, start, end);
         } else {
-            word = this.buildBottomUp(currentState, start, end);
+            result = this.buildBottomUp(currentState, start, end);
         }
 
         let isBackwards = isTopDown ?
                           start.row > end.row && start.column > end.column :
                           start.row > end.row && start.column < end.column;
 
-        return isBackwards ? this.stringUtils.reverseWord(word) : word;
+        return {
+            word: isBackwards ? this.stringUtils.reverseWord(result.word) : result.word,
+            lettersWithPositions: result.lettersWithPositions
+        };
     }
 
     private isTopDown(start: LetterWithPosition, end: LetterWithPosition) {
@@ -46,12 +50,20 @@ export class DiagonalWordBuilder implements WordBuilder {
         let startColumn = Math.min(start.column, end.column);
 
         let column = startColumn;
+        let lettersWithPositions = [];
 
         for (let row = startRow; row <= endRow; row++) {
-            word += currentState.getValueAt(row, column++);
+            let letter = currentState.getValueAt(row, column);
+            word += letter;
+            lettersWithPositions.push({ letter, row, column });
+            column++;
         }
 
-        return word;
+
+        return {
+            word,
+            lettersWithPositions
+        };
     }
 
     private buildBottomUp(currentState: WordSearchState, start: LetterWithPosition, end: LetterWithPosition) {
@@ -63,11 +75,18 @@ export class DiagonalWordBuilder implements WordBuilder {
         let startColumn = Math.max(start.column, end.column);
 
         let column = startColumn;
+        let lettersWithPositions = [];
 
         for (let row = startRow; row <= endRow; row++) {
-            word += currentState.getValueAt(row, column--);
+            let letter = currentState.getValueAt(row, column);
+            word += letter;
+            lettersWithPositions.push({ letter, row, column });
+            column--;
         }
 
-        return word;
+        return {
+            word,
+            lettersWithPositions
+        };
     }
 }

@@ -43,7 +43,14 @@ describe('DiagonalWordBuilder', () => {
 
         let result = service.build(state, start, end);
 
-        expect(result).toBe('wat');
+        let expectedLettersWithPositions = [
+            start,
+            { letter: 'a', row: 1, column: 1 },
+            end
+        ];
+
+        expect(result.word).toBe('wat');
+        TestUtils.testArrayEquivalency(result.lettersWithPositions, expectedLettersWithPositions);
     });
 
     it('should correctly identify a top-down backwards word', () => {
@@ -59,7 +66,14 @@ describe('DiagonalWordBuilder', () => {
 
         let result = service.build(state, start, end);
 
-        expect(result).toBe('wat');
+        let expectedLettersWithPositions = [
+            end,
+            { letter: 'a', row: 1, column: 1 },
+            start
+        ];
+
+        expect(result.word).toBe('wat');
+        TestUtils.testArrayEquivalency(result.lettersWithPositions, expectedLettersWithPositions);
     });
 
     it('should correctly identify a bottom-up forwards word', () => {
@@ -75,7 +89,14 @@ describe('DiagonalWordBuilder', () => {
 
         let result = service.build(state, start, end);
 
-        expect(result).toBe('wat');
+        let expectedLettersWithPositions = [
+            end,
+            { letter: 'a', row: 1, column: 1 },
+            start
+        ];
+
+        expect(result.word).toBe('wat');
+        TestUtils.testArrayEquivalency(result.lettersWithPositions, expectedLettersWithPositions);
     });
 
     it('should correctly identify a bottom-up backwards word', () => {
@@ -91,6 +112,13 @@ describe('DiagonalWordBuilder', () => {
 
         let result = service.build(state, start, end);
 
-        expect(result).toBe('wat');
+        let expectedLettersWithPositions = [
+            start,
+            { letter: 'a', row: 1, column: 1 },
+            end
+        ];
+
+        expect(result.word).toBe('wat');
+        TestUtils.testArrayEquivalency(result.lettersWithPositions, expectedLettersWithPositions);
     });
 });

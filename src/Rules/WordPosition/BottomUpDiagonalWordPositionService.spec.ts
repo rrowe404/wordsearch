@@ -51,9 +51,7 @@ describe('BottomUpDiagonalWordPositionService', () => {
             { column: 0, row: 2 }
         ];
 
-        expected.forEach((x, i) => {
-            expect(x).toEqual(result[i]);
-        });
+        TestUtils.testArrayEquivalency(result, expected);
     });
 
 
@@ -76,8 +74,6 @@ describe('BottomUpDiagonalWordPositionService', () => {
             { column: 0, row: 2, hasOverlaps: true }
         ];
 
-        expected.forEach((x, i) => {
-            expect(x).toEqual(result[i]);
-        });
+        TestUtils.testArrayEquivalency(result, expected);
     });
 });

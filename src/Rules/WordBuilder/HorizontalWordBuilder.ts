@@ -4,6 +4,7 @@ import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosit
 import { Injectable } from '@angular/core';
 import { WordBuilderModule } from './WordBuilderModule';
 import { StringUtils } from '../StringUtils/StringUtils';
+import { WordBuilderResult } from './WordBuilderResult';
 
 @Injectable({
     providedIn: WordBuilderModule
@@ -14,7 +15,8 @@ export class HorizontalWordBuilder implements WordBuilder {
     ) {
     }
 
-    build(currentState: WordSearchState, start: LetterWithPosition, end: LetterWithPosition): string {
+    build(currentState: WordSearchState, start: LetterWithPosition, end: LetterWithPosition): WordBuilderResult {
+        let lettersWithPositions = [];
         let row = start.row;
         let word = '';
         let startColumn = Math.min(start.column, end.column);
@@ -23,9 +25,16 @@ export class HorizontalWordBuilder implements WordBuilder {
         let isBackwards = start.column > end.column;
 
         for (let column = startColumn; column <= endColumn; column++) {
-            word += currentState.getValueAt(row, column);
+            let letter = currentState.getValueAt(row, column);
+            word += letter;
+            lettersWithPositions.push({ letter, row, column });
         }
 
-        return isBackwards ? this.stringUtils.reverseWord(word) : word;
+        word = isBackwards ? this.stringUtils.reverseWord(word) : word;
+
+        return {
+            word,
+            lettersWithPositions
+        };
     }
 }

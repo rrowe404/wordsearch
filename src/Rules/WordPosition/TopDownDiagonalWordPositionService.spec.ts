@@ -51,9 +51,7 @@ describe('TopDownDiagonalWordPositionService', () => {
             { column: 0, row: 0 }
         ];
 
-        expected.forEach((x, i) => {
-            expect(x).toEqual(result[i]);
-        });
+        TestUtils.testArrayEquivalency(result, expected);
     });
 
     it('should return valid data for a matrix with overlaps', () => {
@@ -75,8 +73,6 @@ describe('TopDownDiagonalWordPositionService', () => {
             { column: 0, row: 0, hasOverlaps: true }
         ];
 
-        expected.forEach((x, i) => {
-            expect(x).toEqual(result[i]);
-        });
+        TestUtils.testArrayEquivalency(result, expected);
     });
 });

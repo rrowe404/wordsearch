@@ -53,9 +53,7 @@ describe('VerticalWordPositionService', () => {
             { row: 0, column: 2 }
         ];
 
-        expected.forEach((x, i) => {
-            expect(x).toEqual(result[i]);
-        });
+        TestUtils.testArrayEquivalency(result, expected);
     });
 
     it('should return valid data for a matrix with overlaps', () => {
@@ -79,8 +77,6 @@ describe('VerticalWordPositionService', () => {
             { row: 0, column: 2 }
         ];
 
-        expected.forEach((x, i) => {
-            expect(x).toEqual(result[i]);
-        });
+        TestUtils.testArrayEquivalency(result, expected);
     });
 });

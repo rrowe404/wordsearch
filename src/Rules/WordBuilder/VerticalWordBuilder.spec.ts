@@ -43,7 +43,14 @@ describe('VerticalWordBuilder', () => {
 
         let result = service.build(state, start, end);
 
-        expect(result).toBe('wat');
+        let expectedLettersWithPositions = [
+            start,
+            { letter: 'a', row: 1, column: 0 },
+            end
+        ];
+
+        expect(result.word).toBe('wat');
+        TestUtils.testArrayEquivalency(result.lettersWithPositions, expectedLettersWithPositions);
     });
 
     it('should correctly identify a backwards word',  () => {
@@ -59,6 +66,13 @@ describe('VerticalWordBuilder', () => {
 
         let result = service.build(state, start, end);
 
-        expect(result).toBe('wat');
+        let expectedLettersWithPositions = [
+            end,
+            { letter: 'a', row: 1, column: 0 },
+            start
+        ];
+
+        expect(result.word).toBe('wat');
+        TestUtils.testArrayEquivalency(result.lettersWithPositions, expectedLettersWithPositions);
     });
 });

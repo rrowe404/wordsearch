@@ -54,10 +54,10 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
         }
 
         if (this.startLetter && this.endLetter) {
-            let word = this.wordBuilderService.build(this.state, this.startLetter, this.endLetter);
-            console.log(word);
+            let wordBuilderResult = this.wordBuilderService.build(this.state, this.startLetter, this.endLetter);
+            console.log(wordBuilderResult);
 
-            if (this.isInWordList(word)) {
+            if (this.isInWordList(wordBuilderResult.word)) {
                 console.log('bingo!');
             }
 

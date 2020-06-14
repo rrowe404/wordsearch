@@ -19,4 +19,12 @@ export class TestUtils {
             zealousOverlaps: false
         };
     }
+
+    public static testArrayEquivalency(result: any[], expected: any[]) {
+        expect(result.length).toEqual(expected.length);
+
+        expected.forEach((x, i) => {
+            expect(x).toEqual(result[i]);
+        });
+    }
 }
