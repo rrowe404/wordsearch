@@ -67,7 +67,7 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
             let wordBuilderResult = this.wordBuilderService.build(this.state, this.startLetter, this.endLetter);
             console.log(wordBuilderResult);
 
-            if (this.isInWordList(wordBuilderResult.word)) {
+            if (wordBuilderResult && this.isInWordList(wordBuilderResult.word)) {
                 let accuratelyCasedWord = this.getAccuratelyCasedWord(wordBuilderResult.word);
                 this.wordMap[accuratelyCasedWord] = true;
 
@@ -87,13 +87,11 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
     }
 
     public ngOnInit() {
-        this.rows = this.generateIndexArray(this.state.rows);
-        this.columns = this.generateIndexArray(this.state.columns);
-        this.setWordList();
+        this.intialize();
     }
 
     public ngOnChanges() {
-        this.setWordList();
+        this.intialize();
     }
 
     public winner() {
@@ -102,6 +100,11 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
 
     private generateIndexArray(length: number) {
         return this.arrayGenerationService.generateEmptyArray(length).map((value, i) => i);
+    }
+
+    private intialize() {
+        this.setSize();
+        this.setWordList();
     }
 
     /**
@@ -116,6 +119,11 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
         this.wordList.forEach((word) => this.wordMap[word] = false);
 
         this.letterMap = {};
+    }
+
+    private setSize() {
+        this.rows = this.generateIndexArray(this.state.rows);
+        this.columns = this.generateIndexArray(this.state.columns);
     }
 
     private isInWordList(word: string) {
