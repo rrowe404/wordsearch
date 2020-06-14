@@ -6,6 +6,7 @@ import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosition';
 import { VerticalWordBuilder } from './VerticalWordBuilder';
 import { WordBuilderResult } from './WordBuilderResult';
+import { DiagonalWordBuilder } from './DiagonalWordBuilder';
 
 @Injectable({
     providedIn: WordBuilderModule
@@ -13,7 +14,8 @@ import { WordBuilderResult } from './WordBuilderResult';
 export class WordBuilderService implements WordBuilder {
     constructor(
         private horizontalWordBuilder: HorizontalWordBuilder,
-        private verticalWordBuilder: VerticalWordBuilder
+        private verticalWordBuilder: VerticalWordBuilder,
+        private diagonalWordBuilder: DiagonalWordBuilder
     ) {
     }
 
@@ -26,6 +28,10 @@ export class WordBuilderService implements WordBuilder {
             return this.verticalWordBuilder.build(currentState, start, end);
         }
 
+        if (this.isDiagonal(start, end)) {
+            return this.diagonalWordBuilder.build(currentState, start, end);
+        }
+
         return null;
     }
 
@@ -35,5 +41,10 @@ export class WordBuilderService implements WordBuilder {
 
     private isVertical(start: LetterWithPosition, end: LetterWithPosition) {
         return start.column === end.column;
+    }
+
+    private isDiagonal(start: LetterWithPosition, end: LetterWithPosition) {
+        return start.row - end.row === start.column - end.column ||
+               start.row - end.row === end.column - start.column;
     }
 }
