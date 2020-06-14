@@ -11,14 +11,18 @@ import { WordBuilderService } from '../../Rules/WordBuilder/WordBuilderService';
         <div class="title">{{ state.title }}</div>
         <table>
             <tr *ngFor="let row of rows">
-                <td *ngFor="let column of columns;" (click)="markLetter(row, column)">
+                <td *ngFor="let column of columns;" (click)="markLetter(row, column)" [class.completed]="isLetterCompleted(row, column)">
                     {{ state.getValueAt(row, column) }}
                 </td>
             </tr>
         </table>
 
-        <div *ngFor="let word of wordList">
+        <div *ngFor="let word of wordList" [class.completed]="wordMap[word]">
             {{ word }}
+        </div>
+
+        <div class="win" *ngIf="winner()">
+            WINNER
         </div>
     `
 })
@@ -36,6 +40,12 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
     public columns: number[];
 
     public wordList: string[];
+
+    // keeps track of what has been found
+    public wordMap: { [key: string]: boolean };
+
+    // keeps track of letters of words that have been found
+    public letterMap: { [key: string]: boolean };
 
     // all lower for comparison purposes. must be updated with wordList.
     public lowercaseWordList: string[];
@@ -58,12 +68,22 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
             console.log(wordBuilderResult);
 
             if (this.isInWordList(wordBuilderResult.word)) {
-                console.log('bingo!');
+                let accuratelyCasedWord = this.getAccuratelyCasedWord(wordBuilderResult.word);
+                this.wordMap[accuratelyCasedWord] = true;
+
+                wordBuilderResult.lettersWithPositions.forEach(lwp => {
+                    this.letterMap[this.computeLetterMapKey(lwp)] = true;
+                });
             }
 
             this.startLetter = null;
             this.endLetter = null;
         }
+    }
+
+    public isLetterCompleted(row, column) {
+        let letterWithPosition: LetterWithPosition = { letter: '', row, column };
+        return this.letterMap[this.computeLetterMapKey(letterWithPosition)];
     }
 
     public ngOnInit() {
@@ -74,6 +94,10 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
 
     public ngOnChanges() {
         this.setWordList();
+    }
+
+    public winner() {
+        return Object.keys(this.wordMap).every(key => this.wordMap[key]);
     }
 
     private generateIndexArray(length: number) {
@@ -87,9 +111,28 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
     private setWordList() {
         this.wordList = this.state.wordList;
         this.lowercaseWordList = this.wordList.map(word => word.toLowerCase());
+
+        this.wordMap = {};
+        this.wordList.forEach((word) => this.wordMap[word] = false);
+
+        this.letterMap = {};
     }
 
     private isInWordList(word: string) {
         return this.lowercaseWordList.indexOf(word.toLowerCase()) > -1;
+    }
+
+    private getAccuratelyCasedWord(offcasedWord: string) {
+        let index = this.wordList.findIndex(word => word.toLowerCase() === offcasedWord.toLowerCase());
+
+        if (index > -1) {
+            return this.wordList[index];
+        }
+
+        return '';
+    }
+
+    private computeLetterMapKey(letterWithPosition: LetterWithPosition) {
+        return `${letterWithPosition.row}-${letterWithPosition.column}`;
     }
 }
