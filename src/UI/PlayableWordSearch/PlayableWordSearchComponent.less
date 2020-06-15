@@ -1,3 +1,5 @@
+@import (reference) "../Styles/Variables.less";
+
 :host {
     @highlightColor: rgba(255, 0, 0, 0.5);
 
@@ -15,6 +17,11 @@
 
     .title {
         text-align: center;;
+    }
+
+    .wordListWord {
+        display: inline-block;
+        margin-right: @standardMargin / 2;
     }
 
     table {

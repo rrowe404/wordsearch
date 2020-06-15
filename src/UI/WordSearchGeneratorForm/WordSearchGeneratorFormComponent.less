@@ -1,11 +1,16 @@
 @import (reference) "../Styles/Mixins.less";
+@import (reference) "../Styles/Variables.less";
 
 :host {
-    @margin: 16px;
+    @margin: @standardMargin;
 
     .center-flex;
 
     .generate {
+      margin-top: @margin;
+    }
+
+    .playable {
       margin-top: @margin;
     }
 

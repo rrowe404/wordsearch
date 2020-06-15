@@ -17,8 +17,10 @@ import { WordBuilderService } from '../../Rules/WordBuilder/WordBuilderService';
             </tr>
         </table>
 
-        <div *ngFor="let word of wordList" [class.completed]="wordMap[word]">
-            {{ word }}
+        <div class="wordListContainer" [style.maxWidth]="getTableWidth()">
+            <div *ngFor="let word of wordList" class="wordListWord" [class.completed]="wordMap[word]">
+                {{ word }}
+            </div>
         </div>
 
         <div class="win" *ngIf="winner()">
