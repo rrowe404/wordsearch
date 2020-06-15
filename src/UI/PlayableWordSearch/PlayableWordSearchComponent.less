@@ -2,6 +2,7 @@
 
 :host {
     @highlightColor: rgba(255, 0, 0, 0.5);
+    @margin: @standardMargin / 2;
 
     display: block;
     user-select: none;
@@ -19,9 +20,18 @@
         text-align: center;;
     }
 
+    .win {
+        margin-top: @margin;
+        text-align: center;
+    }
+
+    .wordListContainer {
+        margin-top: @margin;
+    }
+
     .wordListWord {
         display: inline-block;
-        margin-right: @standardMargin / 2;
+        margin-right: @margin;
     }
 
     table {
