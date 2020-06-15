@@ -1,18 +1,29 @@
 :host {
+    @highlightColor: rgba(255, 0, 0, 0.5);
+
     display: block;
     user-select: none;
     width: 100%;
 
     .completed {
-        background-color: rgba(255, 0, 0, 0.5);
+        background-color: @highlightColor;
+    }
+
+    .pending {
+        outline: 1px inset @highlightColor;
     }
 
     .title {
         text-align: center;;
     }
 
+    table {
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
     td {
         text-align: center;
-        width: 1em;
+        padding: 0;
     }
 }

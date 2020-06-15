@@ -9,9 +9,9 @@ import { WordBuilderService } from '../../Rules/WordBuilder/WordBuilderService';
     styleUrls: ['./PlayableWordSearchComponent.less'],
     template: `
         <div class="title">{{ state.title }}</div>
-        <table>
+        <table [style.width]="getTableWidth()">
             <tr *ngFor="let row of rows">
-                <td *ngFor="let column of columns;" (click)="markLetter(row, column)" [class.completed]="isLetterCompleted(row, column)">
+                <td *ngFor="let column of columns;" (click)="markLetter(row, column)" [class.completed]="isLetterCompleted(row, column)" [class.pending]="isLetterPending(row, column)">
                     {{ state.getValueAt(row, column) }}
                 </td>
             </tr>
@@ -54,6 +54,10 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
     private startLetter: LetterWithPosition;
     private endLetter: LetterWithPosition;
 
+    public getTableWidth() {
+        return this.state.columns * 20 + 'px';
+    }
+
     public markLetter(row, column) {
         let letterWithPosition = { row, column, letter: this.state.getValueAt(row, column) };
 
@@ -84,6 +88,10 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
     public isLetterCompleted(row, column) {
         let letterWithPosition: LetterWithPosition = { letter: '', row, column };
         return this.letterMap[this.computeLetterMapKey(letterWithPosition)];
+    }
+
+    public isLetterPending(row, column) {
+        return this.startLetter && this.startLetter.row === row && this.startLetter.column === column;
     }
 
     public ngOnInit() {
