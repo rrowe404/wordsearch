@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from '../Button/ButtonModule';
 import { CheckboxModule } from '../Checkbox/CheckboxModule';
 import { DropdownModule } from '../Dropdown/DropdownModule';
-import { IconButtonModule } from '../IconButton/IconButtonModule';
 import { InputModule } from '../Input/InputModule';
 import { InputListModule } from '../InputList/InputListModule';
 import { WordSearchOutputModule } from 'src/UI/WordSearchOutput/WordSearchOutputModule';
@@ -19,7 +18,6 @@ import { PlayableWordSearchModule } from '../PlayableWordSearch/PlayableWordSear
         CommonModule,
         CheckboxModule,
         DropdownModule,
-        IconButtonModule,
         InputModule,
         InputListModule,
         PlayableWordSearchModule,

@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup, ValidatorFn } from '@angular/forms';
 import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
 
@@ -7,7 +7,7 @@ import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
     template: `
         <div *ngFor="let input of inputs; let i = index;">
             <wordsearch-input [name]="input.name" [formGroup]="formGroup" [validators]="validators"></wordsearch-input>
-            <wordsearch-icon-button icon="close" (click)="removeSlot(i)"></wordsearch-icon-button>
+            <button class="icon" (click)="removeSlot(i)">✖</button>
         </div>
 
         <wordsearch-button [text]="addSlotButtonText" (click)="addSlot()"></wordsearch-button>
