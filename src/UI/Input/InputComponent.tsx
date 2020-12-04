@@ -3,8 +3,12 @@ import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms'
 import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { InvalidErrorStateMatcher } from '../ErrorStateMatcher/InvalidErrorStateMatcher';
+import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
+import * as React from 'react';
+import { InputComponent as ReactInputComponent } from './ReactInputComponent';
 
 /** Barrier between app and third-party inputs */
+
 @Component({
     selector: 'wordsearch-input',
     template: `
@@ -17,9 +21,20 @@ import { InvalidErrorStateMatcher } from '../ErrorStateMatcher/InvalidErrorState
                 </div>
             </div>
         </mat-form-field>
+
+        <div [id]="rootId">
+        </div>
     `
 })
-export class InputComponent implements OnDestroy, OnInit {
+export class InputComponent extends ReactAdapter implements OnDestroy, OnInit {
+    constructor(
+        private element: ElementRef,
+        private inputFocusEventService: InputFocusEventService
+    ) {
+        super();
+    }
+
+    static count = 0;
     @Input() public label: string;
     @Input() public name: string;
     @Input() public formGroup: FormGroup;
@@ -36,11 +51,11 @@ export class InputComponent implements OnDestroy, OnInit {
 
     public formControl: FormControl;
     public matcher: ErrorStateMatcher = new InvalidErrorStateMatcher();
+    rootId = `wordsearch-input-${InputComponent.count++}`;
 
-    constructor(
-        private element: ElementRef,
-        private inputFocusEventService: InputFocusEventService
-    ) {}
+    getComponent(): JSX.Element {
+        return ( <ReactInputComponent label={this.label} name={this.name} value={this.value}></ReactInputComponent> );
+    }
 
     public ngOnDestroy() {
         // this is a fallback, if the input is being removed by a parent component,
