@@ -1,3 +1,5 @@
+import { InputErrors } from './InputErrors';
+
 export interface InputProps {
     label?: string;
     name: string;
@@ -6,4 +8,6 @@ export interface InputProps {
     max?: number;
     required?: boolean;
     value: string;
+
+    validators?: Array<(value: string) => InputErrors>;
 }

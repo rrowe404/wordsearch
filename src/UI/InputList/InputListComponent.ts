@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup, ValidatorFn } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { InputErrors } from '../Input/InputErrors';
 import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
 
 @Component({
     selector: 'wordsearch-input-list',
     template: `
         <div *ngFor="let input of inputs; let i = index;">
-            <wordsearch-input [name]="input.name" [formGroup]="formGroup" [validators]="validators"></wordsearch-input>
+            <wordsearch-input [name]="input.name" [validators]="validators"></wordsearch-input>
             <button class="icon" (click)="removeSlot(i)">✖</button>
         </div>
 
@@ -15,7 +16,7 @@ import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
 })
 export class InputListComponent {
     @Input() public formGroup: FormGroup;
-    @Input() public validators: ValidatorFn[];
+    @Input() public validators: Array<() => InputErrors>;
     @Input() public addSlotButtonText = 'Add Slot';
 
     private counter = 0;

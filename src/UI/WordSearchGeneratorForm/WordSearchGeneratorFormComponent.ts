@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ValidatorFn, AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
 import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { WordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/WordSearchOutputStrategy';
 import { PlayableEventService } from '../PlayableEvent/PlayableEventService';
 import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
+import { InputErrors } from '../Input/InputErrors';
 
 @Component({
   selector: 'wordsearch-generator-form',
@@ -66,7 +67,7 @@ export class WordSearchGeneratorFormComponent implements OnInit {
 
   public selectedOutputOption: string;
 
-  public wordValidators: ValidatorFn[];
+  public wordValidators: Array<(value: string) => InputErrors>;
 
   private outputStrategy: WordSearchOutputStrategy;
 
@@ -83,8 +84,8 @@ export class WordSearchGeneratorFormComponent implements OnInit {
     this.dummyState = this.wordSearchStateFactory.createWordSearch(this.generationOptions);
 
     this.wordValidators = [
-      (control: AbstractControl) => {
-        return this.wordValidationService.getErrors(this.dummyState, control.value);
+      (value: string) => {
+        return this.wordValidationService.getErrors(this.dummyState, value);
       }
     ];
 
