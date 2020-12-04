@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     let container = document.querySelector('#react_container');
-    ReactDOM.render(React.createElement(ButtonComponent), container);
-
+    let element = <ButtonComponent color='primary' text='Hello World' />;
+    ReactDOM.render(element, container);
   }
 }

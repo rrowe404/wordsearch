@@ -1,11 +1,16 @@
 import * as React from 'react';
+import { ButtonProps } from './ButtonProps';
 
 export class ButtonComponent extends React.Component {
-    constructor(props) {
+    private color: string;
+
+    constructor(public props: ButtonProps) {
         super(props);
+
+        this.color = props.color || 'primary';
     }
 
     render() {
-        return ( <div>Hello World</div> );
+        return (<button className={this.color} disabled={this.props.disabled}>{this.props.text}</button>);
     }
 }
