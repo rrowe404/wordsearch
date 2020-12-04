@@ -1,19 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { ButtonComponent } from 'src/UI/Button/ReactButtonComponent';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'wordsearch-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'wordsearch';
-
-  ngOnInit() {
-    let container = document.querySelector('#react_container');
-    let element = <ButtonComponent color='primary' text='Hello World' />;
-    ReactDOM.render(element, container);
-  }
 }
