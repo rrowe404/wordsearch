@@ -11,11 +11,11 @@ import { InvalidErrorStateMatcher } from '../ErrorStateMatcher/InvalidErrorState
         <mat-form-field>
             <label *ngIf="label">{{ label }}</label>
             <input matInput [errorStateMatcher]="matcher" [formControl]="formControl" (keyup)="updateValue($event)" (mouseup)="updateValue($event)" [type]="type" />
-            <mat-error *ngIf="formControl.invalid">
+            <div class="error" *ngIf="formControl.invalid">
                 <div *ngFor="let message of getErrorMessages()">
                     {{ message }}
                 </div>
-            </mat-error>
+            </div>
         </mat-form-field>
     `
 })

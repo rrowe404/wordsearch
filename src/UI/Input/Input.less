@@ -1,9 +1,19 @@
 wordsearch-input,
 wordsearch-dropdown {
+    @shrank: 0.75em;
+    @adjustment: 3px;
+
     label {
-        font-size: 0.75em;
+        font-size: @shrank;
         opacity: 0.9;
         position: relative;
-        top: -3px;
+        top: -@adjustment;
+    }
+
+    .error {
+        font-size: @shrank;
+        color: #f44336;
+        position: absolute;
+        top: calc(100% + @adjustment);
     }
 }
