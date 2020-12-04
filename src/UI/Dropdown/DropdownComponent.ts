@@ -6,8 +6,8 @@ import { MatSelectChange } from '@angular/material/select';
 @Component({
     selector: 'wordsearch-dropdown',
     template: `
-        <mat-form-field>
-            <mat-label>{{ label }}</mat-label>
+        <mat-form-field class="wordsearch-dropdown">
+            <label>{{ label }}</label>
 
             <mat-select (selectionChange)="selectionChanged($event)" [value]="selected">
                 <mat-option *ngFor="let option of options" [value]="option.value">

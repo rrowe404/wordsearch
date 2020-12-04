@@ -8,7 +8,7 @@ import { InvalidErrorStateMatcher } from '../ErrorStateMatcher/InvalidErrorState
 @Component({
     selector: 'wordsearch-input',
     template: `
-        <mat-form-field class="wordsearch-input">
+        <mat-form-field>
             <label *ngIf="label">{{ label }}</label>
             <input matInput [errorStateMatcher]="matcher" [formControl]="formControl" (keyup)="updateValue($event)" (mouseup)="updateValue($event)" [type]="type" />
             <mat-error *ngIf="formControl.invalid">
