@@ -3,6 +3,7 @@ import { LabelComponent } from '../Label/LabelComponent';
 import { InputProps } from './InputProps';
 import { InputErrors } from './InputErrors';
 import { ErrorsComponent } from '../Errors/ErrorsComponent';
+import { Field, Form, Formik } from 'formik';
 
 class InputState {
     errors: InputErrors;
@@ -17,22 +18,31 @@ export class InputComponent extends React.Component<{}, InputState> {
     }
 
     render() {
+        let initialValues = {};
+        initialValues[this.props.name] = this.state.value;
+
         return (
-            <div>
-                <LabelComponent label={this.props.label} />
-                <input type={this.props.inputType} value={this.state.value} onChange={(e) => this.handleChange(e)}></input>
-                <ErrorsComponent errors={this.state.errors} />
-            </div>
+            <Formik initialValues={initialValues} onSubmit={() => {}} validate={(values) => this.validate(values)}>
+                <Form>
+                    <LabelComponent label={this.props.label} />
+                    <Field type={this.props.inputType} name={this.props.name}></Field>
+                    <ErrorsComponent errors={this.state.errors} />
+                </Form>
+            </Formik>
         );
     }
 
     handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         let value = e.target.value;
-        let errors = this.processErrors(value);
-        this.setState({ errors, value });
+        this.setState({ value });
     }
 
-    processErrors(value: string) {
+    minMax() {
+        return `(${this.props.min}-${this.props.max})`;
+    }
+
+    validate(values) {
+        let value = values[this.props.name];
         let result: InputErrors = {};
 
         if (this.props.required && !value) {
@@ -40,7 +50,7 @@ export class InputComponent extends React.Component<{}, InputState> {
         }
 
         if ('min' in this.props && parseInt(value, 10) < this.props.min) {
-             result.min = this.minMax();
+            result.min = this.minMax();
         }
 
         if ('max' in this.props && parseInt(value, 10) > this.props.max) {
@@ -49,17 +59,14 @@ export class InputComponent extends React.Component<{}, InputState> {
 
         if (this.props.validators) {
             this.props.validators.forEach(validator => {
-                let errors = validator(this.state.value);
+                let errors = validator(value);
 
                 Object.assign(result, errors);
             });
         }
 
+        this.setState({ errors: result });
 
         return result;
-    }
-
-    minMax() {
-        return `(${this.props.min}-${this.props.max})`;
     }
 }
