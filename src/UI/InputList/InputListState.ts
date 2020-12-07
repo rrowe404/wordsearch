@@ -1,3 +1,5 @@
+import { Input } from '../Input/Input';
+
 export interface InputListState {
-    inputs: Array<{name: string}>;
+    inputs: Array<Input<string>>;
 }

@@ -14,6 +14,7 @@ import { WordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/WordSearchO
 import { PlayableEventService } from '../PlayableEvent/PlayableEventService';
 import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
 import { InputErrors } from '../Input/InputErrors';
+import { Input } from '../Input/Input';
 
 @Component({
   selector: 'wordsearch-generator-form',
@@ -71,6 +72,8 @@ export class WordSearchGeneratorFormComponent implements OnInit {
 
   private outputStrategy: WordSearchOutputStrategy;
 
+  private currentFormWords: any[] = [];
+
   public ngOnInit() {
     if (!environment.production) {
       this.outputOptions.push({
@@ -126,7 +129,7 @@ export class WordSearchGeneratorFormComponent implements OnInit {
   }
 
   private getWordsFromForm() {
-    let formValues = Object.keys(this.wordFormGroup.controls).map(key => this.wordFormGroup.controls[key].value);
+    let formValues = this.currentFormWords;
 
     // don't include blanks
     let result = formValues.filter(val => !!val);
@@ -146,6 +149,7 @@ export class WordSearchGeneratorFormComponent implements OnInit {
 
   public setTitle(title: string) {
     this.generationOptions.title = title;
+    this.gameFormGroup.markAsDirty(); // TODO REMOVE
   }
 
   public setShowWordList(showWordList: boolean) {
@@ -193,5 +197,11 @@ export class WordSearchGeneratorFormComponent implements OnInit {
     Object.keys(this.wordFormGroup.controls).forEach(key => {
       this.wordFormGroup.controls[key].updateValueAndValidity();
     });
+  }
+
+  public updateWords(inputs: Array<Input<string>>) {
+    this.currentFormWords = inputs.map(input => input.value);
+    this.gameFormGroup.markAsDirty();
+    this.gameFormGroup.updateValueAndValidity();
   }
 }

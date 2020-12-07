@@ -22,7 +22,7 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
                 {this.state.inputs.map((input, i) => {
                     return ( <div key={input.name}>
                         <InputComponent name={input.name} validators={this.props.validators}
-                            value='' updated={() => this.inputUpdated()} />
+                            value='' updated={(value) => this.updateInput(i, value)} />
 
                         <button className='icon' onClick={(e) => this.removeSlot(e, i)}>✖</button>
                     </div> );
@@ -55,8 +55,17 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
         });
     }
 
-    public inputUpdated() {
-        // do something amazing
+    public updateInput(index: number, value: string) {
+        let inputs = this.state.inputs.slice();
+        let input = this.state.inputs[index];
+        input.value = value;
+        inputs[index] = input;
+
+        this.setState({
+            inputs
+        });
+
+        this.props.changed(this.state.inputs);
     }
 
     private focusNewestInput() {

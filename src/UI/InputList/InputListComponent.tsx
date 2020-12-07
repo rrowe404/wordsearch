@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { InputErrors } from '../Input/InputErrors';
 import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
 import * as React from 'react';
 import { ReactInputListComponent } from './ReactInputListComponent';
+import { Input as MyInput } from '../Input/Input';
 
 @Component({
     selector: 'wordsearch-input-list',
@@ -15,13 +15,21 @@ import { ReactInputListComponent } from './ReactInputListComponent';
 export class InputListComponent extends ReactAdapter {
     static counter = 0;
 
-    @Input() public formGroup: FormGroup;
     @Input() public validators: Array<() => InputErrors>;
     @Input() public addSlotButtonText = 'Add Slot';
+    @Output() public changed = new EventEmitter<Array<MyInput<string>>>();
 
     rootId = `wordsearch-input-list-${InputListComponent.counter++}`;
 
     getComponent(): JSX.Element {
-        return ( <ReactInputListComponent addSlotButtonText={this.addSlotButtonText} validators={this.validators} /> );
+        return (
+            <ReactInputListComponent addSlotButtonText={this.addSlotButtonText}
+                                     validators={this.validators}
+                                     changed={(inputs) => this.inputListChanged(inputs) } />
+        );
+    }
+
+    inputListChanged(inputs: Array<MyInput<string>>) {
+        this.changed.emit(inputs);
     }
 }

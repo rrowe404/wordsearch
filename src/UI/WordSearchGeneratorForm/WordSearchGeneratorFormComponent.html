@@ -21,7 +21,7 @@
 </wordsearch-card>
 
 <wordsearch-card title="Word List">
-    <wordsearch-input-list addSlotButtonText="Add Word Slot" [formGroup]="wordFormGroup" [validators]="wordValidators"></wordsearch-input-list>
+    <wordsearch-input-list addSlotButtonText="Add Word Slot" [validators]="wordValidators" (changed)="updateWords($event)"></wordsearch-input-list>
 </wordsearch-card>
 
 <wordsearch-card title="Output" [hidden]="outputOptions.length < 2">

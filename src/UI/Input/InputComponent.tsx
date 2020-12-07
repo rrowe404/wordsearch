@@ -44,7 +44,7 @@ export class InputComponent extends ReactAdapter implements OnInit {
                 label={this.label} name={this.name} value={this.value}
                 required={this.required} min={this.min} max={this.max}
                 inputType={this.type} validators={this.validators}
-                updated={() => this.onUpdate()}
+                updated={(value) => this.onUpdate(value)}
             ></ReactInputComponent>
         );
     }
@@ -57,7 +57,7 @@ export class InputComponent extends ReactAdapter implements OnInit {
         });
     }
 
-    public onUpdate() {
-        this.changed.emit('eureka');
+    public onUpdate(value: string) {
+        this.changed.emit(value);
     }
 }

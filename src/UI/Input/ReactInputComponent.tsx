@@ -36,9 +36,9 @@ export class InputComponent extends React.Component<{}, InputState> {
         );
     }
 
-    handleChange(e: React.ChangeEvent, props: FormikProps<any>) {
+    handleChange(e: React.ChangeEvent<HTMLInputElement>, props: FormikProps<any>) {
         props.handleChange(e);
-        this.props.updated();
+        this.props.updated(e.target.value);
     }
 
     minMax() {
