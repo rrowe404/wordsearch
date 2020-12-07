@@ -6,7 +6,6 @@ import { ErrorsComponent } from '../Errors/ErrorsComponent';
 import { Field, Form, Formik, FormikProps, useFormik } from 'formik';
 
 class InputState {
-    errors: InputErrors;
     value: string;
 }
 
@@ -14,22 +13,24 @@ export class InputComponent extends React.Component<{}, InputState> {
     constructor(public props: InputProps) {
         super(props);
 
-        this.state = { value: props.value || '', errors: {} };
+        this.state = { value: props.value || '' };
     }
 
     render() {
         let initialValues = {};
         initialValues[this.props.name] = this.state.value;
 
+        let initialErrors = this.validate(initialValues);
+
         return (
-            <Formik initialValues={initialValues} onSubmit={() => { }} validate={(values) => this.validate(values)}>
+            <Formik initialErrors={initialErrors} initialValues={initialValues}
+                    onSubmit={() => { }} validate={(values) => this.validate(values)}>
                 {props => (
                     <Form>
                         <LabelComponent label={this.props.label} />
                         <Field onChange={(e) => this.handleChange(e, props)} type={this.props.inputType} name={this.props.name}></Field>
-                        <ErrorsComponent errors={this.state.errors} />
+                        <ErrorsComponent errors={props.errors} />
                     </Form>
-
                 )}
             </Formik>
         );
@@ -67,8 +68,6 @@ export class InputComponent extends React.Component<{}, InputState> {
                 Object.assign(result, errors);
             });
         }
-
-        this.setState({ errors: result });
 
         return result;
     }
