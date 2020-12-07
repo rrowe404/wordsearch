@@ -60,6 +60,7 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
     }
 
     private focusNewestInput() {
+        // TODO
         // setTimeout(() => {
         //     this.inputFocusEventService.inputFocusEvent.emit(this.inputs[this.inputs.length - 1].name);
         // });
