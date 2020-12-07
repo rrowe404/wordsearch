@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ElementRef } from '@angular/core';
 import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
 import * as React from 'react';
 import { InputComponent as ReactInputComponent } from './ReactInputComponent';
-import { ValidatorFn } from '@angular/forms';
 import { InputErrors } from './InputErrors';
 
 /** Barrier between app and third-party inputs */
