@@ -1,12 +1,20 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
+import { CheckboxComponent as ReactCheckboxComponent } from './ReactCheckboxComponent';
+import * as React from 'react';
+
 
 /** Barrier */
 @Component({
     selector: 'wordsearch-checkbox',
-    template: `<mat-checkbox [formControl]="formControl" (click)="update()">{{ label }}</mat-checkbox>`
+    template: `
+        <div [id]="rootId"></div>
+    `
 })
-export class CheckboxComponent implements OnInit {
+export class CheckboxComponent extends ReactAdapter implements OnInit {
+    static count = 0;
+
     @Input() public formGroup: FormGroup;
     @Input() public label: string;
     @Input() public name: string;
@@ -15,6 +23,18 @@ export class CheckboxComponent implements OnInit {
     @Output() public changed: EventEmitter<boolean> = new EventEmitter();
 
     public formControl: FormControl;
+
+    rootId = `wordsearch-checkbox-${CheckboxComponent.count++}`;
+
+    getComponent(): JSX.Element {
+        return (
+            <ReactCheckboxComponent
+                label={this.label}
+                name={this.name}
+                value={this.value}
+                changed={(value) => this.update(value)} />
+        );
+    }
 
     public ngOnInit() {
         if (!this.name) {
@@ -28,10 +48,7 @@ export class CheckboxComponent implements OnInit {
         }
     }
 
-    public update() {
-        // need timeout for formControl.value to be accurate for some reason
-        setTimeout(() => {
-            this.changed.emit(this.formControl.value);
-        });
+    public update(value: boolean) {
+        this.changed.emit(value);
     }
 }

@@ -122,6 +122,7 @@ export class PlayableWordSearchComponent implements OnInit, OnChanges {
      * so it should only be updated when necessary
      */
     private setWordList() {
+        // TODO this causes issues when 'show word list' is off
         this.wordList = this.state.wordList;
         this.lowercaseWordList = this.wordList.map(word => word.toLowerCase());
 
