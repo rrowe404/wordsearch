@@ -59,8 +59,4 @@ export class InputComponent extends ReactAdapter implements OnInit {
             }
         });
     }
-
-    public updateValue(event: any) {
-        this.changed.emit(event.target.value);
-    }
 }
