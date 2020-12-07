@@ -10,4 +10,5 @@ export interface InputProps {
     value: string;
 
     validators?: Array<(value: string) => InputErrors>;
+    updated(): void;
 }

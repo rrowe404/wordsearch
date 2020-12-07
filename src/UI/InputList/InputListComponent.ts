@@ -7,7 +7,7 @@ import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
     selector: 'wordsearch-input-list',
     template: `
         <div *ngFor="let input of inputs; let i = index;">
-            <wordsearch-input [name]="input.name" [validators]="validators"></wordsearch-input>
+            <wordsearch-input [name]="input.name" [validators]="validators" (changed)="inputUpdated()"></wordsearch-input>
             <button class="icon" (click)="removeSlot(i)">✖</button>
         </div>
 
@@ -47,5 +47,9 @@ export class InputListComponent {
         setTimeout(() => {
             this.inputFocusEventService.inputFocusEvent.emit(this.inputs[this.inputs.length - 1].name);
         });
+    }
+
+    public inputUpdated() {
+        // do something amazing
     }
 }

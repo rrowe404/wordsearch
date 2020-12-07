@@ -3,7 +3,7 @@ import { LabelComponent } from '../Label/LabelComponent';
 import { InputProps } from './InputProps';
 import { InputErrors } from './InputErrors';
 import { ErrorsComponent } from '../Errors/ErrorsComponent';
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, FormikProps, useFormik } from 'formik';
 
 class InputState {
     errors: InputErrors;
@@ -22,19 +22,22 @@ export class InputComponent extends React.Component<{}, InputState> {
         initialValues[this.props.name] = this.state.value;
 
         return (
-            <Formik initialValues={initialValues} onSubmit={() => {}} validate={(values) => this.validate(values)}>
-                <Form>
-                    <LabelComponent label={this.props.label} />
-                    <Field type={this.props.inputType} name={this.props.name}></Field>
-                    <ErrorsComponent errors={this.state.errors} />
-                </Form>
+            <Formik initialValues={initialValues} onSubmit={() => { }} validate={(values) => this.validate(values)}>
+                {props => (
+                    <Form>
+                        <LabelComponent label={this.props.label} />
+                        <Field onChange={(e) => this.handleChange(e, props)} type={this.props.inputType} name={this.props.name}></Field>
+                        <ErrorsComponent errors={this.state.errors} />
+                    </Form>
+
+                )}
             </Formik>
         );
     }
 
-    handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        let value = e.target.value;
-        this.setState({ value });
+    handleChange(e: React.ChangeEvent, props: FormikProps<any>) {
+        props.handleChange(e);
+        this.props.updated();
     }
 
     minMax() {
