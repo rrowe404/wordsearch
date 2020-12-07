@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { InputErrors } from '../Input/InputErrors';
 import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
+import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
+import * as React from 'react';
 
 @Component({
     selector: 'wordsearch-input-list',
@@ -12,21 +14,33 @@ import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
         </div>
 
         <wordsearch-button [text]="addSlotButtonText" (click)="addSlot()"></wordsearch-button>
+
+        <div [id]="rootId">
+        </div>
     `
 })
-export class InputListComponent {
+export class InputListComponent extends ReactAdapter {
+    static counter = 0;
+
     @Input() public formGroup: FormGroup;
     @Input() public validators: Array<() => InputErrors>;
     @Input() public addSlotButtonText = 'Add Slot';
+    public inputs: Array<{name: string }> = [{ name: this.getNextName() }];
 
-    private counter = 0;
+    private inputCounter = 0;
+
+    rootId = `wordsearch-input-list-${InputListComponent.counter++}`;
+
+    getComponent(): JSX.Element {
+        return ( <div>Hello</div> );
+    }
 
     constructor(
         private inputFocusEventService: InputFocusEventService
     ) {
+        super();
     }
 
-    public inputs: Array<{name: string }> = [{ name: this.getNextName() }];
 
     public addSlot() {
         this.inputs.push({ name: this.getNextName() });
@@ -34,7 +48,7 @@ export class InputListComponent {
     }
 
     public getNextName() {
-        return `input-${this.counter++}`;
+        return `input-${this.inputCounter++}`;
     }
 
     public removeSlot(index: number) {
