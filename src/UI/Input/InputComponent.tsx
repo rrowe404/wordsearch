@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ElementRef } from '@angular/core';
 import { InputFocusEventService } from '../InputFocus/InputFocusEventService';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { InvalidErrorStateMatcher } from '../ErrorStateMatcher/InvalidErrorStateMatcher';
 import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
 import * as React from 'react';
 import { InputComponent as ReactInputComponent } from './ReactInputComponent';
@@ -39,7 +38,6 @@ export class InputComponent extends ReactAdapter implements OnInit {
 
     @Output() public changed: EventEmitter<string> = new EventEmitter();
 
-    public matcher: ErrorStateMatcher = new InvalidErrorStateMatcher();
     rootId = `wordsearch-input-${InputComponent.count++}`;
 
     getComponent(): JSX.Element {
