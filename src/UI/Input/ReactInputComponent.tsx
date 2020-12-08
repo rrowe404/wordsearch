@@ -6,6 +6,7 @@ import { ErrorsComponent } from '../Errors/ErrorsComponent';
 import { Field, Form, Formik, FormikProps, useFormik } from 'formik';
 
 class InputState {
+    inputType: string;
     value: string;
 }
 
@@ -13,7 +14,10 @@ export class InputComponent extends React.Component<{}, InputState> {
     constructor(public props: InputProps) {
         super(props);
 
-        this.state = { value: props.value || '' };
+        this.state = {
+            inputType: props.inputType || 'text',
+            value: props.value || ''
+        };
     }
 
     render() {
@@ -28,7 +32,7 @@ export class InputComponent extends React.Component<{}, InputState> {
                 {props => (
                     <Form>
                         <LabelComponent label={this.props.label} />
-                        <Field onChange={(e) => this.handleChange(e, props)} type={this.props.inputType} name={this.props.name}></Field>
+                        <Field onChange={(e) => this.handleChange(e, props)} type={this.state.inputType} name={this.props.name}></Field>
                         <ErrorsComponent errors={props.errors} />
                     </Form>
                 )}

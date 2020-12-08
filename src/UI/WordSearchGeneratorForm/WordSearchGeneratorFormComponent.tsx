@@ -15,13 +15,19 @@ import { PlayableEventService } from '../PlayableEvent/PlayableEventService';
 import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
 import { InputErrors } from '../Input/InputErrors';
 import { Input } from '../Input/Input';
+import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
+import { WordSearchGeneratorFormComponent as ReactWordSearchGeneratorFormComponent } from './ReactWordSearchGeneratorFormComponent';
+import * as React from 'react';
 
 @Component({
   selector: 'wordsearch-generator-form',
   styleUrls: ['./WordSearchGeneratorFormComponent.less'],
   templateUrl: './WordSearchGeneratorFormComponent.html'
 })
-export class WordSearchGeneratorFormComponent implements OnInit {
+export class WordSearchGeneratorFormComponent extends ReactAdapter implements OnInit {
+  static count = 0;
+  rootId = `wordsearch-generator-form-${WordSearchGeneratorFormComponent.count++}`;
+
   constructor(
     private playableEventService: PlayableEventService,
     private wordSearchGenerationService: WordSearchGenerationService,
@@ -29,6 +35,7 @@ export class WordSearchGeneratorFormComponent implements OnInit {
     private wordSearchOutputStrategyFactory: WordSearchOutputStrategyFactory,
     private wordValidationService: WordValidationService
   ) {
+    super();
   }
 
   public gameFormGroup: FormGroup;
@@ -73,6 +80,10 @@ export class WordSearchGeneratorFormComponent implements OnInit {
   private outputStrategy: WordSearchOutputStrategy;
 
   private currentFormWords: any[] = [];
+
+  getComponent() {
+    return ( <ReactWordSearchGeneratorFormComponent /> );
+  }
 
   public ngOnInit() {
     if (!environment.production) {

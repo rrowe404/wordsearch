@@ -22,6 +22,6 @@ export class CheckboxComponent extends React.Component<{}, CheckboxState> {
     }
 
     handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({ checked: e.target.checked }, () => this.props.changed(this.state.checked));
+        this.setState({ checked: e.target.checked }, () => this.props.updated(this.state.checked));
     }
 }

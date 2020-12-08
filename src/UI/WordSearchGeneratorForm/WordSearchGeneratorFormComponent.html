@@ -1,16 +1,3 @@
-<wordsearch-input label="Title" name="title" (changed)="setTitle($event)" [value]="generationOptions.title"></wordsearch-input>
-
-<wordsearch-card title="Allowed Word Directions">
-    <wordsearch-checkbox [formGroup]="directionFormGroup" label="Horizontal" name="horizontal" (changed)="setAllowHorizontal($event)" [value]="generationOptions.allowHorizontal"></wordsearch-checkbox>
-    <wordsearch-checkbox [formGroup]="directionFormGroup" label="Vertical" name="vertical" (changed)="setAllowVertical($event)" [value]="generationOptions.allowVertical"></wordsearch-checkbox>
-    <wordsearch-checkbox [formGroup]="directionFormGroup" label="Diagonal" name="diagonal" (changed)="setAllowDiagonal($event)" [value]="generationOptions.allowDiagonal"></wordsearch-checkbox>
-</wordsearch-card>
-
-<wordsearch-card title="Size">
-    <wordsearch-input label="Columns" name="columns" (changed)="setColumns($event)" type="number" min="5" max="30" [value]="generationOptions.width" required="true"></wordsearch-input>
-    <wordsearch-input label="Rows" name="rows" (changed)="setRows($event)" type="number" min="5" max="30" [value]="generationOptions.height" required="true"></wordsearch-input>
-</wordsearch-card>
-
 <wordsearch-card title="Misc. Options">
     <wordsearch-checkbox label="Show Word List" name="wordList" (changed)="setShowWordList($event)" [value]="generationOptions.showWordList"></wordsearch-checkbox>
     <wordsearch-checkbox *ngIf="generationOptions.showWordList" label="Alphabetize Word List" name="alphabetize" (changed)="setAlphabetizeWordList($event)" [value]="generationOptions.alphabetizeWordList"></wordsearch-checkbox>
@@ -35,3 +22,5 @@
 <div class="playable" *ngIf="playableState">
     <wordsearch-playable [state]="playableState"></wordsearch-playable>
 </div>
+
+<div [id]="rootId"></div>

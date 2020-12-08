@@ -32,7 +32,7 @@ export class CheckboxComponent extends ReactAdapter implements OnInit {
                 label={this.label}
                 name={this.name}
                 value={this.value}
-                changed={(value) => this.update(value)} />
+                updated={(value) => this.update(value)} />
         );
     }
 
