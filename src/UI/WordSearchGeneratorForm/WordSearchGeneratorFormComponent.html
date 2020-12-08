@@ -1,23 +1,6 @@
-<wordsearch-card title="Misc. Options">
-    <wordsearch-checkbox label="Show Word List" name="wordList" (changed)="setShowWordList($event)" [value]="generationOptions.showWordList"></wordsearch-checkbox>
-    <wordsearch-checkbox *ngIf="generationOptions.showWordList" label="Alphabetize Word List" name="alphabetize" (changed)="setAlphabetizeWordList($event)" [value]="generationOptions.alphabetizeWordList"></wordsearch-checkbox>
-    <wordsearch-checkbox label="Filter Accidental Profanity" name="filterProfanity" (changed)="setFilterProfanity($event)" [value]="generationOptions.filterAccidentalProfanity"></wordsearch-checkbox>
-    <wordsearch-checkbox label="Allow Backwards Words" name="allowBackwards" (changed)="setAllowBackwards($event)" [value]="generationOptions.allowBackwards"></wordsearch-checkbox>
-    <wordsearch-checkbox label="Allow Overlaps" name="allowOverlaps" (changed)="setAllowOverlaps($event)" [value]="generationOptions.allowOverlaps"></wordsearch-checkbox>
-    <wordsearch-checkbox *ngIf="generationOptions.allowOverlaps" label="Zealous Overlaps" name="zealousOverlaps" (changed)="setZealousOverlaps($event)" [value]="generationOptions.zealousOverlaps"></wordsearch-checkbox>
-</wordsearch-card>
-
-<wordsearch-card title="Word List">
-    <wordsearch-input-list addSlotButtonText="Add Word Slot" [validators]="wordValidators" (changed)="updateWords($event)"></wordsearch-input-list>
-</wordsearch-card>
-
 <wordsearch-card title="Output" [hidden]="outputOptions.length < 2">
     <wordsearch-dropdown label="Output Method" [options]="outputOptions" [selected]="selectedOutputOption" (changed)="setOutputOption($event)"></wordsearch-dropdown>
 </wordsearch-card>
-
-<div class="generate">
-    <wordsearch-button color="accent" text="Generate" (click)="generate()" [disabled]="gameFormGroup.pristine || gameFormGroup.invalid"></wordsearch-button>
-</div>
 
 <div class="playable" *ngIf="playableState">
     <wordsearch-playable [state]="playableState"></wordsearch-playable>

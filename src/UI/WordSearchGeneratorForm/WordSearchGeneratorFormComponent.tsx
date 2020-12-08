@@ -82,7 +82,7 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   private currentFormWords: any[] = [];
 
   getComponent() {
-    return ( <ReactWordSearchGeneratorFormComponent /> );
+    return ( <ReactWordSearchGeneratorFormComponent wordValidators={this.wordValidators} /> );
   }
 
   public ngOnInit() {
@@ -148,71 +148,18 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
     return result;
   }
 
-  public setColumns(columns: string) {
-    this.generationOptions.width = parseInt(columns, 10);
-    this.updateWordListValidity();
-  }
-
-  public setRows(rows: string) {
-    this.generationOptions.height = parseInt(rows, 10);
-    this.updateWordListValidity();
-  }
-
-  public setTitle(title: string) {
-    this.generationOptions.title = title;
-    this.gameFormGroup.markAsDirty(); // TODO REMOVE
-  }
-
-  public setShowWordList(showWordList: boolean) {
-    this.generationOptions.showWordList = showWordList;
-  }
-
-  public setAlphabetizeWordList(alphabetizeWordList: boolean) {
-    this.generationOptions.alphabetizeWordList = alphabetizeWordList;
-  }
-
-  public setFilterProfanity(filterProfanity: boolean) {
-    this.generationOptions.filterAccidentalProfanity = filterProfanity;
-  }
-
-  public setAllowHorizontal(allow: boolean) {
-    this.generationOptions.allowHorizontal = allow;
-  }
-
-  public setAllowVertical(allow: boolean) {
-    this.generationOptions.allowVertical = allow;
-  }
-
-  public setAllowDiagonal(allow: boolean) {
-    this.generationOptions.allowDiagonal = allow;
-  }
-
-  public setAllowBackwards(allow: boolean) {
-    this.generationOptions.allowBackwards = allow;
-  }
-
-  public setAllowOverlaps(allow: boolean ) {
-    this.generationOptions.allowOverlaps = allow;
-  }
-
   public setOutputOption(outputOption: string) {
     this.selectedOutputOption = outputOption;
   }
 
-  public setZealousOverlaps(zealous: boolean) {
-    this.generationOptions.zealousOverlaps = zealous;
-  }
-
   /** The functions that call this will fire after a UI change that may change whether currently-entered words are still valid */
-  private updateWordListValidity() {
-    Object.keys(this.wordFormGroup.controls).forEach(key => {
-      this.wordFormGroup.controls[key].updateValueAndValidity();
-    });
-  }
+  // private updateWordListValidity() {
+  //   Object.keys(this.wordFormGroup.controls).forEach(key => {
+  //     this.wordFormGroup.controls[key].updateValueAndValidity();
+  //   });
+  // }
 
   public updateWords(inputs: Array<Input<string>>) {
     this.currentFormWords = inputs.map(input => input.value);
-    this.gameFormGroup.markAsDirty();
-    this.gameFormGroup.updateValueAndValidity();
   }
 }

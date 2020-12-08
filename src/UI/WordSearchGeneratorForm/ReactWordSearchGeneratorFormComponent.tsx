@@ -6,12 +6,17 @@ import { CardComponent } from '../Card/ReactCardComponent';
 import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
+import { WordSearchGeneratorFormProps } from './WordSearchGeneratorFormProps';
+import { InputListComponent } from '../InputList/InputListComponent';
+import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
+import { Input } from '../Input/Input';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
-    constructor(props) {
+    constructor(public props: WordSearchGeneratorFormProps) {
         super(props);
 
         this.state = {
+            currentFormWords: [],
             generationOptions: {
                 height: 5,
                 width: 5,
@@ -33,6 +38,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
     render() {
         /** TODO directionFormGroup */
         /** TODO Generate button disabling */
+        /** TODO setColumns/setRows update validity of words */
 
         return (
             <div>
@@ -75,8 +81,50 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                         value={this.state.generationOptions.height.toString()} />
                 </CardComponent>
 
+                <CardComponent title='Misc. Options'>
+                    <CheckboxComponent label='Show Word List'
+                        name='wordList'
+                        updated={(checked) => this.setStateWithProp('showWordList', checked)}
+                        value={this.state.generationOptions.showWordList} />
+
+                    {this.state.generationOptions.showWordList ?
+                        <CheckboxComponent label='Alphabetize Word List'
+                            name='alphabetize'
+                            updated={(checked) => this.setStateWithProp('alphabetizeWordList', checked)}
+                            value={this.state.generationOptions.alphabetizeWordList} /> : null
+                    }
+
+                    <CheckboxComponent label='Filter Accidental Profanity'
+                        name='filterProfanity'
+                        updated={(checked) => this.setStateWithProp('filterAccidentalProfanity', checked)}
+                        value={this.state.generationOptions.filterAccidentalProfanity} />
+
+                    <CheckboxComponent label='Allow Backwards Words'
+                        name='allowBackwards'
+                        updated={(checked) => this.setStateWithProp('allowBackwards', checked)}
+                        value={this.state.generationOptions.allowBackwards} />
+
+                    <CheckboxComponent label='Allow Overlaps'
+                        name='allowOverlaps'
+                        updated={(checked) => this.setStateWithProp('allowOverlaps', checked)}
+                        value={this.state.generationOptions.allowOverlaps} />
+
+                    {this.state.generationOptions.allowOverlaps ?
+                        <CheckboxComponent label='Zealous Overlaps' name='zealousOverlaps'
+                            updated={(checked) => this.setStateWithProp('zealousOverlaps', checked)}
+                            value={this.state.generationOptions.zealousOverlaps} /> : null
+                    }
+                </CardComponent>
+
+                <CardComponent title='Word List'>
+                    <ReactInputListComponent
+                        addSlotButtonText='Add Word Slot'
+                        validators={this.props.wordValidators}
+                        changed={(inputs) => this.updateWords(inputs)} />
+                </CardComponent>
+
                 <div className='generate' onClick={() => this.generate()}>
-                    <ButtonComponent color='primary' text='Generate' disabled={false}/>
+                    <ButtonComponent color='primary' text='Generate' disabled={false} />
                 </div>
             </div>
         );
@@ -91,5 +139,14 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         (generationOptions[prop] as any) = value;
 
         this.setState({ generationOptions });
+    }
+
+    updateWords(inputs: Array<Input<string>>) {
+        this.setState({
+            currentFormWords: inputs.map(input => input.value)
+        });
+        // TODO form shit
+        // this.gameFormGroup.markAsDirty();
+        // this.gameFormGroup.updateValueAndValidity();
     }
 }
