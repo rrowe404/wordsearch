@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
 import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
