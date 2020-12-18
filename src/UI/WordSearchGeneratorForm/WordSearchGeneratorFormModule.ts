@@ -4,12 +4,10 @@ import { CommonModule } from '@angular/common';
 import { CheckboxModule } from '../Checkbox/CheckboxModule';
 import { DropdownModule } from '../Dropdown/DropdownModule';
 import { WordSearchOutputModule } from 'src/UI/WordSearchOutput/WordSearchOutputModule';
-import { CardModule } from '../Card/CardModule';
 import { PlayableWordSearchModule } from '../PlayableWordSearch/PlayableWordSearchModule';
 
 @NgModule({
     imports: [
-        CardModule,
         CommonModule,
         CheckboxModule,
         DropdownModule,
