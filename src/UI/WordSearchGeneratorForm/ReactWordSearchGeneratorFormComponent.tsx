@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as yup from 'yup';
 import { InputComponent } from '../Input/ReactInputComponent';
 import { WordSearchGeneratorFormState } from './WordSearchGeneratorFormState';
 import * as _ from 'lodash';
@@ -42,8 +43,11 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         /** TODO Generate button disabling */
         /** TODO setColumns/setRows update validity of words */
 
+        const schema = yup.object({
+        })
+
         return (
-            <Formik initialValues={this.state.generationOptions} onSubmit={() => { console.log('submit' )}}>
+            <Formik initialValues={this.state.generationOptions} onSubmit={() => { console.log('submit' )}} validationSchema={schema}>
                 {props => (
                     <Form>
                         <InputComponent label='Title'
