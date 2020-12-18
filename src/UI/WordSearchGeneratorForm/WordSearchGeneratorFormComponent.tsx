@@ -2,12 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
-import { ConsoleWordSearchOutputStrategy } from 'src/UI/WordSearchOutput/ConsoleWordSearchOutputStrategy';
-import { DropdownOption } from '../Dropdown/DropdownOption';
-import { ImageWordSearchOutputStrategy } from 'src/UI/WordSearchOutput/ImageWordSearchOutputStrategy';
-import { environment } from 'src/environments/environment';
 import { PlayableEventService } from '../PlayableEvent/PlayableEventService';
-import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
 import { InputErrors } from '../Input/InputErrors';
 import { Input } from '../Input/Input';
 import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
@@ -45,13 +40,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   /** if this is populated, we should display a component that allows it to be played */
   public playableState: WordSearchState;
 
-  public outputOptions: DropdownOption<string>[] = [
-    { value: PlayableWordSearchOutputStrategy.getValue(), viewValue: PlayableWordSearchOutputStrategy.getViewValue() },
-    { value: ImageWordSearchOutputStrategy.getValue(), viewValue: ImageWordSearchOutputStrategy.getViewValue() }
-  ];
-
-  public selectedOutputOption: string;
-
   public wordValidators: Array<(value: string) => InputErrors>;
 
   private currentFormWords: any[] = [];
@@ -61,15 +49,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   }
 
   public ngOnInit() {
-    if (!environment.production) {
-      this.outputOptions.push({
-        value: ConsoleWordSearchOutputStrategy.getValue(),
-        viewValue: ConsoleWordSearchOutputStrategy.getViewValue()
-      });
-    }
-
-    this.selectedOutputOption = this.outputOptions[0].value;
-
     // this.dummyState = this.wordSearchStateFactory.createWordSearch(this.generationOptions);
 
     this.wordValidators = [
@@ -125,7 +104,7 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   }
 
   public setOutputOption(outputOption: string) {
-    this.selectedOutputOption = outputOption;
+    // this.selectedOutputOption = outputOption;
   }
 
   /** The functions that call this will fire after a UI change that may change whether currently-entered words are still valid */

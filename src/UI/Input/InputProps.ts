@@ -11,7 +11,6 @@ export interface InputProps {
     value: string;
 
     validators?: Array<(value: string) => InputErrors>;
-    updated(value: string): void;
 
     formProps: FormikProps<any>; // TODO
 }

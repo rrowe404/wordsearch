@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { InputProps } from './InputProps';
-import { InputErrors } from './InputErrors';
-import { ErrorMessage, Field, FormikProps } from 'formik';
+import { ErrorMessage, Field } from 'formik';
 import { LabelComponent } from '../Label/LabelComponent';
 import * as _ from 'lodash';
 
@@ -32,37 +31,5 @@ export class InputComponent extends React.Component<{}, InputState> {
 
     handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         this.props.formProps.handleChange(e);
-        this.props.updated(e.target.value);
-    }
-
-    minMax() {
-        return `(${this.props.min}-${this.props.max})`;
-    }
-
-    validate(values) {
-        let value = values[this.props.name];
-        let result: InputErrors = {};
-
-        if (this.props.required && !value) {
-            result.required = 'Required';
-        }
-
-        if ('min' in this.props && parseInt(value, 10) < this.props.min) {
-            result.min = this.minMax();
-        }
-
-        if ('max' in this.props && parseInt(value, 10) > this.props.max) {
-            result.max = this.minMax();
-        }
-
-        if (this.props.validators) {
-            this.props.validators.forEach(validator => {
-                let errors = validator(value);
-
-                Object.assign(result, errors);
-            });
-        }
-
-        return result;
     }
 }

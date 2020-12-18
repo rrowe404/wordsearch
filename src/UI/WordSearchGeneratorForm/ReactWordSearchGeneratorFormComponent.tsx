@@ -12,10 +12,26 @@ import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
 import { Input } from '../Input/Input';
 import { Form, Formik } from 'formik';
 import { DropdownComponent } from '../Dropdown/ReactDropdownComponent';
+import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
+import { ImageWordSearchOutputStrategy } from '../WordSearchOutput/ImageWordSearchOutputStrategy';
+import { environment } from 'src/environments/environment';
+import { ConsoleWordSearchOutputStrategy } from '../WordSearchOutput/ConsoleWordSearchOutputStrategy';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
     constructor(public props: WordSearchGeneratorFormProps) {
         super(props);
+
+        let outputOptions = [
+            { value: PlayableWordSearchOutputStrategy.getValue(), viewValue: PlayableWordSearchOutputStrategy.getViewValue() },
+            { value: ImageWordSearchOutputStrategy.getValue(), viewValue: ImageWordSearchOutputStrategy.getViewValue() }
+        ];
+
+        if (!environment.production) {
+          outputOptions.push({
+            value: ConsoleWordSearchOutputStrategy.getValue(),
+            viewValue: ConsoleWordSearchOutputStrategy.getViewValue()
+          });
+        }
 
         this.state = {
             currentFormWords: [],
@@ -34,7 +50,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                 allowOverlaps: false,
                 zealousOverlaps: false
             },
-            selectedOutputOption: ''
+            selectedOutputOption: outputOptions[0].value
         };
     }
 
@@ -42,90 +58,77 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         /** TODO directionFormGroup */
         /** TODO Generate button disabling */
         /** TODO setColumns/setRows update validity of words */
+        /** TODO min max messages */
 
         const schema = yup.object({
-            columns: yup.number().required('Required'),
-            rows: yup.number().required('Required')
+            columns: yup.number().required('Required').min(5).max(30),
+            rows: yup.number().required('Required').min(5).max(30)
         })
 
         return (
-            <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { console.log(values)}} validationSchema={schema}>
+            <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values) }} validationSchema={schema}>
                 {props => (
                     <Form>
+                        {Object.keys(props.errors).map(error => error)}
+
                         <InputComponent label='Title'
                             formProps={props}
                             name='title'
-                            value={this.state.generationOptions.title}
-                            updated={(title) => this.setStateWithProp('title', title)} />
+                            value={props.values.title} />
 
                         <CardComponent title='Allowed Word Directions'>
                             <CheckboxComponent label='Horizontal'
-                                name='horizontal'
-                                updated={(allow) => this.setStateWithProp('allowHorizontal', allow)}
-                                value={this.state.generationOptions.allowHorizontal} />
+                                name='allowHorizontal'
+                                value={props.values.allowHorizontal} />
 
                             <CheckboxComponent label='Vertical'
-                                name='vertical'
-                                updated={(allow) => this.setStateWithProp('allowVertical', allow)}
-                                value={this.state.generationOptions.allowVertical} />
+                                name='allowVertical'
+                                value={props.values.allowVertical} />
 
                             <CheckboxComponent label='Diagonal'
-                                name='diagonal'
-                                updated={(allow) => this.setStateWithProp('allowDiagonal', allow)}
-                                value={this.state.generationOptions.allowDiagonal}
+                                name='allowDiagonal'
+                                value={props.values.allowDiagonal}
                             />
                         </CardComponent>
 
                         <CardComponent title='Size'>
                             <InputComponent label='Columns' name='columns'
                                 formProps={props}
-                                updated={(columns) => this.setStateWithProp('width', parseInt(columns, 10))}
-                                min={5} max={30}
                                 inputType='number'
-                                required={true}
-                                value={this.state.generationOptions.width.toString()} />
+                                value={props.values.width.toString()} />
 
                             <InputComponent label='Rows' name='rows'
                                 formProps={props}
-                                updated={(rows) => this.setStateWithProp('height', parseInt(rows, 10))}
-                                min={5} max={30}
                                 inputType='number'
-                                required={true}
-                                value={this.state.generationOptions.height.toString()} />
+                                value={props.values.height.toString()} />
                         </CardComponent>
 
                         <CardComponent title='Misc. Options'>
                             <CheckboxComponent label='Show Word List'
                                 name='wordList'
-                                updated={(checked) => this.setStateWithProp('showWordList', checked)}
-                                value={this.state.generationOptions.showWordList} />
+                                value={props.values.showWordList} />
 
-                            {this.state.generationOptions.showWordList ?
+                            {props.values.showWordList ?
                                 <CheckboxComponent label='Alphabetize Word List'
                                     name='alphabetize'
-                                    updated={(checked) => this.setStateWithProp('alphabetizeWordList', checked)}
-                                    value={this.state.generationOptions.alphabetizeWordList} /> : null
+                                    value={props.values.alphabetizeWordList} /> : null
                             }
 
                             <CheckboxComponent label='Filter Accidental Profanity'
                                 name='filterProfanity'
-                                updated={(checked) => this.setStateWithProp('filterAccidentalProfanity', checked)}
-                                value={this.state.generationOptions.filterAccidentalProfanity} />
+                                value={props.values.filterAccidentalProfanity} />
 
                             <CheckboxComponent label='Allow Backwards Words'
                                 name='allowBackwards'
-                                updated={(checked) => this.setStateWithProp('allowBackwards', checked)}
-                                value={this.state.generationOptions.allowBackwards} />
+                                value={props.values.allowBackwards} />
 
                             <CheckboxComponent label='Allow Overlaps'
                                 name='allowOverlaps'
-                                updated={(checked) => this.setStateWithProp('allowOverlaps', checked)}
-                                value={this.state.generationOptions.allowOverlaps} />
+                                value={props.values.allowOverlaps} />
 
-                            {this.state.generationOptions.allowOverlaps ?
+                            {props.values.allowOverlaps ?
                                 <CheckboxComponent label='Zealous Overlaps' name='zealousOverlaps'
-                                    updated={(checked) => this.setStateWithProp('zealousOverlaps', checked)}
-                                    value={this.state.generationOptions.zealousOverlaps} /> : null
+                                    value={props.values.zealousOverlaps} /> : null
                             }
                         </CardComponent>
 
@@ -133,40 +136,30 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                             <ReactInputListComponent
                                 addSlotButtonText='Add Word Slot'
                                 formProps={props}
-                                validators={this.props.wordValidators}
-                                changed={(inputs) => this.updateWords(inputs)} />
+                                validators={this.props.wordValidators} />
                         </CardComponent>
 
                         <CardComponent title='Output'>
-                            <DropdownComponent label='Method' options={[]} updated={(value) => this.setState({ selectedOutputOption: value})} />
+                            <DropdownComponent label='Method' options={[]} updated={(value) => this.setState({ selectedOutputOption: value })} />
                         </CardComponent>
 
-                        <div className='generate' onClick={() => this.generate()}>
-                            <ButtonComponent color='primary' text='Generate' disabled={!props.dirty || !props.isValid} />
-                        </div>
+                        <ButtonComponent buttonType='submit' color='primary' text='Generate' disabled={!props.dirty || !props.isValid} />
                     </Form>
                 )}
             </Formik>
         );
     }
 
-    generate() {
-        console.log('woop');
+    generate(values: any) {
+        console.log(values);
     }
 
-    setStateWithProp(prop: keyof WordSearchGenerationOptions, value: any) {
-        let generationOptions = _.cloneDeep(this.state.generationOptions);
-        (generationOptions[prop] as any) = value;
-
-        this.setState({ generationOptions });
-    }
-
-    updateWords(inputs: Array<Input<string>>) {
-        this.setState({
-            currentFormWords: inputs.map(input => input.value)
-        });
-        // TODO form shit
-        // this.gameFormGroup.markAsDirty();
-        // this.gameFormGroup.updateValueAndValidity();
-    }
+    // TODO form shit
+    // updateWords(inputs: Array<Input<string>>) {
+    //     this.setState({
+    //         currentFormWords: inputs.map(input => input.value)
+    //     });
+    //     // this.gameFormGroup.markAsDirty();
+    //     // this.gameFormGroup.updateValueAndValidity();
+    // }
 }
