@@ -1,8 +1,9 @@
-import { AfterViewInit, OnChanges } from '@angular/core';
+import { AfterViewInit, Component, OnChanges } from '@angular/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 /** bridges an Angular Component declaration with a React component */
+@Component({ template: '' })
 export abstract class ReactAdapter implements OnChanges, AfterViewInit {
     abstract rootId: string;
 
