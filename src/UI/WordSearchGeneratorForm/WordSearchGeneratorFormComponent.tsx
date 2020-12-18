@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
 import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
-import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { ConsoleWordSearchOutputStrategy } from 'src/UI/WordSearchOutput/ConsoleWordSearchOutputStrategy';
 import { DropdownOption } from '../Dropdown/DropdownOption';
-import { WordSearchOutputStrategyFactory } from 'src/UI/WordSearchOutput/WordSearchOutputStrategyFactory';
 import { ImageWordSearchOutputStrategy } from 'src/UI/WordSearchOutput/ImageWordSearchOutputStrategy';
 import { environment } from 'src/environments/environment';
-import { WordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/WordSearchOutputStrategy';
 import { PlayableEventService } from '../PlayableEvent/PlayableEventService';
 import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
 import { InputErrors } from '../Input/InputErrors';
@@ -29,9 +25,7 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
 
   constructor(
     private playableEventService: PlayableEventService,
-    private wordSearchGenerationService: WordSearchGenerationService,
     private wordSearchStateFactory: WordSearchStateFactory,
-    private wordSearchOutputStrategyFactory: WordSearchOutputStrategyFactory,
     private wordValidationService: WordValidationService
   ) {
     super();
@@ -51,22 +45,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   /** if this is populated, we should display a component that allows it to be played */
   public playableState: WordSearchState;
 
-  public generationOptions: WordSearchGenerationOptions = {
-    height: 5,
-    width: 5,
-    alphabetizeWordList: false,
-    showWordList: true,
-    title: '',
-    words: [],
-    filterAccidentalProfanity: false,
-    allowHorizontal: true,
-    allowVertical: true,
-    allowDiagonal: false,
-    allowBackwards: false,
-    allowOverlaps: false,
-    zealousOverlaps: false
-  };
-
   public outputOptions: DropdownOption<string>[] = [
     { value: PlayableWordSearchOutputStrategy.getValue(), viewValue: PlayableWordSearchOutputStrategy.getViewValue() },
     { value: ImageWordSearchOutputStrategy.getValue(), viewValue: ImageWordSearchOutputStrategy.getViewValue() }
@@ -75,8 +53,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   public selectedOutputOption: string;
 
   public wordValidators: Array<(value: string) => InputErrors>;
-
-  private outputStrategy: WordSearchOutputStrategy;
 
   private currentFormWords: any[] = [];
 
@@ -94,7 +70,7 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
 
     this.selectedOutputOption = this.outputOptions[0].value;
 
-    this.dummyState = this.wordSearchStateFactory.createWordSearch(this.generationOptions);
+    // this.dummyState = this.wordSearchStateFactory.createWordSearch(this.generationOptions);
 
     this.wordValidators = [
       (value: string) => {
@@ -127,16 +103,16 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   }
 
   public generate() {
-    this.generationOptions.words = this.getWordsFromForm();
+    // this.generationOptions.words = this.getWordsFromForm();
 
-    let result = this.wordSearchGenerationService.generateWordSearch(this.generationOptions);
+    // let result = this.wordSearchGenerationService.generateWordSearch(this.generationOptions);
 
-    if (this.outputStrategy) {
-      this.outputStrategy.clean();
-    }
+    // if (this.outputStrategy) {
+    //   this.outputStrategy.clean();
+    // }
 
-    this.outputStrategy = this.wordSearchOutputStrategyFactory.createOutputStrategy(this.selectedOutputOption);
-    this.outputStrategy.output(result);
+    // this.outputStrategy = this.wordSearchOutputStrategyFactory.createOutputStrategy(this.selectedOutputOption);
+    // this.outputStrategy.output(result);
   }
 
   private getWordsFromForm() {

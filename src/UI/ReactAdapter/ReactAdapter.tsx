@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnChanges } from '@angular/core';
-import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 /** bridges an Angular Component declaration with a React component */
