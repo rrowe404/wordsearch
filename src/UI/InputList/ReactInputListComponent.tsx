@@ -9,7 +9,7 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
 
     constructor(public props: InputListProps) {
         super(props);
-        this.state = { inputs: [{name: this.getNextName() }] };
+        this.state = { inputs: [{name: this.getNextName(), value: '' }] };
     }
 
     public getNextName() {
@@ -22,7 +22,7 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
                 {this.state.inputs.map((input, i) => {
                     return ( <div key={input.name}>
                         <InputComponent formProps={this.props.formProps} name={input.name} validators={this.props.validators}
-                            value='' updated={(value) => this.updateInput(i, value)} />
+                            value={input.value} updated={(value) => this.updateInput(i, value)} />
 
                         <button className='icon' onClick={(e) => this.removeSlot(e, i)}>✖</button>
                     </div> );
@@ -37,7 +37,7 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
 
     public addSlot() {
         let inputs = this.state.inputs.slice();
-        inputs.push({ name: this.getNextName() });
+        inputs.push({ name: this.getNextName(), value: '' });
 
         this.setState({
             inputs

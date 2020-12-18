@@ -24,7 +24,7 @@ export class InputComponent extends React.Component<{}, InputState> {
         return (
             <div>
                 <LabelComponent label={this.props.label} />
-                <Field onChange={(e) => this.handleChange(e)} type={this.state.inputType} name={this.props.name}></Field>
+                <Field onChange={(e) => this.handleChange(e)} type={this.state.inputType} name={this.props.name} value={this.props.value}></Field>
                 <ErrorMessage name={this.props.name} />
             </div>
         );

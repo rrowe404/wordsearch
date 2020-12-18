@@ -44,6 +44,8 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         /** TODO setColumns/setRows update validity of words */
 
         const schema = yup.object({
+            columns: yup.number().required('Required'),
+            rows: yup.number().required('Required')
         })
 
         return (
