@@ -1,14 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { DropdownComponent } from './DropdownComponent';
 
 @NgModule({
     imports: [
-        CommonModule,
-        MatFormFieldModule,
-        MatSelectModule
+        CommonModule
     ],
     declarations: [
         DropdownComponent

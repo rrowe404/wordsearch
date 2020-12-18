@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { WordSearchGeneratorFormComponent } from './WordSearchGeneratorFormComponent';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from '../Button/ButtonModule';
 import { CheckboxModule } from '../Checkbox/CheckboxModule';
 import { DropdownModule } from '../Dropdown/DropdownModule';
@@ -17,7 +16,6 @@ import { PlayableWordSearchModule } from '../PlayableWordSearch/PlayableWordSear
         CheckboxModule,
         DropdownModule,
         PlayableWordSearchModule,
-        ReactiveFormsModule,
         WordSearchOutputModule
     ],
     declarations: [

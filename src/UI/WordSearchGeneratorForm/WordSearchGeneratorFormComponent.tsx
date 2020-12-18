@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
 import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
@@ -38,9 +37,9 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
     super();
   }
 
-  public gameFormGroup: FormGroup;
-  public directionFormGroup: FormGroup;
-  public wordFormGroup: FormGroup;
+  // public gameFormGroup: FormGroup;
+  // public directionFormGroup: FormGroup;
+  // public wordFormGroup: FormGroup;
 
   /**
    * We need a WordSearchState in order to validate the words as they are typed.
@@ -103,21 +102,22 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
       }
     ];
 
-    this.gameFormGroup = new FormGroup({});
+    // todo
+    // this.gameFormGroup = new FormGroup({});
 
-    this.directionFormGroup = new FormGroup({}, (group: FormGroup) => {
-      let isValid = Object.keys(group.controls).some(key => group.controls[key].value);
+    // this.directionFormGroup = new FormGroup({}, (group: FormGroup) => {
+    //   let isValid = Object.keys(group.controls).some(key => group.controls[key].value);
 
-      return isValid ? null : { required: 'At least one direction must be selected!' };
-    });
+    //   return isValid ? null : { required: 'At least one direction must be selected!' };
+    // });
 
-    this.wordFormGroup = new FormGroup({});
+    // this.wordFormGroup = new FormGroup({});
 
-    this.gameFormGroup.addControl('direction', this.directionFormGroup);
-    this.gameFormGroup.addControl('word', this.wordFormGroup);
-    this.gameFormGroup.setValidators((group) => {
-      return this.getWordsFromForm().length > 0 ? null : { required: 'At least one word must be present!' };
-    });
+    // this.gameFormGroup.addControl('direction', this.directionFormGroup);
+    // this.gameFormGroup.addControl('word', this.wordFormGroup);
+    // this.gameFormGroup.setValidators((group) => {
+    //   return this.getWordsFromForm().length > 0 ? null : { required: 'At least one word must be present!' };
+    // });
 
     this.playableEventService.activate.subscribe((state: WordSearchState) => {
       this.playableState = this.wordSearchStateFactory.createWordSearchCopy(state);
