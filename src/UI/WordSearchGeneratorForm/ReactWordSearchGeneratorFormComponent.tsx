@@ -10,6 +10,7 @@ import { WordSearchGeneratorFormProps } from './WordSearchGeneratorFormProps';
 import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
 import { Input } from '../Input/Input';
 import { Form, Formik } from 'formik';
+import { DropdownComponent } from '../Dropdown/ReactDropdownComponent';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
     constructor(public props: WordSearchGeneratorFormProps) {
@@ -31,7 +32,8 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                 allowBackwards: false,
                 allowOverlaps: false,
                 zealousOverlaps: false
-            }
+            },
+            selectedOutputOption: ''
         };
     }
 
@@ -127,6 +129,10 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                                 formProps={props}
                                 validators={this.props.wordValidators}
                                 changed={(inputs) => this.updateWords(inputs)} />
+                        </CardComponent>
+
+                        <CardComponent title='Output'>
+                            <DropdownComponent label='Method' options={[]} updated={(value) => this.setState({ selectedOutputOption: value})} />
                         </CardComponent>
 
                         <div className='generate' onClick={() => this.generate()}>

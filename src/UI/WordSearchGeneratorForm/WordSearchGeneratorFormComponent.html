@@ -1,7 +1,3 @@
-<wordsearch-card title="Output" [hidden]="outputOptions.length < 2">
-    <wordsearch-dropdown label="Output Method" [options]="outputOptions" [selected]="selectedOutputOption" (changed)="setOutputOption($event)"></wordsearch-dropdown>
-</wordsearch-card>
-
 <div class="playable" *ngIf="playableState">
     <wordsearch-playable [state]="playableState"></wordsearch-playable>
 </div>
