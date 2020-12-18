@@ -12,20 +12,21 @@ export class DropdownComponent extends React.Component {
         let initialValues = {};
 
         return (
-            <Formik initialValues={initialValues} onSubmit={() => { }}>
-                {props => (
-                    <Form>
-                        <LabelComponent label={this.props.label} />
-                        <Field as='select' name={this.props.label} onChange={(e) => this.handleChange(e, props)}>
-                            {this.props.options.map(option => {
-                                return <option value={option.value} key={option.value}>
-                                    {option.viewValue}
-                                </option>;
-                            })}
-                        </Field>
-                    </Form>
-                )}
-            </Formik>
+            <div>you gotta rethink this one</div>
+            // <Formik initialValues={initialValues} onSubmit={() => { }}>
+            //     {props => (
+            //         <Form>
+            //             <LabelComponent label={this.props.label} />
+            //             <Field as='select' name={this.props.label} onChange={(e) => this.handleChange(e, props)}>
+            //                 {this.props.options.map(option => {
+            //                     return <option value={option.value} key={option.value}>
+            //                         {option.viewValue}
+            //                     </option>;
+            //                 })}
+            //             </Field>
+            //         </Form>
+            //     )}
+            // </Formik>
         );
     }
 

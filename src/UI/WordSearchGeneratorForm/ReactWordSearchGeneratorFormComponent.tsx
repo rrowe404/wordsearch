@@ -7,9 +7,9 @@ import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
 import { WordSearchGeneratorFormProps } from './WordSearchGeneratorFormProps';
-import { InputListComponent } from '../InputList/InputListComponent';
 import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
 import { Input } from '../Input/Input';
+import { Form, Formik } from 'formik';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
     constructor(public props: WordSearchGeneratorFormProps) {
@@ -41,92 +41,100 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         /** TODO setColumns/setRows update validity of words */
 
         return (
-            <div>
-                <InputComponent label='Title'
-                    name='title'
-                    value={this.state.generationOptions.title}
-                    updated={(title) => this.setStateWithProp('title', title)} />
+            <Formik initialValues={this.state.generationOptions} onSubmit={() => { console.log('submit' )}}>
+                {props => (
+                    <Form>
+                        <InputComponent label='Title'
+                            formProps={props}
+                            name='title'
+                            value={this.state.generationOptions.title}
+                            updated={(title) => this.setStateWithProp('title', title)} />
 
-                <CardComponent title='Allowed Word Directions'>
-                    <CheckboxComponent label='Horizontal'
-                        name='horizontal'
-                        updated={(allow) => this.setStateWithProp('allowHorizontal', allow)}
-                        value={this.state.generationOptions.allowHorizontal} />
+                        <CardComponent title='Allowed Word Directions'>
+                            <CheckboxComponent label='Horizontal'
+                                name='horizontal'
+                                updated={(allow) => this.setStateWithProp('allowHorizontal', allow)}
+                                value={this.state.generationOptions.allowHorizontal} />
 
-                    <CheckboxComponent label='Vertical'
-                        name='vertical'
-                        updated={(allow) => this.setStateWithProp('allowVertical', allow)}
-                        value={this.state.generationOptions.allowVertical} />
+                            <CheckboxComponent label='Vertical'
+                                name='vertical'
+                                updated={(allow) => this.setStateWithProp('allowVertical', allow)}
+                                value={this.state.generationOptions.allowVertical} />
 
-                    <CheckboxComponent label='Diagonal'
-                        name='diagonal'
-                        updated={(allow) => this.setStateWithProp('allowDiagonal', allow)}
-                        value={this.state.generationOptions.allowDiagonal}
-                    />
-                </CardComponent>
+                            <CheckboxComponent label='Diagonal'
+                                name='diagonal'
+                                updated={(allow) => this.setStateWithProp('allowDiagonal', allow)}
+                                value={this.state.generationOptions.allowDiagonal}
+                            />
+                        </CardComponent>
 
-                <CardComponent title='Size'>
-                    <InputComponent label='Columns' name='columns'
-                        updated={(columns) => this.setStateWithProp('width', parseInt(columns, 10))}
-                        min={5} max={30}
-                        inputType='number'
-                        required={true}
-                        value={this.state.generationOptions.width.toString()} />
+                        <CardComponent title='Size'>
+                            <InputComponent label='Columns' name='columns'
+                                formProps={props}
+                                updated={(columns) => this.setStateWithProp('width', parseInt(columns, 10))}
+                                min={5} max={30}
+                                inputType='number'
+                                required={true}
+                                value={this.state.generationOptions.width.toString()} />
 
-                    <InputComponent label='Rows' name='rows'
-                        updated={(rows) => this.setStateWithProp('height', parseInt(rows, 10))}
-                        min={5} max={30}
-                        inputType='number'
-                        required={true}
-                        value={this.state.generationOptions.height.toString()} />
-                </CardComponent>
+                            <InputComponent label='Rows' name='rows'
+                                formProps={props}
+                                updated={(rows) => this.setStateWithProp('height', parseInt(rows, 10))}
+                                min={5} max={30}
+                                inputType='number'
+                                required={true}
+                                value={this.state.generationOptions.height.toString()} />
+                        </CardComponent>
 
-                <CardComponent title='Misc. Options'>
-                    <CheckboxComponent label='Show Word List'
-                        name='wordList'
-                        updated={(checked) => this.setStateWithProp('showWordList', checked)}
-                        value={this.state.generationOptions.showWordList} />
+                        <CardComponent title='Misc. Options'>
+                            <CheckboxComponent label='Show Word List'
+                                name='wordList'
+                                updated={(checked) => this.setStateWithProp('showWordList', checked)}
+                                value={this.state.generationOptions.showWordList} />
 
-                    {this.state.generationOptions.showWordList ?
-                        <CheckboxComponent label='Alphabetize Word List'
-                            name='alphabetize'
-                            updated={(checked) => this.setStateWithProp('alphabetizeWordList', checked)}
-                            value={this.state.generationOptions.alphabetizeWordList} /> : null
-                    }
+                            {this.state.generationOptions.showWordList ?
+                                <CheckboxComponent label='Alphabetize Word List'
+                                    name='alphabetize'
+                                    updated={(checked) => this.setStateWithProp('alphabetizeWordList', checked)}
+                                    value={this.state.generationOptions.alphabetizeWordList} /> : null
+                            }
 
-                    <CheckboxComponent label='Filter Accidental Profanity'
-                        name='filterProfanity'
-                        updated={(checked) => this.setStateWithProp('filterAccidentalProfanity', checked)}
-                        value={this.state.generationOptions.filterAccidentalProfanity} />
+                            <CheckboxComponent label='Filter Accidental Profanity'
+                                name='filterProfanity'
+                                updated={(checked) => this.setStateWithProp('filterAccidentalProfanity', checked)}
+                                value={this.state.generationOptions.filterAccidentalProfanity} />
 
-                    <CheckboxComponent label='Allow Backwards Words'
-                        name='allowBackwards'
-                        updated={(checked) => this.setStateWithProp('allowBackwards', checked)}
-                        value={this.state.generationOptions.allowBackwards} />
+                            <CheckboxComponent label='Allow Backwards Words'
+                                name='allowBackwards'
+                                updated={(checked) => this.setStateWithProp('allowBackwards', checked)}
+                                value={this.state.generationOptions.allowBackwards} />
 
-                    <CheckboxComponent label='Allow Overlaps'
-                        name='allowOverlaps'
-                        updated={(checked) => this.setStateWithProp('allowOverlaps', checked)}
-                        value={this.state.generationOptions.allowOverlaps} />
+                            <CheckboxComponent label='Allow Overlaps'
+                                name='allowOverlaps'
+                                updated={(checked) => this.setStateWithProp('allowOverlaps', checked)}
+                                value={this.state.generationOptions.allowOverlaps} />
 
-                    {this.state.generationOptions.allowOverlaps ?
-                        <CheckboxComponent label='Zealous Overlaps' name='zealousOverlaps'
-                            updated={(checked) => this.setStateWithProp('zealousOverlaps', checked)}
-                            value={this.state.generationOptions.zealousOverlaps} /> : null
-                    }
-                </CardComponent>
+                            {this.state.generationOptions.allowOverlaps ?
+                                <CheckboxComponent label='Zealous Overlaps' name='zealousOverlaps'
+                                    updated={(checked) => this.setStateWithProp('zealousOverlaps', checked)}
+                                    value={this.state.generationOptions.zealousOverlaps} /> : null
+                            }
+                        </CardComponent>
 
-                <CardComponent title='Word List'>
-                    <ReactInputListComponent
-                        addSlotButtonText='Add Word Slot'
-                        validators={this.props.wordValidators}
-                        changed={(inputs) => this.updateWords(inputs)} />
-                </CardComponent>
+                        <CardComponent title='Word List'>
+                            <ReactInputListComponent
+                                addSlotButtonText='Add Word Slot'
+                                formProps={props}
+                                validators={this.props.wordValidators}
+                                changed={(inputs) => this.updateWords(inputs)} />
+                        </CardComponent>
 
-                <div className='generate' onClick={() => this.generate()}>
-                    <ButtonComponent color='primary' text='Generate' disabled={false} />
-                </div>
-            </div>
+                        <div className='generate' onClick={() => this.generate()}>
+                            <ButtonComponent color='primary' text='Generate' disabled={!props.dirty || !props.isValid} />
+                        </div>
+                    </Form>
+                )}
+            </Formik>
         );
     }
 

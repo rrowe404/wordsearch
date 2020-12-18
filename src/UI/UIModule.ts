@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { DropdownModule } from './Dropdown/DropdownModule';
-import { InputModule } from './Input/InputModule';
-import { InputListModule } from './InputList/InputListModule';
 import { ButtonModule } from './Button/ButtonModule';
 import { CheckboxModule } from './Checkbox/CheckboxModule';
 import { WordSearchGeneratorFormModule } from './WordSearchGeneratorForm/WordSearchGeneratorFormModule';
@@ -14,8 +12,6 @@ import { PlayableWordSearchModule } from './PlayableWordSearch/PlayableWordSearc
         CardModule,
         CheckboxModule,
         DropdownModule,
-        InputModule,
-        InputListModule,
         PlayableWordSearchModule,
         WordSearchGeneratorFormModule
     ],
@@ -24,8 +20,6 @@ import { PlayableWordSearchModule } from './PlayableWordSearch/PlayableWordSearc
         CardModule,
         CheckboxModule,
         DropdownModule,
-        InputModule,
-        InputListModule,
         PlayableWordSearchModule,
         WordSearchGeneratorFormModule
     ]

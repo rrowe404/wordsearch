@@ -1,3 +1,4 @@
+import { FormikProps } from 'formik';
 import { InputErrors } from './InputErrors';
 
 export interface InputProps {
@@ -11,4 +12,6 @@ export interface InputProps {
 
     validators?: Array<(value: string) => InputErrors>;
     updated(value: string): void;
+
+    formProps: FormikProps<any>; // TODO
 }

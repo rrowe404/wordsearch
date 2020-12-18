@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { LabelComponent } from '../Label/LabelComponent';
 import { InputProps } from './InputProps';
 import { InputErrors } from './InputErrors';
-import { ErrorsComponent } from '../Errors/ErrorsComponent';
-import { Field, Form, Formik, FormikProps, useFormik } from 'formik';
+import { ErrorMessage, Field, FormikProps } from 'formik';
+import { LabelComponent } from '../Label/LabelComponent';
+import * as _ from 'lodash';
 
 class InputState {
     inputType: string;
@@ -21,27 +21,17 @@ export class InputComponent extends React.Component<{}, InputState> {
     }
 
     render() {
-        let initialValues = {};
-        initialValues[this.props.name] = this.state.value;
-
-        let initialErrors = this.validate(initialValues);
-
         return (
-            <Formik initialErrors={initialErrors} initialValues={initialValues}
-                    onSubmit={() => { }} validate={(values) => this.validate(values)}>
-                {props => (
-                    <Form>
-                        <LabelComponent label={this.props.label} />
-                        <Field onChange={(e) => this.handleChange(e, props)} type={this.state.inputType} name={this.props.name}></Field>
-                        <ErrorsComponent errors={props.errors} />
-                    </Form>
-                )}
-            </Formik>
+            <div>
+                <LabelComponent label={this.props.label} />
+                <Field onChange={(e) => this.handleChange(e)} type={this.state.inputType} name={this.props.name}></Field>
+                <ErrorMessage name={this.props.name} />
+            </div>
         );
     }
 
-    handleChange(e: React.ChangeEvent<HTMLInputElement>, props: FormikProps<any>) {
-        props.handleChange(e);
+    handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        this.props.formProps.handleChange(e);
         this.props.updated(e.target.value);
     }
 
