@@ -47,7 +47,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         })
 
         return (
-            <Formik initialValues={this.state.generationOptions} onSubmit={() => { console.log('submit' )}} validationSchema={schema}>
+            <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { console.log(values)}} validationSchema={schema}>
                 {props => (
                     <Form>
                         <InputComponent label='Title'
