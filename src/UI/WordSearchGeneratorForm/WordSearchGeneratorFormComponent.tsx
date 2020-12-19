@@ -5,8 +5,10 @@ import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { PlayableEventService } from '../PlayableEvent/PlayableEventService';
 import { InputErrors } from '../Input/InputErrors';
 import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
-import { WordSearchGeneratorFormComponent as ReactWordSearchGeneratorFormComponent } from './ReactWordSearchGeneratorFormComponent';
+import { WordSearchGeneratorFormConnected } from './ReactWordSearchGeneratorFormComponent';
 import * as React from 'react';
+import { ReduxConfig } from '../Redux/ReduxConfig';
+import { Provider } from 'react-redux';
 
 @Component({
   selector: 'wordsearch-generator-form',
@@ -16,6 +18,7 @@ import * as React from 'react';
 export class WordSearchGeneratorFormComponent extends ReactAdapter implements OnInit {
   static count = 0;
   rootId = `wordsearch-generator-form-${WordSearchGeneratorFormComponent.count++}`;
+  store;
 
   constructor(
     private playableEventService: PlayableEventService,
@@ -23,6 +26,10 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
     private wordValidationService: WordValidationService
   ) {
     super();
+    let reduxConfig = new ReduxConfig();
+    reduxConfig.initialize();
+    this.store = reduxConfig.store;
+    reduxConfig.store.dispatch({ type: 'SET_WORDS', words: [] })
   }
 
   // public gameFormGroup: FormGroup;
@@ -42,7 +49,7 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   public wordValidators: Array<(value: string) => InputErrors>;
 
   getComponent() {
-    return ( <ReactWordSearchGeneratorFormComponent wordValidators={this.wordValidators} /> );
+    return ( <Provider store={this.store}><WordSearchGeneratorFormConnected /></Provider> );
   }
 
   public ngOnInit() {

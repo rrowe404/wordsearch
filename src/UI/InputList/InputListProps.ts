@@ -5,4 +5,5 @@ export interface InputListProps {
     addSlotButtonText: string;
     validators: Array<(value: string) => InputErrors>;
     formProps: FormikProps<any>; // TODO
+    updated(words: string[]): void;
 }

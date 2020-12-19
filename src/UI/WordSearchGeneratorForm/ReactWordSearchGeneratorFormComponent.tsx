@@ -14,9 +14,12 @@ import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWo
 import { ImageWordSearchOutputStrategy } from '../WordSearchOutput/ImageWordSearchOutputStrategy';
 import { environment } from 'src/environments/environment';
 import { ConsoleWordSearchOutputStrategy } from '../WordSearchOutput/ConsoleWordSearchOutputStrategy';
+import { connect } from 'react-redux';
+import { ReduxState } from '../Redux/ReduxState';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
-    constructor(public props: WordSearchGeneratorFormProps) {
+    // todo type with wordValidators, words, dispatch
+    constructor(public props) {
         super(props);
 
         let outputOptions = [
@@ -123,6 +126,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                             <ReactInputListComponent
                                 addSlotButtonText='Add Word Slot'
                                 formProps={props}
+                                updated={(words) => this.updateWords(words)}
                                 validators={this.props.wordValidators} />
                         </CardComponent>
 
@@ -139,14 +143,16 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
 
     generate(values: any) {
         console.log(values);
+        console.log(this.props.words);
     }
 
-    // TODO form shit
-    // updateWords(inputs: Array<Input<string>>) {
-    //     this.setState({
-    //         currentFormWords: inputs.map(input => input.value)
-    //     });
-    //     // this.gameFormGroup.markAsDirty();
-    //     // this.gameFormGroup.updateValueAndValidity();
-    // }
+    updateWords(words: string[]) {
+        this.props.dispatch({ type: 'SET_WORDS', words })
+    }
 }
+
+let mapStateToProps = (state: ReduxState) => ({
+    words: state.words
+})
+
+export const WordSearchGeneratorFormConnected = connect(mapStateToProps)(WordSearchGeneratorFormComponent);

@@ -46,6 +46,8 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
         this.setState({
             inputs
         });
+
+        this.props.updated(inputs.filter(val => !!val).map(i => i.value));
     }
 
     public addSlot() {
