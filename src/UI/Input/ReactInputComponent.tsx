@@ -9,7 +9,7 @@ class InputState {
 }
 
 export class InputComponent extends React.Component<{}, InputState> {
-    constructor(public props: InputProps) {
+    constructor(public props: InputProps<any>) {
         super(props);
 
         this.state = {
@@ -18,12 +18,10 @@ export class InputComponent extends React.Component<{}, InputState> {
     }
 
     render() {
-        let value = this.props.formProps.values[this.props.name];
-
         return (
             <div>
                 <LabelComponent label={this.props.label} />
-                <Field onChange={(e) => this.props.updated(e)} type={this.state.inputType} name={this.props.name} value={value}></Field>
+                <Field onChange={(e) => this.props.updated(e)} type={this.state.inputType} name={this.props.name} value={this.props.value}></Field>
                 <ErrorMessage name={this.props.name} />
             </div>
         );
