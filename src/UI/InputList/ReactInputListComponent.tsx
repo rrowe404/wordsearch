@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as React from 'react';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
 import { InputComponent } from '../Input/ReactInputComponent';
@@ -21,7 +22,7 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
             <div>
                 {this.state.inputs.map((input, i) => {
                     return ( <div key={input.name}>
-                        <InputComponent name={input.name} validators={this.props.validators} updated={this.updated} value={this.props.formProps.values[input.name]} />
+                        <InputComponent name={input.name} validators={this.props.validators} updated={(e) => this.updated(e)} value={input.value} />
 
                         <button className='icon' onClick={(e) => this.removeSlot(e, i)}>✖</button>
                     </div> );
@@ -35,7 +36,16 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
     }
 
     public updated(e: React.ChangeEvent<HTMLInputElement>) {
-        console.log('hi');
+        let inputs = this.state.inputs;
+        let index = _.findIndex(inputs, (input) => input.name === e.target.name);
+        let input = inputs[index];
+        input.value = e.target.value;
+
+        inputs.splice(index, 1, input);
+
+        this.setState({
+            inputs
+        });
     }
 
     public addSlot() {
