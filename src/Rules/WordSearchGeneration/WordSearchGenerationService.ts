@@ -19,8 +19,9 @@ import { WordStartParameters } from '../WordStartParameters/WordStartParameters'
     providedIn: WordSearchGenerationModule
 })
 export class WordSearchGenerationService {
+    private letterCasingService = new LetterCasingService();
+
     constructor(
-        private letterCasingService: LetterCasingService,
         private letterPlaceholderFillService: LetterPlaceholderFillService,
         private randomNumberGeneratorService: RandomNumberGeneratorService,
         private stringUtils: StringUtils,
