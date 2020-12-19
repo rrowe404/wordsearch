@@ -20,10 +20,10 @@ import { WordStartParameters } from '../WordStartParameters/WordStartParameters'
 })
 export class WordSearchGenerationService {
     private letterCasingService = new LetterCasingService();
+    private randomNumberGeneratorService = new RandomNumberGeneratorService();
 
     constructor(
         private letterPlaceholderFillService: LetterPlaceholderFillService,
-        private randomNumberGeneratorService: RandomNumberGeneratorService,
         private stringUtils: StringUtils,
         private wordDirectionSelectorService: WordDirectionSelectorService,
         private wordPositionServiceFactory: WordPositionServiceFactory,

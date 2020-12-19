@@ -12,12 +12,13 @@ import { WordPositionServiceBase } from './WordPositionServiceBase';
     providedIn: WordPositionModule
 })
 export class WordPositionServiceFactory {
+    private randomNumberGeneratorService = new RandomNumberGeneratorService();
+
     constructor(
         private horizontalWordPositionService: HorizontalWordPositionService,
         private verticalWordPositionService: VerticalWordPositionService,
         private bottomUpDiagonalWordPositionService: BottomUpDiagonalWordPositionService,
-        private topDownDiagonalWordPositionService: TopDownDiagonalWordPositionService,
-        private randomNumberGeneratorService: RandomNumberGeneratorService
+        private topDownDiagonalWordPositionService: TopDownDiagonalWordPositionService
     ) {
     }
 

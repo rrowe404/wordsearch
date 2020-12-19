@@ -10,6 +10,8 @@ import { ProfanityFilterService } from '../ProfanityFilter/ProfanityFilterServic
     providedIn: LetterPlaceholderModule
 })
 export class LetterPlaceholderFillService {
+    private randomNumberGeneratorService = new RandomNumberGeneratorService();
+
     private alphabet = [
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
         'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
@@ -17,8 +19,7 @@ export class LetterPlaceholderFillService {
     ];
 
     constructor(
-        private profanityFilterService: ProfanityFilterService,
-        private randomNumberGeneratorService: RandomNumberGeneratorService
+        private profanityFilterService: ProfanityFilterService
     ) {}
 
     public fill(currentState: WordSearchState) {

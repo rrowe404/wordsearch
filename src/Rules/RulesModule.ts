@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ArrayGenerationModule } from './ArrayGeneration/ArrayGenerationModule';
 import { LetterPlaceholderModule } from './LetterPlaceholder/LetterPlaceholderModule';
-import { RandomNumberGeneratorModule } from './RandomNumberGenerator/RandomNumberGeneratorModule';
 import { WordSearchGenerationModule } from './WordSearchGeneration/WordSearchGenerationModule';
 import { WordSearchStateModule } from './WordSearchState/WordSearchStateModule';
 import { WordValidationModule } from './WordValidation/WordValidationModule';
@@ -14,7 +13,6 @@ import { WordBuilderModule } from './WordBuilder/WordBuilderModule';
     imports: [
         ArrayGenerationModule,
         LetterPlaceholderModule,
-        RandomNumberGeneratorModule,
         StringUtilsModule,
         WordBuilderModule,
         WordDirectionModule,
@@ -26,7 +24,6 @@ import { WordBuilderModule } from './WordBuilder/WordBuilderModule';
     exports: [
         ArrayGenerationModule,
         LetterPlaceholderModule,
-        RandomNumberGeneratorModule,
         StringUtilsModule,
         WordBuilderModule,
         WordDirectionModule,
