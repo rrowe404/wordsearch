@@ -4,7 +4,6 @@ import { WordValidationService } from 'src/Rules/WordValidation/WordValidationSe
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { PlayableEventService } from '../PlayableEvent/PlayableEventService';
 import { InputErrors } from '../Input/InputErrors';
-import { Input } from '../Input/Input';
 import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
 import { WordSearchGeneratorFormComponent as ReactWordSearchGeneratorFormComponent } from './ReactWordSearchGeneratorFormComponent';
 import * as React from 'react';
@@ -41,8 +40,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   public playableState: WordSearchState;
 
   public wordValidators: Array<(value: string) => InputErrors>;
-
-  private currentFormWords: any[] = [];
 
   getComponent() {
     return ( <ReactWordSearchGeneratorFormComponent wordValidators={this.wordValidators} /> );
@@ -94,27 +91,10 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
     // this.outputStrategy.output(result);
   }
 
-  private getWordsFromForm() {
-    let formValues = this.currentFormWords;
-
-    // don't include blanks
-    let result = formValues.filter(val => !!val);
-
-    return result;
-  }
-
-  public setOutputOption(outputOption: string) {
-    // this.selectedOutputOption = outputOption;
-  }
-
   /** The functions that call this will fire after a UI change that may change whether currently-entered words are still valid */
   // private updateWordListValidity() {
   //   Object.keys(this.wordFormGroup.controls).forEach(key => {
   //     this.wordFormGroup.controls[key].updateValueAndValidity();
   //   });
   // }
-
-  public updateWords(inputs: Array<Input<string>>) {
-    this.currentFormWords = inputs.map(input => input.value);
-  }
 }
