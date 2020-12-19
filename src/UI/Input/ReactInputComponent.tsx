@@ -6,7 +6,6 @@ import * as _ from 'lodash';
 
 class InputState {
     inputType: string;
-    value: string;
 }
 
 export class InputComponent extends React.Component<{}, InputState> {
@@ -15,15 +14,16 @@ export class InputComponent extends React.Component<{}, InputState> {
 
         this.state = {
             inputType: props.inputType || 'text',
-            value: props.value || ''
         };
     }
 
     render() {
+        let value = this.props.formProps.values[this.props.name];
+
         return (
             <div>
                 <LabelComponent label={this.props.label} />
-                <Field onChange={(e) => this.handleChange(e)} type={this.state.inputType} name={this.props.name} value={this.props.value}></Field>
+                <Field onChange={(e) => this.handleChange(e)} type={this.state.inputType} name={this.props.name} value={value}></Field>
                 <ErrorMessage name={this.props.name} />
             </div>
         );

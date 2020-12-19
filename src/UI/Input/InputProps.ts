@@ -8,7 +8,6 @@ export interface InputProps {
     min?: number;
     max?: number;
     required?: boolean;
-    value: string;
 
     validators?: Array<(value: string) => InputErrors>;
 
