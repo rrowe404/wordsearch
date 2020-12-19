@@ -67,7 +67,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
             <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values) }} validationSchema={schema}>
                 {props => (
                     <Form>
-                        <InputComponent label='Title' formProps={props} name='title' />
+                        <InputComponent label='Title' formProps={props} name='title' updated={props.handleChange} />
 
                         <CardComponent title='Allowed Word Directions'>
                             <CheckboxComponent label='Horizontal'
@@ -85,9 +85,9 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                         </CardComponent>
 
                         <CardComponent title='Size'>
-                            <InputComponent label='Columns' name='width' formProps={props} inputType='number' />
+                            <InputComponent label='Columns' name='width' formProps={props} inputType='number' updated={props.handleChange}/>
 
-                            <InputComponent label='Rows' name='height' formProps={props} inputType='number' />
+                            <InputComponent label='Rows' name='height' formProps={props} inputType='number' updated={props.handleChange}/>
                         </CardComponent>
 
                         <CardComponent title='Misc. Options'>

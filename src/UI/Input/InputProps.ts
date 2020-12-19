@@ -12,4 +12,5 @@ export interface InputProps {
     validators?: Array<(value: string) => InputErrors>;
 
     formProps: FormikProps<any>; // TODO
+    updated(e: React.ChangeEvent<HTMLInputElement>): void;
 }
