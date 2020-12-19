@@ -16,6 +16,7 @@ import { environment } from 'src/environments/environment';
 import { ConsoleWordSearchOutputStrategy } from '../WordSearchOutput/ConsoleWordSearchOutputStrategy';
 import { connect } from 'react-redux';
 import { ReduxState } from '../Redux/ReduxState';
+import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
     // todo type with wordValidators, words, dispatch
@@ -140,9 +141,9 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         );
     }
 
-    generate(values: any) {
+    generate(values: WordSearchGenerationOptions) {
+        values.words = this.props.words;
         console.log(values);
-        console.log(this.props.words);
     }
 
     updateWords(words: string[]) {

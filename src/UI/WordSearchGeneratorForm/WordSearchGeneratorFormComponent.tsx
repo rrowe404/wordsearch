@@ -86,8 +86,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   }
 
   public generate() {
-    // this.generationOptions.words = this.getWordsFromForm();
-
     // let result = this.wordSearchGenerationService.generateWordSearch(this.generationOptions);
 
     // if (this.outputStrategy) {
