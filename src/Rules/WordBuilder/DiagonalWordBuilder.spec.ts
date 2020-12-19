@@ -1,8 +1,6 @@
-import { TestBed, async } from '@angular/core/testing';
 import { DiagonalWordBuilder } from './DiagonalWordBuilder';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { TestUtils } from '../TestUtils/TestUtils';
-import { WordBuilderModule } from './WordBuilderModule';
 
 describe('DiagonalWordBuilder', () => {
     let service: DiagonalWordBuilder;
@@ -16,15 +14,9 @@ describe('DiagonalWordBuilder', () => {
         return state;
     }
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                WordBuilderModule
-            ]
-        });
-
-        service = TestBed.inject(DiagonalWordBuilder);
-    }));
+    beforeEach(() => {
+        service = new DiagonalWordBuilder();
+    });
 
     it('should create the service', () => {
         expect(service).toBeTruthy();

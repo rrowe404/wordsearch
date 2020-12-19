@@ -5,7 +5,6 @@ import { WordSearchGenerationModule } from './WordSearchGeneration/WordSearchGen
 import { WordSearchStateModule } from './WordSearchState/WordSearchStateModule';
 import { WordValidationModule } from './WordValidation/WordValidationModule';
 import { WordDirectionModule } from './WordDirection/WordDirectionModule';
-import { StringUtilsModule } from './StringUtils/StringUtilsModule';
 import { WordPositionModule } from './WordPosition/WordPositionModule';
 import { WordBuilderModule } from './WordBuilder/WordBuilderModule';
 
@@ -13,7 +12,6 @@ import { WordBuilderModule } from './WordBuilder/WordBuilderModule';
     imports: [
         ArrayGenerationModule,
         LetterPlaceholderModule,
-        StringUtilsModule,
         WordBuilderModule,
         WordDirectionModule,
         WordPositionModule,
@@ -24,7 +22,6 @@ import { WordBuilderModule } from './WordBuilder/WordBuilderModule';
     exports: [
         ArrayGenerationModule,
         LetterPlaceholderModule,
-        StringUtilsModule,
         WordBuilderModule,
         WordDirectionModule,
         WordPositionModule,

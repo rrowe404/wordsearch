@@ -3,14 +3,9 @@ import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosition';
 import { StringUtils } from '../StringUtils/StringUtils';
 import { WordBuilderResult } from './WordBuilderResult';
-import { Injectable } from '@angular/core';
 
-@Injectable()
 export class DiagonalWordBuilder implements WordBuilder {
-    constructor(
-        private stringUtils: StringUtils
-    ) {
-    }
+    private stringUtils = new StringUtils();
 
     build(currentState: WordSearchState, start: LetterWithPosition, end: LetterWithPosition): WordBuilderResult {
         let result: WordBuilderResult;
