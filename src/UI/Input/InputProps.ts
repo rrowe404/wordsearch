@@ -1,4 +1,3 @@
-import { FormikProps } from 'formik';
 import { InputErrors } from './InputErrors';
 
 export interface InputProps<T> {
