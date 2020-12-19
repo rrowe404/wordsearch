@@ -61,26 +61,14 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         /** TODO min max messages */
 
         const schema = yup.object({
-            columns: yup.number().required('Required').min(5).max(30),
-            rows: yup.number().required('Required').min(5).max(30)
+            width: yup.number().required('Required').min(5).max(30),
+            height: yup.number().required('Required').min(5).max(30)
         })
 
         return (
             <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values) }} validationSchema={schema}>
                 {props => (
                     <Form>
-                        {Object.keys(props.errors).map(error => {
-                            return <div key={error}>
-                                {error.toUpperCase() + ': ' + props.errors[error]}
-                            </div>
-                        })}
-
-                        {Object.keys(props.values).map(value => {
-                            return <div key={value}>
-                                {value + ': ' + typeof value + ': ' + props.values[value]}
-                            </div>
-                        })}
-
                         <InputComponent label='Title' formProps={props} name='title' />
 
                         <CardComponent title='Allowed Word Directions'>
