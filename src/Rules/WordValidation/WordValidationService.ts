@@ -2,18 +2,25 @@ import { WordValidator } from './WordValidator';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { NoSpaceValidator } from './NoSpaceValidator';
 import { WordLengthValidator } from './WordLengthValidator';
+import { NoBlankValidator } from './NoBlankValidator';
 
 export class WordValidationService {
-    private validators: WordValidator[] = [new NoSpaceValidator(), new WordLengthValidator()]
+    private validators: WordValidator[] = [
+        new NoBlankValidator(),
+        new NoSpaceValidator(),
+        new WordLengthValidator()
+    ]
 
     public getErrors(currentState: WordSearchState, word: string) {
-        let violatedValidators = this.validators.filter(validator => !validator.validate(currentState, word));
+        // if one fails we won't bother with the rest -- it's just clutter until the original error has been fixed imo
+
+        let violatedValidator = this.validators.find(validator => !validator.validate(currentState, word));
 
         let errors = {};
 
-        violatedValidators.forEach(validator => {
-            errors[validator.getErrorKey()] = validator.getMessage(word);
-        });
+        if (violatedValidator) {
+            errors[violatedValidator.getErrorKey()] = violatedValidator.getMessage(word);
+        }
 
         return errors;
     }
