@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
-import { PlayableEventService } from '../PlayableEvent/PlayableEventService';
 import { InputErrors } from '../Input/InputErrors';
 import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
 import { WordSearchGeneratorFormConnected } from './ReactWordSearchGeneratorFormComponent';
@@ -24,7 +23,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   private wordValidationService = new WordValidationService();
 
   constructor(
-    private playableEventService: PlayableEventService,
   ) {
     super();
     let reduxConfig = new ReduxConfig();
@@ -79,22 +77,11 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
     //   return this.getWordsFromForm().length > 0 ? null : { required: 'At least one word must be present!' };
     // });
 
-    this.playableEventService.activate.subscribe((state: WordSearchState) => {
-      this.playableState = this.wordSearchStateFactory.createWordSearchCopy(state);
-    });
+    // this.playableEventService.activate.subscribe((state: WordSearchState) => {
+    //   this.playableState = this.wordSearchStateFactory.createWordSearchCopy(state);
+    // });
 
-    this.playableEventService.deactivate.subscribe(() => this.playableState = null);
-  }
-
-  public generate() {
-    // let result = this.wordSearchGenerationService.generateWordSearch(this.generationOptions);
-
-    // if (this.outputStrategy) {
-    //   this.outputStrategy.clean();
-    // }
-
-    // this.outputStrategy = this.wordSearchOutputStrategyFactory.createOutputStrategy(this.selectedOutputOption);
-    // this.outputStrategy.output(result);
+    // this.playableEventService.deactivate.subscribe(() => this.playableState = null);
   }
 
   /** The functions that call this will fire after a UI change that may change whether currently-entered words are still valid */

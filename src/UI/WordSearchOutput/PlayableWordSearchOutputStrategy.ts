@@ -1,17 +1,11 @@
-import { Injectable } from '@angular/core';
-import { WordSearchOutputModule } from './WordSearchOutputModule';
 import { WordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/WordSearchOutputStrategy';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
-import { PlayableEventService } from '../PlayableEvent/PlayableEventService';
 
 /**
  * This one doesn't need to implement the abtract base class --
  * it's just going to fire an event to activate the playable game component
  */
-@Injectable({
-    providedIn: WordSearchOutputModule
-})
-export class PlayableWordSearchOutputStrategy implements WordSearchOutputStrategy{
+export class PlayableWordSearchOutputStrategy implements WordSearchOutputStrategy {
     public static getValue() {
         return 'playable';
     }
@@ -20,14 +14,11 @@ export class PlayableWordSearchOutputStrategy implements WordSearchOutputStrateg
         return 'Playable';
     }
 
-    constructor(private playableEventService: PlayableEventService) {
-    }
-
     clean() {
-        this.playableEventService.deactivate.emit();
+        // todo redux action
     }
 
     output(currentState: WordSearchState) {
-        this.playableEventService.activate.emit(currentState);
+        // todo redux action
     }
 }

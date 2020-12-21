@@ -1,11 +1,6 @@
-import { Injectable } from '@angular/core';
-import { WordSearchOutputModule } from './WordSearchOutputModule';
 import { WordSearchOutputStrategyBase } from '../../Rules/WordSearchOutput/WordSearchOutputStrategyBase';
 
 /** Debug only. Should not be available in prod mode. */
-@Injectable({
-    providedIn: WordSearchOutputModule
-})
 export class ConsoleWordSearchOutputStrategy extends WordSearchOutputStrategyBase {
     public static getValue() {
         return 'console';

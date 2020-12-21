@@ -1,17 +1,15 @@
 import { WordSearchOutputStrategyBase } from '../../Rules/WordSearchOutput/WordSearchOutputStrategyBase';
 import { WordSearchState } from '../../Rules/WordSearchState/WordSearchState';
-import { Injectable } from '@angular/core';
-import { WordSearchOutputModule } from './WordSearchOutputModule';
 import { WordSearchOutputStrategy } from '../../Rules/WordSearchOutput/WordSearchOutputStrategy';
 import { WordMeasurementService } from '../CanvasUtils/WordMeasurementService';
 import { ElementRemovalService } from '../HTMLUtils/ElementRemovalService';
 
-@Injectable({
-    providedIn: WordSearchOutputModule
-})
 export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase implements WordSearchOutputStrategy {
     private canvas: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
+
+    private elementRemovalService = new ElementRemovalService();
+    private wordMeasurementService = new WordMeasurementService();
 
     private letterGap = 20;
     private titleSpace = 20;
@@ -22,13 +20,6 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
 
     public static getViewValue() {
         return 'Image';
-    }
-
-    constructor(
-        private elementRemovalService: ElementRemovalService,
-        private wordMeasurementService: WordMeasurementService
-    ) {
-        super();
     }
 
     public clean() {

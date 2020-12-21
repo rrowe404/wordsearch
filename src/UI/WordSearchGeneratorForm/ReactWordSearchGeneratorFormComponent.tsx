@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import { ReduxState } from '../Redux/ReduxState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
+import { WordSearchOutputStrategyFactory } from '../WordSearchOutput/WordSearchOutputStrategyFactory';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
     private wordSearchGenerationService = new WordSearchGenerationService();
@@ -149,6 +150,8 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
 
         let result = this.wordSearchGenerationService.generateWordSearch(values);
         console.log(result);
+
+        // todo output strategy
     }
 
     updateWords(words: string[]) {
