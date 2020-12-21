@@ -22,7 +22,7 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
             <div>
                 {this.state.inputs.map((input, i) => {
                     return ( <div key={input.name}>
-                        <InputComponent name={input.name} updated={(e) => this.updated(e)} value={input.value} validate={(value) => this.props.validator(value)} />
+                        <InputComponent autofocus={true} name={input.name} updated={(e) => this.updated(e)} value={input.value} validate={(value) => this.props.validator(value)} />
 
                         <button className='icon' onClick={(e) => this.removeSlot(e, i)}>✖</button>
                     </div> );
@@ -59,8 +59,6 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
         this.setState({
             inputs
         });
-
-        this.focusNewestInput();
     }
 
     public removeSlot(event, index: number) {
@@ -70,12 +68,5 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
         this.setState({
             inputs
         });
-    }
-
-    private focusNewestInput() {
-        // TODO
-        // setTimeout(() => {
-        //     this.inputFocusEventService.inputFocusEvent.emit(this.inputs[this.inputs.length - 1].name);
-        // });
     }
 }

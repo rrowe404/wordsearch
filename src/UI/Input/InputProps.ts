@@ -1,6 +1,5 @@
-import { InputErrors } from './InputErrors';
-
 export interface InputProps<T> {
+    autofocus?: boolean;
     label?: string;
     name: string;
     inputType?: string;

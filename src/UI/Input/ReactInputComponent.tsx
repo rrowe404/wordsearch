@@ -5,6 +5,7 @@ import { LabelComponent } from '../Label/LabelComponent';
 import * as _ from 'lodash';
 
 class InputState {
+    hasAutofocused: boolean;
     inputType: string;
     validator: (value: string) => string;
 }
@@ -16,13 +17,20 @@ export class InputComponent extends React.Component<{}, InputState> {
         let validator = props.validate || ((value) => null);
 
         this.state = {
+            hasAutofocused: false,
             inputType: props.inputType || 'text',
             validator
         };
     }
 
+    private autofocus(ref) {
+        if (ref && this.props.autofocus && !this.state.hasAutofocused) {
+            ref.focus();
+            this.setState({ hasAutofocused: true })
+        }
+    }
+
     render() {
-        let name = this.props.name;
         let validator = this.state.validator;
 
         function validate(value) {
@@ -32,7 +40,7 @@ export class InputComponent extends React.Component<{}, InputState> {
         return (
             <div>
                 <LabelComponent label={this.props.label} />
-                <Field onChange={(e) => this.props.updated(e)} type={this.state.inputType} name={this.props.name} value={this.props.value} validate={validate}></Field>
+                <Field innerRef={ref => this.autofocus(ref)} onChange={(e) => this.props.updated(e)} type={this.state.inputType} name={this.props.name} value={this.props.value} validate={validate}></Field>
                 <ErrorMessage name={this.props.name} />
             </div>
         );
