@@ -6,7 +6,6 @@ import * as _ from 'lodash';
 import { CardComponent } from '../Card/ReactCardComponent';
 import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
-import { WordSearchGeneratorFormProps } from './WordSearchGeneratorFormProps';
 import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
 import { ErrorMessage, Form, Formik } from 'formik';
 import { DropdownComponent } from '../Dropdown/ReactDropdownComponent';
@@ -18,11 +17,12 @@ import { connect } from 'react-redux';
 import { ReduxState } from '../Redux/ReduxState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
-import { WordSearchOutputStrategyFactory } from '../WordSearchOutput/WordSearchOutputStrategyFactory';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
+import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
     private wordSearchGenerationService = new WordSearchGenerationService();
+    private wordSearchStateFactory = new WordSearchStateFactory();
     private wordValidationService = new WordValidationService();
 
     // todo type with wordValidators, words, dispatch
@@ -58,7 +58,12 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                 allowOverlaps: false,
                 zealousOverlaps: false
             },
-            selectedOutputOption: outputOptions[0].value
+            selectedOutputOption: outputOptions[0].value,
+            wordValidator: (value: string) => {
+                let currentState = this.wordSearchStateFactory.createWordSearch(this.state.generationOptions);
+                let errors = this.wordValidationService.getErrors(currentState, value);
+                return Object.keys(errors).map(error => errors[error]).join('\n');
+            }
         };
     }
 
@@ -83,7 +88,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
             <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values) }} validationSchema={schema}>
                 {props => (
                     <Form>
-                        <InputComponent label='Title' name='title' updated={props.handleChange} value={props.values.title}/>
+                        <InputComponent label='Title' name='title' updated={props.handleChange} value={props.values.title} />
 
                         <CardComponent title='Allowed Word Directions'>
                             <CheckboxComponent label='Horizontal'
@@ -106,7 +111,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                         </CardComponent>
 
                         <CardComponent title='Size'>
-                            <InputComponent label='Columns' name='width' inputType='number' updated={props.handleChange} value={props.values.width}/>
+                            <InputComponent label='Columns' name='width' inputType='number' updated={props.handleChange} value={props.values.width} />
 
                             <InputComponent label='Rows' name='height' inputType='number' updated={props.handleChange} value={props.values.height} />
                         </CardComponent>
@@ -149,8 +154,10 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                         <CardComponent title='Word List'>
                             <ReactInputListComponent
                                 addSlotButtonText='Add Word Slot'
-                                updated={(words) => this.updateWords(words)} />
-                            
+                                handleChange={props.handleChange}
+                                updated={(words) => this.updateWords(words)}
+                                validator={(value) => this.state.wordValidator(value)} />
+
                             {props.errors['wordListLength'] ? <div className='error'>{props.errors['wordListLength']}</div> : null}
                         </CardComponent>
 

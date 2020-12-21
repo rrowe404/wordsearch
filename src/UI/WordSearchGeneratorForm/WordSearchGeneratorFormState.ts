@@ -4,4 +4,5 @@ export interface WordSearchGeneratorFormState {
     currentFormWords: string[];
     generationOptions: WordSearchGenerationOptions;
     selectedOutputOption: string;
+    wordValidator: (value: string) => string;
 }

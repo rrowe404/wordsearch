@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
-import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
-import { InputErrors } from '../Input/InputErrors';
 import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
 import { WordSearchGeneratorFormConnected } from './ReactWordSearchGeneratorFormComponent';
 import * as React from 'react';
@@ -18,9 +15,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   static count = 0;
   rootId = `wordsearch-generator-form-${WordSearchGeneratorFormComponent.count++}`;
   store;
-
-  private wordSearchStateFactory = new WordSearchStateFactory();
-  private wordValidationService = new WordValidationService();
 
   constructor(
   ) {
@@ -41,20 +35,12 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   /** if this is populated, we should display a component that allows it to be played */
   public playableState: WordSearchState;
 
-  public wordValidators: Array<(value: string) => InputErrors>;
-
   getComponent() {
     return ( <Provider store={this.store}><WordSearchGeneratorFormConnected /></Provider> );
   }
 
   public ngOnInit() {
     // this.dummyState = this.wordSearchStateFactory.createWordSearch(this.generationOptions);
-
-    this.wordValidators = [
-      (value: string) => {
-        return this.wordValidationService.getErrors(this.dummyState, value);
-      }
-    ];
 
     // this.playableEventService.activate.subscribe((state: WordSearchState) => {
     //   this.playableState = this.wordSearchStateFactory.createWordSearchCopy(state);

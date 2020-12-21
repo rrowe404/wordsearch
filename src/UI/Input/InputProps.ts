@@ -10,4 +10,5 @@ export interface InputProps<T> {
     value: T;
 
     updated(e: React.ChangeEvent<HTMLInputElement>): void;
+    validate?: (value: string) => string;
 }
