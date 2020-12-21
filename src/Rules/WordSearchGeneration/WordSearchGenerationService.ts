@@ -26,11 +26,7 @@ export class WordSearchGenerationService {
     private wordDirectionSelectorService = new WordDirectionSelectorService();
     private wordPositionServiceFactory = new WordPositionServiceFactory();
     private wordSearchStateFactory = new WordSearchStateFactory();
-
-    constructor(
-        private wordValidationService: WordValidationService
-    ) {
-    }
+    private wordValidationService = new WordValidationService();
 
     public generateWordSearch(options: WordSearchGenerationOptions) {
         let wordSearch = this.wordSearchStateFactory.createWordSearch(options);

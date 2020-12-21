@@ -21,10 +21,10 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   store;
 
   private wordSearchStateFactory = new WordSearchStateFactory();
+  private wordValidationService = new WordValidationService();
 
   constructor(
     private playableEventService: PlayableEventService,
-    private wordValidationService: WordValidationService
   ) {
     super();
     let reduxConfig = new ReduxConfig();
