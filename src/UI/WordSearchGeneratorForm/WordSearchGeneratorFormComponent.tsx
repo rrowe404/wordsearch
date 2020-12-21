@@ -31,9 +31,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
     reduxConfig.store.dispatch({ type: 'SET_WORDS', words: [] })
   }
 
-  // public gameFormGroup: FormGroup;
-  // public wordFormGroup: FormGroup;
-
   /**
    * We need a WordSearchState in order to validate the words as they are typed.
    * This one will not actually be used to compute the final result.
@@ -58,17 +55,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
         return this.wordValidationService.getErrors(this.dummyState, value);
       }
     ];
-
-    // todo
-    // this.gameFormGroup = new FormGroup({});
-
-    // this.wordFormGroup = new FormGroup({});
-
-    // this.gameFormGroup.addControl('direction', this.directionFormGroup);
-    // this.gameFormGroup.addControl('word', this.wordFormGroup);
-    // this.gameFormGroup.setValidators((group) => {
-    //   return this.getWordsFromForm().length > 0 ? null : { required: 'At least one word must be present!' };
-    // });
 
     // this.playableEventService.activate.subscribe((state: WordSearchState) => {
     //   this.playableState = this.wordSearchStateFactory.createWordSearchCopy(state);

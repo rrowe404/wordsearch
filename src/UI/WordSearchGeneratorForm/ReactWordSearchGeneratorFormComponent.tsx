@@ -73,6 +73,9 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
             height: yup.number().required('Required').min(5).max(30),
             direction: yup.object().test('direction', 'At least one direction must be selected!', function (value) {
                 return this.parent.allowHorizontal || this.parent.allowVertical || this.parent.allowDiagonal
+            }),
+            wordListLength: yup.object().test('wordListLength', 'At least one word must be present!', () => {
+                return this.props.words.length > 0;
             })
         });
 
@@ -147,6 +150,8 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                             <ReactInputListComponent
                                 addSlotButtonText='Add Word Slot'
                                 updated={(words) => this.updateWords(words)} />
+                            
+                            {props.errors['wordListLength'] ? <div className='error'>{props.errors['wordListLength']}</div> : null}
                         </CardComponent>
 
                         <CardComponent title='Output'>
