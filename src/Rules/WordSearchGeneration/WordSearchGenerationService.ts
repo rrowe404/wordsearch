@@ -22,10 +22,10 @@ export class WordSearchGenerationService {
     private letterCasingService = new LetterCasingService();
     private randomNumberGeneratorService = new RandomNumberGeneratorService();
     private letterPlaceholderFillService = new LetterPlaceholderFillService();
+    private stringUtils = new StringUtils();
+    private wordDirectionSelectorService = new WordDirectionSelectorService();
 
     constructor(
-        private stringUtils: StringUtils,
-        private wordDirectionSelectorService: WordDirectionSelectorService,
         private wordPositionServiceFactory: WordPositionServiceFactory,
         private wordSearchStateFactory: WordSearchStateFactory,
         private wordValidationService: WordValidationService
