@@ -7,7 +7,7 @@ import { CardComponent } from '../Card/ReactCardComponent';
 import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
 import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
-import { ErrorMessage, Form, Formik } from 'formik';
+import { Form, Formik, FormikProps } from 'formik';
 import { DropdownComponent } from '../Dropdown/ReactDropdownComponent';
 import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
 import { ImageWordSearchOutputStrategy } from '../WordSearchOutput/ImageWordSearchOutputStrategy';
@@ -59,8 +59,8 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                 zealousOverlaps: false
             },
             selectedOutputOption: outputOptions[0].value,
-            wordValidator: (value: string) => {
-                let currentState = this.wordSearchStateFactory.createWordSearch(this.state.generationOptions);
+            wordValidator: (options: WordSearchGenerationOptions, value: string) => {
+                let currentState = this.wordSearchStateFactory.createWordSearch(options);
                 let errors = this.wordValidationService.getErrors(currentState, value);
                 return Object.keys(errors).map(error => errors[error]).join('\n');
             }
@@ -70,7 +70,6 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
     render() {
         /** TODO directionFormGroup */
         /** TODO Generate button disabling */
-        /** TODO setColumns/setRows update validity of words */
         /** TODO min max messages */
 
         const schema = yup.object({
@@ -83,6 +82,12 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                 return this.props.words.length > 0;
             })
         });
+
+        // a couple of the fields like Columns and Rows can affect the validity of other fields if they are changed
+        let revalidatingHandleChange = (e: React.ChangeEvent, props: FormikProps<any>) => {
+            props.handleChange(e);
+            props.validateForm();
+        }
 
         return (
             <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values) }} validationSchema={schema}>
@@ -111,9 +116,9 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                         </CardComponent>
 
                         <CardComponent title='Size'>
-                            <InputComponent label='Columns' name='width' inputType='number' updated={props.handleChange} value={props.values.width} />
+                            <InputComponent label='Columns' name='width' inputType='number' updated={(e) => revalidatingHandleChange(e, props)} value={props.values.width} />
 
-                            <InputComponent label='Rows' name='height' inputType='number' updated={props.handleChange} value={props.values.height} />
+                            <InputComponent label='Rows' name='height' inputType='number' updated={(e) => revalidatingHandleChange(e, props)} value={props.values.height} />
                         </CardComponent>
 
                         <CardComponent title='Misc. Options'>
@@ -156,7 +161,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                                 addSlotButtonText='Add Word Slot'
                                 handleChange={props.handleChange}
                                 updated={(words) => this.updateWords(words)}
-                                validator={(value) => this.state.wordValidator(value)} />
+                                validator={(value) => this.state.wordValidator(props.values, value)} />
 
                             {props.errors['wordListLength'] ? <div className='error'>{props.errors['wordListLength']}</div> : null}
                         </CardComponent>
