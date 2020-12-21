@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { ReactAdapter } from '../ReactAdapter/ReactAdapter';
 import { WordSearchGeneratorFormConnected } from './ReactWordSearchGeneratorFormComponent';
 import * as React from 'react';
@@ -25,34 +24,15 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
     reduxConfig.store.dispatch({ type: 'SET_WORDS', words: [] })
   }
 
-  /**
-   * We need a WordSearchState in order to validate the words as they are typed.
-   * This one will not actually be used to compute the final result.
-   * Changes to generationOptions should be immediately reflected in dummyState.
-   */
-  public dummyState: WordSearchState;
-
-  /** if this is populated, we should display a component that allows it to be played */
-  public playableState: WordSearchState;
-
   getComponent() {
     return ( <Provider store={this.store}><WordSearchGeneratorFormConnected /></Provider> );
   }
 
   public ngOnInit() {
-    // this.dummyState = this.wordSearchStateFactory.createWordSearch(this.generationOptions);
-
     // this.playableEventService.activate.subscribe((state: WordSearchState) => {
     //   this.playableState = this.wordSearchStateFactory.createWordSearchCopy(state);
     // });
 
     // this.playableEventService.deactivate.subscribe(() => this.playableState = null);
   }
-
-  /** The functions that call this will fire after a UI change that may change whether currently-entered words are still valid */
-  // private updateWordListValidity() {
-  //   Object.keys(this.wordFormGroup.controls).forEach(key => {
-  //     this.wordFormGroup.controls[key].updateValueAndValidity();
-  //   });
-  // }
 }
