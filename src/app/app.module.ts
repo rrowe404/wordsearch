@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { RulesModule } from 'src/Rules/RulesModule';
 import { UIModule } from 'src/UI/UIModule';
 
 @NgModule({
@@ -16,7 +15,6 @@ import { UIModule } from 'src/UI/UIModule';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    RulesModule,
     UIModule
   ],
   providers: [],
