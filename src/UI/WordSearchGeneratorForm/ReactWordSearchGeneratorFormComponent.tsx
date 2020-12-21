@@ -68,7 +68,6 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
     }
 
     render() {
-        /** TODO directionFormGroup */
         /** TODO Generate button disabling */
         /** TODO min max messages */
 
