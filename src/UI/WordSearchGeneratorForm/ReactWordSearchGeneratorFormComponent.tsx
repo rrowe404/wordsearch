@@ -68,8 +68,6 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
     }
 
     render() {
-        /** TODO Generate button disabling */
-
         let min = 5;
         let max = 30;
         let minMaxMessage = `(${min}-${max})`
@@ -172,7 +170,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                             <DropdownComponent label='Method' options={[]} updated={(value) => this.setState({ selectedOutputOption: value })} />
                         </CardComponent>
 
-                        <ButtonComponent buttonType='submit' color='primary' text='Generate' />
+                        <ButtonComponent buttonType='submit' color='primary' text='Generate' disabled={!props.touched || !props.isValid}/>
 
                         {Object.keys(props.errors).map(key => key)}
                     </Form>
