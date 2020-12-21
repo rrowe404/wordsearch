@@ -8,9 +8,7 @@ import { WordSearchGenerationOptions } from '../WordSearchGenerationOptions/Word
     providedIn: WordSearchStateModule
 })
 export class WordSearchStateFactory {
-    constructor(
-        private arrayGenerationService: ArrayGenerationService
-    ) {}
+    private arrayGenerationService = new ArrayGenerationService();
 
     public createWordSearch(options: WordSearchGenerationOptions) {
         let state = new WordSearchState();

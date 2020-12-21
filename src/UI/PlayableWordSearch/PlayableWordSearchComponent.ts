@@ -31,8 +31,9 @@ import { WordBuilderService } from '../../Rules/WordBuilder/WordBuilderService';
 export class PlayableWordSearchComponent implements OnInit, OnChanges {
     @Input() public state: WordSearchState;
 
+    private arrayGenerationService = new ArrayGenerationService();
+
     constructor(
-        private arrayGenerationService: ArrayGenerationService,
         private wordBuilderService: WordBuilderService,
     )  {
     }
