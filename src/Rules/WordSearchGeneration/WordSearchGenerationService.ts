@@ -1,5 +1,4 @@
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
-import { LetterPlaceholderFillService } from 'src/Rules/LetterPlaceholder/LetterPlaceholderFillService';
 import { Injectable } from '@angular/core';
 import { WordSearchGenerationModule } from './WordSearchGenerationModule';
 import { WordSearchStateFactory } from '../WordSearchState/WordSearchStateFactory';
@@ -14,6 +13,7 @@ import { WordOrientation } from '../WordOrientation/WordOrientation';
 import { WordPosition } from '../WordPosition/WordPosition';
 import { WordPositionServiceBase } from '../WordPosition/WordPositionServiceBase';
 import { WordStartParameters } from '../WordStartParameters/WordStartParameters';
+import { LetterPlaceholderFillService } from '../LetterPlaceholder/LetterPlaceholderFillService';
 
 @Injectable({
     providedIn: WordSearchGenerationModule
@@ -21,9 +21,9 @@ import { WordStartParameters } from '../WordStartParameters/WordStartParameters'
 export class WordSearchGenerationService {
     private letterCasingService = new LetterCasingService();
     private randomNumberGeneratorService = new RandomNumberGeneratorService();
+    private letterPlaceholderFillService = new LetterPlaceholderFillService();
 
     constructor(
-        private letterPlaceholderFillService: LetterPlaceholderFillService,
         private stringUtils: StringUtils,
         private wordDirectionSelectorService: WordDirectionSelectorService,
         private wordPositionServiceFactory: WordPositionServiceFactory,
