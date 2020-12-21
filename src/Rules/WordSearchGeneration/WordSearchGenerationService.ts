@@ -24,9 +24,9 @@ export class WordSearchGenerationService {
     private letterPlaceholderFillService = new LetterPlaceholderFillService();
     private stringUtils = new StringUtils();
     private wordDirectionSelectorService = new WordDirectionSelectorService();
+    private wordPositionServiceFactory = new WordPositionServiceFactory();
 
     constructor(
-        private wordPositionServiceFactory: WordPositionServiceFactory,
         private wordSearchStateFactory: WordSearchStateFactory,
         private wordValidationService: WordValidationService
     ) {

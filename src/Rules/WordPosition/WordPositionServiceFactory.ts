@@ -3,24 +3,15 @@ import { HorizontalWordPositionService } from './HorizontalWordPositionService';
 import { VerticalWordPositionService } from './VerticalWordPositionService';
 import { BottomUpDiagonalWordPositionService } from './BottomUpDiagonalWordPositionService';
 import { TopDownDiagonalWordPositionService } from './TopDownDiagonalWordPositionService';
-import { Injectable } from '@angular/core';
-import { WordPositionModule } from './WordPositionModule';
 import { RandomNumberGeneratorService } from '../RandomNumberGenerator/RandomNumberGeneratorService';
 import { WordPositionServiceBase } from './WordPositionServiceBase';
 
-@Injectable({
-    providedIn: WordPositionModule
-})
 export class WordPositionServiceFactory {
     private randomNumberGeneratorService = new RandomNumberGeneratorService();
-
-    constructor(
-        private horizontalWordPositionService: HorizontalWordPositionService,
-        private verticalWordPositionService: VerticalWordPositionService,
-        private bottomUpDiagonalWordPositionService: BottomUpDiagonalWordPositionService,
-        private topDownDiagonalWordPositionService: TopDownDiagonalWordPositionService
-    ) {
-    }
+    private horizontalWordPositionService = new HorizontalWordPositionService();
+    private verticalWordPositionService = new VerticalWordPositionService();
+    private bottomUpDiagonalWordPositionService = new BottomUpDiagonalWordPositionService();
+    private topDownDiagonalWordPositionService = new TopDownDiagonalWordPositionService();
 
     public getService(direction: WordDirection): WordPositionServiceBase {
         switch (direction) {

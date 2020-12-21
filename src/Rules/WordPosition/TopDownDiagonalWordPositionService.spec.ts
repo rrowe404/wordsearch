@@ -1,5 +1,3 @@
-import { TestBed, async } from '@angular/core/testing';
-import { WordPositionModule } from './WordPositionModule';
 import { TopDownDiagonalWordPositionService } from './TopDownDiagonalWordPositionService';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { TestUtils } from '../TestUtils/TestUtils';
@@ -18,15 +16,9 @@ describe('TopDownDiagonalWordPositionService', () => {
         return state;
     }
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                WordPositionModule
-            ]
-        });
-
-        service = TestBed.inject(TopDownDiagonalWordPositionService);
-    }));
+    beforeEach(() => {
+        service = new TopDownDiagonalWordPositionService();
+    });
 
     it('should create the service', () => {
         expect(service).toBeTruthy();

@@ -1,13 +1,7 @@
-import { Injectable } from '@angular/core';
-import { WordPositionModule } from './WordPositionModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordPosition } from './WordPosition';
-import { WordPositionService } from './WordPositionService';
 import { WordPositionServiceBase } from './WordPositionServiceBase';
 
-@Injectable({
-    providedIn: WordPositionModule
-})
 export class HorizontalWordPositionService extends WordPositionServiceBase {
     // always the same
     protected getNextRow(startRow: number) {
