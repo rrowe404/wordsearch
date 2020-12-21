@@ -32,7 +32,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   }
 
   // public gameFormGroup: FormGroup;
-  // public directionFormGroup: FormGroup;
   // public wordFormGroup: FormGroup;
 
   /**
@@ -62,12 +61,6 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
 
     // todo
     // this.gameFormGroup = new FormGroup({});
-
-    // this.directionFormGroup = new FormGroup({}, (group: FormGroup) => {
-    //   let isValid = Object.keys(group.controls).some(key => group.controls[key].value);
-
-    //   return isValid ? null : { required: 'At least one direction must be selected!' };
-    // });
 
     // this.wordFormGroup = new FormGroup({});
 

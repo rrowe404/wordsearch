@@ -8,7 +8,7 @@ import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
 import { WordSearchGeneratorFormProps } from './WordSearchGeneratorFormProps';
 import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
-import { Form, Formik } from 'formik';
+import { ErrorMessage, Form, Formik } from 'formik';
 import { DropdownComponent } from '../Dropdown/ReactDropdownComponent';
 import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
 import { ImageWordSearchOutputStrategy } from '../WordSearchOutput/ImageWordSearchOutputStrategy';
@@ -19,9 +19,11 @@ import { ReduxState } from '../Redux/ReduxState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
 import { WordSearchOutputStrategyFactory } from '../WordSearchOutput/WordSearchOutputStrategyFactory';
+import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
     private wordSearchGenerationService = new WordSearchGenerationService();
+    private wordValidationService = new WordValidationService();
 
     // todo type with wordValidators, words, dispatch
     constructor(public props) {
@@ -68,8 +70,11 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
 
         const schema = yup.object({
             width: yup.number().required('Required').min(5).max(30),
-            height: yup.number().required('Required').min(5).max(30)
-        })
+            height: yup.number().required('Required').min(5).max(30),
+            direction: yup.object().test('direction', 'At least one direction must be selected!', function (value) {
+                return this.parent.allowHorizontal || this.parent.allowVertical || this.parent.allowDiagonal
+            })
+        });
 
         return (
             <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values) }} validationSchema={schema}>
@@ -79,17 +84,22 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
 
                         <CardComponent title='Allowed Word Directions'>
                             <CheckboxComponent label='Horizontal'
+                                updated={props.handleChange}
                                 name='allowHorizontal'
                                 value={props.values.allowHorizontal} />
 
                             <CheckboxComponent label='Vertical'
+                                updated={props.handleChange}
                                 name='allowVertical'
                                 value={props.values.allowVertical} />
 
                             <CheckboxComponent label='Diagonal'
+                                updated={props.handleChange}
                                 name='allowDiagonal'
                                 value={props.values.allowDiagonal}
                             />
+
+                            {props.errors['direction'] ? <div className='error'>{props.errors['direction']}</div> : null}
                         </CardComponent>
 
                         <CardComponent title='Size'>
@@ -100,29 +110,35 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
 
                         <CardComponent title='Misc. Options'>
                             <CheckboxComponent label='Show Word List'
+                                updated={props.handleChange}
                                 name='wordList'
                                 value={props.values.showWordList} />
 
                             {props.values.showWordList ?
                                 <CheckboxComponent label='Alphabetize Word List'
+                                    updated={props.handleChange}
                                     name='alphabetize'
                                     value={props.values.alphabetizeWordList} /> : null
                             }
 
                             <CheckboxComponent label='Filter Accidental Profanity'
+                                updated={props.handleChange}
                                 name='filterProfanity'
                                 value={props.values.filterAccidentalProfanity} />
 
                             <CheckboxComponent label='Allow Backwards Words'
+                                updated={props.handleChange}
                                 name='allowBackwards'
                                 value={props.values.allowBackwards} />
 
                             <CheckboxComponent label='Allow Overlaps'
+                                updated={props.handleChange}
                                 name='allowOverlaps'
                                 value={props.values.allowOverlaps} />
 
                             {props.values.allowOverlaps ?
                                 <CheckboxComponent label='Zealous Overlaps' name='zealousOverlaps'
+                                    updated={props.handleChange}
                                     value={props.values.zealousOverlaps} /> : null
                             }
                         </CardComponent>
@@ -138,6 +154,8 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                         </CardComponent>
 
                         <ButtonComponent buttonType='submit' color='primary' text='Generate' />
+
+                        {Object.keys(props.errors).map(key => key)}
                     </Form>
                 )}
             </Formik>
