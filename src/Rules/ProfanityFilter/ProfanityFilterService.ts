@@ -12,14 +12,10 @@ import { LetterPlaceholder } from '../LetterPlaceholder/LetterPlaceholder';
     providedIn: ProfanityFilterModule
 })
 export class ProfanityFilterService {
-    constructor(
-        private horizontalStateSlicer: HorizontalWordSearchStateSlicer,
-        private verticalSlicer: VerticalWordSearchStateSlicer,
-        private topLeftToBottomRightSlicer: TopLeftToBottomRightDiagonalWordSearchStateSlicer,
-        private bottomLeftToTopRightSlicer: BottomLeftToTopRightDiagonalWordSearchStateSlicer,
-    ) {
-
-    }
+    private horizontalSlicer = new HorizontalWordSearchStateSlicer();
+    private verticalSlicer = new VerticalWordSearchStateSlicer();
+    private topLeftToBottomRightSlicer = new TopLeftToBottomRightDiagonalWordSearchStateSlicer();
+    private bottomLeftToTopRightSlicer = new BottomLeftToTopRightDiagonalWordSearchStateSlicer();
 
     // Word list borrowed from http://www.bannedwordlist.com/lists/swearWords.txt and modified a bit to catch more racial slurs
     // and remove some that don't make sense to filter in this context
@@ -116,7 +112,7 @@ export class ProfanityFilterService {
     public filterProfanity(currentState: WordSearchState, userPlacedLetters: LetterWithPosition[]) {
         let arr = currentState.getLettersWithPositions();
 
-        let horizontalSlice = this.horizontalStateSlicer.createSlice(currentState, arr);
+        let horizontalSlice = this.horizontalSlicer.createSlice(currentState, arr);
         let verticalSlice = this.verticalSlicer.createSlice(currentState, arr);
         let diagonalSlice = this.topLeftToBottomRightSlicer.createSlice(currentState, arr);
         let otherDiagonalSlice = this.bottomLeftToTopRightSlicer.createSlice(currentState, arr);

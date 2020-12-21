@@ -1,20 +1,12 @@
-import { TestBed, async } from '@angular/core/testing';
 import { HorizontalWordSearchStateSlicer } from './HorizontalWordSearchStateSlicer';
-import { WordSearchStateSlicerModule } from './WordSearchStateSlicerModule';
 import { WordSearchStateSlicerTestHelpers } from './WordSearchStateSlicerTestHelpers';
 
 describe('HorizontalWordSearchStateSlicer', () => {
     let service: HorizontalWordSearchStateSlicer;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                WordSearchStateSlicerModule
-            ]
-        });
-
-        service = TestBed.inject(HorizontalWordSearchStateSlicer);
-    }));
+    beforeEach(() => {
+        service = new HorizontalWordSearchStateSlicer();
+    });
 
     it('should create the service', () => {
         expect(service).toBeTruthy();

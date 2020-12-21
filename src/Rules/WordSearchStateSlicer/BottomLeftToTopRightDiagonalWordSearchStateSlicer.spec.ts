@@ -1,19 +1,12 @@
 import { TestBed, async } from '@angular/core/testing';
 import { BottomLeftToTopRightDiagonalWordSearchStateSlicer } from './BottomLeftToTopRightDiagonalWordSearchStateSlicer';
-import { WordSearchStateSlicerModule } from './WordSearchStateSlicerModule';
 import { WordSearchStateSlicerTestHelpers } from './WordSearchStateSlicerTestHelpers';
 
 describe('BottomLeftToTopRightDiagonalWordSearchStateSlicer', () => {
     let service: BottomLeftToTopRightDiagonalWordSearchStateSlicer;
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                WordSearchStateSlicerModule
-            ]
-        });
-
-        service = TestBed.inject(BottomLeftToTopRightDiagonalWordSearchStateSlicer);
+        service = new BottomLeftToTopRightDiagonalWordSearchStateSlicer();
     }));
 
     it('should create the service', () => {
