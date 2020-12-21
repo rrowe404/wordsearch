@@ -69,11 +69,14 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
 
     render() {
         /** TODO Generate button disabling */
-        /** todo min max messages */
+
+        let min = 5;
+        let max = 30;
+        let minMaxMessage = `(${min}-${max})`
 
         const schema = yup.object({
-            width: yup.number().required('Required').min(5).max(30),
-            height: yup.number().required('Required').min(5).max(30),
+            width: yup.number().required('Required').min(min, minMaxMessage).max(max, minMaxMessage),
+            height: yup.number().required('Required').min(min, minMaxMessage).max(max, minMaxMessage),
             direction: yup.object().test('direction', 'At least one direction must be selected!', function (value) {
                 return this.parent.allowHorizontal || this.parent.allowVertical || this.parent.allowDiagonal
             }),
