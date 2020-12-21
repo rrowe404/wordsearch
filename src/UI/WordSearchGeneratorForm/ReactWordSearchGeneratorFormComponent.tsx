@@ -19,6 +19,8 @@ import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptio
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
+import { ReduxActions } from '../Redux/ReduxActions';
+import { DropdownOption } from '../Dropdown/DropdownOption';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
     private wordSearchGenerationService = new WordSearchGenerationService();
@@ -29,7 +31,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
     constructor(public props) {
         super(props);
 
-        let outputOptions = [
+        let outputOptions: DropdownOption<string>[] = [
             { value: PlayableWordSearchOutputStrategy.getValue(), viewValue: PlayableWordSearchOutputStrategy.getViewValue() },
             { value: ImageWordSearchOutputStrategy.getValue(), viewValue: ImageWordSearchOutputStrategy.getViewValue() }
         ];
@@ -56,9 +58,10 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                 allowDiagonal: false,
                 allowBackwards: false,
                 allowOverlaps: false,
-                zealousOverlaps: false
+                zealousOverlaps: false,
+                outputOption: outputOptions[0].value
             },
-            selectedOutputOption: outputOptions[0].value,
+            outputOptions,
             wordValidator: (options: WordSearchGenerationOptions, value: string) => {
                 let currentState = this.wordSearchStateFactory.createWordSearch(options);
                 let errors = this.wordValidationService.getErrors(currentState, value);
@@ -167,12 +170,10 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                         </CardComponent>
 
                         <CardComponent title='Output'>
-                            <DropdownComponent label='Method' options={[]} updated={(value) => this.setState({ selectedOutputOption: value })} />
+                            <DropdownComponent name='outputOption' label='Method' options={this.state.outputOptions} updated={props.handleChange} />
                         </CardComponent>
 
                         <ButtonComponent buttonType='submit' color='primary' text='Generate' disabled={!props.touched || !props.isValid}/>
-
-                        {Object.keys(props.errors).map(key => key)}
                     </Form>
                 )}
             </Formik>
@@ -183,13 +184,12 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         values.words = this.props.words;
 
         let result = this.wordSearchGenerationService.generateWordSearch(values);
-        console.log(result);
 
-        // TODO output strategy
+        this.props.dispatch({ type: ReduxActions.GenerateWordSearch, state: result });
     }
 
     updateWords(words: string[]) {
-        this.props.dispatch({ type: 'SET_WORDS', words })
+        this.props.dispatch({ type: ReduxActions.SetWords, words })
     }
 }
 
