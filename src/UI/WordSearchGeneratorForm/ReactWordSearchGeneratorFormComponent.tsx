@@ -130,8 +130,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                         <CardComponent title='Word List'>
                             <ReactInputListComponent
                                 addSlotButtonText='Add Word Slot'
-                                updated={(words) => this.updateWords(words)}
-                                validators={this.props.wordValidators} />
+                                updated={(words) => this.updateWords(words)} />
                         </CardComponent>
 
                         <CardComponent title='Output'>

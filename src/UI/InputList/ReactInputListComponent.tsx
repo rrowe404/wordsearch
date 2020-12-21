@@ -22,7 +22,7 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
             <div>
                 {this.state.inputs.map((input, i) => {
                     return ( <div key={input.name}>
-                        <InputComponent name={input.name} validators={this.props.validators} updated={(e) => this.updated(e)} value={input.value} />
+                        <InputComponent name={input.name} updated={(e) => this.updated(e)} value={input.value} />
 
                         <button className='icon' onClick={(e) => this.removeSlot(e, i)}>✖</button>
                     </div> );

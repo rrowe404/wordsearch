@@ -9,6 +9,5 @@ export interface InputProps<T> {
     required?: boolean;
     value: T;
 
-    validators?: Array<(value: string) => InputErrors>;
     updated(e: React.ChangeEvent<HTMLInputElement>): void;
 }
