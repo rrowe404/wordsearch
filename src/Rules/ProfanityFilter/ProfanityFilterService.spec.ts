@@ -1,6 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
 import { ProfanityFilterService } from './ProfanityFilterService';
-import { ProfanityFilterModule } from './ProfanityFilterModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { LetterPlaceholder } from '../LetterPlaceholder/LetterPlaceholder';
 import { TestUtils } from '../TestUtils/TestUtils';
@@ -18,16 +16,10 @@ describe('ProfanityFilterService', () => {
         return state;
     }
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ProfanityFilterModule
-            ]
-        });
-
-        service = TestBed.inject(ProfanityFilterService);
+    beforeEach(() => {
+        service = new ProfanityFilterService();
         service.setProfanityList(['fag']);
-    }));
+    });
 
     it('should create the service', () => {
         expect(service).toBeTruthy();

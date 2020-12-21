@@ -1,5 +1,3 @@
-import { Injectable } from '@angular/core';
-import { ProfanityFilterModule } from './ProfanityFilterModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
 import { HorizontalWordSearchStateSlicer } from '../WordSearchStateSlicer/HorizontalWordSearchStateSlicer';
@@ -8,9 +6,6 @@ import { TopLeftToBottomRightDiagonalWordSearchStateSlicer } from '../WordSearch
 import { BottomLeftToTopRightDiagonalWordSearchStateSlicer } from '../WordSearchStateSlicer/BottomLeftToTopRightDiagonalWordSearchStateSlicer';
 import { LetterPlaceholder } from '../LetterPlaceholder/LetterPlaceholder';
 
-@Injectable({
-    providedIn: ProfanityFilterModule
-})
 export class ProfanityFilterService {
     private horizontalSlicer = new HorizontalWordSearchStateSlicer();
     private verticalSlicer = new VerticalWordSearchStateSlicer();
