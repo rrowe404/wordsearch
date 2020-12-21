@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
-import { WordSearchGeneratorFormModule } from './WordSearchGeneratorForm/WordSearchGeneratorFormModule';
 import { PlayableWordSearchModule } from './PlayableWordSearch/PlayableWordSearchModule';
 
 @NgModule({
     imports: [
-        PlayableWordSearchModule,
-        WordSearchGeneratorFormModule
+        PlayableWordSearchModule
     ],
     exports: [
-        PlayableWordSearchModule,
-        WordSearchGeneratorFormModule
+        PlayableWordSearchModule
     ]
 })
 export class UIModule {
