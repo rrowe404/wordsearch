@@ -69,7 +69,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
 
     render() {
         /** TODO Generate button disabling */
-        /** TODO min max messages */
+        /** todo min max messages */
 
         const schema = yup.object({
             width: yup.number().required('Required').min(5).max(30),
@@ -184,7 +184,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         let result = this.wordSearchGenerationService.generateWordSearch(values);
         console.log(result);
 
-        // todo output strategy
+        // TODO output strategy
     }
 
     updateWords(words: string[]) {

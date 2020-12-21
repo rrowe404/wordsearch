@@ -15,10 +15,10 @@ export class PlayableWordSearchOutputStrategy implements WordSearchOutputStrateg
     }
 
     clean() {
-        // todo redux action
+        // TODO redux action
     }
 
     output(currentState: WordSearchState) {
-        // todo redux action
+        // TODO redux action
     }
 }
