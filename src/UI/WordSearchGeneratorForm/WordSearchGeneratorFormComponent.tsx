@@ -20,9 +20,10 @@ export class WordSearchGeneratorFormComponent extends ReactAdapter implements On
   rootId = `wordsearch-generator-form-${WordSearchGeneratorFormComponent.count++}`;
   store;
 
+  private wordSearchStateFactory = new WordSearchStateFactory();
+
   constructor(
     private playableEventService: PlayableEventService,
-    private wordSearchStateFactory: WordSearchStateFactory,
     private wordValidationService: WordValidationService
   ) {
     super();

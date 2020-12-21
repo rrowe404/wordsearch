@@ -25,9 +25,9 @@ export class WordSearchGenerationService {
     private stringUtils = new StringUtils();
     private wordDirectionSelectorService = new WordDirectionSelectorService();
     private wordPositionServiceFactory = new WordPositionServiceFactory();
+    private wordSearchStateFactory = new WordSearchStateFactory();
 
     constructor(
-        private wordSearchStateFactory: WordSearchStateFactory,
         private wordValidationService: WordValidationService
     ) {
     }
