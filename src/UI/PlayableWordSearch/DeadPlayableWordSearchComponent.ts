@@ -28,7 +28,7 @@ import { WordBuilderService } from '../../Rules/WordBuilder/WordBuilderService';
         </div>
     `
 })
-export class PlayableWordSearchComponent implements OnInit, OnChanges {
+class PlayableWordSearchComponent implements OnInit, OnChanges {
     @Input() public state: WordSearchState;
 
     private arrayGenerationService = new ArrayGenerationService();
