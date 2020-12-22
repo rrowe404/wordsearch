@@ -105,20 +105,6 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
         return Object.keys(this.state.wordMap).every(key => this.state.wordMap[key]);
     }
 
-    private reinitialize() {
-        this.setSize();
-        this.setWordList();
-    }
-
-    private setSize() {
-        let size = this.getSize();
-
-        this.setState({
-            rows: size.rows,
-            columns: size.columns
-        })
-    }
-
     private getSize() {
         return {
             rows: this.generateIndexArray(this.props.state.rows),
@@ -208,14 +194,6 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
 
     private computeLetterMapKey(letterWithPosition: LetterWithPosition) {
         return `${letterWithPosition.row}-${letterWithPosition.column}`;
-    }
-
-    /**
-    * the getter for state.wordList performs operations,
-    * so it should only be updated when necessary
-    */
-    private setWordList() {
-        this.setState(this.getWordListUpdate());
     }
 
     private getWordListUpdate() {
