@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { WordSearchOutputStrategyBase } from '../../Rules/WordSearchOutput/WordSearchOutputStrategyBase';
 import { WordSearchState } from '../../Rules/WordSearchState/WordSearchState';
 import { WordSearchOutputStrategy } from '../../Rules/WordSearchOutput/WordSearchOutputStrategy';
@@ -27,7 +28,7 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
         this.elementRemovalService.removeAll(leftovers);
     }
 
-    public output(currentState: WordSearchState): void {
+    public output(currentState: WordSearchState) {
         this.currentState = currentState;
         this.canvas = document.createElement('canvas');
         this.context = this.canvas.getContext('2d');
@@ -35,7 +36,8 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
         this.canvas.height = this.getCanvasHeight();
         super.output(currentState);
         this.fillBackground();
-        document.body.appendChild(this.canvas);
+        const src = this.canvas.toDataURL();
+        return (<div><img src={src}></img></div>);
     }
 
     private fillBackground() {

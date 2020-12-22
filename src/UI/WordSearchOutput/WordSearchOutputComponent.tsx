@@ -16,11 +16,15 @@ export class WordSearchOutputComponent extends React.Component {
         }
 
         let output = this.wordSearchOutputStrategyFactory.createOutputStrategy(this.props.wordSearchState.outputOption);
-        output.output(this.props.wordSearchState);
+        let jsx = output.output(this.props.wordSearchState);
+
+        if (!jsx) {
+            return null;
+        }
 
         return (
             <div key={this.props.wordSearchState}>
-                {this.props.wordSearchState.outputOption}
+                {jsx}
             </div>
         )
     }
