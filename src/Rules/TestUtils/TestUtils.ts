@@ -16,7 +16,8 @@ export class TestUtils {
             allowDiagonal: true,
             allowHorizontal: true,
             allowOverlaps: true,
-            zealousOverlaps: false
+            zealousOverlaps: false,
+            outputOption: 'image'
         };
     }
 
