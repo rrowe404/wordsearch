@@ -138,35 +138,38 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
         let letterWithPosition = { row, column, letter: this.props.state.getValueAt(row, column) };
 
         if (this.state.startLetter) {
-            this.setState({ endLetter: letterWithPosition });
+            this.setState({ endLetter: letterWithPosition }, () => this.connectWord());
         } else {
             this.setState({ startLetter: letterWithPosition });
         }
+    }
 
-        if (this.state.startLetter && this.state.endLetter) {
-            let wordBuilderResult = this.wordBuilderService.build(this.props.state, this.state.startLetter, this.state.endLetter);
-            console.log(wordBuilderResult);
-
-            if (wordBuilderResult && this.isInWordList(wordBuilderResult.word)) {
-                let accuratelyCasedWord = this.getAccuratelyCasedWord(wordBuilderResult.word);
-                let wordMap = _.cloneDeep(this.state.wordMap);
-                wordMap[accuratelyCasedWord] = true;
-                this.setState({ wordMap });
-
-                let letterMap = _.cloneDeep(this.state.letterMap);
-
-                wordBuilderResult.lettersWithPositions.forEach(lwp => {
-                    letterMap[this.computeLetterMapKey(lwp)] = true;
-                });
-
-                this.setState({ letterMap });
-            }
-
-            this.setState({
-                startLetter: null,
-                endLetter: null
-            });
+    private connectWord() {
+        if (!this.state.startLetter || !this.state.endLetter) {
+            return;
         }
+
+        let wordBuilderResult = this.wordBuilderService.build(this.props.state, this.state.startLetter, this.state.endLetter);
+
+        if (wordBuilderResult && this.isInWordList(wordBuilderResult.word)) {
+            let accuratelyCasedWord = this.getAccuratelyCasedWord(wordBuilderResult.word);
+            let wordMap = _.cloneDeep(this.state.wordMap);
+            wordMap[accuratelyCasedWord] = true;
+            this.setState({ wordMap });
+
+            let letterMap = _.cloneDeep(this.state.letterMap);
+
+            wordBuilderResult.lettersWithPositions.forEach(lwp => {
+                letterMap[this.computeLetterMapKey(lwp)] = true;
+            });
+
+            this.setState({ letterMap });
+        }
+
+        this.setState({
+            startLetter: null,
+            endLetter: null
+        });
     }
 
     private getAccuratelyCasedWord(offcasedWord: string) {
