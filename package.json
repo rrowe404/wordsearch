@@ -16,8 +16,6 @@
     "@angular/common": "^11.0.5",
     "@angular/compiler": "^11.0.5",
     "@angular/core": "^11.0.5",
-    "@angular/platform-browser": "^11.0.5",
-    "@angular/platform-browser-dynamic": "^11.0.5",
     "@types/lodash": "^4.14.165",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
