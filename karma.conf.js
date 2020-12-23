@@ -9,7 +9,8 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
-      require('karma-coverage-istanbul-reporter')
+      require('karma-coverage-istanbul-reporter'),
+      require('karma-webpack')
     ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
@@ -19,6 +20,12 @@ module.exports = function (config) {
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true
     },
+    files: [
+      { pattern: 'src/**/*.spec.ts', watched: false }
+    ],
+    preprocessors: {
+      'src/**/*.spec.ts': ['webpack']
+    },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
@@ -27,6 +34,7 @@ module.exports = function (config) {
     browsers: ['Chrome'],
     singleRun: false,
     restartOnFileChange: true,
-    retryLimit: -1
+    retryLimit: -1,
+    webpack: require('./webpack.config')
   });
 };
