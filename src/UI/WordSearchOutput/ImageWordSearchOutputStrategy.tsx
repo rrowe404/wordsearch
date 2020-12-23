@@ -23,11 +23,6 @@ export class ImageWordSearchOutputStrategy extends WordSearchOutputStrategyBase 
         return 'Image';
     }
 
-    public clean() {
-        let leftovers = document.getElementsByTagName('canvas');
-        this.elementRemovalService.removeAll(leftovers);
-    }
-
     public output(currentState: WordSearchState) {
         this.currentState = currentState;
         this.canvas = document.createElement('canvas');

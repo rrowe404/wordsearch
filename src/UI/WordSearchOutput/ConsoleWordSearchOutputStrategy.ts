@@ -10,10 +10,6 @@ export class ConsoleWordSearchOutputStrategy extends WordSearchOutputStrategyBas
         return 'Console';
     }
 
-    public clean() {
-        // do nothing
-    }
-
     protected outputTitle() {
         console.log(this.currentState.title);
     }

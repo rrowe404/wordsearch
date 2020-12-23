@@ -16,10 +16,6 @@ export class PlayableWordSearchOutputStrategy implements WordSearchOutputStrateg
         return 'Playable';
     }
 
-    clean() {
-        // TODO
-    }
-
     output(currentState: WordSearchState) {
         return <PlayableWordSearchComponent key={JSON.stringify(currentState)} state={currentState} />;
     }
