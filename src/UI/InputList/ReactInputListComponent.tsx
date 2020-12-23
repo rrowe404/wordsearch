@@ -4,6 +4,7 @@ import { ButtonComponent } from '../Button/ReactButtonComponent';
 import { InputComponent } from '../Input/ReactInputComponent';
 import { InputListProps } from './InputListProps';
 import { InputListState } from './InputListState';
+import './InputList.less';
 
 export class ReactInputListComponent extends React.Component<{}, InputListState> {
     private inputCounter = 0;
@@ -19,12 +20,11 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
 
     render() {
         return (
-            <div>
+            <div className='inputList'>
                 {this.state.inputs.map((input, i) => {
-                    return ( <div key={input.name}>
+                    return ( <div key={input.name} className='input-container'>
                         <InputComponent autofocus={true} name={input.name} updated={(e) => this.updated(e)} value={input.value} validate={(value) => this.props.validator(value)} />
-
-                        <button className='icon' onClick={(e) => this.removeSlot(e, i)}>✖</button>
+                        <div className='icon' onClick={(e) => this.removeSlot(e, i)}>✖</div>
                     </div> );
                 })}
 

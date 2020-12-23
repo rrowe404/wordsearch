@@ -41,7 +41,7 @@ export class InputComponent extends React.Component<{}, InputState> {
             <div>
                 <LabelComponent label={this.props.label} />
                 <Field innerRef={ref => this.autofocus(ref)} onChange={(e) => this.props.updated(e)} type={this.state.inputType} name={this.props.name} value={this.props.value} validate={validate}></Field>
-                <ErrorMessage name={this.props.name} />
+                <div className='error'><ErrorMessage name={this.props.name} /></div>
             </div>
         );
     }
