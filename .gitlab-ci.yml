@@ -13,3 +13,11 @@ run_test:
     - npm install
   script:
     - npm run test
+
+run_lint:
+  stage: test
+  image: registry.gitlab.com/picrossr/images/build-image:${BUILD_IMAGE_VERSION}
+  before_script:
+    - npm install
+  script:
+    - npm run lint
