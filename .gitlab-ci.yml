@@ -6,7 +6,7 @@ variables:
 
 run_test:
   stage: test
-  image: registry.gitlab.com/picrossr/images/build-image:${BUILD_IMAGE_VERSION}
+  image: zenika/alpine-chrome:with-node
   variables:
     NODE_ENV: "test"
   before_script:
