@@ -3,5 +3,5 @@ steps:
     id: "docker-build"
     args:
       - --destination=gcr.io/wordsearch/client:${TAG_NAME}
-      - --cache-true
+      - --cache=true
       - --build-arg=NODE_ENV=production
