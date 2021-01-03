@@ -1,5 +1,5 @@
-import { createStore } from "redux";
-import { ReduxActions } from "./ReduxActions";
+import { createStore } from 'redux';
+import { ReduxActions } from './ReduxActions';
 
 function reducer(state, action) {
     switch (action.type) {

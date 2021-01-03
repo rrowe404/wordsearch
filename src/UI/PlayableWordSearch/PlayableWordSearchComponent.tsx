@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { ArrayGenerationService } from 'src/Rules/ArrayGeneration/ArrayGenerationService';
 import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosition';
 import { WordBuilderService } from 'src/Rules/WordBuilder/WordBuilderService';
-import { WordSearchState } from "src/Rules/WordSearchState/WordSearchState";
+import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import './PlayableWordSearchComponent.less';
 
 interface PlayableWordSearchProps {
@@ -49,7 +49,7 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
             wordList: wordListUpdate.wordList,
             wordMap: wordListUpdate.wordMap,
             letterMap: wordListUpdate.letterMap
-        }
+        };
     }
 
     render() {
@@ -65,13 +65,14 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
                                 <tr key={row}>
                                     {this.state.columns.map(column => {
                                         return (
-                                            <td key={`${row}-${column}`} onClick={() => this.markLetter(row, column)} className={this.getTdClasses(row, column)}>
+                                            <td key={`${row}-${column}`} onClick={() => this.markLetter(row, column)}
+                                                className={this.getTdClasses(row, column)}>
                                                 {this.props.state.getValueAt(row, column)}
                                             </td>
                                         );
                                     })}
                                 </tr>
-                            )
+                            );
                         })}
                     </tbody>
                 </table>
@@ -82,21 +83,21 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
                             <div className={this.getWordListWordClasses(word)}>
                                 {word}
                             </div>
-                        )
+                        );
                     })}
                 </div>
 
                 {winner ? <div className='win'>WINNER</div> : null}
             </div>
-        )
+        );
     }
 
     private getWordListWordClasses(word: string) {
-        let result = ['wordListWord']
+        let result = ['wordListWord'];
 
         if (this.state.wordMap[word]) {
             result.push('completed');
-        };
+        }
 
         return result.join(' ');
     }
@@ -109,7 +110,7 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
         return {
             rows: this.generateIndexArray(this.props.state.rows),
             columns: this.generateIndexArray(this.props.state.columns)
-        }
+        };
     }
 
     private getTdClasses(row: number, column: number) {
@@ -188,7 +189,7 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
 
     private isLetterCompleted(row: number, column: number) {
         let letterWithPosition: LetterWithPosition = { letter: '', row, column };
-        return this.state.letterMap[this.computeLetterMapKey(letterWithPosition)]
+        return this.state.letterMap[this.computeLetterMapKey(letterWithPosition)];
     }
 
     public isLetterPending(row, column) {

@@ -73,13 +73,13 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
     render() {
         let min = 5;
         let max = 30;
-        let minMaxMessage = `(${min}-${max})`
+        let minMaxMessage = `(${min}-${max})`;
 
         const schema = yup.object({
             width: yup.number().required('Required').min(min, minMaxMessage).max(max, minMaxMessage),
             height: yup.number().required('Required').min(min, minMaxMessage).max(max, minMaxMessage),
-            direction: yup.object().test('direction', 'At least one direction must be selected!', function (value) {
-                return this.parent.allowHorizontal || this.parent.allowVertical || this.parent.allowDiagonal
+            direction: yup.object().test('direction', 'At least one direction must be selected!', function(value) {
+                return this.parent.allowHorizontal || this.parent.allowVertical || this.parent.allowDiagonal;
             }),
             wordListLength: yup.object().test('wordListLength', 'At least one word must be present!', () => {
                 return this.props.words.length > 0;
@@ -90,10 +90,11 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         let revalidatingHandleChange = (e: React.ChangeEvent, props: FormikProps<any>) => {
             props.handleChange(e);
             props.validateForm();
-        }
+        };
 
         return (
-            <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values) }} validationSchema={schema}>
+            <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values); }}
+                    validationSchema={schema}>
                 {props => (
                     <Form>
                         <InputComponent label='Title' name='title' updated={props.handleChange} value={props.values.title} />
@@ -119,9 +120,11 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                         </CardComponent>
 
                         <CardComponent title='Size'>
-                            <InputComponent label='Columns' name='width' inputType='number' updated={(e) => revalidatingHandleChange(e, props)} value={props.values.width} />
+                            <InputComponent label='Columns' name='width' inputType='number'
+                                            updated={(e) => revalidatingHandleChange(e, props)} value={props.values.width} />
 
-                            <InputComponent label='Rows' name='height' inputType='number' updated={(e) => revalidatingHandleChange(e, props)} value={props.values.height} />
+                            <InputComponent label='Rows' name='height' inputType='number'
+                                            updated={(e) => revalidatingHandleChange(e, props)} value={props.values.height} />
                         </CardComponent>
 
                         <CardComponent title='Misc. Options'>
@@ -170,7 +173,8 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                         </CardComponent>
 
                         <CardComponent title='Output'>
-                            <DropdownComponent name='outputOption' label='Method' options={this.state.outputOptions} updated={props.handleChange} />
+                            <DropdownComponent name='outputOption' label='Method' options={this.state.outputOptions}
+                                               updated={props.handleChange} />
                         </CardComponent>
 
                         <ButtonComponent buttonType='submit' color='primary' text='Generate' disabled={!props.touched || !props.isValid}/>
@@ -189,12 +193,12 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
     }
 
     updateWords(words: string[]) {
-        this.props.dispatch({ type: ReduxActions.SetWords, words })
+        this.props.dispatch({ type: ReduxActions.SetWords, words });
     }
 }
 
 let mapStateToProps = (state: ReduxState) => ({
     words: state.words
-})
+});
 
 export const WordSearchGeneratorFormConnected = connect(mapStateToProps)(WordSearchGeneratorFormComponent);

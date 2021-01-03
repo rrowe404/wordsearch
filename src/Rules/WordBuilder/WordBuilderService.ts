@@ -11,7 +11,7 @@ export class WordBuilderService {
         new HorizontalWordBuilder(),
         new VerticalWordBuilder(),
         new DiagonalWordBuilder()
-    ]
+    ];
 
     build(currentState: WordSearchState, start: LetterWithPosition, end: LetterWithPosition): WordBuilderResult {
         for (let builder of this.wordBuilders) {

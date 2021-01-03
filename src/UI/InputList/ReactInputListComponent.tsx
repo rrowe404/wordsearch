@@ -5,6 +5,7 @@ import { InputComponent } from '../Input/ReactInputComponent';
 import { InputListProps } from './InputListProps';
 import { InputListState } from './InputListState';
 import './InputList.less';
+import { Input } from '../Input/Input';
 
 export class ReactInputListComponent extends React.Component<{}, InputListState> {
     private inputCounter = 0;
@@ -23,7 +24,8 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
             <div className='inputList'>
                 {this.state.inputs.map((input, i) => {
                     return ( <div key={input.name} className='input-container'>
-                        <InputComponent autofocus={true} name={input.name} updated={(e) => this.updated(e)} value={input.value} validate={(value) => this.props.validator(value)} />
+                        <InputComponent autofocus={true} name={input.name} updated={(e) => this.updated(e)}
+                                        value={input.value} validate={(value) => this.props.validator(value)} />
                         <div className='icon' onClick={(e) => this.removeSlot(e, i)}>✖</div>
                     </div> );
                 })}
@@ -39,7 +41,7 @@ export class ReactInputListComponent extends React.Component<{}, InputListState>
         this.props.handleChange(e);
 
         let inputs = this.state.inputs;
-        let index = _.findIndex(inputs, (input) => input.name === e.target.name);
+        let index = _.findIndex(inputs, (i: Input<string>) => i.name === e.target.name);
         let input = inputs[index];
         input.value = e.target.value;
 

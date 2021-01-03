@@ -1,5 +1,5 @@
-import { WordSearchState } from "../WordSearchState/WordSearchState";
-import { WordValidator } from "./WordValidator";
+import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { WordValidator } from './WordValidator';
 
 export class NoBlankValidator implements WordValidator {
     getErrorKey() {

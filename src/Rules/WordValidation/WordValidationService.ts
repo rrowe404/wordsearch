@@ -9,7 +9,7 @@ export class WordValidationService {
         new NoBlankValidator(),
         new NoSpaceValidator(),
         new WordLengthValidator()
-    ]
+    ];
 
     public getErrors(currentState: WordSearchState, word: string) {
         // if one fails we won't bother with the rest -- it's just clutter until the original error has been fixed imo

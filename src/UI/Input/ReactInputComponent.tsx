@@ -26,7 +26,7 @@ export class InputComponent extends React.Component<{}, InputState> {
     private autofocus(ref) {
         if (ref && this.props.autofocus && !this.state.hasAutofocused) {
             ref.focus();
-            this.setState({ hasAutofocused: true })
+            this.setState({ hasAutofocused: true });
         }
     }
 
@@ -40,7 +40,9 @@ export class InputComponent extends React.Component<{}, InputState> {
         return (
             <div>
                 <LabelComponent label={this.props.label} />
-                <Field innerRef={ref => this.autofocus(ref)} onChange={(e) => this.props.updated(e)} type={this.state.inputType} name={this.props.name} value={this.props.value} validate={validate}></Field>
+                <Field innerRef={ref => this.autofocus(ref)} onChange={(e) => this.props.updated(e)}
+                       type={this.state.inputType} name={this.props.name} value={this.props.value} validate={validate}>
+                </Field>
                 <div className='error'><ErrorMessage name={this.props.name} /></div>
             </div>
         );

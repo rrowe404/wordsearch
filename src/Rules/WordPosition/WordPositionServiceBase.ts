@@ -4,11 +4,11 @@ import { WordPosition } from './WordPosition';
 
 /** Abstract base class for the directional services, to extract the common logic */
 export abstract class WordPositionServiceBase {
+    private wordPositionService = new WordPositionService();
+
     protected abstract getNextRow(startRow: number, index: number);
     protected abstract getNextColumn(startColumn: number, index: number);
     protected abstract isOutOfBounds(currentState: WordSearchState, startPosition: WordPosition, word: string);
-
-    private wordPositionService = new WordPositionService();
 
     public getNextPosition(startPosition: WordPosition, index: number) {
         return {

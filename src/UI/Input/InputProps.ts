@@ -1,4 +1,6 @@
 export interface InputProps<T> {
+    validate?: (value: string) => string;
+
     autofocus?: boolean;
     label?: string;
     name: string;
@@ -7,7 +9,5 @@ export interface InputProps<T> {
     max?: number;
     required?: boolean;
     value: T;
-
     updated(e: React.ChangeEvent<HTMLInputElement>): void;
-    validate?: (value: string) => string;
 }

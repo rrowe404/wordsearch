@@ -1,4 +1,4 @@
-import { WordSearchState } from "src/Rules/WordSearchState/WordSearchState";
+import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 
 export interface ReduxState {
     words: string[];
