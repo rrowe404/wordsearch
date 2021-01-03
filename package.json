@@ -7,7 +7,6 @@
     "build": "npx webpack",
     "test": "npx karma start",
     "lint": "ng lint",
-    "e2e": "ng e2e",
     "deploy": "ng deploy --base-href=/wordsearch/"
   },
   "private": true,
