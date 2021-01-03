@@ -1,7 +1,11 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
+process.env.CHROME_BIN = process.env.CHROME_BIN || require('puppeteer').executablePath();
+
 module.exports = function (config) {
+  const isTestEnv = process.env.NODE_ENV === 'test';
+
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
@@ -31,8 +35,14 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false,
+    browsers: isTestEnv ? ['ChromeHeadlessNoSandbox'] : ['Chrome'],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
+    },
+    singleRun: isTestEnv,
     restartOnFileChange: true,
     retryLimit: -1,
     webpack: require('./webpack.config')
