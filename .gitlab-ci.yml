@@ -35,3 +35,4 @@ build_image:
     - gcloud auth activate-service-account wordsearch@wordsearch-300617.iam.gserviceaccount.com --key-file=keyfile.json
     - gcloud config set project $GCP_PROJECT_ID
     - gcloud builds submit . --config=cloudbuild.yaml --substitutions=TAG_NAME=$TAG
+    
