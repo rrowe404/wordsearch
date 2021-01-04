@@ -2,6 +2,6 @@ steps:
   - name: "gcr.io/kaniko-project/executor:latest"
     id: "docker-build"
     args:
-      - --destination=gcr.io/wordsearch/client:${TAG_NAME}
+      - --destination=gcr.io/wordsearch-300617/client
       - --cache=true
       - --build-arg=NODE_ENV=production
