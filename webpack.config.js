@@ -30,7 +30,8 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({ 
             title: 'Word Search Generator',
-            hash: isProduction
+            hash: isProduction,
+            template: 'index.html'
         })
     ]
 }
