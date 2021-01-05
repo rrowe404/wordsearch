@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { CheckboxProps } from './CheckboxProps';
 import { CheckboxState } from './CheckboxState';
+import "./CheckboxStyles.less";
 
 export class CheckboxComponent extends React.Component<{}, CheckboxState> {
     constructor(public props: CheckboxProps) {
@@ -10,7 +11,7 @@ export class CheckboxComponent extends React.Component<{}, CheckboxState> {
 
     render() {
         return (
-            <div>
+            <div className='checkboxContainer'>
                 <input onChange={(e) => this.handleChange(e)}
                        type='checkbox'
                        name={this.props.name}
