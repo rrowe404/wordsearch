@@ -133,7 +133,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                             <CardComponent title='Misc. Options'>
                                 <CheckboxComponent label='Show Word List'
                                     updated={props.handleChange}
-                                    name='wordList'
+                                    name='showWordList'
                                     value={props.values.showWordList} />
 
                                 {props.values.showWordList ?
