@@ -1,8 +1,6 @@
-import { TestBed, async } from '@angular/core/testing';
 import { HorizontalWordBuilder } from './HorizontalWordBuilder';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { TestUtils } from '../TestUtils/TestUtils';
-import { WordBuilderModule } from './WordBuilderModule';
 
 describe('HorizontalWordBuilder', () => {
     let service: HorizontalWordBuilder;
@@ -16,15 +14,9 @@ describe('HorizontalWordBuilder', () => {
         return state;
     }
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                WordBuilderModule
-            ]
-        });
-
-        service = TestBed.inject(HorizontalWordBuilder);
-    }));
+    beforeEach(() => {
+        service = new HorizontalWordBuilder();
+    });
 
     it('should create the service', () => {
         expect(service).toBeTruthy();

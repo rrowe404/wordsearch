@@ -1,19 +1,11 @@
-import { TestBed, async } from '@angular/core/testing';
-import { ArrayGenerationModule } from './ArrayGenerationModule';
 import { ArrayGenerationService } from './ArrayGenerationService';
 
 describe('ArrayGenerationService', () => {
     let service: ArrayGenerationService;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ArrayGenerationModule
-            ]
-        });
-
-        service = TestBed.inject(ArrayGenerationService);
-    }));
+    beforeEach(() => {
+        service = new ArrayGenerationService();
+    });
 
     it('should create the service', () => {
         expect(service).toBeTruthy();

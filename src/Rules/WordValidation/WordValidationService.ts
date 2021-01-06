@@ -1,26 +1,26 @@
-import { Injectable, Inject } from '@angular/core';
-import { WordValidationModule } from './WordValidationModule';
 import { WordValidator } from './WordValidator';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
-import { VALIDATORS } from './VALIDATORS';
+import { NoSpaceValidator } from './NoSpaceValidator';
+import { WordLengthValidator } from './WordLengthValidator';
+import { NoBlankValidator } from './NoBlankValidator';
 
-@Injectable({
-    providedIn: WordValidationModule
-})
 export class WordValidationService {
-    constructor(
-        @Inject(VALIDATORS) private validators: WordValidator[]
-    ) {
-    }
+    private validators: WordValidator[] = [
+        new NoBlankValidator(),
+        new NoSpaceValidator(),
+        new WordLengthValidator()
+    ];
 
     public getErrors(currentState: WordSearchState, word: string) {
-        let violatedValidators = this.validators.filter(validator => !validator.validate(currentState, word));
+        // if one fails we won't bother with the rest -- it's just clutter until the original error has been fixed imo
+
+        let violatedValidator = this.validators.find(validator => !validator.validate(currentState, word));
 
         let errors = {};
 
-        violatedValidators.forEach(validator => {
-            errors[validator.getErrorKey()] = validator.getMessage(word);
-        });
+        if (violatedValidator) {
+            errors[violatedValidator.getErrorKey()] = violatedValidator.getMessage(word);
+        }
 
         return errors;
     }

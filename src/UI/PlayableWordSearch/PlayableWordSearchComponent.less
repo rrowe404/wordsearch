@@ -1,8 +1,8 @@
 @import (reference) "../Styles/Variables.less";
 
-:host {
-    @highlightColor: rgba(255, 0, 0, 0.5);
-    @margin: @standardMargin / 2;
+.playable {
+    @highlightColor: @accent;
+    @margin: calc(@standardMargin / 2);
 
     display: block;
     user-select: none;
@@ -42,5 +42,6 @@
     td {
         text-align: center;
         padding: 0;
+        width: 20px; // TODO
     }
 }

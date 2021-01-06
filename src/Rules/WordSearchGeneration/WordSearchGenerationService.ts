@@ -1,7 +1,4 @@
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
-import { LetterPlaceholderFillService } from 'src/Rules/LetterPlaceholder/LetterPlaceholderFillService';
-import { Injectable } from '@angular/core';
-import { WordSearchGenerationModule } from './WordSearchGenerationModule';
 import { WordSearchStateFactory } from '../WordSearchState/WordSearchStateFactory';
 import { LetterCasingService } from '../LetterCasing/LetterCasingService';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
@@ -14,22 +11,17 @@ import { WordOrientation } from '../WordOrientation/WordOrientation';
 import { WordPosition } from '../WordPosition/WordPosition';
 import { WordPositionServiceBase } from '../WordPosition/WordPositionServiceBase';
 import { WordStartParameters } from '../WordStartParameters/WordStartParameters';
+import { LetterPlaceholderFillService } from '../LetterPlaceholder/LetterPlaceholderFillService';
 
-@Injectable({
-    providedIn: WordSearchGenerationModule
-})
 export class WordSearchGenerationService {
-    constructor(
-        private letterCasingService: LetterCasingService,
-        private letterPlaceholderFillService: LetterPlaceholderFillService,
-        private randomNumberGeneratorService: RandomNumberGeneratorService,
-        private stringUtils: StringUtils,
-        private wordDirectionSelectorService: WordDirectionSelectorService,
-        private wordPositionServiceFactory: WordPositionServiceFactory,
-        private wordSearchStateFactory: WordSearchStateFactory,
-        private wordValidationService: WordValidationService
-    ) {
-    }
+    private letterCasingService = new LetterCasingService();
+    private randomNumberGeneratorService = new RandomNumberGeneratorService();
+    private letterPlaceholderFillService = new LetterPlaceholderFillService();
+    private stringUtils = new StringUtils();
+    private wordDirectionSelectorService = new WordDirectionSelectorService();
+    private wordPositionServiceFactory = new WordPositionServiceFactory();
+    private wordSearchStateFactory = new WordSearchStateFactory();
+    private wordValidationService = new WordValidationService();
 
     public generateWordSearch(options: WordSearchGenerationOptions) {
         let wordSearch = this.wordSearchStateFactory.createWordSearch(options);

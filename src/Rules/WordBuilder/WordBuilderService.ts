@@ -1,19 +1,17 @@
-import { Injectable, Inject } from '@angular/core';
-import { WordBuilderModule } from './WordBuilderModule';
 import { WordBuilder } from './WordBuilder';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosition';
 import { WordBuilderResult } from './WordBuilderResult';
-import { WORD_BUILDERS } from './WORD_BUILDERS';
+import { HorizontalWordBuilder } from './HorizontalWordBuilder';
+import { VerticalWordBuilder } from './VerticalWordBuilder';
+import { DiagonalWordBuilder } from './DiagonalWordBuilder';
 
-@Injectable({
-    providedIn: WordBuilderModule
-})
 export class WordBuilderService {
-    constructor(
-        @Inject(WORD_BUILDERS) private wordBuilders: WordBuilder[],
-    ) {
-    }
+    private wordBuilders: WordBuilder[] = [
+        new HorizontalWordBuilder(),
+        new VerticalWordBuilder(),
+        new DiagonalWordBuilder()
+    ];
 
     build(currentState: WordSearchState, start: LetterWithPosition, end: LetterWithPosition): WordBuilderResult {
         for (let builder of this.wordBuilders) {

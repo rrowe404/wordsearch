@@ -1,16 +1,9 @@
 import { WordSearchState } from './WordSearchState';
-import { Injectable } from '@angular/core';
-import { WordSearchStateModule } from './WordSearchStateModule';
 import { ArrayGenerationService } from '../ArrayGeneration/ArrayGenerationService';
 import { WordSearchGenerationOptions } from '../WordSearchGenerationOptions/WordSearchGenerationOptions';
 
-@Injectable({
-    providedIn: WordSearchStateModule
-})
 export class WordSearchStateFactory {
-    constructor(
-        private arrayGenerationService: ArrayGenerationService
-    ) {}
+    private arrayGenerationService = new ArrayGenerationService();
 
     public createWordSearch(options: WordSearchGenerationOptions) {
         let state = new WordSearchState();

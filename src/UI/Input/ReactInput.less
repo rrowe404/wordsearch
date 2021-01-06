@@ -1,0 +1,21 @@
+@shrank: 0.75em;
+
+.input-container {
+    flex-grow: 1;
+
+    label {
+        font-size: 0.8em;
+        opacity: 0.9;
+    }
+
+    input[type='text'],
+    input[type='number'] {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+    }
+
+    .error {
+        margin-top: calc(@standardMargin ~"/" 4);
+    }
+}

@@ -1,9 +1,3 @@
-import { Injectable } from '@angular/core';
-import { RandomNumberGeneratorModule } from './RandomNumberGeneratorModule';
-
-@Injectable({
-    providedIn: RandomNumberGeneratorModule
-})
 export class RandomNumberGeneratorService {
     public flipACoin() {
         let flip = this.generateRandomIntWithMax(2);
