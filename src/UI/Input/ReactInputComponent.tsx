@@ -39,7 +39,7 @@ export class InputComponent extends React.Component<{}, InputState> {
         }
 
         return (
-            <div className='inputContainer'>
+            <div className='input-container'>
                 <LabelComponent label={this.props.label} />
                 <Field innerRef={ref => this.autofocus(ref)} onChange={(e) => this.props.updated(e)}
                        type={this.state.inputType} name={this.props.name} value={this.props.value} validate={validate}>
