@@ -1,28 +1,29 @@
 stages:
-  # - test
+  - test
   - build
+  - deploy
 
 variables:
   BUILD_IMAGE_VERSION: latest
   TAG_LOGIC: '(if [ "$${CI_COMMIT_BRANCH}" == "master" ]; then echo "latest"; else echo "$${CI_COMMIT_BRANCH}"; fi);'
 
-# run_test:
-#   stage: test
-#   image: zenika/alpine-chrome:with-node
-#   variables:
-#     NODE_ENV: "test"
-#   before_script:
-#     - npm install
-#   script:
-#     - npm run test
+run_test:
+  stage: test
+  image: zenika/alpine-chrome:with-node
+  variables:
+    NODE_ENV: "test"
+  before_script:
+    - npm install
+  script:
+    - npm run test
 
-# run_lint:
-#   stage: test
-#   image: registry.gitlab.com/picrossr/images/build-image:${BUILD_IMAGE_VERSION}
-#   before_script:
-#     - npm install
-#   script:
-#     - npm run lint
+run_lint:
+  stage: test
+  image: registry.gitlab.com/picrossr/images/build-image:${BUILD_IMAGE_VERSION}
+  before_script:
+    - npm install
+  script:
+    - npm run lint
 
 build_image:
   stage: build
