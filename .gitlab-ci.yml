@@ -41,7 +41,7 @@ deploy_image:
   stage: deploy
   image: google/cloud-sdk
   only:
-    - master@rosie-rowe/wordsearch
+    - main@rosie-rowe/wordsearch
   script:
     - echo $GCP_SERVICE_KEY > keyfile.json
     - gcloud auth activate-service-account wordsearch@wordsearch-300617.iam.gserviceaccount.com --key-file=keyfile.json
