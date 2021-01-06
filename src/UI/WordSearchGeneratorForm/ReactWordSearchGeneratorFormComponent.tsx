@@ -7,7 +7,7 @@ import { CardComponent } from '../Card/ReactCardComponent';
 import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
 import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
-import { Form, Formik, FormikProps } from 'formik';
+import { ErrorMessage, Form, Formik, FormikProps } from 'formik';
 import { DropdownComponent } from '../Dropdown/ReactDropdownComponent';
 import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
 import { ImageWordSearchOutputStrategy } from '../WordSearchOutput/ImageWordSearchOutputStrategy';
@@ -120,7 +120,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                                     value={props.values.allowDiagonal}
                                 />
 
-                                {props.errors['direction'] ? <div className='error'>{props.errors['direction']}</div> : null}
+                                <div className='error'>{props.errors['direction']}&nbsp;</div>
                             </CardComponent>
 
                             <CardComponent title='Size'>
@@ -173,7 +173,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                                     updated={(words) => this.updateWords(words)}
                                     validator={(value) => this.state.wordValidator(props.values, value)} />
 
-                                {props.errors['wordListLength'] ? <div className='error'>{props.errors['wordListLength']}</div> : null}
+                                <div className='error'>{props.errors['wordListLength']}&nbsp;</div>
                             </CardComponent>
 
                             <CardComponent title='Output'>

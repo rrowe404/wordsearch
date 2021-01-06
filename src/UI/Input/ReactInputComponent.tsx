@@ -43,7 +43,10 @@ export class InputComponent extends React.Component<{}, InputState> {
                 <Field innerRef={ref => this.autofocus(ref)} onChange={(e) => this.props.updated(e)}
                        type={this.state.inputType} name={this.props.name} value={this.props.value} validate={validate}>
                 </Field>
-                <div className='error'><ErrorMessage name={this.props.name} /></div>
+                <div className='error'>
+                    {/** The space makes the height show up correctly even when there is no error! */}
+                    <ErrorMessage name={this.props.name} />&nbsp;
+                </div>
             </div>
         );
     }
