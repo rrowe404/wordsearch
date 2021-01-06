@@ -63,6 +63,7 @@ export class ProfanityFilterService {
         'jap',
         'jerk',
         'jizz',
+        'kkk',
         'knobend',
         'knob end',
         'labia',
