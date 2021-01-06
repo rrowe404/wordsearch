@@ -21,6 +21,7 @@ import { WordValidationService } from 'src/Rules/WordValidation/WordValidationSe
 import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
 import { ReduxActions } from '../Redux/ReduxActions';
 import { DropdownOption } from '../Dropdown/DropdownOption';
+import './WordSearchGeneratorFormStyles.less';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
     private wordSearchGenerationService = new WordSearchGenerationService();
@@ -93,7 +94,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         };
 
         return (
-            <div>
+            <div className="wordSearchGeneratorFormContainer">
                 <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values); }}
                     validationSchema={schema}>
                     {props => (

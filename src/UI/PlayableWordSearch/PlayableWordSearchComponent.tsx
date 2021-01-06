@@ -128,7 +128,7 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
     }
 
     private getTableWidth() {
-        return this.props.state.columns * 20 + 'px';
+        return '100%';
     }
 
     private generateIndexArray(length: number) {

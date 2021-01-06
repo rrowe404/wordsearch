@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ReduxState } from '../Redux/ReduxState';
 import { WordSearchOutputStrategyFactory } from './WordSearchOutputStrategyFactory';
+import './WordSearchOutputStyles.less';
 
 export class WordSearchOutputComponent extends React.Component {
     private wordSearchOutputStrategyFactory = new WordSearchOutputStrategyFactory();
@@ -23,7 +24,7 @@ export class WordSearchOutputComponent extends React.Component {
         }
 
         return (
-            <div key={this.props.wordSearchState}>
+            <div className='output' key={this.props.wordSearchState}>
                 {jsx}
             </div>
         );
