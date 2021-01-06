@@ -1,25 +1,18 @@
 import { LetterPlaceholder } from './LetterPlaceholder';
-import { Injectable } from '@angular/core';
 import { RandomNumberGeneratorService } from 'src/Rules/RandomNumberGenerator/RandomNumberGeneratorService';
-import { LetterPlaceholderModule } from './LetterPlaceholderModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
 import { ProfanityFilterService } from '../ProfanityFilter/ProfanityFilterService';
 
-@Injectable({
-    providedIn: LetterPlaceholderModule
-})
 export class LetterPlaceholderFillService {
+    private randomNumberGeneratorService = new RandomNumberGeneratorService();
+    private profanityFilterService = new ProfanityFilterService();
+
     private alphabet = [
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
         'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
         'w', 'x', 'y', 'z'
     ];
-
-    constructor(
-        private profanityFilterService: ProfanityFilterService,
-        private randomNumberGeneratorService: RandomNumberGeneratorService
-    ) {}
 
     public fill(currentState: WordSearchState) {
         let userPlacedLetters: LetterWithPosition[] = [];

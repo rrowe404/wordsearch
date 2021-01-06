@@ -1,22 +1,14 @@
-import { Injectable } from '@angular/core';
-import { WordPositionModule } from './WordPositionModule';
 import { WordPositionService } from './WordPositionService';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordPosition } from './WordPosition';
 
 /** Abstract base class for the directional services, to extract the common logic */
-@Injectable({
-    providedIn: WordPositionModule
-})
 export abstract class WordPositionServiceBase {
+    private wordPositionService = new WordPositionService();
+
     protected abstract getNextRow(startRow: number, index: number);
     protected abstract getNextColumn(startColumn: number, index: number);
     protected abstract isOutOfBounds(currentState: WordSearchState, startPosition: WordPosition, word: string);
-
-    constructor(
-        private wordPositionService: WordPositionService
-    ) {
-    }
 
     public getNextPosition(startPosition: WordPosition, index: number) {
         return {

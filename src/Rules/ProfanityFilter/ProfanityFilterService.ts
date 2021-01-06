@@ -1,5 +1,3 @@
-import { Injectable } from '@angular/core';
-import { ProfanityFilterModule } from './ProfanityFilterModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
 import { HorizontalWordSearchStateSlicer } from '../WordSearchStateSlicer/HorizontalWordSearchStateSlicer';
@@ -7,19 +5,15 @@ import { VerticalWordSearchStateSlicer } from '../WordSearchStateSlicer/Vertical
 import { TopLeftToBottomRightDiagonalWordSearchStateSlicer } from '../WordSearchStateSlicer/TopLeftToBottomRightDiagonalWordSearchStateSlicer';
 import { BottomLeftToTopRightDiagonalWordSearchStateSlicer } from '../WordSearchStateSlicer/BottomLeftToTopRightDiagonalWordSearchStateSlicer';
 import { LetterPlaceholder } from '../LetterPlaceholder/LetterPlaceholder';
+import { WordSearchStateSlicer } from '../WordSearchStateSlicer/WordSearchStateSlicer';
 
-@Injectable({
-    providedIn: ProfanityFilterModule
-})
 export class ProfanityFilterService {
-    constructor(
-        private horizontalStateSlicer: HorizontalWordSearchStateSlicer,
-        private verticalSlicer: VerticalWordSearchStateSlicer,
-        private topLeftToBottomRightSlicer: TopLeftToBottomRightDiagonalWordSearchStateSlicer,
-        private bottomLeftToTopRightSlicer: BottomLeftToTopRightDiagonalWordSearchStateSlicer,
-    ) {
-
-    }
+    private slicers: WordSearchStateSlicer[] = [
+        new HorizontalWordSearchStateSlicer(),
+        new VerticalWordSearchStateSlicer(),
+        new TopLeftToBottomRightDiagonalWordSearchStateSlicer(),
+        new BottomLeftToTopRightDiagonalWordSearchStateSlicer()
+    ];
 
     // Word list borrowed from http://www.bannedwordlist.com/lists/swearWords.txt and modified a bit to catch more racial slurs
     // and remove some that don't make sense to filter in this context
@@ -72,6 +66,7 @@ export class ProfanityFilterService {
         'jap',
         'jerk',
         'jizz',
+        'kkk',
         'knobend',
         'knob end',
         'labia',
@@ -116,17 +111,7 @@ export class ProfanityFilterService {
     public filterProfanity(currentState: WordSearchState, userPlacedLetters: LetterWithPosition[]) {
         let arr = currentState.getLettersWithPositions();
 
-        let horizontalSlice = this.horizontalStateSlicer.createSlice(currentState, arr);
-        let verticalSlice = this.verticalSlicer.createSlice(currentState, arr);
-        let diagonalSlice = this.topLeftToBottomRightSlicer.createSlice(currentState, arr);
-        let otherDiagonalSlice = this.bottomLeftToTopRightSlicer.createSlice(currentState, arr);
-
-        let slices = [
-            horizontalSlice,
-            verticalSlice,
-            diagonalSlice,
-            otherDiagonalSlice
-        ];
+        let slices = this.slicers.map(slicer => slicer.createSlice(currentState, arr));
 
         let didAnything = false;
 

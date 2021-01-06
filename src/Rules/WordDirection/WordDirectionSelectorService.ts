@@ -1,17 +1,9 @@
-import { Injectable } from '@angular/core';
-import { WordDirectionModule } from './WordDirectionModule';
 import { WordDirectionCheckerFactory } from './WordDirectionCheckerFactory';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordDirection } from './WordDirection';
 
-@Injectable({
-    providedIn: WordDirectionModule
-})
 export class WordDirectionSelectorService {
-    constructor(
-        private wordDirectionCheckerFactory: WordDirectionCheckerFactory
-    ) {
-    }
+    private wordDirectionCheckerFactory = new WordDirectionCheckerFactory();
 
     /**
      * Get the directions that the current word can fit in

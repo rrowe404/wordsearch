@@ -1,0 +1,30 @@
+@import (reference) "../Styles/Variables.less";
+
+@spacing: calc(@standardMargin ~"/" 2);
+
+.checkboxContainer {
+    margin-bottom: @spacing;
+}
+
+input[type="checkbox"] {
+    display: none;
+
+    & + label:before {
+        background: @primaryBackground;
+        color: @accent;
+        display: inline-block;
+        font-weight: 800;
+        text-align: center;
+        margin-right: @spacing;
+        padding: 2px;
+        content: "\00a0";
+        width: 20px;
+        height: 20px;
+        font-size: 1.4em;
+        line-height: 1;
+    }
+
+    &:checked + label:before {
+        content: "\2713";
+    }
+}

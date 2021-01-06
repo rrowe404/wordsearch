@@ -1,13 +1,8 @@
-import { Injectable } from '@angular/core';
-import { WordPositionModule } from './WordPositionModule';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordPosition } from './WordPosition';
 import { LetterPlaceholder } from '../LetterPlaceholder/LetterPlaceholder';
 import { WordPositionValidationResult } from './WordPositionValidationResult';
 
-@Injectable({
-    providedIn: WordPositionModule
-})
 export class WordPositionService {
     public getValidStartPositions(
         currentState: WordSearchState,

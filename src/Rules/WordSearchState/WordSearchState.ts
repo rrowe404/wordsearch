@@ -82,6 +82,10 @@ export class WordSearchState {
         return this._options.filterAccidentalProfanity;
     }
 
+    public get outputOption() {
+        return this._options.outputOption;
+    }
+
     public get showWordList() {
         return this._options.showWordList;
     }

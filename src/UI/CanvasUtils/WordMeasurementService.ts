@@ -1,9 +1,3 @@
-import { Injectable } from '@angular/core';
-import { CanvasUtilsModule } from './CanvasUtilsModule';
-
-@Injectable({
-    providedIn: CanvasUtilsModule
-})
 export class WordMeasurementService {
     /**
      * Determines the width of the widest word in the input array
