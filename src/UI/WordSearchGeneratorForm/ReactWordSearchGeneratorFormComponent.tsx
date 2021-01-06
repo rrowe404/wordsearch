@@ -80,7 +80,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         const schema = yup.object({
             width: yup.number().required('Required').min(min, minMaxMessage).max(max, minMaxMessage),
             height: yup.number().required('Required').min(min, minMaxMessage).max(max, minMaxMessage),
-            direction: yup.object().test('direction', 'At least one direction must be selected!', function (value) {
+            direction: yup.object().test('direction', 'At least one direction must be selected!', function(value) {
                 return this.parent.allowHorizontal || this.parent.allowVertical || this.parent.allowDiagonal;
             }),
             wordListLength: yup.object().test('wordListLength', 'At least one word must be present!', () => {
@@ -95,7 +95,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         };
 
         return (
-            <div className="wordSearchGeneratorFormContainer">
+            <div className='wordSearchGeneratorFormContainer'>
                 <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values); }}
                     validationSchema={schema}>
                     {props => (
@@ -182,12 +182,13 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                                     updated={props.handleChange} />
                             </CardComponent>
 
-                            <ButtonComponent buttonType='submit' color='primary' text='Generate' disabled={!props.touched || !props.isValid} />
+                            <ButtonComponent buttonType='submit' color='primary' text='Generate'
+                                disabled={!props.touched || !props.isValid} />
                         </Form>
                     )}
                 </Formik>
             </div>
-        )
+        );
     }
 
     generate(values: WordSearchGenerationOptions) {

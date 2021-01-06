@@ -13,11 +13,11 @@ export class CustomErrorMessage extends React.Component<CustomErrorMessageProps>
             {this.nativeErrorMessage()}
             {/** The space makes the height show up correctly even when there is no error! */}
             &nbsp;
-        </div>
+        </div>;
     }
 
     private formikErrorMessage() {
-        return <ErrorMessage {...this.props} />
+        return <ErrorMessage {...this.props} />;
     }
 
     private nativeErrorMessage() {

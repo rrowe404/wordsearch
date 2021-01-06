@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CheckboxProps } from './CheckboxProps';
 import { CheckboxState } from './CheckboxState';
-import "./CheckboxStyles.less";
+import './CheckboxStyles.less';
 
 export class CheckboxComponent extends React.Component<{}, CheckboxState> {
     constructor(public props: CheckboxProps) {
