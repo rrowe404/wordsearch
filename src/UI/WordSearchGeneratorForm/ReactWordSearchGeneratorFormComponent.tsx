@@ -22,6 +22,7 @@ import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStat
 import { ReduxActions } from '../Redux/ReduxActions';
 import { DropdownOption } from '../Dropdown/DropdownOption';
 import './WordSearchGeneratorFormStyles.less';
+import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
 
 export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
     private wordSearchGenerationService = new WordSearchGenerationService();
@@ -120,7 +121,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                                     value={props.values.allowDiagonal}
                                 />
 
-                                <div className='error'>{props.errors['direction']}&nbsp;</div>
+                                <CustomErrorMessage name='direction' errors={props.errors} />
                             </CardComponent>
 
                             <CardComponent title='Size'>
@@ -173,7 +174,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
                                     updated={(words) => this.updateWords(words)}
                                     validator={(value) => this.state.wordValidator(props.values, value)} />
 
-                                <div className='error'>{props.errors['wordListLength']}&nbsp;</div>
+                                <CustomErrorMessage name='wordListLength' errors={props.errors} />
                             </CardComponent>
 
                             <CardComponent title='Output'>
