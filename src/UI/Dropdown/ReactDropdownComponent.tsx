@@ -10,7 +10,7 @@ export class DropdownComponent extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className='dropdown-container'>
                 <LabelComponent label={this.props.label} />
                 <Field as='select' name={this.props.name} onChange={(e) => this.props.updated(e)}>
                     {this.props.options.map(option => {
