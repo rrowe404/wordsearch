@@ -39,7 +39,7 @@ build_image:
     - *gcloud-login
   script:
     - TAG=$(eval $TAG_LOGIC)
-    - gcloud builds submit . --config=cloudbuild.yaml --substitutions=TAG_NAME=$TAG,DESTINATION=$GCP_DESTINATION
+    - gcloud builds submit . --config=cloudbuild.yaml --substitutions=TAG_NAME=$TAG,_DESTINATION=$GCP_DESTINATION
 
 deploy_image:
   stage: deploy
