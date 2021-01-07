@@ -27,7 +27,7 @@ run_lint:
 
 .gcloud-login: &gcloud-login
   - echo $GCP_SERVICE_KEY > keyfile.json
-  - gcloud auth activate-service-account wordsearch@wordsearch-300617.iam.gserviceaccount.com --key-file=keyfile.json
+  - gcloud auth activate-service-account $GCP_SERVICE_ACCOUNT --key-file=keyfile.json
   - gcloud config set project $GCP_PROJECT_ID
 
 build_image:
@@ -39,7 +39,7 @@ build_image:
     - *gcloud-login
   script:
     - TAG=$(eval $TAG_LOGIC)
-    - gcloud builds submit . --config=cloudbuild.yaml --substitutions=TAG_NAME=$TAG
+    - gcloud builds submit . --config=cloudbuild.yaml --substitutions=TAG_NAME=$TAG,DESTINATION=$GCP_DESTINATION
 
 deploy_image:
   stage: deploy
@@ -49,5 +49,5 @@ deploy_image:
   before_script:
     - *gcloud-login
   script:
-    - gcloud run deploy client --image gcr.io/wordsearch-300617/client --region us-east1 --platform managed
+    - gcloud run deploy client --image $GCP_DESTINATION --region us-east1 --platform managed
   when: manual
