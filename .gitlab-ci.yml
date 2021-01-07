@@ -35,9 +35,10 @@ build_image:
   image: google/cloud-sdk
   variables:
     NODE_ENV: "production"
+  before_script:
+    - *gcloud-login
   script:
     - TAG=$(eval $TAG_LOGIC)
-    - *gcloud-login
     - gcloud builds submit . --config=cloudbuild.yaml --substitutions=TAG_NAME=$TAG
 
 deploy_image:
@@ -45,7 +46,8 @@ deploy_image:
   image: google/cloud-sdk
   only:
     - main@rosie-rowe/wordsearch
-  script:
+  before_script:
     - *gcloud-login
+  script:
     - gcloud run deploy client --image gcr.io/wordsearch-300617/client --region us-east1 --platform managed
   when: manual
