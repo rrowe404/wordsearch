@@ -48,8 +48,8 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         this.state = {
             currentFormWords: [],
             generationOptions: {
-                height: 5,
-                width: 5,
+                height: 30,
+                width: 30,
                 alphabetizeWordList: false,
                 showWordList: true,
                 title: '',
