@@ -27,7 +27,7 @@ export class WordSearchOutputComponent extends React.Component {
             <div className='output' key={this.props.wordSearchState}>
                 {content}
             </div>
-        ); 
+        );
     }
 }
 
