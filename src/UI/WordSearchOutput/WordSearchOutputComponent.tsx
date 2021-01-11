@@ -13,21 +13,21 @@ export class WordSearchOutputComponent extends React.Component {
 
     render() {
         if (!this.props.wordSearchState) {
-            return null;
+            return this.outputContainer(null);
         }
 
         let output = this.wordSearchOutputStrategyFactory.createOutputStrategy(this.props.wordSearchState.outputOption);
         let jsx = output.output(this.props.wordSearchState);
 
-        if (!jsx) {
-            return null;
-        }
+        return this.outputContainer(jsx);
+    }
 
+    private outputContainer(content: JSX.Element) {
         return (
             <div className='output' key={this.props.wordSearchState}>
-                {jsx}
+                {content}
             </div>
-        );
+        ); 
     }
 }
 
