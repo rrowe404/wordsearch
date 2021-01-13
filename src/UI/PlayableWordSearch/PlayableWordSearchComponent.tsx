@@ -5,6 +5,8 @@ import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosit
 import { WordBuilderService } from 'src/Rules/WordBuilder/WordBuilderService';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import './PlayableWordSearchComponent.less';
+import { SizeTrackerComponent } from '../SizeTracker/SizeTrackerComponent';
+import { SizeTrackerResize } from '../SizeTracker/SizeTrackerResize';
 
 interface PlayableWordSearchProps {
     state: WordSearchState;
@@ -28,6 +30,10 @@ interface PlayableWordSearchState {
 
     // keeps track of letters of words that have been found
     letterMap: { [key: string]: boolean };
+
+    // the basis of calculation for resizing
+    letterSize: number;
+    tableWidth: number;
 }
 
 export class PlayableWordSearchComponent extends React.Component<{}, PlayableWordSearchState> {
@@ -39,6 +45,8 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
 
         let size = this.getSize();
         let wordListUpdate = this.getWordListUpdate();
+        let letterSize = 0;
+        let tableWidth = 0;
 
         this.state = {
             rows: size.rows,
@@ -48,47 +56,76 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
             lowercaseWordList: wordListUpdate.lowercaseWordList,
             wordList: wordListUpdate.wordList,
             wordMap: wordListUpdate.wordMap,
-            letterMap: wordListUpdate.letterMap
+            letterMap: wordListUpdate.letterMap,
+            letterSize,
+            tableWidth
         };
     }
 
     render() {
         let winner = this.winner();
 
+        const MAX_LETTER_SIZE = 50;
+
+        let cb = (size: SizeTrackerResize) => {
+            let cols = this.props.state.columns;
+            // gotta fit, so take the smaller of the two
+            let basis = Math.floor(Math.min(size.width, size.height));
+            let letterSize = Math.floor(basis / cols);
+
+            // max size
+            letterSize = Math.min(letterSize, MAX_LETTER_SIZE);
+
+            // in this case, the table doesn't need the whole space to render
+            // so we need to recalculate the basis to make the width is correct
+            if (letterSize === MAX_LETTER_SIZE) {
+                basis = letterSize * cols;
+            }
+
+            if (letterSize !== this.state.letterSize) {
+                this.setState({
+                    tableWidth: basis,
+                    letterSize
+                });
+            }
+        };
+
         return (
-            <div className='playable'>
-                <div className='title'>{this.props.state.title}</div>
-                <table style={{ width: this.getTableWidth() }}>
-                    <tbody>
-                        {this.state.rows.map(row => {
+            <SizeTrackerComponent className='full-height' onResize={(size) => cb(size)}>
+                <div className='playable'>
+                    <div className='title'>{this.props.state.title}</div>
+                    <table style={{ width: this.getTableWidth() }}>
+                        <tbody>
+                            {this.state.rows.map(row => {
+                                return (
+                                    <tr key={row}>
+                                        {this.state.columns.map(column => {
+                                            return (
+                                                <td key={`${row}-${column}`} onClick={() => this.markLetter(row, column)}
+                                                    className={this.getTdClasses(row, column)} style={this.getTdStyles()}>
+                                                    {this.props.state.getValueAt(row, column)}
+                                                </td>
+                                            );
+                                        })}
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+
+                    <div className='wordListContainer' style={{ maxWidth: this.getTableWidth() }}>
+                        {this.state.wordList.map(word => {
                             return (
-                                <tr key={row}>
-                                    {this.state.columns.map(column => {
-                                        return (
-                                            <td key={`${row}-${column}`} onClick={() => this.markLetter(row, column)}
-                                                className={this.getTdClasses(row, column)}>
-                                                {this.props.state.getValueAt(row, column)}
-                                            </td>
-                                        );
-                                    })}
-                                </tr>
+                                <div className={this.getWordListWordClasses(word)}>
+                                    {word}
+                                </div>
                             );
                         })}
-                    </tbody>
-                </table>
+                    </div>
 
-                <div className='wordListContainer' style={{ maxWidth: this.getTableWidth() }}>
-                    {this.state.wordList.map(word => {
-                        return (
-                            <div className={this.getWordListWordClasses(word)}>
-                                {word}
-                            </div>
-                        );
-                    })}
+                    {winner ? <div className='win'>WINNER</div> : null}
                 </div>
-
-                {winner ? <div className='win'>WINNER</div> : null}
-            </div>
+            </SizeTrackerComponent>
         );
     }
 
@@ -127,8 +164,15 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
         return result.join(' ');
     }
 
+    private getTdStyles() {
+        return {
+            width: this.state.letterSize,
+            height: this.state.letterSize
+        };
+    }
+
     private getTableWidth() {
-        return '100%';
+        return this.state.tableWidth;
     }
 
     private generateIndexArray(length: number) {

@@ -5,6 +5,8 @@
     height: calc(100% - (@standardMargin * 2));
     vertical-align: top;
 
-    max-width: min-content;
     padding: @standardMargin;
+
+    /** TODO fix magic numbers */
+    flex: 2 0 calc(100% - @formWidth - (@standardMargin * 2));
 }

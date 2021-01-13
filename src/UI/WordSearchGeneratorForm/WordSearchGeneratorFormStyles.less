@@ -1,9 +1,15 @@
-.wordSearchGeneratorFormContainer {
-    display: inline-block;
-    width: 300px;
+@import (reference) '../Styles/Variables.less';
 
-    form button {
-        display: block;
-        margin: 0 auto;
+.wordSearchGeneratorFormContainer {
+    flex: 1 0 @formWidth;
+
+    .wordSearchGeneratorForm {
+        display: inline-block;
+        width: 100%;
+
+        form button {
+            display: block;
+            margin: 0 auto;
+        }
     }
 }

@@ -100,6 +100,7 @@ export class ProfanityFilterService {
         'wtf'
     ];
 
+    // if you actually use this in practice you need to set up the service to be a singleton, todo
     public setProfanityList(list: string[]) {
         this.profanity = list;
     }

@@ -48,8 +48,8 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
         this.state = {
             currentFormWords: [],
             generationOptions: {
-                height: 30,
-                width: 30,
+                height: 5,
+                width: 5,
                 alphabetizeWordList: false,
                 showWordList: true,
                 title: '',
@@ -96,99 +96,102 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSe
 
         return (
             <div className='wordSearchGeneratorFormContainer'>
-                <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values); }}
-                    validationSchema={schema}>
-                    {props => (
-                        <Form>
-                            <CardComponent title='Word Search Generator'>
-                                <CardComponent>
-                                    <InputComponent label='Title' name='title' updated={props.handleChange} value={props.values.title} />
-                                </CardComponent>
+                <div className='wordSearchGeneratorForm'>
+                    <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values); }}
+                        validationSchema={schema}>
+                        {props => (
+                            <Form>
+                                <CardComponent title='Word Search Generator'>
+                                    <CardComponent>
+                                        <InputComponent label='Title' name='title'
+                                            updated={props.handleChange} value={props.values.title} />
+                                    </CardComponent>
 
-                                <CardComponent title='Size'>
-                                    <InputComponent label='Columns' name='width' inputType='number'
-                                        updated={(e) => revalidatingHandleChange(e, props)} value={props.values.width} />
+                                    <CardComponent title='Size'>
+                                        <InputComponent label='Columns' name='width' inputType='number'
+                                            updated={(e) => revalidatingHandleChange(e, props)} value={props.values.width} />
 
-                                    <InputComponent label='Rows' name='height' inputType='number'
-                                        updated={(e) => revalidatingHandleChange(e, props)} value={props.values.height} />
-                                </CardComponent>
+                                        <InputComponent label='Rows' name='height' inputType='number'
+                                            updated={(e) => revalidatingHandleChange(e, props)} value={props.values.height} />
+                                    </CardComponent>
 
-                                <CardComponent title='Allowed Word Directions'>
-                                    <CheckboxComponent label='Horizontal'
-                                        updated={props.handleChange}
-                                        name='allowHorizontal'
-                                        value={props.values.allowHorizontal} />
-
-                                    <CheckboxComponent label='Vertical'
-                                        updated={props.handleChange}
-                                        name='allowVertical'
-                                        value={props.values.allowVertical} />
-
-                                    <CheckboxComponent label='Diagonal'
-                                        updated={props.handleChange}
-                                        name='allowDiagonal'
-                                        value={props.values.allowDiagonal}
-                                    />
-
-                                    <CustomErrorMessage name='direction' errors={props.errors} />
-                                </CardComponent>
-
-                                <CardComponent title='Misc. Options'>
-                                    <CheckboxComponent label='Show Word List'
-                                        updated={props.handleChange}
-                                        name='showWordList'
-                                        value={props.values.showWordList} />
-
-                                    {props.values.showWordList ?
-                                        <CheckboxComponent label='Alphabetize Word List'
+                                    <CardComponent title='Allowed Word Directions'>
+                                        <CheckboxComponent label='Horizontal'
                                             updated={props.handleChange}
-                                            name='alphabetize'
-                                            value={props.values.alphabetizeWordList} /> : null
-                                    }
+                                            name='allowHorizontal'
+                                            value={props.values.allowHorizontal} />
 
-                                    <CheckboxComponent label='Filter Accidental Profanity'
-                                        updated={props.handleChange}
-                                        name='filterProfanity'
-                                        value={props.values.filterAccidentalProfanity} />
-
-                                    <CheckboxComponent label='Allow Backwards Words'
-                                        updated={props.handleChange}
-                                        name='allowBackwards'
-                                        value={props.values.allowBackwards} />
-
-                                    <CheckboxComponent label='Allow Overlaps'
-                                        updated={props.handleChange}
-                                        name='allowOverlaps'
-                                        value={props.values.allowOverlaps} />
-
-                                    {props.values.allowOverlaps ?
-                                        <CheckboxComponent label='Zealous Overlaps' name='zealousOverlaps'
+                                        <CheckboxComponent label='Vertical'
                                             updated={props.handleChange}
-                                            value={props.values.zealousOverlaps} /> : null
-                                    }
+                                            name='allowVertical'
+                                            value={props.values.allowVertical} />
+
+                                        <CheckboxComponent label='Diagonal'
+                                            updated={props.handleChange}
+                                            name='allowDiagonal'
+                                            value={props.values.allowDiagonal}
+                                        />
+
+                                        <CustomErrorMessage name='direction' errors={props.errors} />
+                                    </CardComponent>
+
+                                    <CardComponent title='Misc. Options'>
+                                        <CheckboxComponent label='Show Word List'
+                                            updated={props.handleChange}
+                                            name='showWordList'
+                                            value={props.values.showWordList} />
+
+                                        {props.values.showWordList ?
+                                            <CheckboxComponent label='Alphabetize Word List'
+                                                updated={props.handleChange}
+                                                name='alphabetize'
+                                                value={props.values.alphabetizeWordList} /> : null
+                                        }
+
+                                        <CheckboxComponent label='Filter Accidental Profanity'
+                                            updated={props.handleChange}
+                                            name='filterAccidentalProfanity'
+                                            value={props.values.filterAccidentalProfanity} />
+
+                                        <CheckboxComponent label='Allow Backwards Words'
+                                            updated={props.handleChange}
+                                            name='allowBackwards'
+                                            value={props.values.allowBackwards} />
+
+                                        <CheckboxComponent label='Allow Overlaps'
+                                            updated={props.handleChange}
+                                            name='allowOverlaps'
+                                            value={props.values.allowOverlaps} />
+
+                                        {props.values.allowOverlaps ?
+                                            <CheckboxComponent label='Zealous Overlaps' name='zealousOverlaps'
+                                                updated={props.handleChange}
+                                                value={props.values.zealousOverlaps} /> : null
+                                        }
+                                    </CardComponent>
+
+                                    <CardComponent title='Word List'>
+                                        <ReactInputListComponent
+                                            addSlotButtonText='Add Word Slot'
+                                            handleChange={props.handleChange}
+                                            updated={(words) => this.updateWords(words)}
+                                            validator={(value) => this.state.wordValidator(props.values, value)} />
+
+                                        <CustomErrorMessage name='wordListLength' errors={props.errors} />
+                                    </CardComponent>
+
+                                    <CardComponent title='Output'>
+                                        <DropdownComponent name='outputOption' label='Method' options={this.state.outputOptions}
+                                            updated={props.handleChange} />
+                                    </CardComponent>
+
+                                    <ButtonComponent buttonType='submit' color='primary'
+                                        text='Generate' disabled={!props.touched || !props.isValid} />
                                 </CardComponent>
-
-                                <CardComponent title='Word List'>
-                                    <ReactInputListComponent
-                                        addSlotButtonText='Add Word Slot'
-                                        handleChange={props.handleChange}
-                                        updated={(words) => this.updateWords(words)}
-                                        validator={(value) => this.state.wordValidator(props.values, value)} />
-
-                                    <CustomErrorMessage name='wordListLength' errors={props.errors} />
-                                </CardComponent>
-
-                                <CardComponent title='Output'>
-                                    <DropdownComponent name='outputOption' label='Method' options={this.state.outputOptions}
-                                        updated={props.handleChange} />
-                                </CardComponent>
-
-                                <ButtonComponent buttonType='submit' color='primary'
-                                    text='Generate' disabled={!props.touched || !props.isValid} />
-                            </CardComponent>
-                        </Form>
-                    )}
-                </Formik>
+                            </Form>
+                        )}
+                    </Formik>
+                </div>
             </div>
         );
     }
