@@ -5,7 +5,7 @@ stages:
 
 variables:
   BUILD_IMAGE_VERSION: latest
-  TAG_LOGIC: '(if [ "$${CI_COMMIT_BRANCH}" == "master" ]; then echo "latest"; else echo "$${CI_COMMIT_BRANCH}"; fi);'
+  TAG_LOGIC: '(if [ "$${CI_COMMIT_BRANCH}" == "main" ]; then echo "latest"; else echo "$${CI_COMMIT_BRANCH}"; fi);'
 
 run_test:
   stage: test
