@@ -18,7 +18,7 @@ describe('ProfanityFilterService', () => {
 
     beforeEach(() => {
         service = new ProfanityFilterService();
-        service.setProfanityList(['fag']);
+        service.setProfanityList(['leg']);
     });
 
     it('should create the service', () => {
@@ -28,7 +28,7 @@ describe('ProfanityFilterService', () => {
     describe('should remove accidental profanity without touching the user-provided words when the profanity is', () => {
         it('horizontal', () => {
             let matrix = [
-                ['f', 'a', 'g'],
+                ['l', 'e', 'g'],
                 ['m', 's', 'n'],
                 ['x', 'k', 'l']
             ];
@@ -36,7 +36,7 @@ describe('ProfanityFilterService', () => {
             let state = createState(matrix);
 
             let userPlacedLetters = [
-                { letter: 'a', row: 0, column: 1 },
+                { letter: 'e', row: 0, column: 1 },
                 { letter: 's', row: 1, column: 1 },
                 { letter: 'k', row: 2, column: 1 }
             ];
@@ -44,14 +44,14 @@ describe('ProfanityFilterService', () => {
             let result = service.filterProfanity(state, userPlacedLetters);
 
             expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
-            expect(state.getValueAt(0, 1)).toBe('a');
+            expect(state.getValueAt(0, 1)).toBe('e');
             expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
 
         it('horizontal and backwards', () => {
             let matrix = [
-                ['g', 'a', 'f'],
+                ['g', 'e', 'l'],
                 ['m', 's', 'n'],
                 ['x', 'k', 'l']
             ];
@@ -59,7 +59,7 @@ describe('ProfanityFilterService', () => {
             let state = createState(matrix);
 
             let userPlacedLetters = [
-                { letter: 'a', row: 0, column: 1 },
+                { letter: 'e', row: 0, column: 1 },
                 { letter: 's', row: 1, column: 1 },
                 { letter: 'k', row: 2, column: 1 }
             ];
@@ -67,15 +67,15 @@ describe('ProfanityFilterService', () => {
             let result = service.filterProfanity(state, userPlacedLetters);
 
             expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
-            expect(state.getValueAt(0, 1)).toBe('a');
+            expect(state.getValueAt(0, 1)).toBe('e');
             expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
 
         it('vertical', () => {
             let matrix = [
-                ['f', 'e', 't'],
-                ['a', 's', 'n'],
+                ['l', 'e', 't'],
+                ['e', 's', 'n'],
                 ['g', 'k', 'l']
             ];
 
@@ -90,7 +90,7 @@ describe('ProfanityFilterService', () => {
             let result = service.filterProfanity(state, userPlacedLetters);
 
             expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
-            expect(state.getValueAt(1, 0)).toBe('a');
+            expect(state.getValueAt(1, 0)).toBe('e');
             expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
@@ -98,8 +98,8 @@ describe('ProfanityFilterService', () => {
         it('vertical and backwards', () => {
             let matrix = [
                 ['g', 'e', 't'],
-                ['a', 's', 'k'],
-                ['f', 'k', 'l']
+                ['e', 's', 'k'],
+                ['l', 'k', 'l']
             ];
 
             let state = createState(matrix);
@@ -113,15 +113,15 @@ describe('ProfanityFilterService', () => {
             let result = service.filterProfanity(state, userPlacedLetters);
 
             expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
-            expect(state.getValueAt(1, 0)).toBe('a');
+            expect(state.getValueAt(1, 0)).toBe('e');
             expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
 
         it('diagonal from top to bottom', () => {
             let matrix = [
-                ['f', 'e', 't'],
-                ['s', 'a', 'n'],
+                ['l', 'e', 't'],
+                ['s', 'e', 'n'],
                 ['f', 'k', 'g']
             ];
 
@@ -129,14 +129,14 @@ describe('ProfanityFilterService', () => {
 
             let userPlacedLetters = [
                 { letter: 's', row: 1, column: 0 },
-                { letter: 'a', row: 1, column: 1 },
+                { letter: 'e', row: 1, column: 1 },
                 { letter: 'n', row: 1, column: 2 }
             ];
 
             let result = service.filterProfanity(state, userPlacedLetters);
 
             expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
-            expect(state.getValueAt(1, 1)).toBe('a');
+            expect(state.getValueAt(1, 1)).toBe('e');
             expect(state.getValueAt(2, 2)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
@@ -144,8 +144,8 @@ describe('ProfanityFilterService', () => {
         it('diagonal from top to bottom and backwards', () => {
             let matrix = [
                 ['g', 'e', 't'],
-                ['s', 'a', 'n'],
-                ['f', 'k', 'f']
+                ['s', 'e', 'n'],
+                ['f', 'k', 'l']
             ];
 
             let state = createState(matrix);
@@ -159,7 +159,7 @@ describe('ProfanityFilterService', () => {
             let result = service.filterProfanity(state, userPlacedLetters);
 
             expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
-            expect(state.getValueAt(1, 1)).toBe('a');
+            expect(state.getValueAt(1, 1)).toBe('e');
             expect(state.getValueAt(2, 2)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
@@ -167,8 +167,8 @@ describe('ProfanityFilterService', () => {
         it('diagonal from bottom to top', () => {
             let matrix = [
                 ['s', 'e', 'g'],
-                ['s', 'a', 'n'],
-                ['f', 'k', 'g']
+                ['s', 'e', 'n'],
+                ['l', 'k', 'g']
             ];
 
             let state = createState(matrix);
@@ -182,15 +182,15 @@ describe('ProfanityFilterService', () => {
             let result = service.filterProfanity(state, userPlacedLetters);
 
             expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);
-            expect(state.getValueAt(1, 1)).toBe('a');
+            expect(state.getValueAt(1, 1)).toBe('e');
             expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
 
         it('diagonal from bottom to top and backwards', () => {
             let matrix = [
-                ['s', 'e', 'f'],
-                ['s', 'a', 'n'],
+                ['s', 'e', 'l'],
+                ['s', 'e', 'n'],
                 ['g', 'k', 'g']
             ];
 
@@ -205,7 +205,7 @@ describe('ProfanityFilterService', () => {
             let result = service.filterProfanity(state, userPlacedLetters);
 
             expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);
-            expect(state.getValueAt(1, 1)).toBe('a');
+            expect(state.getValueAt(1, 1)).toBe('e');
             expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);
             expect(result).toBeTrue();
         });
