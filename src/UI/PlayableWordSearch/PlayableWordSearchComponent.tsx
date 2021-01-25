@@ -65,6 +65,8 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
     render() {
         let winner = this.winner();
 
+        // these are kinda magical, just numbers that feel good
+        const MIN_LETTER_SIZE = 10;
         const MAX_LETTER_SIZE = 50;
 
         let cb = (size: SizeTrackerResize) => {
@@ -75,6 +77,9 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
 
             // max size
             letterSize = Math.min(letterSize, MAX_LETTER_SIZE);
+            
+            // normalize
+            letterSize = Math.max(letterSize, MIN_LETTER_SIZE);
 
             // in this case, the table doesn't need the whole space to render
             // so we need to recalculate the basis to make the width is correct
