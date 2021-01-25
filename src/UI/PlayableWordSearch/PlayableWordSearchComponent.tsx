@@ -77,7 +77,7 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
 
             // max size
             letterSize = Math.min(letterSize, MAX_LETTER_SIZE);
-            
+
             // normalize
             letterSize = Math.max(letterSize, MIN_LETTER_SIZE);
 
@@ -99,24 +99,22 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
             <SizeTrackerComponent className='full-height' onResize={(size) => cb(size)}>
                 <div className='playable'>
                     <div className='title'>{this.props.state.title}</div>
-                    <table style={{ width: this.getTableWidth() }}>
-                        <tbody>
-                            {this.state.rows.map(row => {
-                                return (
-                                    <tr key={row}>
-                                        {this.state.columns.map(column => {
-                                            return (
-                                                <td key={`${row}-${column}`} onClick={() => this.markLetter(row, column)}
-                                                    className={this.getTdClasses(row, column)} style={this.getTdStyles()}>
-                                                    {this.props.state.getValueAt(row, column)}
-                                                </td>
-                                            );
-                                        })}
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                    <div className='game' style={{ width: this.getTableWidth() }}>
+                        {this.state.rows.map(row => {
+                            return (
+                                <div className='row' key={row}>
+                                    {this.state.columns.map(column => {
+                                        return (
+                                            <div key={`${row}-${column}`} onClick={() => this.markLetter(row, column)}
+                                                className={this.getTdClasses(row, column)} style={this.getTdStyles()}>
+                                                {this.props.state.getValueAt(row, column)}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            );
+                        })}
+                    </div>
 
                     {this.props.state.showWordList ?
                         <div className='wordListContainer' style={{ maxWidth: this.getTableWidth() }}>
@@ -157,7 +155,7 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
     }
 
     private getTdClasses(row: number, column: number) {
-        let result = [];
+        let result = ['cell'];
 
         if (this.isLetterCompleted(row, column)) {
             result.push('completed');
