@@ -113,15 +113,16 @@ export class PlayableWordSearchComponent extends React.Component<{}, PlayableWor
                         </tbody>
                     </table>
 
-                    <div className='wordListContainer' style={{ maxWidth: this.getTableWidth() }}>
-                        {this.state.wordList.map(word => {
-                            return (
-                                <div className={this.getWordListWordClasses(word)}>
-                                    {word}
-                                </div>
-                            );
-                        })}
-                    </div>
+                    {this.props.state.showWordList ?
+                        <div className='wordListContainer' style={{ maxWidth: this.getTableWidth() }}>
+                            {this.state.wordList.map(word => {
+                                return (
+                                    <div className={this.getWordListWordClasses(word)}>
+                                        {word}
+                                    </div>
+                                );
+                            })}
+                        </div> : null}
 
                     {winner ? <div className='win'>WINNER</div> : null}
                 </div>

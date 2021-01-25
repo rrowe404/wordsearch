@@ -100,12 +100,10 @@ export class WordSearchState {
     public get wordList(): string[] {
         let result = [];
 
-        if (this.showWordList) {
-            if (this.alphabetizeWordList) {
-                result = this.acceptedWords.sort();
-            } else {
-                result = this.acceptedWords;
-            }
+        if (this.alphabetizeWordList) {
+            result = this.acceptedWords.sort();
+        } else {
+            result = this.acceptedWords;
         }
 
         return ObjectUtils.copy(result);
