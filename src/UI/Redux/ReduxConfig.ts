@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { ReduxActions } from './ReduxActions';
 
 function reducer(state, action) {
@@ -18,7 +18,7 @@ export class ReduxConfig {
     store;
 
     initialize() {
-        this.store = createStore(reducer);
+        this.store = configureStore({ reducer });
     }
 
     action = (type) => this.store.dispatch({type});
