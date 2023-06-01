@@ -19,7 +19,7 @@ run_test:
 
 run_lint:
   stage: test
-  image: registry.gitlab.com/picrossr/images/build-image:${BUILD_IMAGE_VERSION}
+  image: zenika/alpine-chrome:with-node
   before_script:
     - npm install
   script:
