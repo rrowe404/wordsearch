@@ -33,6 +33,8 @@ run_lint:
 build_image:
   stage: build
   image: google/cloud-sdk
+  only:
+    - main@rosie-rowe/wordsearch
   variables:
     NODE_ENV: "production"
   before_script:
