@@ -6,6 +6,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
     devtool: 'inline-source-map',
     entry: './src/reactMain.tsx',
+    mode: isProduction ? 'production' : 'development',
     output: {
         path: path.join(__dirname, 'dist')
     },
