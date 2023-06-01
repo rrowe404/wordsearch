@@ -21,6 +21,8 @@ export class CustomErrorMessage extends React.Component<CustomErrorMessageProps>
     }
 
     private nativeErrorMessage() {
-        return this.props.errors ? this.props.errors[this.props.name] : null;
+        return <>
+            {this.props.errors ? this.props.errors[this.props.name] : null}
+        </>
     }
 }
