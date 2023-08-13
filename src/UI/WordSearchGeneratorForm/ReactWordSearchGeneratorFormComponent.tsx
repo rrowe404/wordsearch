@@ -7,7 +7,7 @@ import { CardComponent } from '../Card/ReactCardComponent';
 import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
 import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
-import { ErrorMessage, Form, Formik, FormikProps } from 'formik';
+import { Form, Formik, FormikProps } from 'formik';
 import { DropdownComponent } from '../Dropdown/ReactDropdownComponent';
 import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
 import { ImageWordSearchOutputStrategy } from '../WordSearchOutput/ImageWordSearchOutputStrategy';
@@ -24,193 +24,289 @@ import { DropdownOption } from '../Dropdown/DropdownOption';
 import './WordSearchGeneratorFormStyles.less';
 import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
 
-export class WordSearchGeneratorFormComponent extends React.Component<{}, WordSearchGeneratorFormState> {
-    private wordSearchGenerationService = new WordSearchGenerationService();
-    private wordSearchStateFactory = new WordSearchStateFactory();
-    private wordValidationService = new WordValidationService();
+export class WordSearchGeneratorFormComponent extends React.Component<
+  {},
+  WordSearchGeneratorFormState
+> {
+  private wordSearchGenerationService = new WordSearchGenerationService();
+  private wordSearchStateFactory = new WordSearchStateFactory();
+  private wordValidationService = new WordValidationService();
 
-    // todo type with wordValidators, words, dispatch
-    constructor(public props) {
-        super(props);
+  // todo type with wordValidators, words, dispatch
+  constructor(public props) {
+    super(props);
 
-        let outputOptions: DropdownOption<string>[] = [
-            { value: PlayableWordSearchOutputStrategy.getValue(), viewValue: PlayableWordSearchOutputStrategy.getViewValue() },
-            { value: ImageWordSearchOutputStrategy.getValue(), viewValue: ImageWordSearchOutputStrategy.getViewValue() }
-        ];
+    let outputOptions: DropdownOption<string>[] = [
+      {
+        value: PlayableWordSearchOutputStrategy.getValue(),
+        viewValue: PlayableWordSearchOutputStrategy.getViewValue(),
+      },
+      {
+        value: ImageWordSearchOutputStrategy.getValue(),
+        viewValue: ImageWordSearchOutputStrategy.getViewValue(),
+      },
+    ];
 
-        if (!environment.production) {
-            outputOptions.push({
-                value: ConsoleWordSearchOutputStrategy.getValue(),
-                viewValue: ConsoleWordSearchOutputStrategy.getViewValue()
-            });
-        }
-
-        this.state = {
-            currentFormWords: [],
-            generationOptions: {
-                height: 30,
-                width: 30,
-                alphabetizeWordList: false,
-                showWordList: true,
-                title: '',
-                words: [],
-                filterAccidentalProfanity: false,
-                allowHorizontal: true,
-                allowVertical: true,
-                allowDiagonal: false,
-                allowBackwards: false,
-                allowOverlaps: false,
-                zealousOverlaps: false,
-                outputOption: outputOptions[0].value
-            },
-            outputOptions,
-            wordValidator: (options: WordSearchGenerationOptions, value: string) => {
-                let currentState = this.wordSearchStateFactory.createWordSearch(options);
-                let errors = this.wordValidationService.getErrors(currentState, value);
-                return Object.keys(errors).map(error => errors[error]).join('\n');
-            }
-        };
+    if (!environment.production) {
+      outputOptions.push({
+        value: ConsoleWordSearchOutputStrategy.getValue(),
+        viewValue: ConsoleWordSearchOutputStrategy.getViewValue(),
+      });
     }
 
-    render() {
-        let min = 5;
-        let max = 30;
-        let minMaxMessage = `(${min}-${max})`;
+    this.state = {
+      currentFormWords: [],
+      generationOptions: {
+        height: 30,
+        width: 30,
+        alphabetizeWordList: false,
+        showWordList: true,
+        title: '',
+        words: [],
+        filterAccidentalProfanity: false,
+        allowHorizontal: true,
+        allowVertical: true,
+        allowDiagonal: false,
+        allowBackwards: false,
+        allowOverlaps: false,
+        zealousOverlaps: false,
+        outputOption: outputOptions[0].value,
+      },
+      outputOptions,
+      wordValidator: (options: WordSearchGenerationOptions, value: string) => {
+        let currentState =
+          this.wordSearchStateFactory.createWordSearch(options);
+        let errors = this.wordValidationService.getErrors(currentState, value);
+        return Object.keys(errors)
+          .map((error) => errors[error])
+          .join('\n');
+      },
+    };
+  }
 
-        const schema = yup.object({
-            width: yup.number().required('Required').min(min, minMaxMessage).max(max, minMaxMessage),
-            height: yup.number().required('Required').min(min, minMaxMessage).max(max, minMaxMessage),
-            direction: yup.object().test('direction', 'At least one direction must be selected!', function(value) {
-                return this.parent.allowHorizontal || this.parent.allowVertical || this.parent.allowDiagonal;
-            }),
-            wordListLength: yup.object().test('wordListLength', 'At least one word must be present!', () => {
-                return this.props.words.length > 0;
-            })
-        });
+  render() {
+    let min = 5;
+    let max = 30;
+    let minMaxMessage = `(${min}-${max})`;
 
-        // a couple of the fields like Columns and Rows can affect the validity of other fields if they are changed
-        let revalidatingHandleChange = (e: React.ChangeEvent, props: FormikProps<any>) => {
-            props.handleChange(e);
-            props.validateForm();
-        };
+    const schema = yup.object({
+      width: yup
+        .number()
+        .required('Required')
+        .min(min, minMaxMessage)
+        .max(max, minMaxMessage),
+      height: yup
+        .number()
+        .required('Required')
+        .min(min, minMaxMessage)
+        .max(max, minMaxMessage),
+      direction: yup
+        .object()
+        .test(
+          'direction',
+          'At least one direction must be selected!',
+          function (value) {
+            return (
+              this.parent.allowHorizontal ||
+              this.parent.allowVertical ||
+              this.parent.allowDiagonal
+            );
+          }
+        ),
+      wordListLength: yup
+        .object()
+        .test('wordListLength', 'At least one word must be present!', () => {
+          return this.props.words.length > 0;
+        }),
+    });
 
-        return (
-            <div className='wordSearchGeneratorFormContainer'>
-                <div className='wordSearchGeneratorForm'>
-                    <Formik initialValues={this.state.generationOptions} onSubmit={(values) => { this.generate(values); }}
-                        validationSchema={schema}>
-                        {props => (
-                            <Form>
-                                <CardComponent title='Word Search Generator'>
-                                    <CardComponent>
-                                        <InputComponent label='Title' name='title'
-                                            updated={props.handleChange} value={props.values.title} />
-                                    </CardComponent>
+    // a couple of the fields like Columns and Rows can affect the validity of other fields if they are changed
+    let revalidatingHandleChange = (
+      e: React.ChangeEvent,
+      props: FormikProps<any>
+    ) => {
+      props.handleChange(e);
+      props.validateForm();
+    };
 
-                                    <CardComponent title='Size'>
-                                        <InputComponent label='Columns' name='width' inputType='number'
-                                            updated={(e) => revalidatingHandleChange(e, props)} value={props.values.width} />
+    return (
+      <div className='wordSearchGeneratorFormContainer'>
+        <div className='wordSearchGeneratorForm'>
+          <Formik
+            initialValues={this.state.generationOptions}
+            onSubmit={(values) => {
+              this.generate(values);
+            }}
+            validationSchema={schema}
+          >
+            {(props) => (
+              <Form>
+                <CardComponent title='Word Search Generator'>
+                  <CardComponent>
+                    <InputComponent
+                      label='Title'
+                      name='title'
+                      updated={props.handleChange}
+                      value={props.values.title}
+                    />
+                  </CardComponent>
 
-                                        <InputComponent label='Rows' name='height' inputType='number'
-                                            updated={(e) => revalidatingHandleChange(e, props)} value={props.values.height} />
-                                    </CardComponent>
+                  <CardComponent title='Size'>
+                    <InputComponent
+                      label='Columns'
+                      name='width'
+                      inputType='number'
+                      updated={(e) => revalidatingHandleChange(e, props)}
+                      value={props.values.width}
+                    />
 
-                                    <CardComponent title='Allowed Word Directions'>
-                                        <CheckboxComponent label='Horizontal'
-                                            updated={props.handleChange}
-                                            name='allowHorizontal'
-                                            value={props.values.allowHorizontal} />
+                    <InputComponent
+                      label='Rows'
+                      name='height'
+                      inputType='number'
+                      updated={(e) => revalidatingHandleChange(e, props)}
+                      value={props.values.height}
+                    />
+                  </CardComponent>
 
-                                        <CheckboxComponent label='Vertical'
-                                            updated={props.handleChange}
-                                            name='allowVertical'
-                                            value={props.values.allowVertical} />
+                  <CardComponent title='Allowed Word Directions'>
+                    <CheckboxComponent
+                      label='Horizontal'
+                      updated={props.handleChange}
+                      name='allowHorizontal'
+                      value={props.values.allowHorizontal}
+                    />
 
-                                        <CheckboxComponent label='Diagonal'
-                                            updated={props.handleChange}
-                                            name='allowDiagonal'
-                                            value={props.values.allowDiagonal}
-                                        />
+                    <CheckboxComponent
+                      label='Vertical'
+                      updated={props.handleChange}
+                      name='allowVertical'
+                      value={props.values.allowVertical}
+                    />
 
-                                        <CustomErrorMessage name='direction' errors={props.errors} />
-                                    </CardComponent>
+                    <CheckboxComponent
+                      label='Diagonal'
+                      updated={props.handleChange}
+                      name='allowDiagonal'
+                      value={props.values.allowDiagonal}
+                    />
 
-                                    <CardComponent title='Misc. Options'>
-                                        <CheckboxComponent label='Show Word List'
-                                            updated={props.handleChange}
-                                            name='showWordList'
-                                            value={props.values.showWordList} />
+                    <CustomErrorMessage
+                      name='direction'
+                      errors={props.errors}
+                    />
+                  </CardComponent>
 
-                                        {props.values.showWordList ?
-                                            <CheckboxComponent label='Alphabetize Word List'
-                                                updated={props.handleChange}
-                                                name='alphabetize'
-                                                value={props.values.alphabetizeWordList} /> : null
-                                        }
+                  <CardComponent title='Misc. Options'>
+                    <CheckboxComponent
+                      label='Show Word List'
+                      updated={props.handleChange}
+                      name='showWordList'
+                      value={props.values.showWordList}
+                    />
 
-                                        <CheckboxComponent label='Filter Accidental Profanity'
-                                            updated={props.handleChange}
-                                            name='filterAccidentalProfanity'
-                                            value={props.values.filterAccidentalProfanity} />
+                    {props.values.showWordList ? (
+                      <CheckboxComponent
+                        label='Alphabetize Word List'
+                        updated={props.handleChange}
+                        name='alphabetize'
+                        value={props.values.alphabetizeWordList}
+                      />
+                    ) : null}
 
-                                        <CheckboxComponent label='Allow Backwards Words'
-                                            updated={props.handleChange}
-                                            name='allowBackwards'
-                                            value={props.values.allowBackwards} />
+                    <CheckboxComponent
+                      label='Filter Accidental Profanity'
+                      updated={props.handleChange}
+                      name='filterAccidentalProfanity'
+                      value={props.values.filterAccidentalProfanity}
+                    />
 
-                                        <CheckboxComponent label='Allow Overlaps'
-                                            updated={props.handleChange}
-                                            name='allowOverlaps'
-                                            value={props.values.allowOverlaps} />
+                    <CheckboxComponent
+                      label='Allow Backwards Words'
+                      updated={props.handleChange}
+                      name='allowBackwards'
+                      value={props.values.allowBackwards}
+                    />
 
-                                        {props.values.allowOverlaps ?
-                                            <CheckboxComponent label='Zealous Overlaps' name='zealousOverlaps'
-                                                updated={props.handleChange}
-                                                value={props.values.zealousOverlaps} /> : null
-                                        }
-                                    </CardComponent>
+                    <CheckboxComponent
+                      label='Allow Overlaps'
+                      updated={props.handleChange}
+                      name='allowOverlaps'
+                      value={props.values.allowOverlaps}
+                    />
 
-                                    <CardComponent title='Word List'>
-                                        <ReactInputListComponent
-                                            addSlotButtonText='Add Word Slot'
-                                            handleChange={props.handleChange}
-                                            updated={(words) => this.updateWords(words)}
-                                            validator={(value) => this.state.wordValidator(props.values, value)} />
+                    {props.values.allowOverlaps ? (
+                      <CheckboxComponent
+                        label='Zealous Overlaps'
+                        name='zealousOverlaps'
+                        updated={props.handleChange}
+                        value={props.values.zealousOverlaps}
+                      />
+                    ) : null}
+                  </CardComponent>
 
-                                        <CustomErrorMessage name='wordListLength' errors={props.errors} />
-                                    </CardComponent>
+                  <CardComponent title='Word List'>
+                    <ReactInputListComponent
+                      addSlotButtonText='Add Word Slot'
+                      handleChange={props.handleChange}
+                      updated={(words) => this.updateWords(words)}
+                      validator={(value) =>
+                        this.state.wordValidator(props.values, value)
+                      }
+                    />
 
-                                    <CardComponent title='Output'>
-                                        <DropdownComponent name='outputOption' label='Method' options={this.state.outputOptions}
-                                            updated={props.handleChange} />
-                                    </CardComponent>
+                    {props.submitCount > 0 && (
+                      <CustomErrorMessage
+                        name='wordListLength'
+                        errors={props.errors}
+                      />
+                    )}
+                  </CardComponent>
 
-                                    <ButtonComponent buttonType='submit' color='primary'
-                                        text='Generate' disabled={!props.touched || !props.isValid} />
-                                </CardComponent>
-                            </Form>
-                        )}
-                    </Formik>
-                </div>
-            </div>
-        );
-    }
+                  <CardComponent title='Output'>
+                    <DropdownComponent
+                      name='outputOption'
+                      label='Method'
+                      options={this.state.outputOptions}
+                      updated={props.handleChange}
+                    />
+                  </CardComponent>
 
-    generate(values: WordSearchGenerationOptions) {
-        values.words = this.props.words;
+                  <ButtonComponent
+                    buttonType='submit'
+                    color='primary'
+                    text='Generate'
+                    disabled={!props.touched || !props.isValid}
+                  />
+                </CardComponent>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </div>
+    );
+  }
 
-        let result = this.wordSearchGenerationService.generateWordSearch(values);
+  generate(values: WordSearchGenerationOptions) {
+    values.words = this.props.words;
 
-        this.props.dispatch({ type: ReduxActions.GenerateWordSearch, state: result });
-    }
+    let result = this.wordSearchGenerationService.generateWordSearch(values);
 
-    updateWords(words: string[]) {
-        this.props.dispatch({ type: ReduxActions.SetWords, words });
-    }
+    this.props.dispatch({
+      type: ReduxActions.GenerateWordSearch,
+      state: result,
+    });
+  }
+
+  updateWords(words: string[]) {
+    this.props.dispatch({ type: ReduxActions.SetWords, words });
+  }
 }
 
 let mapStateToProps = (state: ReduxState) => ({
-    words: state.words
+  words: state.words,
 });
 
-export const WordSearchGeneratorFormConnected = connect(mapStateToProps)(WordSearchGeneratorFormComponent);
+export const WordSearchGeneratorFormConnected = connect(mapStateToProps)(
+  WordSearchGeneratorFormComponent
+);
