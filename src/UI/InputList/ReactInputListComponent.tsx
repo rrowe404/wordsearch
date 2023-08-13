@@ -88,5 +88,7 @@ export class ReactInputListComponent extends React.Component<
     this.setState({
       inputs,
     });
+
+    this.props.updated(inputs.map((i) => i.value));
   }
 }
