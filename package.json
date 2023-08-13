@@ -2,7 +2,6 @@
   "name": "wordsearch",
   "version": "0.0.1",
   "scripts": {
-    "ng": "ng",
     "start": "npx webpack serve",
     "build": "npx webpack",
     "test": "npx karma start",
