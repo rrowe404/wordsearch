@@ -7,68 +7,86 @@ import { InputListState } from './InputListState';
 import './InputList.less';
 import { Input } from '../Input/Input';
 
-export class ReactInputListComponent extends React.Component<{}, InputListState> {
-    private inputCounter = 0;
+export class ReactInputListComponent extends React.Component<
+  {},
+  InputListState
+> {
+  private inputCounter = 0;
 
-    constructor(public props: InputListProps) {
-        super(props);
-        this.state = { inputs: [{name: this.getNextName(), value: '' }] };
-    }
+  constructor(public props: InputListProps) {
+    super(props);
+    this.state = { inputs: [{ name: this.getNextName(), value: '' }] };
+  }
 
-    public getNextName() {
-        return `input-${this.inputCounter++}`;
-    }
+  public getNextName() {
+    return `input-${this.inputCounter++}`;
+  }
 
-    render() {
-        return (
-            <div className='inputList'>
-                {this.state.inputs.map((input, i) => {
-                    return ( <div key={input.name} className='input-list-container'>
-                        <InputComponent autofocus={i > 0} name={input.name} updated={(e) => this.updated(e)}
-                                        value={input.value} validate={(value) => this.props.validator(value)} />
-                        <div className='icon' onClick={(e) => this.removeSlot(e, i)}>✖</div>
-                    </div> );
-                })}
-
-                <div onClick={() => this.addSlot()}>
-                    <ButtonComponent buttonType='button' text={this.props.addSlotButtonText} />
-                </div>
+  render() {
+    return (
+      <div className='inputList'>
+        {this.state.inputs.map((input, i) => {
+          return (
+            <div key={input.name} className='input-list-container'>
+              <InputComponent
+                autofocus={i > 0}
+                name={input.name}
+                updated={(e) => this.updated(e)}
+                value={input.value}
+                validate={(value) => this.props.validator(value)}
+              />
+              <div className='icon' onClick={(e) => this.removeSlot(e, i)}>
+                ✖
+              </div>
             </div>
-        );
-    }
+          );
+        })}
 
-    public updated(e: React.ChangeEvent<HTMLInputElement>) {
-        this.props.handleChange(e);
+        <div onClick={() => this.addSlot()}>
+          <ButtonComponent
+            buttonType='button'
+            text={this.props.addSlotButtonText}
+          />
+        </div>
+      </div>
+    );
+  }
 
-        let inputs = this.state.inputs;
-        let index = _.findIndex(inputs, (i: Input<string>) => i.name === e.target.name);
-        let input = inputs[index];
-        input.value = e.target.value;
+  public updated(e: React.ChangeEvent<HTMLInputElement>) {
+    this.props.handleChange(e);
 
-        inputs.splice(index, 1, input);
+    let inputs = this.state.inputs;
+    let index = _.findIndex(
+      inputs,
+      (i: Input<string>) => i.name === e.target.name
+    );
+    let input = inputs[index];
+    input.value = e.target.value;
 
-        this.setState({
-            inputs
-        });
+    inputs.splice(index, 1, input);
 
-        this.props.updated(inputs.filter(val => !!val).map(i => i.value));
-    }
+    this.setState({
+      inputs,
+    });
 
-    public addSlot() {
-        let inputs = this.state.inputs.slice();
-        inputs.push({ name: this.getNextName(), value: '' });
+    this.props.updated(inputs.filter((val) => !!val).map((i) => i.value));
+  }
 
-        this.setState({
-            inputs
-        });
-    }
+  public addSlot() {
+    let inputs = this.state.inputs.slice();
+    inputs.push({ name: this.getNextName(), value: '' });
 
-    public removeSlot(event, index: number) {
-        let inputs = this.state.inputs.slice();
-        inputs.splice(index, 1);
+    this.setState({
+      inputs,
+    });
+  }
 
-        this.setState({
-            inputs
-        });
-    }
+  public removeSlot(event, index: number) {
+    let inputs = this.state.inputs.slice();
+    inputs.splice(index, 1);
+
+    this.setState({
+      inputs,
+    });
+  }
 }
