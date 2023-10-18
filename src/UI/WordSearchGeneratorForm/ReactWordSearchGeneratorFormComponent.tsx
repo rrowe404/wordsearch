@@ -11,7 +11,7 @@ import { Form, Formik, FormikProps } from 'formik';
 import { DropdownComponent } from '../Dropdown/ReactDropdownComponent';
 import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
 import { ImageWordSearchOutputStrategy } from '../WordSearchOutput/ImageWordSearchOutputStrategy';
-import { environment } from 'src/environments/environment';
+import { environment } from 'env/environment';
 import { ConsoleWordSearchOutputStrategy } from '../WordSearchOutput/ConsoleWordSearchOutputStrategy';
 import { connect } from 'react-redux';
 import { ReduxState } from '../Redux/ReduxState';

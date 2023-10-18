@@ -45,6 +45,6 @@ module.exports = function (config) {
     singleRun: isTestEnv,
     restartOnFileChange: true,
     retryLimit: -1,
-    webpack: require('./webpack.config')
+    webpack: require('./webpack.dev')
   });
 };
