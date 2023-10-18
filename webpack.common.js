@@ -1,18 +1,18 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const nodeEnv = process.env.NODE_ENV ?? 'development';
+const isProduction = nodeEnv === 'production';
 
 module.exports = {
-    devtool: 'inline-source-map',
     entry: './src/reactMain.tsx',
-    mode: isProduction ? 'production' : 'development',
     output: {
         path: path.join(__dirname, 'dist')
     },
     resolve: {
         alias: {
-            src: path.resolve(__dirname, 'src/')
+            src: path.resolve(__dirname, 'src/'),
+            env: path.resolve(__dirname, 'src/environments/')
         },
         extensions: ['.ts', '.tsx', '.js']
     },
