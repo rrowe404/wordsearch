@@ -1,13 +1,11 @@
 import * as React from 'react';
 import * as yup from 'yup';
-import { InputComponent } from '../Input/ReactInputComponent';
 import { WordSearchGeneratorFormState } from './WordSearchGeneratorFormState';
 import * as _ from 'lodash';
 import { CardComponent } from '../Card/ReactCardComponent';
 import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
-import { ButtonComponent } from '../Button/ReactButtonComponent';
 import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
-import { Form, Formik, FormikProps } from 'formik';
+import { Form, Formik } from 'formik';
 import { connect } from 'react-redux';
 import { ReduxState } from '../Redux/ReduxState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
@@ -21,9 +19,11 @@ import { MethodDropdown } from './MethodDropdown';
 import outputOptions from './MethodDropdownOptions';
 import { SubmitButton } from './SubmitButton';
 import { TitleInput } from './TitleInput';
-import { revalidatingHandleChange } from 'src/helpers/form/RevalidatingHandleChange';
 import { ColumnsInput } from './ColumnsInput';
 import { RowsInput } from './RowsInput';
+import { HorizontalCheckbox } from './HorizontalCheckbox';
+import { VerticalCheckbox } from './VerticalCheckbox';
+import { DiagonalCheckbox } from './DiagonalCheckbox';
 
 export class WordSearchGeneratorFormComponent extends React.Component<
   {},
@@ -125,26 +125,9 @@ export class WordSearchGeneratorFormComponent extends React.Component<
                   </CardComponent>
 
                   <CardComponent title='Allowed Word Directions'>
-                    <CheckboxComponent
-                      label='Horizontal'
-                      updated={props.handleChange}
-                      name='allowHorizontal'
-                      value={props.values.allowHorizontal}
-                    />
-
-                    <CheckboxComponent
-                      label='Vertical'
-                      updated={props.handleChange}
-                      name='allowVertical'
-                      value={props.values.allowVertical}
-                    />
-
-                    <CheckboxComponent
-                      label='Diagonal'
-                      updated={props.handleChange}
-                      name='allowDiagonal'
-                      value={props.values.allowDiagonal}
-                    />
+                    <HorizontalCheckbox {...props} />
+                    <VerticalCheckbox {...props} />
+                    <DiagonalCheckbox {...props} />
 
                     <CustomErrorMessage
                       name='direction'
