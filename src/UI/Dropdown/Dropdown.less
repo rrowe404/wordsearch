@@ -11,14 +11,14 @@
     }
 
     select {
-        background: @primaryBackground;
-        color: @primaryText;
+        background: var(--input-bg-color);
+        color: var(--input-text-color);
         display: block;
         outline: none;
         width: 100%;
 
         &:focus {
-            box-shadow: 0 0 1rem 1px @accent;
+            box-shadow: 0 0 1rem 1px var(--input-focus-color);
         }
     }
 }
