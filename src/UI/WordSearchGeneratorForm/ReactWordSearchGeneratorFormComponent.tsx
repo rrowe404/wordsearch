@@ -19,6 +19,8 @@ import './WordSearchGeneratorFormStyles.less';
 import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
 import { MethodDropdown } from './MethodDropdown';
 import outputOptions from './MethodDropdownOptions';
+import { SubmitButton } from './SubmitButton';
+import { TitleInput } from './TitleInput';
 
 export class WordSearchGeneratorFormComponent extends React.Component<
   {},
@@ -120,12 +122,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<
               <Form>
                 <CardComponent title='Word Search Generator'>
                   <CardComponent>
-                    <InputComponent
-                      label='Title'
-                      name='title'
-                      updated={props.handleChange}
-                      value={props.values.title}
-                    />
+                    <TitleInput {...props} />
                   </CardComponent>
 
                   <CardComponent title='Size'>
@@ -244,12 +241,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<
                     <MethodDropdown {...props} />
                   </CardComponent>
 
-                  <ButtonComponent
-                    buttonType='submit'
-                    color='primary'
-                    text='Generate'
-                    disabled={!props.touched || !props.isValid}
-                  />
+                  <SubmitButton {...props} />
                 </CardComponent>
               </Form>
             )}

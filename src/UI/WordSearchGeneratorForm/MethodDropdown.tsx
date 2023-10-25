@@ -4,15 +4,15 @@ import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptio
 import { DropdownComponent } from '../Dropdown/ReactDropdownComponent';
 import outputOptions from './MethodDropdownOptions';
 
-const MethodDropdown: React.FC<FormikProps<WordSearchGenerationOptions>> = (
-  props
-) => {
+const MethodDropdown: React.FC<FormikProps<WordSearchGenerationOptions>> = ({
+  handleChange,
+}) => {
   return (
     <DropdownComponent
       name='outputOption'
       label='Method'
       options={outputOptions}
-      updated={props.handleChange}
+      updated={handleChange}
     />
   );
 };
