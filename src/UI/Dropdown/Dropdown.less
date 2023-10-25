@@ -1,13 +1,24 @@
+@import (reference) "../Styles/Variables.less";
+
 .dropdown-container {
     margin-bottom: @standardMargin;
 
     label {
+        display: inline-block;
+        margin-bottom: 0.5rem;
         font-size: 0.8em;
         opacity: 0.9;
     }
 
     select {
+        background: @primaryBackground;
+        color: @primaryText;
         display: block;
+        outline: none;
         width: 100%;
+
+        &:focus {
+            box-shadow: 0 0 1rem 1px @accent;
+        }
     }
 }
