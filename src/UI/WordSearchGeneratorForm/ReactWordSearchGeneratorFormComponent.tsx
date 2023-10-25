@@ -8,11 +8,6 @@ import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
 import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
 import { Form, Formik, FormikProps } from 'formik';
-import { DropdownComponent } from '../Dropdown/ReactDropdownComponent';
-import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
-import { ImageWordSearchOutputStrategy } from '../WordSearchOutput/ImageWordSearchOutputStrategy';
-import { environment } from 'env/environment';
-import { ConsoleWordSearchOutputStrategy } from '../WordSearchOutput/ConsoleWordSearchOutputStrategy';
 import { connect } from 'react-redux';
 import { ReduxState } from '../Redux/ReduxState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
@@ -20,9 +15,10 @@ import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/Word
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
 import { ReduxActions } from '../Redux/ReduxActions';
-import { DropdownOption } from '../Dropdown/DropdownOption';
 import './WordSearchGeneratorFormStyles.less';
 import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
+import { MethodDropdown } from './MethodDropdown';
+import outputOptions from './MethodDropdownOptions';
 
 export class WordSearchGeneratorFormComponent extends React.Component<
   {},
@@ -35,24 +31,6 @@ export class WordSearchGeneratorFormComponent extends React.Component<
   // todo type with wordValidators, words, dispatch
   constructor(public props) {
     super(props);
-
-    let outputOptions: DropdownOption<string>[] = [
-      {
-        value: PlayableWordSearchOutputStrategy.getValue(),
-        viewValue: PlayableWordSearchOutputStrategy.getViewValue(),
-      },
-      {
-        value: ImageWordSearchOutputStrategy.getValue(),
-        viewValue: ImageWordSearchOutputStrategy.getViewValue(),
-      },
-    ];
-
-    if (!environment.production) {
-      outputOptions.push({
-        value: ConsoleWordSearchOutputStrategy.getValue(),
-        viewValue: ConsoleWordSearchOutputStrategy.getViewValue(),
-      });
-    }
 
     this.state = {
       currentFormWords: [],
@@ -72,7 +50,6 @@ export class WordSearchGeneratorFormComponent extends React.Component<
         zealousOverlaps: false,
         outputOption: outputOptions[0].value,
       },
-      outputOptions,
       wordValidator: (options: WordSearchGenerationOptions, value: string) => {
         let currentState =
           this.wordSearchStateFactory.createWordSearch(options);
@@ -264,12 +241,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<
                   </CardComponent>
 
                   <CardComponent title='Output'>
-                    <DropdownComponent
-                      name='outputOption'
-                      label='Method'
-                      options={this.state.outputOptions}
-                      updated={props.handleChange}
-                    />
+                    <MethodDropdown {...props} />
                   </CardComponent>
 
                   <ButtonComponent

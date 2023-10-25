@@ -3,92 +3,79 @@ import * as React from 'react';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
 import { InputComponent } from '../Input/ReactInputComponent';
 import { InputListProps } from './InputListProps';
-import { InputListState } from './InputListState';
 import './InputList.less';
 import { Input } from '../Input/Input';
 
-export class ReactInputListComponent extends React.Component<
-  {},
-  InputListState
-> {
-  private inputCounter = 0;
+const InputListComponent: React.FC<InputListProps> = ({
+  addSlotButtonText,
+  handleChange,
+  updated,
+  validator,
+}) => {
+  const inputCounter = React.useRef(0);
+  const getNextName = () => `input-${inputCounter.current++}`;
+  const [inputs, setInputs] = React.useState<Array<Input<string>>>([
+    { name: getNextName(), value: '' },
+  ]);
 
-  constructor(public props: InputListProps) {
-    super(props);
-    this.state = { inputs: [{ name: this.getNextName(), value: '' }] };
-  }
+  const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange(e);
 
-  public getNextName() {
-    return `input-${this.inputCounter++}`;
-  }
-
-  render() {
-    return (
-      <div className='inputList'>
-        {this.state.inputs.map((input, i) => {
-          return (
-            <div key={input.name} className='input-list-container'>
-              <InputComponent
-                autofocus={i > 0}
-                name={input.name}
-                updated={(e) => this.updated(e)}
-                value={input.value}
-                validate={(value) => this.props.validator(value)}
-              />
-              <div className='icon' onClick={(e) => this.removeSlot(e, i)}>
-                ✖
-              </div>
-            </div>
-          );
-        })}
-
-        <div onClick={() => this.addSlot()}>
-          <ButtonComponent
-            buttonType='button'
-            text={this.props.addSlotButtonText}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  public updated(e: React.ChangeEvent<HTMLInputElement>) {
-    this.props.handleChange(e);
-
-    let inputs = this.state.inputs;
     let index = _.findIndex(
       inputs,
       (i: Input<string>) => i.name === e.target.name
     );
-    let input = inputs[index];
+    const inputsCopy = [...inputs];
+    let input = inputsCopy[index];
     input.value = e.target.value;
 
-    inputs.splice(index, 1, input);
+    inputsCopy.splice(index, 1, input);
 
-    this.setState({
-      inputs,
-    });
+    setInputs(inputsCopy);
 
-    this.props.updated(inputs.filter((val) => !!val).map((i) => i.value));
-  }
+    updated(inputs.filter((val) => !!val).map((i) => i.value));
+  };
 
-  public addSlot() {
-    let inputs = this.state.inputs.slice();
-    inputs.push({ name: this.getNextName(), value: '' });
+  const addSlot = () => {
+    let inputsCopy = [...inputs];
+    inputsCopy.push({ name: getNextName(), value: '' });
 
-    this.setState({
-      inputs,
-    });
-  }
+    setInputs(inputsCopy);
+  };
 
-  public removeSlot(event, index: number) {
-    let inputs = this.state.inputs.slice();
-    inputs.splice(index, 1);
+  const removeSlot = (event, index: number) => {
+    let inputsCopy = [...inputs];
+    inputsCopy.splice(index, 1);
 
-    this.setState({
-      inputs,
-    });
+    setInputs(inputsCopy);
 
-    this.props.updated(inputs.map((i) => i.value));
-  }
-}
+    updated(inputsCopy.map((i) => i.value));
+  };
+
+  return (
+    <div className='inputList'>
+      {inputs.map((input, i) => {
+        return (
+          <div key={input.name} className='input-list-container'>
+            <InputComponent
+              autofocus={i > 0}
+              name={input.name}
+              updated={(e) => handleUpdate(e)}
+              value={input.value}
+              validate={(value) => validator(value)}
+            />
+            <div className='icon' onClick={(e) => removeSlot(e, i)}>
+              ✖
+            </div>
+          </div>
+        );
+      })}
+
+      <div onClick={() => addSlot()}>
+        <ButtonComponent buttonType='button' text={addSlotButtonText} />
+      </div>
+    </div>
+  );
+};
+
+export { InputListComponent as ReactInputListComponent };
