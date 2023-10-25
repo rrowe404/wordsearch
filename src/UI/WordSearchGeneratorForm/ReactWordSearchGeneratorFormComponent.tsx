@@ -21,6 +21,9 @@ import { MethodDropdown } from './MethodDropdown';
 import outputOptions from './MethodDropdownOptions';
 import { SubmitButton } from './SubmitButton';
 import { TitleInput } from './TitleInput';
+import { revalidatingHandleChange } from 'src/helpers/form/RevalidatingHandleChange';
+import { ColumnsInput } from './ColumnsInput';
+import { RowsInput } from './RowsInput';
 
 export class WordSearchGeneratorFormComponent extends React.Component<
   {},
@@ -99,15 +102,6 @@ export class WordSearchGeneratorFormComponent extends React.Component<
         }),
     });
 
-    // a couple of the fields like Columns and Rows can affect the validity of other fields if they are changed
-    let revalidatingHandleChange = (
-      e: React.ChangeEvent,
-      props: FormikProps<any>
-    ) => {
-      props.handleChange(e);
-      props.validateForm();
-    };
-
     return (
       <div className='wordSearchGeneratorFormContainer'>
         <div className='wordSearchGeneratorForm'>
@@ -126,21 +120,8 @@ export class WordSearchGeneratorFormComponent extends React.Component<
                   </CardComponent>
 
                   <CardComponent title='Size'>
-                    <InputComponent
-                      label='Columns'
-                      name='width'
-                      inputType='number'
-                      updated={(e) => revalidatingHandleChange(e, props)}
-                      value={props.values.width}
-                    />
-
-                    <InputComponent
-                      label='Rows'
-                      name='height'
-                      inputType='number'
-                      updated={(e) => revalidatingHandleChange(e, props)}
-                      value={props.values.height}
-                    />
+                    <ColumnsInput {...props} />
+                    <RowsInput {...props} />
                   </CardComponent>
 
                   <CardComponent title='Allowed Word Directions'>
