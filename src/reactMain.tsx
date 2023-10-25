@@ -1,7 +1,8 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom/client';
 import './styles.less';
 
 import { AppComponent } from 'src/UI/App/AppComponent';
 
-ReactDOM.render(<AppComponent />, document.getElementById('react_container'));
+const root = ReactDOM.createRoot(document.getElementById('react_container'));
+root.render(<AppComponent />);
