@@ -4,29 +4,26 @@ import { LabelComponent } from '../Label/LabelComponent';
 import { DropdownProps } from './DropdownProps';
 import './Dropdown.less';
 
-export class DropdownComponent extends React.Component {
-  constructor(public props: DropdownProps) {
-    super(props);
-  }
+const DropdownComponent: React.FC<DropdownProps> = ({
+  label,
+  name,
+  options,
+  updated,
+}) => {
+  return (
+    <div className='dropdown-container'>
+      <LabelComponent label={label} />
+      <Field as='select' name={name} onChange={(e) => updated(e)}>
+        {options.map((option) => {
+          return (
+            <option value={option.value} key={option.value}>
+              {option.viewValue}
+            </option>
+          );
+        })}
+      </Field>
+    </div>
+  );
+};
 
-  render() {
-    return (
-      <div className='dropdown-container'>
-        <LabelComponent label={this.props.label} />
-        <Field
-          as='select'
-          name={this.props.name}
-          onChange={(e) => this.props.updated(e)}
-        >
-          {this.props.options.map((option) => {
-            return (
-              <option value={option.value} key={option.value}>
-                {option.viewValue}
-              </option>
-            );
-          })}
-        </Field>
-      </div>
-    );
-  }
-}
+export { DropdownComponent };
