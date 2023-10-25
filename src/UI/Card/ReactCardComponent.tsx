@@ -2,11 +2,12 @@ import * as React from 'react';
 import { CardProps } from './CardProps';
 import './ReactCard.less';
 
-export const CardComponent: React.FunctionComponent<
-  React.PropsWithChildren<CardProps>
-> = (props: React.PropsWithChildren<CardProps>) => (
+export const CardComponent: React.FC<React.PropsWithChildren<CardProps>> = ({
+  children,
+  title,
+}) => (
   <div className='card'>
-    {props.title ? <div className='card-title'>{props.title}</div> : null}
-    <div className='card-content'>{props.children}</div>
+    {title ? <div className='card-title'>{title}</div> : null}
+    <div className='card-content'>{children}</div>
   </div>
 );
