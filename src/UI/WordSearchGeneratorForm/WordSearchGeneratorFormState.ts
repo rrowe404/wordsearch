@@ -3,8 +3,4 @@ import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptio
 export interface WordSearchGeneratorFormState {
   currentFormWords: string[];
   generationOptions: WordSearchGenerationOptions;
-  wordValidator: (
-    generationOptions: WordSearchGenerationOptions,
-    value: string
-  ) => string;
 }

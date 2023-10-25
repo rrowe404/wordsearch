@@ -53,12 +53,6 @@ export class WordSearchGeneratorFormComponent extends React.Component<
         zealousOverlaps: false,
         outputOption: outputOptions[0].value,
       },
-      wordValidator: (options: WordSearchGenerationOptions, value: string) => {
-        let errors = this.wordValidationService.getErrors(options, value);
-        return Object.keys(errors)
-          .map((error) => errors[error])
-          .join('\n');
-      },
     };
   }
 
@@ -185,7 +179,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<
                       handleChange={props.handleChange}
                       updated={(words) => this.updateWords(words)}
                       validator={(value) =>
-                        this.state.wordValidator(props.values, value)
+                        this.wordValidationService.getError(props.values, value)
                       }
                     />
 

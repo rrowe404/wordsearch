@@ -12,24 +12,21 @@ export class WordValidationService {
     new WordLengthValidator(),
   ];
 
-  public getErrors(options: WordSearchGenerationOptions, word: string) {
-    // if one fails we won't bother with the rest -- it's just clutter until the original error has been fixed imo
-
+  public getError(
+    options: WordSearchGenerationOptions,
+    word: string
+  ): string | null {
     let violatedValidator = this.validators.find(
       (validator) => !validator.validate(options, word)
     );
 
-    let errors = {};
-
-    if (violatedValidator) {
-      errors[violatedValidator.getErrorKey()] =
-        violatedValidator.getMessage(word);
-    }
-
-    return errors;
+    return violatedValidator?.getMessage(word);
   }
 
-  public hasErrors(options: WordSearchGenerationOptions, word: string) {
-    return Object.keys(this.getErrors(options, word)).length !== 0;
+  public hasErrors(
+    options: WordSearchGenerationOptions,
+    word: string
+  ): boolean {
+    return !!this.getError(options, word);
   }
 }

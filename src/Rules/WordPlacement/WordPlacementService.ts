@@ -79,15 +79,10 @@ export class WordPlacementService {
   }
 
   private handleRejectedWord(currentState: WordSearchState, word: string) {
-    let errors = this.wordValidationService.getErrors(
-      currentState.options,
-      word
-    );
+    let error = this.wordValidationService.getError(currentState.options, word);
 
     // tslint:disable-next-line
-    for (let error in errors) {
-      console.log(errors[error]);
-    }
+    console.log(error);
 
     currentState.rejectWord(word);
   }
