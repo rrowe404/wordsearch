@@ -3,29 +3,33 @@ import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { NoSpaceValidator } from './NoSpaceValidator';
 import { WordLengthValidator } from './WordLengthValidator';
 import { NoBlankValidator } from './NoBlankValidator';
+import { WordSearchGenerationOptions } from '../WordSearchGenerationOptions/WordSearchGenerationOptions';
 
 export class WordValidationService {
-    private validators: WordValidator[] = [
-        new NoBlankValidator(),
-        new NoSpaceValidator(),
-        new WordLengthValidator()
-    ];
+  private validators: WordValidator[] = [
+    new NoBlankValidator(),
+    new NoSpaceValidator(),
+    new WordLengthValidator(),
+  ];
 
-    public getErrors(currentState: WordSearchState, word: string) {
-        // if one fails we won't bother with the rest -- it's just clutter until the original error has been fixed imo
+  public getErrors(options: WordSearchGenerationOptions, word: string) {
+    // if one fails we won't bother with the rest -- it's just clutter until the original error has been fixed imo
 
-        let violatedValidator = this.validators.find(validator => !validator.validate(currentState, word));
+    let violatedValidator = this.validators.find(
+      (validator) => !validator.validate(options, word)
+    );
 
-        let errors = {};
+    let errors = {};
 
-        if (violatedValidator) {
-            errors[violatedValidator.getErrorKey()] = violatedValidator.getMessage(word);
-        }
-
-        return errors;
+    if (violatedValidator) {
+      errors[violatedValidator.getErrorKey()] =
+        violatedValidator.getMessage(word);
     }
 
-    public hasErrors(currentState: WordSearchState, word: string) {
-        return Object.keys(this.getErrors(currentState, word)).length !== 0;
-    }
+    return errors;
+  }
+
+  public hasErrors(options: WordSearchGenerationOptions, word: string) {
+    return Object.keys(this.getErrors(options, word)).length !== 0;
+  }
 }

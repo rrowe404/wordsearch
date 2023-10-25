@@ -11,7 +11,6 @@ import { ReduxState } from '../Redux/ReduxState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
 import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
-import { WordSearchStateFactory } from 'src/Rules/WordSearchState/WordSearchStateFactory';
 import { ReduxActions } from '../Redux/ReduxActions';
 import './WordSearchGeneratorFormStyles.less';
 import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
@@ -30,7 +29,6 @@ export class WordSearchGeneratorFormComponent extends React.Component<
   WordSearchGeneratorFormState
 > {
   private wordSearchGenerationService = new WordSearchGenerationService();
-  private wordSearchStateFactory = new WordSearchStateFactory();
   private wordValidationService = new WordValidationService();
 
   // todo type with wordValidators, words, dispatch
@@ -56,9 +54,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<
         outputOption: outputOptions[0].value,
       },
       wordValidator: (options: WordSearchGenerationOptions, value: string) => {
-        let currentState =
-          this.wordSearchStateFactory.createWordSearch(options);
-        let errors = this.wordValidationService.getErrors(currentState, value);
+        let errors = this.wordValidationService.getErrors(options, value);
         return Object.keys(errors)
           .map((error) => errors[error])
           .join('\n');
