@@ -98,7 +98,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<{}, {}> {
 
                     <CustomErrorMessage
                       name='direction'
-                      errors={props.errors}
+                      errors={{ direction: props.errors['direction'] }}
                     />
                   </CardComponent>
 
