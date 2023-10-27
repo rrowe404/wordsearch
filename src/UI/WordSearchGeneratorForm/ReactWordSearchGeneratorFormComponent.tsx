@@ -28,20 +28,13 @@ const min = 5;
 const max = 30;
 const minMaxMessage = `(${min}-${max})`;
 
-export class WordSearchGeneratorFormComponent extends React.Component<
-  {},
-  WordSearchGeneratorFormState
-> {
+export class WordSearchGeneratorFormComponent extends React.Component<{}, {}> {
   private wordSearchGenerationService = new WordSearchGenerationService();
   private wordValidationService = new WordValidationService();
 
   // todo type with wordValidators, words, dispatch
   constructor(public props) {
     super(props);
-
-    this.state = {
-      generationOptions: DefaultWordSearchGenerationOptions,
-    };
   }
 
   render() {
@@ -80,7 +73,7 @@ export class WordSearchGeneratorFormComponent extends React.Component<
       <div className='wordSearchGeneratorFormContainer'>
         <div className='wordSearchGeneratorForm'>
           <Formik
-            initialValues={this.state.generationOptions}
+            initialValues={DefaultWordSearchGenerationOptions}
             onSubmit={(values) => {
               this.generate(values);
             }}
