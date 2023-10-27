@@ -15,7 +15,6 @@ import { ReduxActions } from '../Redux/ReduxActions';
 import './WordSearchGeneratorFormStyles.less';
 import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
 import { MethodDropdown } from './MethodDropdown';
-import outputOptions from './MethodDropdownOptions';
 import { SubmitButton } from './SubmitButton';
 import { TitleInput } from './TitleInput';
 import { ColumnsInput } from './ColumnsInput';
@@ -23,6 +22,11 @@ import { RowsInput } from './RowsInput';
 import { HorizontalCheckbox } from './HorizontalCheckbox';
 import { VerticalCheckbox } from './VerticalCheckbox';
 import { DiagonalCheckbox } from './DiagonalCheckbox';
+import { DefaultWordSearchGenerationOptions } from './DefaultWordSearchGenerationOptions';
+
+const min = 5;
+const max = 30;
+const minMaxMessage = `(${min}-${max})`;
 
 export class WordSearchGeneratorFormComponent extends React.Component<
   {},
@@ -37,30 +41,11 @@ export class WordSearchGeneratorFormComponent extends React.Component<
 
     this.state = {
       currentFormWords: [],
-      generationOptions: {
-        height: 30,
-        width: 30,
-        alphabetizeWordList: false,
-        showWordList: true,
-        title: '',
-        words: [],
-        filterAccidentalProfanity: false,
-        allowHorizontal: true,
-        allowVertical: true,
-        allowDiagonal: false,
-        allowBackwards: false,
-        allowOverlaps: false,
-        zealousOverlaps: false,
-        outputOption: outputOptions[0].value,
-      },
+      generationOptions: DefaultWordSearchGenerationOptions,
     };
   }
 
   render() {
-    let min = 5;
-    let max = 30;
-    let minMaxMessage = `(${min}-${max})`;
-
     const schema = yup.object({
       width: yup
         .number()
