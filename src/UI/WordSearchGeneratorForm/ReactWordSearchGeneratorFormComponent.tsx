@@ -40,7 +40,6 @@ export class WordSearchGeneratorFormComponent extends React.Component<
     super(props);
 
     this.state = {
-      currentFormWords: [],
       generationOptions: DefaultWordSearchGenerationOptions,
     };
   }
