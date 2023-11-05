@@ -16,7 +16,6 @@ import { PendingLetterTracker } from 'src/Rules/PendingLetterTracker/PendingLett
 import { Cell } from './Cell/Cell';
 import { WordListContainer } from './WordList/WordListContainer';
 import { GameWrapper } from './GameWrapper/GameWrapper';
-import { Position } from 'src/Rules/Position/Position';
 
 interface PlayableWordSearchProps {
   state: WordSearchState;
@@ -115,6 +114,8 @@ export class PlayableWordSearchComponent extends React.Component<
       >
         <PlayableWordSearchContextProvider
           letterSize={this.state.letterSize}
+          letterTracker={this.state.letterTracker}
+          startLetterTracker={this.state.startLetterTracker}
           tableWidth={this.state.tableWidth}
           wordSearchState={this.props.state}
           wordTracker={this.state.wordTracker}
@@ -130,8 +131,7 @@ export class PlayableWordSearchComponent extends React.Component<
                         <Cell
                           key={`${row}-${column}`}
                           onClick={() => this.markLetter(row, column)}
-                          className={this.getTdClasses({ row, column })}
-                          value={this.props.state.getValueAt(row, column)}
+                          position={{ row, column }}
                         />
                       );
                     })}
@@ -160,20 +160,6 @@ export class PlayableWordSearchComponent extends React.Component<
       rows: generateIndexArray(this.props.state.rows),
       columns: generateIndexArray(this.props.state.columns),
     };
-  }
-
-  private getTdClasses(position: Position) {
-    let result = ['cell'];
-
-    if (this.state.letterTracker.isLetterComplete(position)) {
-      result.push('completed');
-    }
-
-    if (this.state.startLetterTracker.isPending(position)) {
-      result.push('pending');
-    }
-
-    return result.join(' ');
   }
 
   private markLetter(row: number, column: number) {
