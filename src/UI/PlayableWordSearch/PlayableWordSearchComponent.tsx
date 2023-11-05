@@ -16,6 +16,7 @@ import { PendingLetterTracker } from 'src/Rules/PendingLetterTracker/PendingLett
 import { Cell } from './Cell/Cell';
 import { WordListContainer } from './WordList/WordListContainer';
 import { GameWrapper } from './GameWrapper/GameWrapper';
+import { getSize } from './PlayableWordSearchSizeHelper';
 
 interface PlayableWordSearchProps {
   state: WordSearchState;
@@ -41,12 +42,7 @@ interface PlayableWordSearchState {
   tableWidth: number;
 }
 
-const arrayGenerationService = new ArrayGenerationService();
 const wordBuilderService = new WordBuilderService();
-
-const generateIndexArray = (length: number) => {
-  return arrayGenerationService.generateEmptyArray(length).map((value, i) => i);
-};
 
 export class PlayableWordSearchComponent extends React.Component<
   {},
@@ -55,7 +51,7 @@ export class PlayableWordSearchComponent extends React.Component<
   constructor(public props: PlayableWordSearchProps) {
     super(props);
 
-    let size = this.getSize();
+    let size = getSize(props.state);
     let wordList = this.props.state.wordList;
     let wordTracker = new WordTracker(wordList);
     let letterTracker = new LetterTracker();
@@ -153,13 +149,6 @@ export class PlayableWordSearchComponent extends React.Component<
 
   private winner() {
     return this.state.wordTracker.isComplete();
-  }
-
-  private getSize() {
-    return {
-      rows: generateIndexArray(this.props.state.rows),
-      columns: generateIndexArray(this.props.state.columns),
-    };
   }
 
   private markLetter(row: number, column: number) {
