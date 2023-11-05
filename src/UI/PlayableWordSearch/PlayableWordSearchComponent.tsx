@@ -8,6 +8,7 @@ import './PlayableWordSearchComponent.less';
 import { SizeTrackerComponent } from '../SizeTracker/SizeTrackerComponent';
 import { SizeTrackerResize } from '../SizeTracker/SizeTrackerResize';
 import { WordTracker } from 'src/Rules/WordTracker/WordTracker';
+import { WinIndicator } from './WinIndicator/WinIndicator';
 
 interface PlayableWordSearchProps {
   state: WordSearchState;
@@ -142,7 +143,7 @@ export class PlayableWordSearchComponent extends React.Component<
             </div>
           ) : null}
 
-          {winner ? <div className='win'>WINNER</div> : null}
+          {winner && <WinIndicator className='win' />}
         </div>
       </SizeTrackerComponent>
     );
