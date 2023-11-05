@@ -16,6 +16,7 @@ import { Title } from './Title/Title';
 import { PendingLetterTracker } from 'src/Rules/PendingLetterTracker/PendingLetterTracker';
 import { Cell } from './Cell/Cell';
 import { WordListContainer } from './WordList/WordListContainer';
+import { GameWrapper } from './GameWrapper/GameWrapper';
 
 interface PlayableWordSearchProps {
   state: WordSearchState;
@@ -117,7 +118,7 @@ export class PlayableWordSearchComponent extends React.Component<
         >
           <div className='playable'>
             <Title />
-            <div className='game' style={{ width: this.getTableWidth() }}>
+            <GameWrapper>
               {this.state.rows.map((row) => {
                 return (
                   <div className='row' key={row}>
@@ -135,7 +136,7 @@ export class PlayableWordSearchComponent extends React.Component<
                   </div>
                 );
               })}
-            </div>
+            </GameWrapper>
 
             <WordListContainer>
               <WordList wordList={this.state.wordList} />
@@ -178,10 +179,6 @@ export class PlayableWordSearchComponent extends React.Component<
       width: this.state.letterSize,
       height: this.state.letterSize,
     };
-  }
-
-  private getTableWidth() {
-    return this.state.tableWidth;
   }
 
   private generateIndexArray(length: number) {
