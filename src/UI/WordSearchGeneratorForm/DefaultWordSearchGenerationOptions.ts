@@ -2,8 +2,8 @@ import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptio
 import outputOptions from './MethodDropdownOptions';
 
 export const DefaultWordSearchGenerationOptions: WordSearchGenerationOptions = {
-  height: 30,
-  width: 30,
+  height: 10,
+  width: 10,
   alphabetizeWordList: false,
   showWordList: true,
   title: '',
