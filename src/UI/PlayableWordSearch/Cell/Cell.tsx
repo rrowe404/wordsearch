@@ -5,13 +5,21 @@ import { PlayableWordSearchContext } from '../PlayableWordSearchContext';
 interface Props {
   onClick: () => void;
   className: string;
-  style: React.CSSProperties;
   value: string;
 }
 
-const Cell: React.FC<Props> = ({ onClick, className, style, value }) => {
+const Cell: React.FC<Props> = ({ onClick, className, value }) => {
+  const { letterSize } = React.useContext(PlayableWordSearchContext);
+
+  const getTdStyles = () => {
+    return {
+      width: letterSize,
+      height: letterSize,
+    };
+  };
+
   return (
-    <div onClick={() => onClick()} className={className} style={style}>
+    <div onClick={() => onClick()} className={className} style={getTdStyles()}>
       {value}
     </div>
   );

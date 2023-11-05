@@ -128,7 +128,6 @@ export class PlayableWordSearchComponent extends React.Component<
                           key={`${row}-${column}`}
                           onClick={() => this.markLetter(row, column)}
                           className={this.getTdClasses(row, column)}
-                          style={this.getTdStyles()}
                           value={this.props.state.getValueAt(row, column)}
                         />
                       );
@@ -172,13 +171,6 @@ export class PlayableWordSearchComponent extends React.Component<
     }
 
     return result.join(' ');
-  }
-
-  private getTdStyles() {
-    return {
-      width: this.state.letterSize,
-      height: this.state.letterSize,
-    };
   }
 
   private generateIndexArray(length: number) {
