@@ -13,6 +13,7 @@ import { LetterTracker } from 'src/Rules/LetterTracker/LetterTracker';
 import { WordList } from './WordList/WordList';
 import { PlayableWordSearchContextProvider } from './PlayableWordSearchContextProvider';
 import { Title } from './Title/Title';
+import { PendingLetterTracker } from 'src/Rules/PendingLetterTracker/PendingLetterTracker';
 
 interface PlayableWordSearchProps {
   state: WordSearchState;
@@ -24,8 +25,8 @@ interface PlayableWordSearchState {
   columns: number[];
 
   // used to track current selection
-  startLetter: LetterWithPosition;
-  endLetter: LetterWithPosition;
+  startLetterTracker: PendingLetterTracker;
+  endLetterTracker: PendingLetterTracker;
 
   // all lower for comparison purposes. must be updated with wordList.
   lowercaseWordList: string[];
@@ -60,8 +61,8 @@ export class PlayableWordSearchComponent extends React.Component<
     this.state = {
       rows: size.rows,
       columns: size.columns,
-      startLetter: null,
-      endLetter: null,
+      startLetterTracker: new PendingLetterTracker(),
+      endLetterTracker: new PendingLetterTracker(),
       ...wordListUpdate,
       letterSize,
       tableWidth,
@@ -167,7 +168,7 @@ export class PlayableWordSearchComponent extends React.Component<
       result.push('completed');
     }
 
-    if (this.isLetterPending(row, column)) {
+    if (this.state.startLetterTracker.isPending({ row, column })) {
       result.push('pending');
     }
 
@@ -198,24 +199,29 @@ export class PlayableWordSearchComponent extends React.Component<
       letter: this.props.state.getValueAt(row, column),
     };
 
-    if (this.state.startLetter) {
-      this.setState({ endLetter: letterWithPosition }, () =>
-        this.connectWord()
-      );
+    if (this.state.startLetterTracker.hasPending()) {
+      this.state.endLetterTracker.setPending(letterWithPosition);
+      this.connectWord();
     } else {
-      this.setState({ startLetter: letterWithPosition });
+      this.state.startLetterTracker.setPending(letterWithPosition);
     }
+
+    // Hack to rerender, TODO
+    this.setState((previousState) => ({ ...previousState }));
   }
 
   private connectWord() {
-    if (!this.state.startLetter || !this.state.endLetter) {
+    if (
+      !this.state.startLetterTracker.hasPending() ||
+      !this.state.endLetterTracker.hasPending()
+    ) {
       return;
     }
 
     let wordBuilderResult = this.wordBuilderService.build(
       this.props.state,
-      this.state.startLetter,
-      this.state.endLetter
+      this.state.startLetterTracker.getPending(),
+      this.state.endLetterTracker.getPending()
     );
 
     if (wordBuilderResult && this.isInWordList(wordBuilderResult.word)) {
@@ -228,10 +234,8 @@ export class PlayableWordSearchComponent extends React.Component<
       );
     }
 
-    this.setState({
-      startLetter: null,
-      endLetter: null,
-    });
+    this.state.startLetterTracker.clear();
+    this.state.endLetterTracker.clear();
   }
 
   private getAccuratelyCasedWord(offcasedWord: string) {
@@ -253,14 +257,6 @@ export class PlayableWordSearchComponent extends React.Component<
   private isLetterCompleted(row: number, column: number) {
     let letterWithPosition: LetterWithPosition = { letter: '', row, column };
     return this.state.letterTracker.isLetterComplete(letterWithPosition);
-  }
-
-  public isLetterPending(row, column) {
-    return (
-      this.state.startLetter &&
-      this.state.startLetter.row === row &&
-      this.state.startLetter.column === column
-    );
   }
 
   private getWordListUpdate() {
