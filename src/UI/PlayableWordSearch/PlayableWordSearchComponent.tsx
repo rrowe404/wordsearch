@@ -56,7 +56,9 @@ export class PlayableWordSearchComponent extends React.Component<
     super(props);
 
     let size = this.getSize();
-    let wordListUpdate = this.getWordListUpdate();
+    let wordList = this.props.state.wordList;
+    let wordTracker = new WordTracker(wordList);
+    let letterTracker = new LetterTracker();
     let letterSize = 0;
     let tableWidth = 0;
 
@@ -65,7 +67,8 @@ export class PlayableWordSearchComponent extends React.Component<
       columns: size.columns,
       startLetterTracker: new PendingLetterTracker(),
       endLetterTracker: new PendingLetterTracker(),
-      ...wordListUpdate,
+      wordTracker,
+      letterTracker,
       letterSize,
       tableWidth,
     };
@@ -222,16 +225,5 @@ export class PlayableWordSearchComponent extends React.Component<
     }
 
     return '';
-  }
-
-  private getWordListUpdate() {
-    let wordList = this.props.state.wordList;
-    let wordTracker = new WordTracker(wordList);
-    let letterTracker = new LetterTracker();
-
-    return {
-      wordTracker,
-      letterTracker,
-    };
   }
 }
