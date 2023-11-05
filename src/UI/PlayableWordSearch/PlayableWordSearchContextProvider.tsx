@@ -4,18 +4,22 @@ import { WordTracker } from 'src/Rules/WordTracker/WordTracker';
 import { PlayableWordSearchContext } from './PlayableWordSearchContext';
 
 interface Props extends React.PropsWithChildren {
+  letterSize: number;
+  tableWidth: number;
   wordSearchState: WordSearchState;
   wordTracker: WordTracker;
 }
 
 const PlayableWordSearchContextProvider: React.FC<Props> = ({
   children,
+  letterSize,
+  tableWidth,
   wordSearchState,
   wordTracker,
 }) => {
   return (
     <PlayableWordSearchContext.Provider
-      value={{ wordSearchState, wordTracker }}
+      value={{ letterSize, tableWidth, wordSearchState, wordTracker }}
     >
       {children}
     </PlayableWordSearchContext.Provider>

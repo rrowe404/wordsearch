@@ -109,6 +109,8 @@ export class PlayableWordSearchComponent extends React.Component<
         onResize={(size) => cb(size)}
       >
         <PlayableWordSearchContextProvider
+          letterSize={this.state.letterSize}
+          tableWidth={this.state.tableWidth}
           wordSearchState={this.props.state}
           wordTracker={this.state.wordTracker}
         >
