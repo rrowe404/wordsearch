@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { TestUtils } from '../TestUtils/TestUtils';
 import { WordSearchGenerationOptions } from '../WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
@@ -5,83 +6,105 @@ import { LetterPlaceholder } from './LetterPlaceholder';
 import { LetterPlaceholderFillService } from './LetterPlaceholderFillService';
 
 describe('LetterPlaceholderFillService', () => {
-    let service: LetterPlaceholderFillService;
+  let service: LetterPlaceholderFillService;
 
-    function createState(matrix: string[][], options?: WordSearchGenerationOptions): WordSearchState {
-        let state = new WordSearchState();
-        options = options || TestUtils.createOptions(matrix);
-        state.setOptions(options);
-        state.seedMatrix(matrix);
+  function createState(
+    matrix: string[][],
+    options?: WordSearchGenerationOptions
+  ): WordSearchState {
+    let state = new WordSearchState();
+    options = options || TestUtils.createOptions(matrix);
+    state.setOptions(options);
+    state.seedMatrix(matrix);
 
-        return state;
-    }
+    return state;
+  }
 
-    function expectCompleteResult(result: WordSearchState) {
-        result.iterate((letter, row, column) => {
-            expect(typeof (letter)).toBe('string');
-            expect(letter).not.toBe(LetterPlaceholder.value);
-        });
-    }
-
-    beforeEach(() => {
-        service = new LetterPlaceholderFillService();
-        service.profanityFilterService.setProfanityList(['arm', 'guy']);
+  function expectCompleteResult(result: WordSearchState) {
+    result.iterate((letter, row, column) => {
+      expect(typeof letter).toBe('string');
+      expect(letter).not.toBe(LetterPlaceholder.value);
     });
+  }
 
-    it('should be created', () => {
-        expect(service).toBeTruthy();
-    });
+  beforeEach(() => {
+    service = new LetterPlaceholderFillService();
+    service.profanityFilterService.setProfanityList(['arm', 'guy']);
+  });
 
-    it('should fill a partially filled matrix', () => {
-        let matrix = [
-            ['a', 'b', 'c'],
-            ['d', 'e', 'f'],
-            ['g', LetterPlaceholder.value, 'i']
-        ];
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 
-        let state = createState(matrix);
+  it('should fill a partially filled matrix', () => {
+    let matrix = [
+      ['a', 'b', 'c'],
+      ['d', 'e', 'f'],
+      ['g', LetterPlaceholder.value, 'i'],
+    ];
 
-        let result = service.fill(state);
+    let state = createState(matrix);
 
-        expectCompleteResult(result);
-    });
+    let result = service.fill(state);
 
-    it('should not modify the original', () => {
-        let matrix = [
-            ['a', 'b', 'c'],
-            ['d', 'e', 'f'],
-            ['g', LetterPlaceholder.value, 'i']
-        ];
+    expectCompleteResult(result);
+  });
 
-        let state = createState(matrix);
+  it('should not modify the original', () => {
+    let matrix = [
+      ['a', 'b', 'c'],
+      ['d', 'e', 'f'],
+      ['g', LetterPlaceholder.value, 'i'],
+    ];
 
-        let result = service.fill(state);
+    let state = createState(matrix);
 
-        expect(state).not.toBe(result);
-    });
+    let result = service.fill(state);
 
-    it('should ensure no profanity remains in the final product if the option is selected', () => {
-        let matrix = [
-            [LetterPlaceholder.value, LetterPlaceholder.value, LetterPlaceholder.value],
-            ['d', 'e', 'u'],
-            ['g', 'f', 'y']
-        ];
+    expect(state).not.toBe(result);
+  });
 
-        // this spy ensures that
-        // even if profanity is replaced with more profanity,
-        // it still gets filtered in the end
-        spyOn(service, 'getFillLetter').and
-            .returnValues('a', 'r', 'm', 'a', 'r', 'm', 'l', 'e', 'g', 'g', 'e', 'l');
+  it('should ensure no profanity remains in the final product if the option is selected', () => {
+    let matrix = [
+      [
+        LetterPlaceholder.value,
+        LetterPlaceholder.value,
+        LetterPlaceholder.value,
+      ],
+      ['d', 'e', 'u'],
+      ['g', 'f', 'y'],
+    ];
 
-        let options = TestUtils.createOptions(matrix);
-        options.filterAccidentalProfanity = true;
+    // this spy ensures that
+    // even if profanity is replaced with more profanity,
+    // it still gets filtered in the end
+    jest
+      .spyOn(service, 'getFillLetter')
+      .mockReturnValueOnce('a')
+      .mockReturnValueOnce('r')
+      .mockReturnValueOnce('m')
+      .mockReturnValueOnce('a')
+      .mockReturnValueOnce('r')
+      .mockReturnValueOnce('m')
+      .mockReturnValueOnce('l')
+      .mockReturnValueOnce('e')
+      .mockReturnValueOnce('g')
+      .mockReturnValueOnce('g')
+      .mockReturnValueOnce('e')
+      .mockReturnValueOnce('l');
 
-        let state = createState(matrix, options);
+    let options = TestUtils.createOptions(matrix);
+    options.filterAccidentalProfanity = true;
 
-        let result = service.fill(state);
-        let filteredResult = service.profanityFilterService.filterProfanity(result, []);
+    let state = createState(matrix, options);
 
-        expect(filteredResult).toBeFalsy();
-        expectCompleteResult(result);
-    });
+    let result = service.fill(state);
+    let filteredResult = service.profanityFilterService.filterProfanity(
+      result,
+      []
+    );
+
+    expect(filteredResult).toBeFalsy();
+    expectCompleteResult(result);
+  });
 });
