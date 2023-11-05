@@ -20,8 +20,12 @@ const WordList: React.FC<Props> = ({ wordList }) => {
 
   return (
     <>
-      {wordList.map((word) => {
-        return <div className={getWordListWordClasses(word)}>{word}</div>;
+      {wordList.map((word, i) => {
+        return (
+          <div key={`${word}-${i}`} className={getWordListWordClasses(word)}>
+            {word}
+          </div>
+        );
       })}
     </>
   );
