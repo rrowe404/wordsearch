@@ -15,6 +15,7 @@ import { PlayableWordSearchContextProvider } from './PlayableWordSearchContextPr
 import { Title } from './Title/Title';
 import { PendingLetterTracker } from 'src/Rules/PendingLetterTracker/PendingLetterTracker';
 import { Cell } from './Cell/Cell';
+import { WordListContainer } from './WordList/WordListContainer';
 
 interface PlayableWordSearchProps {
   state: WordSearchState;
@@ -136,14 +137,9 @@ export class PlayableWordSearchComponent extends React.Component<
               })}
             </div>
 
-            {this.props.state.showWordList ? (
-              <div
-                className='wordListContainer'
-                style={{ maxWidth: this.getTableWidth() }}
-              >
-                <WordList wordList={this.state.wordList} />
-              </div>
-            ) : null}
+            <WordListContainer>
+              <WordList wordList={this.state.wordList} />
+            </WordListContainer>
 
             {winner && <WinIndicator className='win' />}
           </div>
