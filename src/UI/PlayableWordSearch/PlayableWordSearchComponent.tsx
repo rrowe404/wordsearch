@@ -10,6 +10,8 @@ import { SizeTrackerResize } from '../SizeTracker/SizeTrackerResize';
 import { WordTracker } from 'src/Rules/WordTracker/WordTracker';
 import { WinIndicator } from './WinIndicator/WinIndicator';
 import { LetterTracker } from 'src/Rules/LetterTracker/LetterTracker';
+import { WordList } from './WordList/WordList';
+import { PlayableWordSearchContextProvider } from './PlayableWordSearchContextProvider';
 
 interface PlayableWordSearchProps {
   state: WordSearchState;
@@ -106,58 +108,44 @@ export class PlayableWordSearchComponent extends React.Component<
         className='full-height'
         onResize={(size) => cb(size)}
       >
-        <div className='playable'>
-          <div className='title'>{this.props.state.title}</div>
-          <div className='game' style={{ width: this.getTableWidth() }}>
-            {this.state.rows.map((row) => {
-              return (
-                <div className='row' key={row}>
-                  {this.state.columns.map((column) => {
-                    return (
-                      <div
-                        key={`${row}-${column}`}
-                        onClick={() => this.markLetter(row, column)}
-                        className={this.getTdClasses(row, column)}
-                        style={this.getTdStyles()}
-                      >
-                        {this.props.state.getValueAt(row, column)}
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </div>
-
-          {this.props.state.showWordList ? (
-            <div
-              className='wordListContainer'
-              style={{ maxWidth: this.getTableWidth() }}
-            >
-              {this.state.wordList.map((word) => {
+        <PlayableWordSearchContextProvider wordTracker={this.state.wordTracker}>
+          <div className='playable'>
+            <div className='title'>{this.props.state.title}</div>
+            <div className='game' style={{ width: this.getTableWidth() }}>
+              {this.state.rows.map((row) => {
                 return (
-                  <div className={this.getWordListWordClasses(word)}>
-                    {word}
+                  <div className='row' key={row}>
+                    {this.state.columns.map((column) => {
+                      return (
+                        <div
+                          key={`${row}-${column}`}
+                          onClick={() => this.markLetter(row, column)}
+                          className={this.getTdClasses(row, column)}
+                          style={this.getTdStyles()}
+                        >
+                          {this.props.state.getValueAt(row, column)}
+                        </div>
+                      );
+                    })}
                   </div>
                 );
               })}
             </div>
-          ) : null}
 
-          {winner && <WinIndicator className='win' />}
-        </div>
+            {this.props.state.showWordList ? (
+              <div
+                className='wordListContainer'
+                style={{ maxWidth: this.getTableWidth() }}
+              >
+                <WordList wordList={this.state.wordList} />
+              </div>
+            ) : null}
+
+            {winner && <WinIndicator className='win' />}
+          </div>
+        </PlayableWordSearchContextProvider>
       </SizeTrackerComponent>
     );
-  }
-
-  private getWordListWordClasses(word: string) {
-    let result = ['wordListWord'];
-
-    if (this.state.wordTracker.isWordComplete(word)) {
-      result.push('completed');
-    }
-
-    return result.join(' ');
   }
 
   private winner() {
