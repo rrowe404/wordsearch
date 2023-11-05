@@ -9,6 +9,7 @@ import { SizeTrackerComponent } from '../SizeTracker/SizeTrackerComponent';
 import { SizeTrackerResize } from '../SizeTracker/SizeTrackerResize';
 import { WordTracker } from 'src/Rules/WordTracker/WordTracker';
 import { WinIndicator } from './WinIndicator/WinIndicator';
+import { LetterTracker } from 'src/Rules/LetterTracker/LetterTracker';
 
 interface PlayableWordSearchProps {
   state: WordSearchState;
@@ -31,7 +32,7 @@ interface PlayableWordSearchState {
   wordTracker: WordTracker;
 
   // keeps track of letters of words that have been found
-  letterMap: { [key: string]: boolean };
+  letterTracker: LetterTracker;
 
   // the basis of calculation for resizing
   letterSize: number;
@@ -61,7 +62,7 @@ export class PlayableWordSearchComponent extends React.Component<
       lowercaseWordList: wordListUpdate.lowercaseWordList,
       wordList: wordListUpdate.wordList,
       wordTracker: wordListUpdate.wordMap,
-      letterMap: wordListUpdate.letterMap,
+      letterTracker: wordListUpdate.letterMap,
       letterSize,
       tableWidth,
     };
@@ -233,14 +234,9 @@ export class PlayableWordSearchComponent extends React.Component<
         wordBuilderResult.word
       );
       this.state.wordTracker.completeWord(accuratelyCasedWord);
-
-      let letterMap = _.cloneDeep(this.state.letterMap);
-
-      wordBuilderResult.lettersWithPositions.forEach((lwp) => {
-        letterMap[this.computeLetterMapKey(lwp)] = true;
-      });
-
-      this.setState({ letterMap });
+      this.state.letterTracker.completeLetters(
+        ...wordBuilderResult.lettersWithPositions
+      );
     }
 
     this.setState({
@@ -267,7 +263,7 @@ export class PlayableWordSearchComponent extends React.Component<
 
   private isLetterCompleted(row: number, column: number) {
     let letterWithPosition: LetterWithPosition = { letter: '', row, column };
-    return this.state.letterMap[this.computeLetterMapKey(letterWithPosition)];
+    return this.state.letterTracker.isLetterComplete(letterWithPosition);
   }
 
   public isLetterPending(row, column) {
@@ -278,14 +274,10 @@ export class PlayableWordSearchComponent extends React.Component<
     );
   }
 
-  private computeLetterMapKey(letterWithPosition: LetterWithPosition) {
-    return `${letterWithPosition.row}-${letterWithPosition.column}`;
-  }
-
   private getWordListUpdate() {
     let wordList = this.props.state.wordList;
     let wordMap = new WordTracker(wordList);
-    let letterMap = {};
+    let letterMap = new LetterTracker();
 
     return {
       wordList,
