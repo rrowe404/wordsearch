@@ -12,6 +12,7 @@ import { WinIndicator } from './WinIndicator/WinIndicator';
 import { LetterTracker } from 'src/Rules/LetterTracker/LetterTracker';
 import { WordList } from './WordList/WordList';
 import { PlayableWordSearchContextProvider } from './PlayableWordSearchContextProvider';
+import { Title } from './Title/Title';
 
 interface PlayableWordSearchProps {
   state: WordSearchState;
@@ -105,9 +106,12 @@ export class PlayableWordSearchComponent extends React.Component<
         className='full-height'
         onResize={(size) => cb(size)}
       >
-        <PlayableWordSearchContextProvider wordTracker={this.state.wordTracker}>
+        <PlayableWordSearchContextProvider
+          wordSearchState={this.props.state}
+          wordTracker={this.state.wordTracker}
+        >
           <div className='playable'>
-            <div className='title'>{this.props.state.title}</div>
+            <Title />
             <div className='game' style={{ width: this.getTableWidth() }}>
               {this.state.rows.map((row) => {
                 return (
