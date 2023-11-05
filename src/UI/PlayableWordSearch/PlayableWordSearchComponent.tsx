@@ -61,10 +61,7 @@ export class PlayableWordSearchComponent extends React.Component<
       columns: size.columns,
       startLetter: null,
       endLetter: null,
-      lowercaseWordList: wordListUpdate.lowercaseWordList,
-      wordList: wordListUpdate.wordList,
-      wordTracker: wordListUpdate.wordMap,
-      letterTracker: wordListUpdate.letterMap,
+      ...wordListUpdate,
       letterSize,
       tableWidth,
     };
@@ -264,14 +261,14 @@ export class PlayableWordSearchComponent extends React.Component<
 
   private getWordListUpdate() {
     let wordList = this.props.state.wordList;
-    let wordMap = new WordTracker(wordList);
-    let letterMap = new LetterTracker();
+    let wordTracker = new WordTracker(wordList);
+    let letterTracker = new LetterTracker();
 
     return {
       wordList,
       lowercaseWordList: wordList.map((word) => word.toLowerCase()),
-      wordMap,
-      letterMap,
+      wordTracker,
+      letterTracker,
     };
   }
 }
