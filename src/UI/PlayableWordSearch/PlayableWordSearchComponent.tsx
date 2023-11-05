@@ -17,6 +17,7 @@ import { PendingLetterTracker } from 'src/Rules/PendingLetterTracker/PendingLett
 import { Cell } from './Cell/Cell';
 import { WordListContainer } from './WordList/WordListContainer';
 import { GameWrapper } from './GameWrapper/GameWrapper';
+import { Position } from 'src/Rules/Position/Position';
 
 interface PlayableWordSearchProps {
   state: WordSearchState;
@@ -127,7 +128,7 @@ export class PlayableWordSearchComponent extends React.Component<
                         <Cell
                           key={`${row}-${column}`}
                           onClick={() => this.markLetter(row, column)}
-                          className={this.getTdClasses(row, column)}
+                          className={this.getTdClasses({ row, column })}
                           value={this.props.state.getValueAt(row, column)}
                         />
                       );
@@ -159,14 +160,14 @@ export class PlayableWordSearchComponent extends React.Component<
     };
   }
 
-  private getTdClasses(row: number, column: number) {
+  private getTdClasses(position: Position) {
     let result = ['cell'];
 
-    if (this.isLetterCompleted(row, column)) {
+    if (this.state.letterTracker.isLetterComplete(position)) {
       result.push('completed');
     }
 
-    if (this.state.startLetterTracker.isPending({ row, column })) {
+    if (this.state.startLetterTracker.isPending(position)) {
       result.push('pending');
     }
 
@@ -239,11 +240,6 @@ export class PlayableWordSearchComponent extends React.Component<
 
   private isInWordList(word: string) {
     return this.state.lowercaseWordList.indexOf(word.toLowerCase()) > -1;
-  }
-
-  private isLetterCompleted(row: number, column: number) {
-    let letterWithPosition: LetterWithPosition = { letter: '', row, column };
-    return this.state.letterTracker.isLetterComplete(letterWithPosition);
   }
 
   private getWordListUpdate() {

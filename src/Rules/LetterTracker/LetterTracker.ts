@@ -1,10 +1,11 @@
 import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
+import { Position } from '../Position/Position';
 
 class LetterTracker {
   map: Record<string, boolean> = {};
 
-  private getKey(letterWithPosition: LetterWithPosition): string {
-    return `${letterWithPosition.row}-${letterWithPosition.column}`;
+  private getKey(position: Position): string {
+    return `${position.row}-${position.column}`;
   }
 
   private completeLetter(key: string) {
@@ -17,8 +18,8 @@ class LetterTracker {
     );
   }
 
-  isLetterComplete(letterWithPosition: LetterWithPosition) {
-    return this.map[this.getKey(letterWithPosition)];
+  isLetterComplete(position: Position) {
+    return this.map[this.getKey(position)];
   }
 }
 
