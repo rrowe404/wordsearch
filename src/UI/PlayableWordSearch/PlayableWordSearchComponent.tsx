@@ -45,13 +45,17 @@ interface PlayableWordSearchState {
   tableWidth: number;
 }
 
+const arrayGenerationService = new ArrayGenerationService();
+const wordBuilderService = new WordBuilderService();
+
+const generateIndexArray = (length: number) => {
+  return arrayGenerationService.generateEmptyArray(length).map((value, i) => i);
+};
+
 export class PlayableWordSearchComponent extends React.Component<
   {},
   PlayableWordSearchState
 > {
-  private arrayGenerationService = new ArrayGenerationService();
-  private wordBuilderService = new WordBuilderService();
-
   constructor(public props: PlayableWordSearchProps) {
     super(props);
 
@@ -153,8 +157,8 @@ export class PlayableWordSearchComponent extends React.Component<
 
   private getSize() {
     return {
-      rows: this.generateIndexArray(this.props.state.rows),
-      columns: this.generateIndexArray(this.props.state.columns),
+      rows: generateIndexArray(this.props.state.rows),
+      columns: generateIndexArray(this.props.state.columns),
     };
   }
 
@@ -170,12 +174,6 @@ export class PlayableWordSearchComponent extends React.Component<
     }
 
     return result.join(' ');
-  }
-
-  private generateIndexArray(length: number) {
-    return this.arrayGenerationService
-      .generateEmptyArray(length)
-      .map((value, i) => i);
   }
 
   private markLetter(row: number, column: number) {
@@ -204,7 +202,7 @@ export class PlayableWordSearchComponent extends React.Component<
       return;
     }
 
-    let wordBuilderResult = this.wordBuilderService.build(
+    let wordBuilderResult = wordBuilderService.build(
       this.props.state,
       this.state.startLetterTracker.getPending(),
       this.state.endLetterTracker.getPending()
