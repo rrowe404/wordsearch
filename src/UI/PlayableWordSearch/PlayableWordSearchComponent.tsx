@@ -14,6 +14,7 @@ import { WordList } from './WordList/WordList';
 import { PlayableWordSearchContextProvider } from './PlayableWordSearchContextProvider';
 import { Title } from './Title/Title';
 import { PendingLetterTracker } from 'src/Rules/PendingLetterTracker/PendingLetterTracker';
+import { Cell } from './Cell/Cell';
 
 interface PlayableWordSearchProps {
   state: WordSearchState;
@@ -119,14 +120,13 @@ export class PlayableWordSearchComponent extends React.Component<
                   <div className='row' key={row}>
                     {this.state.columns.map((column) => {
                       return (
-                        <div
+                        <Cell
                           key={`${row}-${column}`}
                           onClick={() => this.markLetter(row, column)}
                           className={this.getTdClasses(row, column)}
                           style={this.getTdStyles()}
-                        >
-                          {this.props.state.getValueAt(row, column)}
-                        </div>
+                          value={this.props.state.getValueAt(row, column)}
+                        />
                       );
                     })}
                   </div>
