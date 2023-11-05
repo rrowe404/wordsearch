@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import { ArrayGenerationService } from 'src/Rules/ArrayGeneration/ArrayGenerationService';
-import { LetterWithPosition } from 'src/Rules/LetterWithPosition/LetterWithPosition';
 import { WordBuilderService } from 'src/Rules/WordBuilder/WordBuilderService';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
 import './PlayableWordSearchComponent.less';
