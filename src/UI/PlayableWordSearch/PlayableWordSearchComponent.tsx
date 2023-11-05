@@ -34,7 +34,6 @@ interface PlayableWordSearchState {
 
   // all lower for comparison purposes. must be updated with wordList.
   lowercaseWordList: string[];
-  wordList: string[];
 
   // keeps track of what has been found
   wordTracker: WordTracker;
@@ -139,7 +138,7 @@ export class PlayableWordSearchComponent extends React.Component<
             </GameWrapper>
 
             <WordListContainer>
-              <WordList wordList={this.state.wordList} />
+              <WordList />
             </WordListContainer>
 
             {winner && <WinIndicator className='win' />}
@@ -227,12 +226,14 @@ export class PlayableWordSearchComponent extends React.Component<
   }
 
   private getAccuratelyCasedWord(offcasedWord: string) {
-    let index = this.state.wordList.findIndex(
+    const { wordList } = this.props.state;
+
+    let index = wordList.findIndex(
       (word) => word.toLowerCase() === offcasedWord.toLowerCase()
     );
 
     if (index > -1) {
-      return this.state.wordList[index];
+      return wordList[index];
     }
 
     return '';
@@ -248,7 +249,6 @@ export class PlayableWordSearchComponent extends React.Component<
     let letterTracker = new LetterTracker();
 
     return {
-      wordList,
       lowercaseWordList: wordList.map((word) => word.toLowerCase()),
       wordTracker,
       letterTracker,

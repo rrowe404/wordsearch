@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { PlayableWordSearchContext } from '../PlayableWordSearchContext';
 
-interface Props {
-  wordList: string[];
-}
-
-const WordList: React.FC<Props> = ({ wordList }) => {
-  const { wordTracker } = React.useContext(PlayableWordSearchContext);
+const WordList: React.FC = () => {
+  const { wordSearchState, wordTracker } = React.useContext(
+    PlayableWordSearchContext
+  );
+  const { wordList } = wordSearchState;
 
   const getWordListWordClasses = (word: string) => {
     let result = ['wordListWord'];
