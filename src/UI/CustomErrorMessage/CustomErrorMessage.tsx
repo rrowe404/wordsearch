@@ -2,27 +2,27 @@ import { ErrorMessage, ErrorMessageProps, FormikErrors } from 'formik';
 import * as React from 'react';
 
 interface CustomErrorMessageProps extends ErrorMessageProps {
-    /** Only pass this for validations like yup.object that won't automatically show up in ErrorMessage */
-    errors?: FormikErrors<any>;
+  /** Only pass this for validations like yup.object that won't automatically show up in ErrorMessage */
+  errors?: FormikErrors<any>;
 }
 
-export class CustomErrorMessage extends React.Component<CustomErrorMessageProps> {
-    render() {
-        return <div className='error'>
-            {this.formikErrorMessage()}
-            {this.nativeErrorMessage()}
-            {/** The space makes the height show up correctly even when there is no error! */}
-            &nbsp;
-        </div>;
-    }
+const FormikErrorMessage: React.FC<CustomErrorMessageProps> = (props) => {
+  return <ErrorMessage {...props} />;
+};
 
-    private formikErrorMessage() {
-        return <ErrorMessage {...this.props} />;
-    }
+const NativeErrorMessage: React.FC<CustomErrorMessageProps> = (props) => {
+  return <>{props.errors ? props.errors[props.name] : null}</>;
+};
 
-    private nativeErrorMessage() {
-        return <>
-            {this.props.errors ? this.props.errors[this.props.name] : null}
-        </>;
-    }
-}
+export const CustomErrorMessage: React.FC<CustomErrorMessageProps> = (
+  props
+) => {
+  return (
+    <div className='error'>
+      <FormikErrorMessage {...props} />
+      <NativeErrorMessage {...props} />
+      {/** The space makes the height show up correctly even when there is no error! */}
+      &nbsp;
+    </div>
+  );
+};

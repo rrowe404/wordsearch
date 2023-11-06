@@ -4,26 +4,21 @@ import { ReduxActions } from '../Redux/ReduxActions';
 import { ReduxConfig } from '../Redux/ReduxConfig';
 import { WordSearchGeneratorFormConnected } from '../WordSearchGeneratorForm/ReactWordSearchGeneratorFormComponent';
 import { WordSearchOutputConnected } from '../WordSearchOutput/WordSearchOutputComponent';
+import './App.less';
 
-interface AppState {
-    store: any;
-}
+const reduxConfig = new ReduxConfig();
+reduxConfig.initialize();
 
-export class AppComponent extends React.Component<{}, AppState> {
-    constructor(props) {
-        super(props);
-        let reduxConfig = new ReduxConfig();
-        reduxConfig.initialize();
-        this.state = { store: reduxConfig.store };
-        reduxConfig.store.dispatch({ type: ReduxActions.SetWords, words: [] });
-    }
+const AppComponent: React.FC = () => {
+  const [store] = React.useState(reduxConfig.store);
+  store.dispatch({ type: ReduxActions.SetWords, words: [] });
 
-    render() {
-        return (
-            <Provider store={this.state.store}>
-                <WordSearchGeneratorFormConnected />
-                <WordSearchOutputConnected />
-            </Provider>
-        );
-    }
-}
+  return (
+    <Provider store={store}>
+      <WordSearchGeneratorFormConnected />
+      <WordSearchOutputConnected />
+    </Provider>
+  );
+};
+
+export { AppComponent };

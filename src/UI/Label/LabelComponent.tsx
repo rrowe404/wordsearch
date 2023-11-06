@@ -1,15 +1,12 @@
 import * as React from 'react';
+import { LabelProps } from './LabelProps';
 
-export class LabelComponent extends React.Component {
-    constructor(public props) {
-        super(props);
-    }
+const LabelComponent: React.FC<LabelProps> = ({ label }) => {
+  if (!label) {
+    return null;
+  }
 
-    render() {
-        if (!this.props.label) {
-            return null;
-        }
+  return <label>{label}</label>;
+};
 
-        return ( <label>{this.props.label}</label> );
-    }
-}
+export { LabelComponent };

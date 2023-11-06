@@ -1,7 +1,7 @@
-import { WordSearchState } from '../WordSearchState/WordSearchState';
+import { WordSearchGenerationOptions } from '../WordSearchGenerationOptions/WordSearchGenerationOptions';
 
 export interface WordValidator {
-    getErrorKey(): string;
-    getMessage(word: string): string;
-    validate(currentState: WordSearchState, word: string);
+  getErrorKey(): string;
+  getMessage(word: string): string;
+  validate(options: WordSearchGenerationOptions, word: string);
 }

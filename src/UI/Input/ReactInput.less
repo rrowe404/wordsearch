@@ -1,18 +1,27 @@
-@shrank: 0.75em;
+@import (reference) "../Styles/Variables.less";
 
 .input-container {
     flex-grow: 1;
 
     label {
+        display: inline-block;
+        margin-bottom: 0.5rem;
         font-size: 0.8em;
         opacity: 0.9;
     }
 
     input[type='text'],
     input[type='number'] {
+        background: var(--input-bg-color);
+        color: var(--input-text-color);
         box-sizing: border-box;
         display: block;
         width: 100%;
+        outline: none;
+
+        &:focus {
+            box-shadow: 0px 0px 1rem 1px var(--input-focus-color);
+        }
     }
 
     .error {

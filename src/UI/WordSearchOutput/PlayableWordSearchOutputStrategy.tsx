@@ -7,16 +7,23 @@ import { PlayableWordSearchComponent } from 'src/UI/PlayableWordSearch/PlayableW
  * This one doesn't need to implement the abtract base class --
  * it's just going to fire an event to activate the playable game component
  */
-export class PlayableWordSearchOutputStrategy implements WordSearchOutputStrategy {
-    public static getValue() {
-        return 'playable';
-    }
+export class PlayableWordSearchOutputStrategy
+  implements WordSearchOutputStrategy
+{
+  public static getValue() {
+    return 'playable';
+  }
 
-    public static getViewValue() {
-        return 'Playable';
-    }
+  public static getViewValue() {
+    return 'Playable';
+  }
 
-    output(currentState: WordSearchState) {
-        return <PlayableWordSearchComponent key={JSON.stringify(currentState)} state={currentState} />;
-    }
+  output(currentState: WordSearchState) {
+    return (
+      <PlayableWordSearchComponent
+        key={JSON.stringify(currentState)}
+        wordSearchState={currentState}
+      />
+    );
+  }
 }
