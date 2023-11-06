@@ -1,3 +1,0 @@
-- get lint working again
-- prod mode (no console option, minified, real server, etc)
-- docker + ci/cd
