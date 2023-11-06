@@ -24,7 +24,7 @@ describe('useLetterTracker', (): void => {
       tracker.completeLetters(A);
     });
 
-    waitFor(() => {
+    void waitFor(() => {
       expect(tracker.isLetterComplete(A)).toBeTruthy();
     });
   });

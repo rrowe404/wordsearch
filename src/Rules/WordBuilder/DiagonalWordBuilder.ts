@@ -14,7 +14,7 @@ export class DiagonalWordBuilder implements WordBuilder {
   ): WordBuilderResult {
     let result: WordBuilderResult;
 
-    let isTopDown = this.isTopDown(start, end);
+    const isTopDown = this.isTopDown(start, end);
 
     if (isTopDown) {
       result = this.buildTopDown(currentState, start, end);
@@ -22,7 +22,7 @@ export class DiagonalWordBuilder implements WordBuilder {
       result = this.buildBottomUp(currentState, start, end);
     }
 
-    let isBackwards = isTopDown
+    const isBackwards = isTopDown
       ? start.row > end.row && start.column > end.column
       : start.row > end.row && start.column < end.column;
 
@@ -55,16 +55,16 @@ export class DiagonalWordBuilder implements WordBuilder {
   ) {
     let word = '';
 
-    let startRow = Math.min(start.row, end.row);
-    let endRow = Math.max(start.row, end.row);
+    const startRow = Math.min(start.row, end.row);
+    const endRow = Math.max(start.row, end.row);
 
-    let startColumn = Math.min(start.column, end.column);
+    const startColumn = Math.min(start.column, end.column);
 
     let column = startColumn;
-    let lettersWithPositions = [];
+    const lettersWithPositions = [];
 
     for (let row = startRow; row <= endRow; row++) {
-      let letter = currentState.getValueAt(row, column);
+      const letter = currentState.getValueAt(row, column);
       word += letter;
       lettersWithPositions.push({ letter, row, column });
       column++;
@@ -83,16 +83,16 @@ export class DiagonalWordBuilder implements WordBuilder {
   ) {
     let word = '';
 
-    let startRow = Math.min(start.row, end.row);
-    let endRow = Math.max(start.row, end.row);
+    const startRow = Math.min(start.row, end.row);
+    const endRow = Math.max(start.row, end.row);
 
-    let startColumn = Math.max(start.column, end.column);
+    const startColumn = Math.max(start.column, end.column);
 
     let column = startColumn;
-    let lettersWithPositions = [];
+    const lettersWithPositions = [];
 
     for (let row = startRow; row <= endRow; row++) {
-      let letter = currentState.getValueAt(row, column);
+      const letter = currentState.getValueAt(row, column);
       word += letter;
       lettersWithPositions.push({ letter, row, column });
       column--;

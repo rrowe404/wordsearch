@@ -1,4 +1,3 @@
-import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordValidator } from './WordValidator';
 
 export class NoBlankValidator implements WordValidator {

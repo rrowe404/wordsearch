@@ -30,7 +30,10 @@ export class WordPlacementService {
       state = this.wordSearchStateFactory.createWordSearchCopy(currentState);
 
       state.words.forEach((word) => {
-        let place = !this.wordValidationService.hasErrors(state.options, word);
+        const place = !this.wordValidationService.hasErrors(
+          state.options,
+          word
+        );
 
         if (place) {
           this.placeWord(state, word);
@@ -56,9 +59,9 @@ export class WordPlacementService {
 
   private placeWord(currentState: WordSearchState, word: string) {
     // prevent reversed words from showing up reversed in word list
-    let logWord = word;
+    const logWord = word;
 
-    let orientation = this.randomNumberGeneratorService.getRandomValueFrom(
+    const orientation = this.randomNumberGeneratorService.getRandomValueFrom(
       currentState.orientations
     );
 
@@ -66,7 +69,7 @@ export class WordPlacementService {
       word = this.stringUtils.reverseWord(word);
     }
 
-    let startParams = this.getStartParameters(currentState, word);
+    const startParams = this.getStartParameters(currentState, word);
 
     if (startParams && startParams.startPosition) {
       this.placeLetters(currentState, word, startParams);
@@ -79,7 +82,10 @@ export class WordPlacementService {
   }
 
   private handleRejectedWord(currentState: WordSearchState, word: string) {
-    let error = this.wordValidationService.getError(currentState.options, word);
+    const error = this.wordValidationService.getError(
+      currentState.options,
+      word
+    );
 
     // tslint:disable-next-line
     console.log(error);
@@ -98,21 +104,21 @@ export class WordPlacementService {
     currentState: WordSearchState,
     word: string
   ): WordStartParameters {
-    let validDirections = this.wordDirectionSelectorService.selectDirections(
+    const validDirections = this.wordDirectionSelectorService.selectDirections(
       currentState,
       word
     );
     let attemptedDirections = [];
 
-    let startPosition = null;
+    let startPosition: WordPosition = null;
     let positionService: WordPositionServiceBase;
     let zealousOverlaps = currentState.zealousOverlaps;
 
     do {
-      let directionsLeftToAttempt = validDirections.filter(
+      const directionsLeftToAttempt = validDirections.filter(
         (d) => !attemptedDirections.includes(d)
       );
-      let direction = this.randomNumberGeneratorService.getRandomValueFrom(
+      const direction = this.randomNumberGeneratorService.getRandomValueFrom(
         directionsLeftToAttempt
       );
 
@@ -157,7 +163,7 @@ export class WordPlacementService {
   private getZealousOverlappingStartPositions(
     validStartPositions: WordPosition[]
   ) {
-    let overlappingStartPositions = validStartPositions.filter(
+    const overlappingStartPositions = validStartPositions.filter(
       (p) => p.hasOverlaps
     );
 
@@ -169,12 +175,12 @@ export class WordPlacementService {
     word: string,
     startParams: WordStartParameters
   ) {
-    let letters = word.split('');
-    let length = letters.length;
+    const letters = word.split('');
+    const length = letters.length;
 
     // place the letters into position
     for (let i = 0; i < length; i++) {
-      let nextPosition = startParams.positionService.getNextPosition(
+      const nextPosition = startParams.positionService.getNextPosition(
         startParams.startPosition,
         i
       );

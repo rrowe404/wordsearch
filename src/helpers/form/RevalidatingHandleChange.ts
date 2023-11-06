@@ -1,12 +1,13 @@
 import { FormikProps } from 'formik';
+import * as React from 'react';
 
 /** a couple of the fields like Columns and Rows can affect the validity of other fields if they are changed */
-let revalidatingHandleChange = (
+function revalidatingHandleChange<T>(
   e: React.ChangeEvent,
-  props: FormikProps<any>
-) => {
+  props: FormikProps<T>
+): void {
   props.handleChange(e);
-  props.validateForm();
-};
+  void props.validateForm();
+}
 
 export { revalidatingHandleChange };

@@ -3,68 +3,74 @@ import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { TestUtils } from '../TestUtils/TestUtils';
 
 describe('VerticalWordBuilder', () => {
-    let service: VerticalWordBuilder;
+  let service: VerticalWordBuilder;
 
-    function createState(matrix: string[][]): WordSearchState {
-        let state = new WordSearchState();
-        let options = TestUtils.createOptions(matrix);
-        state.setOptions(options);
-        state.seedMatrix(matrix);
+  function createState(matrix: string[][]): WordSearchState {
+    const state = new WordSearchState();
+    const options = TestUtils.createOptions(matrix);
+    state.setOptions(options);
+    state.seedMatrix(matrix);
 
-        return state;
-    }
+    return state;
+  }
 
-    beforeEach(() => {
-        service = new VerticalWordBuilder();
-    });
+  beforeEach(() => {
+    service = new VerticalWordBuilder();
+  });
 
-    it('should create the service', () => {
-        expect(service).toBeTruthy();
-    });
+  it('should create the service', () => {
+    expect(service).toBeTruthy();
+  });
 
-    it('should correctly identify a forwards word', () => {
-        let matrix = [
-            ['w', 't', 'h'],
-            ['a', 'h', 'e'],
-            ['t', 'e', 'c']
-        ];
+  it('should correctly identify a forwards word', () => {
+    const matrix = [
+      ['w', 't', 'h'],
+      ['a', 'h', 'e'],
+      ['t', 'e', 'c'],
+    ];
 
-        let state = createState(matrix);
-        let start = { letter: 'w', row: 0, column: 0 };
-        let end = { letter: 't', row: 2, column: 0 };
+    const state = createState(matrix);
+    const start = { letter: 'w', row: 0, column: 0 };
+    const end = { letter: 't', row: 2, column: 0 };
 
-        let result = service.build(state, start, end);
+    const result = service.build(state, start, end);
 
-        let expectedLettersWithPositions = [
-            start,
-            { letter: 'a', row: 1, column: 0 },
-            end
-        ];
+    const expectedLettersWithPositions = [
+      start,
+      { letter: 'a', row: 1, column: 0 },
+      end,
+    ];
 
-        expect(result.word).toBe('wat');
-        TestUtils.testArrayEquivalency(result.lettersWithPositions, expectedLettersWithPositions);
-    });
+    expect(result.word).toBe('wat');
+    TestUtils.testArrayEquivalency(
+      result.lettersWithPositions,
+      expectedLettersWithPositions
+    );
+  });
 
-    it('should correctly identify a backwards word',  () => {
-        let matrix = [
-            ['t', 't', 'h'],
-            ['a', 'h', 'e'],
-            ['w', 'e', 'c']
-        ];
+  it('should correctly identify a backwards word', () => {
+    const matrix = [
+      ['t', 't', 'h'],
+      ['a', 'h', 'e'],
+      ['w', 'e', 'c'],
+    ];
 
-        let state = createState(matrix);
-        let start = { letter: 'w', row: 2, column: 0 };
-        let end = { letter: 't', row: 0, column: 0 };
+    const state = createState(matrix);
+    const start = { letter: 'w', row: 2, column: 0 };
+    const end = { letter: 't', row: 0, column: 0 };
 
-        let result = service.build(state, start, end);
+    const result = service.build(state, start, end);
 
-        let expectedLettersWithPositions = [
-            end,
-            { letter: 'a', row: 1, column: 0 },
-            start
-        ];
+    const expectedLettersWithPositions = [
+      end,
+      { letter: 'a', row: 1, column: 0 },
+      start,
+    ];
 
-        expect(result.word).toBe('wat');
-        TestUtils.testArrayEquivalency(result.lettersWithPositions, expectedLettersWithPositions);
-    });
+    expect(result.word).toBe('wat');
+    TestUtils.testArrayEquivalency(
+      result.lettersWithPositions,
+      expectedLettersWithPositions
+    );
+  });
 });

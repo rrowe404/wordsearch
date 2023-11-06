@@ -12,7 +12,7 @@ describe('LetterPlaceholderFillService', () => {
     matrix: string[][],
     options?: WordSearchGenerationOptions
   ): WordSearchState {
-    let state = new WordSearchState();
+    const state = new WordSearchState();
     options = options || TestUtils.createOptions(matrix);
     state.setOptions(options);
     state.seedMatrix(matrix);
@@ -21,7 +21,7 @@ describe('LetterPlaceholderFillService', () => {
   }
 
   function expectCompleteResult(result: WordSearchState) {
-    result.iterate((letter, row, column) => {
+    result.iterate((letter) => {
       expect(typeof letter).toBe('string');
       expect(letter).not.toBe(LetterPlaceholder.value);
     });
@@ -37,35 +37,35 @@ describe('LetterPlaceholderFillService', () => {
   });
 
   it('should fill a partially filled matrix', () => {
-    let matrix = [
+    const matrix = [
       ['a', 'b', 'c'],
       ['d', 'e', 'f'],
       ['g', LetterPlaceholder.value, 'i'],
     ];
 
-    let state = createState(matrix);
+    const state = createState(matrix);
 
-    let result = service.fill(state);
+    const result = service.fill(state);
 
     expectCompleteResult(result);
   });
 
   it('should not modify the original', () => {
-    let matrix = [
+    const matrix = [
       ['a', 'b', 'c'],
       ['d', 'e', 'f'],
       ['g', LetterPlaceholder.value, 'i'],
     ];
 
-    let state = createState(matrix);
+    const state = createState(matrix);
 
-    let result = service.fill(state);
+    const result = service.fill(state);
 
     expect(state).not.toBe(result);
   });
 
   it('should ensure no profanity remains in the final product if the option is selected', () => {
-    let matrix = [
+    const matrix = [
       [
         LetterPlaceholder.value,
         LetterPlaceholder.value,
@@ -93,13 +93,13 @@ describe('LetterPlaceholderFillService', () => {
       .mockReturnValueOnce('e')
       .mockReturnValueOnce('l');
 
-    let options = TestUtils.createOptions(matrix);
+    const options = TestUtils.createOptions(matrix);
     options.filterAccidentalProfanity = true;
 
-    let state = createState(matrix, options);
+    const state = createState(matrix, options);
 
-    let result = service.fill(state);
-    let filteredResult = service.profanityFilterService.filterProfanity(
+    const result = service.fill(state);
+    const filteredResult = service.profanityFilterService.filterProfanity(
       result,
       []
     );

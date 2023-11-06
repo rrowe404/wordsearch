@@ -6,25 +6,25 @@ import { WordPlacementService } from '../WordPlacement/WordPlacementService';
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 
 export class WordSearchGenerationService {
-    private letterCasingService = new LetterCasingService();
-    private letterPlaceholderFillService = new LetterPlaceholderFillService();
-    private wordPlacementService = new WordPlacementService();
-    private wordSearchStateFactory = new WordSearchStateFactory();
+  private letterCasingService = new LetterCasingService();
+  private letterPlaceholderFillService = new LetterPlaceholderFillService();
+  private wordPlacementService = new WordPlacementService();
+  private wordSearchStateFactory = new WordSearchStateFactory();
 
-    public generateWordSearch(options: WordSearchGenerationOptions) {
-        // generate blank matrix
-        let wordSearch = this.wordSearchStateFactory.createWordSearch(options);
+  public generateWordSearch(options: WordSearchGenerationOptions) {
+    // generate blank matrix
+    let wordSearch = this.wordSearchStateFactory.createWordSearch(options);
 
-        let transforms: Array<(state: WordSearchState) => WordSearchState> = [
-            (state) => this.wordPlacementService.placeWords(state),
-            (state) => this.letterPlaceholderFillService.fill(state),
-            (state) => this.letterCasingService.case(state)
-        ];
+    const transforms: Array<(state: WordSearchState) => WordSearchState> = [
+      (state) => this.wordPlacementService.placeWords(state),
+      (state) => this.letterPlaceholderFillService.fill(state),
+      (state) => this.letterCasingService.case(state),
+    ];
 
-        transforms.forEach(transform => {
-            wordSearch = transform(wordSearch);
-        });
+    transforms.forEach((transform) => {
+      wordSearch = transform(wordSearch);
+    });
 
-        return wordSearch;
-    }
+    return wordSearch;
+  }
 }
