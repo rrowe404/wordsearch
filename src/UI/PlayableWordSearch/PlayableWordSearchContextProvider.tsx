@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { LetterTracker } from 'src/Rules/LetterTracker/LetterTracker';
-import { PendingLetterTracker } from 'src/Rules/PendingLetterTracker/PendingLetterTracker';
+import { LetterTracker } from 'src/Rules/LetterTracker/useLetterTracker';
+import { PendingLetterTracker } from 'src/Rules/PendingLetterTracker/usePendingLetterTracker';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
-import { WordTracker } from 'src/Rules/WordTracker/WordTracker';
+import { WordTracker } from 'src/Rules/WordTracker/useWordTracker';
 import { PlayableWordSearchContext } from './PlayableWordSearchContext';
 
 interface Props extends React.PropsWithChildren {
