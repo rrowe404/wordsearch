@@ -8,7 +8,7 @@ const WordList: React.FC = () => {
   const { wordList } = wordSearchState;
 
   const getWordListWordClasses = (word: string) => {
-    let result = ['wordListWord'];
+    const result = ['wordListWord'];
 
     if (wordTracker.isWordComplete(word)) {
       result.push('completed');

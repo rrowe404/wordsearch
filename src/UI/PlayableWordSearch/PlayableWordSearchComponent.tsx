@@ -42,13 +42,13 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
       return;
     }
 
-    let wordBuilderResult = wordBuilderService.build(
+    const wordBuilderResult = wordBuilderService.build(
       wordSearchState,
       startLetterTracker.pending,
       endLetterTracker.pending
     );
 
-    let accuratelyCasedWord = getAccuratelyCasedWord(wordBuilderResult?.word);
+    const accuratelyCasedWord = getAccuratelyCasedWord(wordBuilderResult?.word);
 
     if (accuratelyCasedWord) {
       wordTracker.completeWord(accuratelyCasedWord);

@@ -22,15 +22,15 @@ const WordSearchOutputComponent: React.FC<Props> = ({ wordSearchState }) => {
     return <WordSearchOutputContainer />;
   }
 
-  let output = wordSearchOutputStrategyFactory.createOutputStrategy(
+  const output = wordSearchOutputStrategyFactory.createOutputStrategy(
     wordSearchState.outputOption
   );
-  let jsx = output.output(wordSearchState);
+  const jsx = output.output(wordSearchState);
 
   return <WordSearchOutputContainer>{jsx}</WordSearchOutputContainer>;
 };
 
-let mapStateToProps = (state: ReduxState) => ({
+const mapStateToProps = (state: ReduxState) => ({
   wordSearchState: state.wordSearchState,
 });
 

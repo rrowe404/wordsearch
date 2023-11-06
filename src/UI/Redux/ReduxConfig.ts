@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import { ReduxActions } from './ReduxActions';
 
 function reducer(state, action) {
@@ -20,7 +20,7 @@ function reducer(state, action) {
 }
 
 export class ReduxConfig {
-  store;
+  store: EnhancedStore;
 
   initialize() {
     this.store = configureStore({ reducer });

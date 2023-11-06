@@ -1,3 +1,4 @@
+import { EnhancedStore } from '@reduxjs/toolkit';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { ReduxActions } from '../Redux/ReduxActions';
@@ -10,7 +11,7 @@ const reduxConfig = new ReduxConfig();
 reduxConfig.initialize();
 
 const AppComponent: React.FC = () => {
-  const [store] = React.useState(reduxConfig.store);
+  const [store] = React.useState<EnhancedStore>(reduxConfig.store);
   store.dispatch({ type: ReduxActions.SetWords, words: [] });
 
   return (

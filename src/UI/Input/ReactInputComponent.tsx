@@ -2,22 +2,21 @@ import * as React from 'react';
 import { InputProps } from './InputProps';
 import { Field } from 'formik';
 import { LabelComponent } from '../Label/LabelComponent';
-import * as _ from 'lodash';
 import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
 import './ReactInput.less';
 
-const InputComponent: React.FC<InputProps<any>> = ({
+const InputComponent: React.FC<InputProps<unknown>> = ({
   autofocus,
   inputType = 'text',
   label,
   name,
   updated,
-  validate = () => null,
+  validate,
   value,
 }) => {
   const hasAutofocused = React.useRef(false);
 
-  function doAutofocus(ref) {
+  function doAutofocus(ref: HTMLInputElement) {
     if (ref && autofocus && !hasAutofocused.current) {
       ref.focus();
       hasAutofocused.current = true;
@@ -28,12 +27,12 @@ const InputComponent: React.FC<InputProps<any>> = ({
     <div className='input-container'>
       <LabelComponent label={label} />
       <Field
-        innerRef={(ref) => doAutofocus(ref)}
-        onChange={(e) => updated(e)}
+        innerRef={(ref: HTMLInputElement) => doAutofocus(ref)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => updated(e)}
         type={inputType}
         name={name}
         value={value}
-        validate={(val) => validate(val)}
+        validate={(val: string) => validate && validate(val)}
       ></Field>
       <CustomErrorMessage name={name} />
     </div>
