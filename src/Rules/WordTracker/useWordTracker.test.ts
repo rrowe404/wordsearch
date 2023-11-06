@@ -4,7 +4,6 @@
 
 import { renderHook, waitFor } from '@testing-library/react';
 import { useWordTracker } from './useWordTracker';
-import { WordTracker } from './WordTracker';
 
 describe('useWordTracker', (): void => {
   it('should track words', (): void => {

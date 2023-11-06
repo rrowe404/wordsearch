@@ -64,9 +64,9 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
   }, [startLetterTracker.pending, endLetterTracker.pending]);
 
   const onResize = React.useCallback(
-    (size: SizeTrackerResize) => {
+    (resize: SizeTrackerResize) => {
       // gotta fit, so take the smaller of the two
-      let basis = Math.floor(Math.min(size.width, size.height));
+      let basis = Math.floor(Math.min(resize.width, resize.height));
       let newLetterSize = Math.floor(basis / columns);
 
       // max size
@@ -94,9 +94,7 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
       return null;
     }
 
-    const { wordList } = wordSearchState;
-
-    let index = wordList.findIndex(
+    const index = wordList.findIndex(
       (word) => word.toLowerCase() === offcasedWord.toLowerCase()
     );
 
@@ -120,7 +118,7 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
   return (
     <SizeTrackerComponent
       className='full-height'
-      onResize={(size) => onResize(size)}
+      onResize={(resize) => onResize(resize)}
     >
       <PlayableWordSearchContextProvider
         letterSize={letterSize}

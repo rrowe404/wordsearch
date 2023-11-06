@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 export interface WordTracker {
   completeWord: (word: string) => void;
-  isComplete(): boolean;
   isWordComplete: (word: string) => boolean;
+  isComplete(): boolean;
 }
 
 export const useWordTracker = (words: string[]): WordTracker => {
