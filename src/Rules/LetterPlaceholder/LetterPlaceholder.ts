@@ -1,3 +1,3 @@
 export class LetterPlaceholder {
-    static value = null;
+  static value: null = null;
 }

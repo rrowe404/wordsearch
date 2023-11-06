@@ -5,67 +5,62 @@ import { LetterPlaceholder } from '../LetterPlaceholder/LetterPlaceholder';
 import { WordPosition } from './WordPosition';
 
 describe('BottomUpDiagonalWordPositionService', () => {
-    let service: BottomUpDiagonalWordPositionService;
+  let service: BottomUpDiagonalWordPositionService;
 
-    function createState(matrix: string[][]): WordSearchState {
-        let state = new WordSearchState();
-        let options = TestUtils.createOptions(matrix);
-        state.setOptions(options);
-        state.seedMatrix(matrix);
+  function createState(matrix: string[][]): WordSearchState {
+    const state = new WordSearchState();
+    const options = TestUtils.createOptions(matrix);
+    state.setOptions(options);
+    state.seedMatrix(matrix);
 
-        return state;
-    }
+    return state;
+  }
 
-    beforeEach(() => {
-        service = new BottomUpDiagonalWordPositionService();
-    });
+  beforeEach(() => {
+    service = new BottomUpDiagonalWordPositionService();
+  });
 
-    it('should create the service', () => {
-        expect(service).toBeTruthy();
-    });
+  it('should create the service', () => {
+    expect(service).toBeTruthy();
+  });
 
-    it('should return valid data for a blank matrix', () => {
-        let n = LetterPlaceholder.value;
+  it('should return valid data for a blank matrix', () => {
+    const n = LetterPlaceholder.value;
 
-        let matrix = [
-            [n, n, n],
-            [n, n, n],
-            [n, n, n]
-        ];
+    const matrix = [
+      [n, n, n],
+      [n, n, n],
+      [n, n, n],
+    ];
 
-        let state = createState(matrix);
+    const state = createState(matrix);
 
-        let word = 'pig';
+    const word = 'pig';
 
-        let result = service.getValidStartPositions(state, word);
+    const result = service.getValidStartPositions(state, word);
 
-        let expected: WordPosition[] = [
-            { column: 0, row: 2 }
-        ];
+    const expected: WordPosition[] = [{ column: 0, row: 2 }];
 
-        TestUtils.testArrayEquivalency(result, expected);
-    });
+    TestUtils.testArrayEquivalency(result, expected);
+  });
 
+  it('should return valid data for a matrix with overlaps', () => {
+    const n = LetterPlaceholder.value;
 
-    it('should return valid data for a matrix with overlaps', () => {
-        let n = LetterPlaceholder.value;
+    const matrix = [
+      [n, n, n],
+      [n, 'i', n],
+      [n, n, n],
+    ];
 
-        let matrix = [
-            [n,  n,  n],
-            [n, 'i', n],
-            [n,  n,  n]
-        ];
+    const state = createState(matrix);
 
-        let state = createState(matrix);
+    const word = 'pig';
 
-        let word = 'pig';
+    const result = service.getValidStartPositions(state, word);
 
-        let result = service.getValidStartPositions(state, word);
+    const expected: WordPosition[] = [{ column: 0, row: 2, hasOverlaps: true }];
 
-        let expected: WordPosition[] = [
-            { column: 0, row: 2, hasOverlaps: true }
-        ];
-
-        TestUtils.testArrayEquivalency(result, expected);
-    });
+    TestUtils.testArrayEquivalency(result, expected);
+  });
 });

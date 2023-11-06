@@ -3,6 +3,7 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import { useWordTracker } from './useWordTracker';
 
 describe('useWordTracker', (): void => {
@@ -14,15 +15,19 @@ describe('useWordTracker', (): void => {
     expect(tracker.isWordComplete('hi')).toBeFalsy();
     expect(tracker.isWordComplete('bye')).toBeFalsy();
 
-    tracker.completeWord('hi');
+    act(() => {
+      tracker.completeWord('hi');
+    });
 
-    waitFor(() => {
+    void waitFor(() => {
       expect(tracker.isWordComplete('hi')).toBeTruthy();
     });
 
-    tracker.completeWord('bye');
+    act(() => {
+      tracker.completeWord('bye');
+    });
 
-    waitFor(() => {
+    void waitFor(() => {
       expect(tracker.isWordComplete('bye')).toBeTruthy();
       expect(tracker.isComplete()).toBeTruthy();
     });

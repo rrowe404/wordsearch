@@ -1,5 +1,4 @@
 import { WordValidator } from './WordValidator';
-import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { NoSpaceValidator } from './NoSpaceValidator';
 import { WordLengthValidator } from './WordLengthValidator';
 import { NoBlankValidator } from './NoBlankValidator';
@@ -16,7 +15,7 @@ export class WordValidationService {
     options: WordSearchGenerationOptions,
     word: string
   ): string | null {
-    let violatedValidator = this.validators.find(
+    const violatedValidator = this.validators.find(
       (validator) => !validator.validate(options, word)
     );
 

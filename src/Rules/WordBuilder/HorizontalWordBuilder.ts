@@ -12,16 +12,16 @@ export class HorizontalWordBuilder implements WordBuilder {
     start: Position,
     end: Position
   ): WordBuilderResult {
-    let lettersWithPositions = [];
-    let row = start.row;
+    const lettersWithPositions = [];
+    const row = start.row;
     let word = '';
-    let startColumn = Math.min(start.column, end.column);
-    let endColumn = Math.max(start.column, end.column);
+    const startColumn = Math.min(start.column, end.column);
+    const endColumn = Math.max(start.column, end.column);
 
-    let isBackwards = start.column > end.column;
+    const isBackwards = start.column > end.column;
 
     for (let column = startColumn; column <= endColumn; column++) {
-      let letter = currentState.getValueAt(row, column);
+      const letter = currentState.getValueAt(row, column);
       word += letter;
       lettersWithPositions.push({ letter, row, column });
     }

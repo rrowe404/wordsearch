@@ -4,7 +4,7 @@ import { LabelComponent } from '../Label/LabelComponent';
 import { DropdownProps } from './DropdownProps';
 import './Dropdown.less';
 
-const DropdownComponent: React.FC<DropdownProps> = ({
+const DropdownComponent: React.FC<DropdownProps<string | number>> = ({
   label,
   name,
   options,
@@ -13,7 +13,7 @@ const DropdownComponent: React.FC<DropdownProps> = ({
   return (
     <div className='dropdown-container'>
       <LabelComponent label={label} />
-      <Field as='select' name={name} onChange={(e) => updated(e)}>
+      <Field as='select' name={name} onChange={(e: string) => updated(e)}>
         {options.map((option) => {
           return (
             <option value={option.value} key={option.value}>
