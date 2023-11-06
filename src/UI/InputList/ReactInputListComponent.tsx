@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as React from 'react';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
 import { InputComponent } from '../Input/ReactInputComponent';
@@ -21,8 +20,7 @@ const InputListComponent: React.FC<InputListProps> = ({
   const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(e);
 
-    const index = _.findIndex(
-      inputs,
+    const index = inputs.findIndex(
       (i: Input<string>) => i.name === e.target.name
     );
     const inputsCopy = [...inputs];
