@@ -15,6 +15,7 @@ import './PlayableWordSearchComponent.less';
 import { usePendingLetterTracker } from 'src/Rules/PendingLetterTracker/usePendingLetterTracker';
 import { useLetterTracker } from 'src/Rules/LetterTracker/useLetterTracker';
 import { useWordTracker } from 'src/Rules/WordTracker/useWordTracker';
+import { Position } from 'src/Rules/Position/Position';
 
 // these are kinda magical, just numbers that feel good
 const MIN_LETTER_SIZE = 10;
@@ -106,17 +107,11 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
     return '';
   };
 
-  const markLetter = (row: number, column: number) => {
-    let letterWithPosition = {
-      row,
-      column,
-      letter: wordSearchState.getValueAt(row, column),
-    };
-
+  const markLetter = (position: Position) => {
     if (startLetterTracker.hasPending()) {
-      endLetterTracker.setPending(letterWithPosition);
+      endLetterTracker.setPending(position);
     } else {
-      startLetterTracker.setPending(letterWithPosition);
+      startLetterTracker.setPending(position);
     }
   };
 
@@ -142,11 +137,13 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
               return (
                 <div className='row' key={row}>
                   {size.columns.map((column) => {
+                    const position = { row, column };
+
                     return (
                       <Cell
                         key={`${row}-${column}`}
-                        onClick={() => markLetter(row, column)}
-                        position={{ row, column }}
+                        onClick={() => markLetter(position)}
+                        position={position}
                       />
                     );
                   })}
