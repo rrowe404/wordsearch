@@ -13,7 +13,7 @@ const Cell: React.FC<Props> = ({ onClick, position }) => {
     React.useContext(PlayableWordSearchContext);
 
   const getTdClasses = () => {
-    let result = ['cell'];
+    const result = ['cell'];
 
     if (letterTracker.isLetterComplete(position)) {
       result.push('completed');

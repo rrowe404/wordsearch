@@ -21,12 +21,12 @@ const InputListComponent: React.FC<InputListProps> = ({
   const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(e);
 
-    let index = _.findIndex(
+    const index = _.findIndex(
       inputs,
       (i: Input<string>) => i.name === e.target.name
     );
     const inputsCopy = [...inputs];
-    let input = inputsCopy[index];
+    const input = inputsCopy[index];
     input.value = e.target.value;
 
     inputsCopy.splice(index, 1, input);
@@ -37,14 +37,14 @@ const InputListComponent: React.FC<InputListProps> = ({
   };
 
   const addSlot = () => {
-    let inputsCopy = [...inputs];
+    const inputsCopy = [...inputs];
     inputsCopy.push({ name: getNextName(), value: '' });
 
     setInputs(inputsCopy);
   };
 
   const removeSlot = (event, index: number) => {
-    let inputsCopy = [...inputs];
+    const inputsCopy = [...inputs];
     inputsCopy.splice(index, 1);
 
     setInputs(inputsCopy);

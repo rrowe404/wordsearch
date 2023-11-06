@@ -2,8 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { renderHook, waitFor } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
 import { useLetterTracker } from './useLetterTracker';
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 
 interface CustomErrorMessageProps extends ErrorMessageProps {
   /** Only pass this for validations like yup.object that won't automatically show up in ErrorMessage */
-  errors?: FormikErrors<any>;
+  errors?: FormikErrors<unknown>;
 }
 
 const FormikErrorMessage: React.FC<CustomErrorMessageProps> = (props) => {

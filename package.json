@@ -5,7 +5,7 @@
     "start": "npx webpack serve --config webpack.dev.js",
     "build": "npx webpack --config webpack.prod.js",
     "test": "npx jest",
-    "lint": "eslint -c .eslintrc.js --ext .ts .",
+    "lint": "eslint -c .eslintrc.js --ext .ts,.tsx .",
     "deploy": "ng deploy --base-href=/wordsearch/"
   },
   "private": true,

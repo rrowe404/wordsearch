@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as yup from 'yup';
-import * as _ from 'lodash';
 import { CardComponent } from '../Card/ReactCardComponent';
 import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
 import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
@@ -33,7 +32,7 @@ interface StateProps {
   words: string[];
 }
 
-let mapStateToProps = (state: ReduxState) => ({
+const mapStateToProps = (state: ReduxState) => ({
   words: state.words,
 });
 
@@ -59,11 +58,13 @@ const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch, words }) => {
       .test(
         'direction',
         'At least one direction must be selected!',
-        function (value) {
+        function () {
+          const parent = this.parent as WordSearchGenerationOptions;
+
           return (
-            this.parent.allowHorizontal ||
-            this.parent.allowVertical ||
-            this.parent.allowDiagonal
+            parent.allowHorizontal ||
+            parent.allowVertical ||
+            parent.allowDiagonal
           );
         }
       ),
@@ -77,7 +78,7 @@ const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch, words }) => {
   const generate = (values: WordSearchGenerationOptions) => {
     values.words = words;
 
-    let result = wordSearchGenerationService.generateWordSearch(values);
+    const result = wordSearchGenerationService.generateWordSearch(values);
 
     dispatch({
       type: ReduxActions.GenerateWordSearch,
@@ -118,7 +119,9 @@ const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch, words }) => {
 
                   <CustomErrorMessage
                     name='direction'
-                    errors={{ direction: props.errors['direction'] }}
+                    errors={{
+                      direction: props.errors['direction'] as string,
+                    }}
                   />
                 </CardComponent>
 
