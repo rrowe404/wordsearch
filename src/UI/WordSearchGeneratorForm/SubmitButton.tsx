@@ -6,13 +6,15 @@ import { ButtonComponent } from '../Button/ReactButtonComponent';
 const SubmitButton: React.FC<FormikProps<WordSearchGenerationOptions>> = ({
   isValid,
   touched,
-}) => (
-  <ButtonComponent
-    buttonType='submit'
-    color='primary'
-    text='Generate'
-    disabled={!touched || !isValid}
-  />
-);
+}) => {
+  return (
+    <ButtonComponent
+      buttonType='submit'
+      color='primary'
+      text='Generate'
+      disabled={!touched || !isValid}
+    />
+  );
+};
 
 export { SubmitButton };
