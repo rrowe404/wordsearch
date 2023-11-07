@@ -6,6 +6,7 @@ import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
 import './ReactInput.less';
 
 const InputComponent: React.FC<InputProps<unknown>> = ({
+  as = 'input',
   autofocus,
   inputType = 'text',
   label,
@@ -27,6 +28,7 @@ const InputComponent: React.FC<InputProps<unknown>> = ({
     <div className='input-container'>
       <LabelComponent label={label} />
       <Field
+        as={as}
         innerRef={(ref: HTMLInputElement) => doAutofocus(ref)}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => updated(e)}
         type={inputType}
