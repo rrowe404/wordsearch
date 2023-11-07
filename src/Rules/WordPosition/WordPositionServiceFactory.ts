@@ -7,28 +7,29 @@ import { RandomNumberGeneratorService } from '../RandomNumberGenerator/RandomNum
 import { WordPositionServiceBase } from './WordPositionServiceBase';
 
 export class WordPositionServiceFactory {
-    private randomNumberGeneratorService = new RandomNumberGeneratorService();
-    private horizontalWordPositionService = new HorizontalWordPositionService();
-    private verticalWordPositionService = new VerticalWordPositionService();
-    private bottomUpDiagonalWordPositionService = new BottomUpDiagonalWordPositionService();
-    private topDownDiagonalWordPositionService = new TopDownDiagonalWordPositionService();
+  private randomNumberGeneratorService = new RandomNumberGeneratorService();
+  private horizontalWordPositionService = new HorizontalWordPositionService();
+  private verticalWordPositionService = new VerticalWordPositionService();
+  private bottomUpDiagonalWordPositionService =
+    new BottomUpDiagonalWordPositionService();
+  private topDownDiagonalWordPositionService =
+    new TopDownDiagonalWordPositionService();
 
-    public getService(direction: WordDirection): WordPositionServiceBase {
-        switch (direction) {
-            case WordDirection.Horizontal:
-                return this.horizontalWordPositionService;
+  public getService(direction: WordDirection): WordPositionServiceBase {
+    switch (direction) {
+      case WordDirection.Horizontal:
+        return this.horizontalWordPositionService;
 
-            case WordDirection.Vertical:
-                return this.verticalWordPositionService;
+      case WordDirection.Vertical:
+        return this.verticalWordPositionService;
 
-            case WordDirection.Diagonal:
-                return this.randomNumberGeneratorService.flipACoin() ?
-                       this.bottomUpDiagonalWordPositionService :
-                       this.topDownDiagonalWordPositionService;
+      case WordDirection.Diagonal:
+        return this.randomNumberGeneratorService.flipACoin()
+          ? this.bottomUpDiagonalWordPositionService
+          : this.topDownDiagonalWordPositionService;
 
-            default:
-                throw new Error('Not Implemented!');
-        }
-
+      default:
+        throw new Error('Not Implemented!');
     }
+  }
 }
