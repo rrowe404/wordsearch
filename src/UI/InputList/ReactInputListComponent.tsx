@@ -1,79 +1,50 @@
 import * as React from 'react';
-import { ButtonComponent } from '../Button/ReactButtonComponent';
+import { connect, ConnectedProps } from 'react-redux';
 import { InputComponent } from '../Input/ReactInputComponent';
-import { InputListProps } from './InputListProps';
+import { ReduxActions } from '../Redux/ReduxActions';
 import './InputList.less';
-import { Input } from '../Input/Input';
 
-const InputListComponent: React.FC<InputListProps> = ({
-  addSlotButtonText,
+const connector = connect();
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+interface Props {
+  handleChange: (e: React.ChangeEvent) => void;
+}
+
+const WordListComponent: React.FC<Props & PropsFromRedux> = ({
+  dispatch,
   handleChange,
-  updated,
-  validator,
 }) => {
-  const inputCounter = React.useRef(0);
-  const getNextName = () => `input-${inputCounter.current++}`;
-  const [inputs, setInputs] = React.useState<Array<Input<string>>>([
-    { name: getNextName(), value: '' },
-  ]);
-
+  const [value, setValue] = React.useState('');
+  const updateWords = (updatedWords: string[]) => {
+    dispatch({ type: ReduxActions.SetWords, words: updatedWords });
+  };
   const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(e);
 
-    const index = inputs.findIndex(
-      (i: Input<string>) => i.name === e.target.name
-    );
-    const inputsCopy = [...inputs];
-    const input = inputsCopy[index];
-    input.value = e.target.value;
+    const value = e.target.value;
+    setValue(value);
 
-    inputsCopy.splice(index, 1, input);
-
-    setInputs(inputsCopy);
-
-    updated(inputs.filter((val) => !!val).map((i) => i.value));
-  };
-
-  const addSlot = () => {
-    const inputsCopy = [...inputs];
-    inputsCopy.push({ name: getNextName(), value: '' });
-
-    setInputs(inputsCopy);
-  };
-
-  const removeSlot = (event, index: number) => {
-    const inputsCopy = [...inputs];
-    inputsCopy.splice(index, 1);
-
-    setInputs(inputsCopy);
-
-    updated(inputsCopy.map((i) => i.value));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const words: string[] = value.replaceAll(' ', '').split('\n');
+    updateWords(words);
   };
 
   return (
     <div className='inputList'>
-      {inputs.map((input, i) => {
-        return (
-          <div key={input.name} className='input-list-container'>
-            <InputComponent
-              autofocus={i > 0}
-              name={input.name}
-              updated={(e) => handleUpdate(e)}
-              value={input.value}
-              validate={(value) => validator(value)}
-            />
-            <div className='icon' onClick={(e) => removeSlot(e, i)}>
-              ✖
-            </div>
-          </div>
-        );
-      })}
-
-      <div onClick={() => addSlot()}>
-        <ButtonComponent buttonType='button' text={addSlotButtonText} />
+      <div className='input-list-container'>
+        <InputComponent
+          as='textarea'
+          autofocus={true}
+          name='wordList'
+          updated={(e) => handleUpdate(e)}
+          value={value}
+        />
       </div>
     </div>
   );
 };
 
-export { InputListComponent as ReactInputListComponent };
+const WordListComponentConnected = connector(WordListComponent);
+export { WordListComponentConnected };
