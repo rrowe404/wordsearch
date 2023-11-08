@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { InputSanitizer } from 'src/Rules/InputSanitizer/InputSanitizer';
 import { InputComponent } from '../Input/ReactInputComponent';
 import { ReduxActions } from '../Redux/ReduxActions';
 import './WordList.less';
@@ -26,7 +27,10 @@ const WordListComponent: React.FC<Props & PropsFromRedux> = ({
     const value = e.target.value;
     setValue(value);
 
-    const words: string[] = value.replaceAll(' ', '').split('\n');
+    const sanitizer = new InputSanitizer();
+    const words: string[] = value
+      .split('\n')
+      .map((word) => sanitizer.sanitize(word));
     updateWords(words);
   };
 
