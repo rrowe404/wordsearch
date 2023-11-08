@@ -32,8 +32,8 @@ const InfoPopover: React.FC<Props> = ({
         </ArrowContainer>
       )}
       padding={10}
+      parentElement={ref?.current?.parentElement}
       ref={ref}
-      // transform={{ top, left }}
     >
       <div
         className='trigger'
