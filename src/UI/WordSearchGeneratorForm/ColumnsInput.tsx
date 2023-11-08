@@ -10,8 +10,10 @@ const ColumnsInput: React.FC<FormikProps<WordSearchGenerationOptions>> = (
   return (
     <InputComponent
       label='Columns'
+      min={5}
+      max={30}
       name='width'
-      inputType='number'
+      inputType='range'
       updated={(e) => revalidatingHandleChange(e, props)}
       value={props.values.width}
     />

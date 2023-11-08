@@ -10,6 +10,8 @@ const InputComponent: React.FC<InputProps<unknown>> = ({
   autofocus,
   inputType = 'text',
   label,
+  min,
+  max,
   name,
   updated,
   validate,
@@ -32,10 +34,15 @@ const InputComponent: React.FC<InputProps<unknown>> = ({
         innerRef={(ref: HTMLInputElement) => doAutofocus(ref)}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => updated(e)}
         type={inputType}
+        min={min}
+        max={max}
         name={name}
         value={value}
         validate={(val: string) => validate && validate(val)}
       ></Field>
+      {inputType === 'range' && (
+        <span className='input-range-value'>{value as number}</span>
+      )}
       <CustomErrorMessage name={name} />
     </div>
   );

@@ -10,8 +10,10 @@ const RowsInput: React.FC<FormikProps<WordSearchGenerationOptions>> = (
   return (
     <InputComponent
       label='Rows'
+      min={5}
+      max={30}
       name='height'
-      inputType='number'
+      inputType='range'
       updated={(e) => revalidatingHandleChange(e, props)}
       value={props.values.height}
     />

@@ -1,5 +1,18 @@
 @import (reference) "../Styles/Variables.less";
 
+.thumb-mixin {
+    background: var(--accent-color);
+    cursor: pointer;
+    height: 18px;
+    width: 8px;
+    margin-top: -4px;
+}
+
+.track-mixin {
+    background-color: var(--primary-bg-color);
+    height: 8.4px;
+}
+
 .input-container {
     flex-grow: 1;
 
@@ -12,7 +25,8 @@
 
     textarea,
     input[type='text'],
-    input[type='number'] {
+    input[type='number'],
+    input[type='range'] {
         background: var(--input-bg-color);
         caret-color: var(--accent-color);
         color: var(--input-text-color);
@@ -26,8 +40,32 @@
         }
     }
 
+    input[type='range'] {
+        -webkit-appearance: none;
+        display: inline-block;
+        width: 90%;
+        vertical-align: middle;
+
+        &:focus {
+            outline: none;
+        }
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            .thumb-mixin();
+        }
+
+        &::-webkit-slider-runnable-track {
+            .track-mixin();
+        }
+    }
+
     textarea {
         height: 5rem;
+    }
+
+    .input-range-value {
+        vertical-align: middle;
     }
 
     .error {
