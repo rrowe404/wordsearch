@@ -1,16 +1,23 @@
 @import (reference) "../Styles/Variables.less";
 
+@rangeHeight: 8px;
+
+.box-shadow-mixin {
+    box-shadow: 0px 0px 1rem 1px var(--input-focus-color); 
+}
+
 .thumb-mixin {
     background: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 3px;
     cursor: pointer;
     height: 18px;
     width: 8px;
-    margin-top: -4px;
 }
 
 .track-mixin {
     background-color: var(--primary-bg-color);
-    height: 8.4px;
+    height: @rangeHeight;
 }
 
 .input-container {
@@ -25,8 +32,7 @@
 
     textarea,
     input[type='text'],
-    input[type='number'],
-    input[type='range'] {
+    input[type='number'] {
         background: var(--input-bg-color);
         caret-color: var(--accent-color);
         color: var(--input-text-color);
@@ -36,23 +42,35 @@
         outline: none;
 
         &:focus {
-            box-shadow: 0px 0px 1rem 1px var(--input-focus-color);
+            .box-shadow-mixin();
         }
     }
 
     input[type='range'] {
+        background-color: transparent;
         -webkit-appearance: none;
         display: inline-block;
+        height: @rangeHeight;
         width: 90%;
         vertical-align: middle;
 
         &:focus {
             outline: none;
+            .box-shadow-mixin();
+        }
+
+        &::-moz-range-thumb {
+            .thumb-mixin();
+        }
+
+        &::-moz-range-track {
+            .track-mixin();
         }
 
         &::-webkit-slider-thumb {
             -webkit-appearance: none;
             .thumb-mixin();
+            margin-top: -4px;
         }
 
         &::-webkit-slider-runnable-track {
