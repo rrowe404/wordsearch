@@ -84,6 +84,12 @@ const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch, words }) => {
     });
   };
 
+  const wordListPopoverText = `
+    Enter words, separated by new lines.
+    Spaces and special characters will automatically be stripped.
+    If a word is too long, or if the board is out of space, it will be discarded.
+  `;
+
   return (
     <div className='wordSearchGeneratorFormContainer'>
       <div className='wordSearchGeneratorForm'>
@@ -167,7 +173,10 @@ const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch, words }) => {
                   ) : null}
                 </CardComponent>
 
-                <CardComponent title='Word List'>
+                <CardComponent
+                  title='Word List'
+                  popoverText={wordListPopoverText}
+                >
                   <WordListComponentConnected
                     handleChange={props.handleChange}
                   />

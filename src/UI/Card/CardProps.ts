@@ -1,3 +1,4 @@
 export interface CardProps {
-    title?: string;
+  popoverText?: string;
+  title?: string;
 }
