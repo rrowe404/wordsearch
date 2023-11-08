@@ -2,13 +2,12 @@ import * as React from 'react';
 import * as yup from 'yup';
 import { CardComponent } from '../Card/ReactCardComponent';
 import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
-import { ReactInputListComponent } from '../InputList/ReactInputListComponent';
+import { WordListComponentConnected } from '../InputList/WordListComponent';
 import { Form, Formik } from 'formik';
 import { connect, ConnectedProps } from 'react-redux';
 import { ReduxState } from '../Redux/ReduxState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
-import { WordValidationService } from 'src/Rules/WordValidation/WordValidationService';
 import { ReduxActions } from '../Redux/ReduxActions';
 import './WordSearchGeneratorFormStyles.less';
 import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
@@ -26,7 +25,6 @@ const min = 5;
 const max = 30;
 const minMaxMessage = `(${min}-${max})`;
 const wordSearchGenerationService = new WordSearchGenerationService();
-const wordValidationService = new WordValidationService();
 
 interface StateProps {
   words: string[];
@@ -86,9 +84,11 @@ const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch, words }) => {
     });
   };
 
-  const updateWords = (updatedWords: string[]) => {
-    dispatch({ type: ReduxActions.SetWords, words: updatedWords });
-  };
+  const wordListPopoverText = `
+    Enter words, separated by new lines.
+    Spaces and special characters will automatically be stripped.
+    If a word is too long, or if the board is out of space, it will be discarded.
+  `;
 
   return (
     <div className='wordSearchGeneratorFormContainer'>
@@ -173,14 +173,12 @@ const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch, words }) => {
                   ) : null}
                 </CardComponent>
 
-                <CardComponent title='Word List'>
-                  <ReactInputListComponent
-                    addSlotButtonText='Add Word Slot'
+                <CardComponent
+                  title='Word List'
+                  popoverText={wordListPopoverText}
+                >
+                  <WordListComponentConnected
                     handleChange={props.handleChange}
-                    updated={(updatedWords) => updateWords(updatedWords)}
-                    validator={(value) =>
-                      wordValidationService.getError(props.values, value)
-                    }
                   />
 
                   {props.submitCount > 0 && (

@@ -10,7 +10,6 @@ export class WordSearchState {
   // tslint:disable-next-line
   private _options: WordSearchGenerationOptions;
   private acceptedWords: string[] = [];
-  private rejectedWords: string[] = [];
 
   public get columns() {
     return this._options.width;
@@ -70,7 +69,7 @@ export class WordSearchState {
     return this._options.title;
   }
 
-  public get words() {
+  public get words(): string[] {
     return this._options.words;
   }
 
@@ -91,7 +90,7 @@ export class WordSearchState {
   }
 
   public get totalMessage() {
-    return `Placed ${this.acceptedWords.length} of ${this._options.words.length}`;
+    return `Placed ${this.acceptedWords.length} of ${this.words.length}`;
   }
 
   /**
@@ -135,10 +134,6 @@ export class WordSearchState {
 
   public acceptWord(word: string) {
     this.acceptedWords.push(word);
-  }
-
-  public rejectWord(word: string) {
-    this.rejectedWords.push(word);
   }
 
   /* Allows a function to run once for each position in the matrix */

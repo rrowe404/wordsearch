@@ -1,21 +1,21 @@
 export interface WordSearchGenerationOptions {
-    height: number;
-    width: number;
+  height: number;
+  width: number;
 
-    alphabetizeWordList: boolean;
-    showWordList: boolean;
-    title: string;
+  alphabetizeWordList: boolean;
+  showWordList: boolean;
+  title: string;
 
-    words: string[];
-    filterAccidentalProfanity: boolean;
+  words: string[];
+  filterAccidentalProfanity: boolean;
 
-    allowHorizontal: boolean;
-    allowVertical: boolean;
-    allowDiagonal: boolean;
+  allowHorizontal: boolean;
+  allowVertical: boolean;
+  allowDiagonal: boolean;
 
-    allowBackwards: boolean;
-    allowOverlaps: boolean;
-    zealousOverlaps: boolean;
+  allowBackwards: boolean;
+  allowOverlaps: boolean;
+  zealousOverlaps: boolean;
 
-    outputOption: string;
+  outputOption: string;
 }

@@ -1,6 +1,14 @@
 @import (reference) "../Styles/Mixins.less";
 @import (reference) "../Styles/Variables.less";
 
+.card-popover-text {
+    border: 1px solid var(--secondary-bg-color);
+    background-color: var(--primary-bg-color);
+    color: var(--primary-text-color);
+    padding: @standardMargin;
+    max-width: 300px;
+}
+
 .card {
     .center-flex();
     background-color: var(--card-bg-color);

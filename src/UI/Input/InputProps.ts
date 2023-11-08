@@ -1,4 +1,7 @@
+import React from 'react';
+
 export interface InputProps<T> {
+  as?: React.FC | string;
   validate?: (value: string) => string;
 
   autofocus?: boolean;

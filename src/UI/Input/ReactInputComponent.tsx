@@ -6,9 +6,12 @@ import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
 import './ReactInput.less';
 
 const InputComponent: React.FC<InputProps<unknown>> = ({
+  as = 'input',
   autofocus,
   inputType = 'text',
   label,
+  min,
+  max,
   name,
   updated,
   validate,
@@ -27,13 +30,19 @@ const InputComponent: React.FC<InputProps<unknown>> = ({
     <div className='input-container'>
       <LabelComponent label={label} />
       <Field
+        as={as}
         innerRef={(ref: HTMLInputElement) => doAutofocus(ref)}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => updated(e)}
         type={inputType}
+        min={min}
+        max={max}
         name={name}
         value={value}
         validate={(val: string) => validate && validate(val)}
       ></Field>
+      {inputType === 'range' && (
+        <span className='input-range-value'>{value as number}</span>
+      )}
       <CustomErrorMessage name={name} />
     </div>
   );

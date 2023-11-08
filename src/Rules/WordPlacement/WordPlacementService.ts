@@ -9,7 +9,6 @@ import { WordPositionServiceFactory } from '../WordPosition/WordPositionServiceF
 import { WordSearchState } from '../WordSearchState/WordSearchState';
 import { WordSearchStateFactory } from '../WordSearchState/WordSearchStateFactory';
 import { WordStartParameters } from '../WordStartParameters/WordStartParameters';
-import { WordValidationService } from '../WordValidation/WordValidationService';
 
 export class WordPlacementService {
   private profanityFilterService = new ProfanityFilterService();
@@ -18,7 +17,6 @@ export class WordPlacementService {
   private wordDirectionSelectorService = new WordDirectionSelectorService();
   private wordPositionServiceFactory = new WordPositionServiceFactory();
   private wordSearchStateFactory = new WordSearchStateFactory();
-  private wordValidationService = new WordValidationService();
 
   public placeWords(currentState: WordSearchState) {
     const MAX_ATTEMPTS = 100;
@@ -30,16 +28,7 @@ export class WordPlacementService {
       state = this.wordSearchStateFactory.createWordSearchCopy(currentState);
 
       state.words.forEach((word) => {
-        const place = !this.wordValidationService.hasErrors(
-          state.options,
-          word
-        );
-
-        if (place) {
-          this.placeWord(state, word);
-        } else {
-          this.handleRejectedWord(state, word);
-        }
+        this.placeWord(state, word);
       });
 
       // set nothing as user placed words. if any profanity exists we wanna regen the whole thing.
@@ -74,23 +63,9 @@ export class WordPlacementService {
     if (startParams && startParams.startPosition) {
       this.placeLetters(currentState, word, startParams);
       currentState.acceptWord(logWord);
-    } else {
-      currentState.rejectWord(logWord);
     }
 
     return currentState;
-  }
-
-  private handleRejectedWord(currentState: WordSearchState, word: string) {
-    const error = this.wordValidationService.getError(
-      currentState.options,
-      word
-    );
-
-    // tslint:disable-next-line
-    console.log(error);
-
-    currentState.rejectWord(word);
   }
 
   /**
@@ -108,6 +83,11 @@ export class WordPlacementService {
       currentState,
       word
     );
+
+    if (!validDirections?.length) {
+      return null;
+    }
+
     let attemptedDirections = [];
 
     let startPosition: WordPosition = null;
