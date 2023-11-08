@@ -26,7 +26,6 @@ const WordListComponent: React.FC<Props & PropsFromRedux> = ({
     const value = e.target.value;
     setValue(value);
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const words: string[] = value.replaceAll(' ', '').split('\n');
     updateWords(words);
   };
