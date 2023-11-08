@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as yup from 'yup';
 import { CardComponent } from '../Card/ReactCardComponent';
 import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
-import { WordListComponentConnected } from '../InputList/ReactInputListComponent';
+import { WordListComponentConnected } from '../InputList/WordListComponent';
 import { Form, Formik } from 'formik';
 import { connect, ConnectedProps } from 'react-redux';
 import { ReduxState } from '../Redux/ReduxState';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { InputComponent } from '../Input/ReactInputComponent';
 import { ReduxActions } from '../Redux/ReduxActions';
-import './InputList.less';
+import './WordList.less';
 
 const connector = connect();
 
@@ -32,8 +32,8 @@ const WordListComponent: React.FC<Props & PropsFromRedux> = ({
   };
 
   return (
-    <div className='inputList'>
-      <div className='input-list-container'>
+    <div className='word-list'>
+      <div className='word-list-container'>
         <InputComponent
           as='textarea'
           autofocus={true}
