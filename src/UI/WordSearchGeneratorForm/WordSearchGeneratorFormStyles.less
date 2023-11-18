@@ -3,6 +3,10 @@
 .wordSearchGeneratorFormContainer {
     flex: 1 0 @formWidth;
 
+    @media (max-width: @mediumScreen) {
+        flex: 1 0 100%;
+    }
+
     .wordSearchGeneratorForm {
         display: inline-block;
         width: 100%;
