@@ -6,7 +6,7 @@ export interface WordSearchGenerationOptions {
   showWordList: boolean;
   title: string;
 
-  words: string[];
+  wordList: string;
   filterAccidentalProfanity: boolean;
 
   allowHorizontal: boolean;

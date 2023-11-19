@@ -2,10 +2,8 @@ import * as React from 'react';
 import * as yup from 'yup';
 import { CardComponent } from '../Card/ReactCardComponent';
 import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
-import { WordListComponentConnected } from '../InputList/WordListComponent';
 import { Form, Formik } from 'formik';
 import { connect, ConnectedProps } from 'react-redux';
-import { ReduxState } from '../Redux/ReduxState';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
 import { ReduxActions } from '../Redux/ReduxActions';
@@ -20,26 +18,19 @@ import { HorizontalCheckbox } from './HorizontalCheckbox';
 import { VerticalCheckbox } from './VerticalCheckbox';
 import { DiagonalCheckbox } from './DiagonalCheckbox';
 import { DefaultWordSearchGenerationOptions } from './DefaultWordSearchGenerationOptions';
+import { WordListComponent } from '../InputList/WordListComponent';
 
 const min = 5;
 const max = 30;
 const minMaxMessage = `(${min}-${max})`;
 const wordSearchGenerationService = new WordSearchGenerationService();
 
-interface StateProps {
-  words: string[];
-}
-
-const mapStateToProps = (state: ReduxState) => ({
-  words: state.words,
-});
-
-const connector = connect<StateProps>(mapStateToProps);
+const connector = connect();
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
-const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch, words }) => {
+const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch }) => {
   const schema = yup.object({
     width: yup
       .number()
@@ -66,16 +57,10 @@ const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch, words }) => {
           );
         }
       ),
-    wordListLength: yup
-      .object()
-      .test('wordListLength', 'At least one word must be present!', () => {
-        return words.length > 0;
-      }),
+    wordList: yup.string().required('At least one word must be present!'),
   });
 
   const generate = (values: WordSearchGenerationOptions) => {
-    values.words = words;
-
     const result = wordSearchGenerationService.generateWordSearch(values);
 
     dispatch({
@@ -177,9 +162,7 @@ const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch, words }) => {
                   title='Word List'
                   popoverText={wordListPopoverText}
                 >
-                  <WordListComponentConnected
-                    handleChange={props.handleChange}
-                  />
+                  <WordListComponent handleChange={props.handleChange} />
 
                   {props.submitCount > 0 && (
                     <CustomErrorMessage

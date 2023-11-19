@@ -3,6 +3,7 @@ import { LetterWithPosition } from '../LetterWithPosition/LetterWithPosition';
 import { WordDirection } from '../WordDirection/WordDirection';
 import { WordOrientation } from '../WordOrientation/WordOrientation';
 import { ObjectUtils } from '../ObjectUtils/ObjectUtils';
+import { InputSanitizer } from '../InputSanitizer/InputSanitizer';
 
 export class WordSearchState {
   // tslint:disable-next-line
@@ -70,7 +71,12 @@ export class WordSearchState {
   }
 
   public get words(): string[] {
-    return this._options.words;
+    const sanitizer = new InputSanitizer();
+    const words: string[] = this._options.wordList
+      .split('\n')
+      .map((word) => sanitizer.sanitize(word));
+
+    return words;
   }
 
   public get alphabetizeWordList() {
