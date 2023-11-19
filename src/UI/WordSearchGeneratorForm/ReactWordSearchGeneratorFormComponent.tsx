@@ -3,10 +3,7 @@ import * as yup from 'yup';
 import { CardComponent } from '../Card/ReactCardComponent';
 import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
 import { Form, Formik } from 'formik';
-import { connect, ConnectedProps } from 'react-redux';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
-import { WordSearchGenerationService } from 'src/Rules/WordSearchGeneration/WordSearchGenerationService';
-import { ReduxActions } from '../Redux/ReduxActions';
 import './WordSearchGeneratorFormStyles.less';
 import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
 import { MethodDropdown } from './MethodDropdown';
@@ -19,18 +16,17 @@ import { VerticalCheckbox } from './VerticalCheckbox';
 import { DiagonalCheckbox } from './DiagonalCheckbox';
 import { DefaultWordSearchGenerationOptions } from './DefaultWordSearchGenerationOptions';
 import { WordListComponent } from '../InputList/WordListComponent';
+import { WordSearchOutputContext } from '../WordSearchOutputContext/WordSearchOutputContext';
 
 const min = 5;
 const max = 30;
 const minMaxMessage = `(${min}-${max})`;
-const wordSearchGenerationService = new WordSearchGenerationService();
 
-const connector = connect();
+const WordSearchGeneratorForm: React.FC = () => {
+  const { setWordSearchGenerationOptions } = React.useContext(
+    WordSearchOutputContext
+  );
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type Props = PropsFromRedux;
-
-const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch }) => {
   const schema = yup.object({
     width: yup
       .number()
@@ -61,12 +57,7 @@ const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch }) => {
   });
 
   const generate = (values: WordSearchGenerationOptions) => {
-    const result = wordSearchGenerationService.generateWordSearch(values);
-
-    dispatch({
-      type: ReduxActions.GenerateWordSearch,
-      state: result,
-    });
+    setWordSearchGenerationOptions(values);
   };
 
   const wordListPopoverText = `
@@ -186,5 +177,4 @@ const WordSearchGeneratorForm: React.FC<Props> = ({ dispatch }) => {
   );
 };
 
-const WordSearchGeneratorFormConnected = connector(WordSearchGeneratorForm);
-export { WordSearchGeneratorFormConnected };
+export { WordSearchGeneratorForm };
