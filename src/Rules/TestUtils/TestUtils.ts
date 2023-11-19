@@ -9,7 +9,7 @@ export class TestUtils {
       width: matrix[0].length,
       showWordList: false,
       title: '',
-      words: [],
+      wordList: '',
       filterAccidentalProfanity: false,
       allowVertical: true,
       allowBackwards: true,
