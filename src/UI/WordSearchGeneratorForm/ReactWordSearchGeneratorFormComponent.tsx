@@ -93,12 +93,7 @@ const WordSearchGeneratorForm: React.FC = () => {
                   <VerticalCheckbox {...props} />
                   <DiagonalCheckbox {...props} />
 
-                  <CustomErrorMessage
-                    name='direction'
-                    errors={{
-                      direction: props.errors['direction'] as string,
-                    }}
-                  />
+                  <CustomErrorMessage name='direction' errors={props.errors} />
                 </CardComponent>
 
                 <CardComponent title='Misc. Options'>
