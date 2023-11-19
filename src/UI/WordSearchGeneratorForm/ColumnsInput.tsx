@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { FormikProps } from 'formik';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
-import { revalidatingHandleChange } from 'src/helpers/form/RevalidatingHandleChange';
 import { InputComponent } from '../Input/ReactInputComponent';
 
-const ColumnsInput: React.FC<FormikProps<WordSearchGenerationOptions>> = (
-  props
-) => {
+const ColumnsInput: React.FC<FormikProps<WordSearchGenerationOptions>> = ({
+  handleChange,
+  values,
+}) => {
   return (
     <InputComponent
       label='Columns'
@@ -14,8 +14,8 @@ const ColumnsInput: React.FC<FormikProps<WordSearchGenerationOptions>> = (
       max={30}
       name='width'
       inputType='range'
-      updated={(e) => revalidatingHandleChange(e, props)}
-      value={props.values.width}
+      updated={handleChange}
+      value={values.width}
     />
   );
 };
