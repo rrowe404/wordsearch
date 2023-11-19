@@ -154,13 +154,6 @@ const WordSearchGeneratorForm: React.FC = () => {
                   popoverText={wordListPopoverText}
                 >
                   <WordListComponent handleChange={props.handleChange} />
-
-                  {props.submitCount > 0 && (
-                    <CustomErrorMessage
-                      name='wordListLength'
-                      errors={props.errors}
-                    />
-                  )}
                 </CardComponent>
 
                 <CardComponent title='Output'>
