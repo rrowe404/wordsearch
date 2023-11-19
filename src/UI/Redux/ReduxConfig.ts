@@ -11,11 +11,8 @@ function reducer(state, action) {
     case ReduxActions.GenerateWordSearch:
       return { ...state, wordSearchState: action.state };
 
-    case ReduxActions.SetWords:
-      return { ...state, words: action.words };
-
     default:
-      return state;
+      return { ...state };
   }
 }
 

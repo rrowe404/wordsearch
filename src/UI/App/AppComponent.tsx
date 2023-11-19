@@ -1,7 +1,6 @@
 import { EnhancedStore } from '@reduxjs/toolkit';
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { ReduxActions } from '../Redux/ReduxActions';
 import { ReduxConfig } from '../Redux/ReduxConfig';
 import { WordSearchGeneratorFormConnected } from '../WordSearchGeneratorForm/ReactWordSearchGeneratorFormComponent';
 import { WordSearchOutputConnected } from '../WordSearchOutput/WordSearchOutputComponent';
@@ -12,7 +11,6 @@ reduxConfig.initialize();
 
 const AppComponent: React.FC = () => {
   const [store] = React.useState<EnhancedStore>(reduxConfig.store);
-  store.dispatch({ type: ReduxActions.SetWords, words: [] });
 
   return (
     <Provider store={store}>
