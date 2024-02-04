@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { ArrowContainer, Popover, PopoverProps } from 'react-tiny-popover';
+import { Popover, PopoverProps } from 'react-tiny-popover';
 import './InfoPopover.less';
+import { InfoPopoverArrowContainer } from './InfoPopoverArrowContainer';
 
 interface Props extends Pick<PopoverProps, 'containerClassName'> {
   displayText: string;
@@ -21,22 +22,22 @@ const InfoPopover: React.FC<Props> = ({
       positions={['right', 'bottom', 'top']}
       isOpen={isPopoverOpen}
       content={({ position, childRect, popoverRect }) => (
-        <ArrowContainer
-          arrowColor='#222'
-          arrowSize={12}
+        <InfoPopoverArrowContainer
           position={position}
           childRect={childRect}
           popoverRect={popoverRect}
         >
           <div className={textClassName}>{displayText}</div>
-        </ArrowContainer>
+        </InfoPopoverArrowContainer>
       )}
       padding={10}
-      parentElement={ref?.current?.parentElement}
       ref={ref}
     >
       <div
         className='trigger'
+        tabIndex={0}
+        onBlur={() => setIsPopoverOpen(false)}
+        onFocus={() => setIsPopoverOpen(true)}
         onMouseEnter={() => setIsPopoverOpen(true)}
         onMouseLeave={() => setIsPopoverOpen(false)}
       >
