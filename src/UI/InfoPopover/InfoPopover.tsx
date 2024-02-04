@@ -37,6 +37,9 @@ const InfoPopover: React.FC<Props> = ({
     >
       <div
         className='trigger'
+        tabIndex={0}
+        onBlur={() => setIsPopoverOpen(false)}
+        onFocus={() => setIsPopoverOpen(true)}
         onMouseEnter={() => setIsPopoverOpen(true)}
         onMouseLeave={() => setIsPopoverOpen(false)}
       >
