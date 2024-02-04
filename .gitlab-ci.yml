@@ -9,9 +9,9 @@ variables:
 
 run_test:
   stage: test
-  image: zenika/alpine-chrome:with-node
+  image: node:20.11-alpine
   variables:
-    NODE_ENV: "test"
+    NODE_ENV: 'test'
   before_script:
     - npm install
   script:
@@ -19,7 +19,7 @@ run_test:
 
 run_lint:
   stage: test
-  image: zenika/alpine-chrome:with-node
+  image: node:20.11-alpine
   before_script:
     - npm install
   script:
@@ -36,7 +36,7 @@ build_image:
   only:
     - main@rosie-rowe/wordsearch
   variables:
-    NODE_ENV: "production"
+    NODE_ENV: 'production'
   before_script:
     - *gcloud-login
   script:
