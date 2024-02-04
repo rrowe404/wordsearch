@@ -31,7 +31,6 @@ const InfoPopover: React.FC<Props> = ({
         </InfoPopoverArrowContainer>
       )}
       padding={10}
-      parentElement={ref?.current?.parentElement}
       ref={ref}
     >
       <div
