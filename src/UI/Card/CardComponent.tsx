@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { InfoPopover } from '../InfoPopover/InfoPopover';
 import { CardProps } from './CardProps';
-import './ReactCard.less';
+import './Card.less';
 
 export const CardComponent: React.FC<React.PropsWithChildren<CardProps>> = ({
   children,

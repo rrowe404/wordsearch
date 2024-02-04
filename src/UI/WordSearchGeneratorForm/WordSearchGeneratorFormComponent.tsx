@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as yup from 'yup';
-import { CardComponent } from '../Card/ReactCardComponent';
-import { CheckboxComponent } from '../Checkbox/ReactCheckboxComponent';
+import { CardComponent } from '../Card/CardComponent';
+import { CheckboxComponent } from '../Checkbox/CheckboxComponent';
 import { Form, Formik } from 'formik';
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import './WordSearchGeneratorFormStyles.less';
