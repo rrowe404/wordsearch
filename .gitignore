@@ -46,4 +46,7 @@ testem.log
 Thumbs.db
 debug.log
 
+# Yalc
+.yalc
+
 keyfile.json
