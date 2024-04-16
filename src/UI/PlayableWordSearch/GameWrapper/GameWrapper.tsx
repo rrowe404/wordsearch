@@ -5,7 +5,7 @@ const GameWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { tableWidth } = React.useContext(PlayableWordSearchContext);
 
   return (
-    <div className='game' style={{ width: tableWidth }}>
+    <div className='game' style={{ maxWidth: tableWidth }}>
       {children}
     </div>
   );

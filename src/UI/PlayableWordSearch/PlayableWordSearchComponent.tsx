@@ -117,7 +117,7 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
 
   return (
     <SizeTrackerComponent
-      className='full-height'
+      className='full-height full-width'
       onResize={(resize) => onResize(resize)}
     >
       <PlayableWordSearchContextProvider
