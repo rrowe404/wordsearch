@@ -30,6 +30,8 @@ interface Props {
 const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
   const [letterSize, setLetterSize] = React.useState(0);
   const [tableWidth, setTableWidth] = React.useState(0);
+  const titleRef = React.useRef<HTMLDivElement>(null);
+  const wordListRef = React.useRef<HTMLDivElement>(null);
   const size = getSize(wordSearchState);
   const { columns, wordList } = wordSearchState;
   const wordTracker = useWordTracker(wordList);
@@ -67,6 +69,15 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
     (resize: SizeTrackerResize) => {
       // gotta fit, so take the smaller of the two
       let basis = Math.floor(Math.min(resize.width, resize.height));
+
+      // if the height is what is restricting us, we need to account for title/wordlist height too
+      if (basis === Math.floor(resize.height)) {
+        const titleHeight = titleRef?.current?.clientHeight ?? 0;
+        const wordListHeight = wordListRef?.current?.clientHeight ?? 0;
+
+        basis -= titleHeight + wordListHeight;
+      }
+
       let newLetterSize = Math.floor(basis / columns);
 
       // max size
@@ -129,7 +140,7 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
         wordTracker={wordTracker}
       >
         <div className='playable'>
-          <Title />
+          <Title ref={titleRef} />
           <GameWrapper>
             {size.rows.map((row) => {
               return (
@@ -150,7 +161,7 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
             })}
           </GameWrapper>
 
-          <WordListContainer>
+          <WordListContainer ref={wordListRef}>
             <WordList />
           </WordListContainer>
           {winner && <WinIndicator className='win' />}

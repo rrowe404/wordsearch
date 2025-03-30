@@ -1,11 +1,19 @@
 import * as React from 'react';
 import { PlayableWordSearchContext } from '../PlayableWordSearchContext';
 
-const Title: React.FC = () => {
+interface TitleProps {
+  ref: React.RefObject<HTMLDivElement>;
+}
+
+const Title: React.FC<TitleProps> = ({ ref }) => {
   const { wordSearchState } = React.useContext(PlayableWordSearchContext);
   const { title } = wordSearchState;
 
-  return <div className='title'>{title}</div>;
+  if (!title) {
+    return null;
+  }
+
+  return <div className='title' ref={ref}>{title}</div>;
 };
 
 export { Title };
