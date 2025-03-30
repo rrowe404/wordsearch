@@ -19,6 +19,7 @@ const CheckboxComponent: React.FC<CheckboxProps> = ({
     <div className='checkboxContainer'>
       <input
         onChange={(e) => handleChange(e)}
+        tabIndex={0}
         type='checkbox'
         name={name}
         id={name}
