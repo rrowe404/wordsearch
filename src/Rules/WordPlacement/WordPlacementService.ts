@@ -19,29 +19,11 @@ export class WordPlacementService {
   private wordSearchStateFactory = new WordSearchStateFactory();
 
   public placeWords(currentState: WordSearchState) {
-    const MAX_ATTEMPTS = 100;
-    let state: WordSearchState;
-    let count = 0;
-    let hasProfanity = false;
+    const state: WordSearchState = this.wordSearchStateFactory.createWordSearchCopy(currentState);
 
-    do {
-      state = this.wordSearchStateFactory.createWordSearchCopy(currentState);
-
-      state.words.forEach((word) => {
-        this.placeWord(state, word);
-      });
-
-      // set nothing as user placed words. if any profanity exists we wanna regen the whole thing.
-      if (state.filterAccidentalProfanity) {
-        hasProfanity = this.profanityFilterService.filterProfanity(state, []);
-      } else {
-        hasProfanity = false;
-      }
-
-      // seeing this means we regenerated some cursin'
-      // tslint:disable-next-line
-      count > 0 && console.log(count);
-    } while (count++ < MAX_ATTEMPTS && hasProfanity);
+    state.words.forEach((word) => {
+      this.placeWord(state, word);
+    });
 
     return state;
   }
