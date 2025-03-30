@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { PlayableWordSearchContext } from '../PlayableWordSearchContext';
 
-const WordListContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
+interface WordListContainerProps extends React.PropsWithChildren {
+  ref: React.RefObject<HTMLDivElement>;
+}
+
+const WordListContainer: React.FC<WordListContainerProps> = ({ children, ref }) => {
   const { tableWidth, wordSearchState } = React.useContext(
     PlayableWordSearchContext
   );
@@ -12,7 +16,7 @@ const WordListContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
   }
 
   return (
-    <div className='wordListContainer' style={{ maxWidth: tableWidth }}>
+    <div className='wordListContainer' ref={ref} style={{ maxWidth: tableWidth }}>
       {children}
     </div>
   );

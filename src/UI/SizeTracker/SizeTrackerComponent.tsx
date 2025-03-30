@@ -21,11 +21,11 @@ export const SizeTrackerComponent = (props: SizeTrackerProps) => {
   };
 
   useEffect(() => {
-    const observer = new ResizeObserver(handleResize);
-    observer.observe(document.body);
+    handleResize();
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      observer.unobserve(document.body);
+      window.removeEventListener('resize', handleResize);
     };
   });
 

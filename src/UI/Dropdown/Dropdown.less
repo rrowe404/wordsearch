@@ -1,25 +1,46 @@
 @import (reference) "../Styles/Variables.less";
 
+@topPadding: 0.25rem;
+@leftPadding: 0.5rem;
+@lineHeight: 1rem;
+@labelMarginBottom: 0.5rem;
+
 .dropdown-container {
     margin-bottom: @standardMargin;
 
     label {
         display: inline-block;
-        margin-bottom: 0.5rem;
+        line-height: @lineHeight;
+        margin-bottom: @labelMarginBottom;
         font-size: 0.8em;
         opacity: 0.9;
     }
 
     select {
+        appearance: none;
         background: var(--input-bg-color);
+        border: none;
         color: var(--input-text-color);
         display: block;
         font-size: @baseFontSize;
+        line-height: @lineHeight;
+        padding: @topPadding @leftPadding;
         outline: none;
         width: 100%;
-
+        
         &:focus {
-            box-shadow: 0 0 1rem 1px var(--input-focus-color);
+            .box-shadow-mixin();
+        }
+    }
+
+    .select-container {
+        position: relative;
+
+        &:after {
+            content: '▼';
+            position: absolute;
+            right: @leftPadding;
+            top: @topPadding;
         }
     }
 }

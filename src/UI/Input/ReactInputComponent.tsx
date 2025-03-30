@@ -37,6 +37,7 @@ const InputComponent: React.FC<InputProps<unknown>> = ({
         min={min}
         max={max}
         name={name}
+        tabIndex="0"
         value={value}
         validate={(val: string) => validate && validate(val)}
       ></Field>

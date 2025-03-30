@@ -20,7 +20,6 @@ const WordListComponent: React.FC<Props> = ({ handleChange }) => {
       <div className='word-list-container'>
         <InputComponent
           as='textarea'
-          autofocus={true}
           name='wordList'
           updated={(e) => handleUpdate(e)}
           value={value}

@@ -13,15 +13,17 @@ const DropdownComponent: React.FC<DropdownProps<string | number>> = ({
   return (
     <div className='dropdown-container'>
       <LabelComponent label={label} />
-      <Field as='select' name={name} onChange={(e: string) => updated(e)}>
-        {options.map((option) => {
-          return (
-            <option value={option.value} key={option.value}>
-              {option.viewValue}
-            </option>
-          );
-        })}
-      </Field>
+      <div className='select-container'>
+        <Field as='select' name={name} onChange={(e: string) => updated(e)}>
+          {options.map((option) => {
+            return (
+              <option value={option.value} key={option.value}>
+                {option.viewValue}
+              </option>
+            );
+          })}
+        </Field>
+      </div>
     </div>
   );
 };

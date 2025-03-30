@@ -9,6 +9,7 @@ const TitleInput: React.FC<FormikProps<WordSearchGenerationOptions>> = ({
 }) => {
   return (
     <InputComponent
+      autofocus={true}
       label='Title'
       name='title'
       updated={handleChange}

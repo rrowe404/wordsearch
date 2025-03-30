@@ -210,4 +210,29 @@ describe('ProfanityFilterService', () => {
       expect(result).toBeTruthy();
     });
   });
+
+  describe('should not remove intentional profanity when the profanity is', () => {
+    it('horizontal', () => {
+      const matrix = [
+        ['l', 'e', 'g'],
+        ['m', 's', 'n'],
+        ['x', 'k', 'l'],
+      ];
+
+      const state = createState(matrix);
+
+      const userPlacedLetters = [
+        { letter: 'l', row: 0, column: 0 },
+        { letter: 'e', row: 0, column: 1 },
+        { letter: 'g', row: 0, column: 2 },
+      ];
+
+      const result = service.filterProfanity(state, userPlacedLetters);
+
+      expect(state.getValueAt(0, 0)).toBe('l');
+      expect(state.getValueAt(0, 1)).toBe('e');
+      expect(state.getValueAt(0, 2)).toBe('g');
+      expect(result).toBeFalsy();
+    });
+  });
 });
