@@ -9,7 +9,7 @@ const ButtonComponent: React.FC<ButtonProps> = ({
   text,
 }) => {
   return (
-    <button type={buttonType} className={color} disabled={disabled}>
+    <button tabIndex={0} type={buttonType} className={color} disabled={disabled}>
       {text}
     </button>
   );
