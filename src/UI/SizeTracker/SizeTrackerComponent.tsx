@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { SizeTrackerResize } from './SizeTrackerResize';
 
 interface SizeTrackerProps extends React.PropsWithChildren {
@@ -8,16 +8,12 @@ interface SizeTrackerProps extends React.PropsWithChildren {
 }
 
 export const SizeTrackerComponent = (props: SizeTrackerProps) => {
-  const [height, setHeight] = useState(0);
-  const [width, setWidth] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
 
   const handleResize = () => {
     const w = ref.current.clientWidth;
     const h = ref.current.clientHeight;
-    setHeight(h);
-    setWidth(w);
-    props.onResize({ height, width });
+    props.onResize({ height: h, width: w });
   };
 
   useEffect(() => {
