@@ -26,6 +26,148 @@ describe('ProfanityFilterService', () => {
   });
 
   describe('should remove accidental profanity without touching the user-provided words when the profanity is', () => {
+    it('horizontal when the profanity starts after index zero', () => {
+      const matrix = [
+        ['x', 'l', 'e', 'g', 'x'],
+        ['m', 's', 'n', 'q', 'r'],
+        ['x', 'k', 'l', 'p', 't'],
+      ];
+
+      const state = createState(matrix);
+
+      const result = service.filterProfanity(state, []);
+
+      expect(state.getValueAt(0, 0)).toBe('x');
+      expect(state.getValueAt(0, 1)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(0, 2)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(0, 3)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(0, 4)).toBe('x');
+      expect(result).toBeTruthy();
+    });
+
+    it('vertical when the profanity starts after index zero', () => {
+      const matrix = [
+        ['x', 'x', 'x'],
+        ['q', 'x', 'x'],
+        ['l', 'x', 'x'],
+        ['e', 'x', 'x'],
+        ['g', 'x', 'x'],
+      ];
+
+      const state = createState(matrix);
+
+      const result = service.filterProfanity(state, []);
+
+      expect(state.getValueAt(0, 0)).toBe('x');
+      expect(state.getValueAt(1, 0)).toBe('q');
+      expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(3, 0)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(4, 0)).toBe(LetterPlaceholder.value);
+      expect(result).toBeTruthy();
+    });
+
+    it('vertical and backwards when the profanity starts after index zero', () => {
+      const matrix = [
+        ['g', 'x', 'x'],
+        ['e', 'x', 'x'],
+        ['l', 'x', 'x'],
+        ['q', 'x', 'x'],
+        ['x', 'x', 'x'],
+      ];
+
+      const state = createState(matrix);
+
+      const result = service.filterProfanity(state, []);
+
+      expect(state.getValueAt(0, 0)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(1, 0)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(3, 0)).toBe('q');
+      expect(state.getValueAt(4, 0)).toBe('x');
+      expect(result).toBeTruthy();
+    });
+
+    it('top-left to bottom-right diagonal when the profanity starts after index zero', () => {
+      const matrix = [
+        ['x', 'x', 'x', 'x', 'x'],
+        ['x', 'l', 'x', 'x', 'x'],
+        ['x', 'x', 'e', 'x', 'x'],
+        ['x', 'x', 'x', 'g', 'x'],
+        ['x', 'x', 'x', 'x', 'x'],
+      ];
+
+      const state = createState(matrix);
+
+      const result = service.filterProfanity(state, []);
+
+      expect(state.getValueAt(1, 1)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(2, 2)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(3, 3)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(4, 4)).toBe('x');
+      expect(result).toBeTruthy();
+    });
+
+    it('bottom-left to top-right diagonal when the profanity starts after index zero', () => {
+      const matrix = [
+        ['x', 'x', 'x', 'x', 'x'],
+        ['x', 'x', 'x', 'x', 'x'],
+        ['x', 'x', 'l', 'x', 'x'],
+        ['x', 'e', 'x', 'x', 'x'],
+        ['g', 'x', 'x', 'x', 'x'],
+      ];
+
+      const state = createState(matrix);
+
+      const result = service.filterProfanity(state, []);
+
+      expect(state.getValueAt(2, 2)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(3, 1)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(4, 0)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(0, 4)).toBe('x');
+      expect(result).toBeTruthy();
+    });
+
+    it('top-left to bottom-right diagonal and backwards when the profanity starts after index zero', () => {
+      const matrix = [
+        ['x', 'x', 'x', 'x', 'x'],
+        ['x', 'x', 'x', 'x', 'x'],
+        ['x', 'x', 'g', 'x', 'x'],
+        ['x', 'x', 'x', 'e', 'x'],
+        ['x', 'x', 'x', 'x', 'l'],
+      ];
+
+      const state = createState(matrix);
+
+      const result = service.filterProfanity(state, []);
+
+      expect(state.getValueAt(2, 2)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(3, 3)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(4, 4)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(0, 0)).toBe('x');
+      expect(state.getValueAt(1, 1)).toBe('x');
+      expect(result).toBeTruthy();
+    });
+
+    it('bottom-left to top-right diagonal and backwards when the profanity starts after index zero', () => {
+      const matrix = [
+        ['x', 'x', 'x', 'x', 'x'],
+        ['x', 'x', 'x', 'x', 'x'],
+        ['g', 'x', 'x', 'x', 'x'],
+        ['x', 'e', 'x', 'x', 'x'],
+        ['x', 'x', 'l', 'x', 'x'],
+      ];
+
+      const state = createState(matrix);
+
+      const result = service.filterProfanity(state, []);
+
+      expect(state.getValueAt(2, 0)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(3, 1)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(4, 2)).toBe(LetterPlaceholder.value);
+      expect(state.getValueAt(0, 0)).toBe('x');
+      expect(result).toBeTruthy();
+    });
+
     it('horizontal', () => {
       const matrix = [
         ['l', 'e', 'g'],

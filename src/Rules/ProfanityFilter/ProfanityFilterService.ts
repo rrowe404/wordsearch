@@ -153,7 +153,7 @@ export class ProfanityFilterService {
         if (index === -1) {
           return;
         } else {
-          const letters = subslice.slice(index, curse.length);
+          const letters = subslice.slice(index, index + curse.length);
 
           letters.forEach((lwp) => {
             if (
