@@ -4,14 +4,21 @@ export class WordMeasurementService {
    * Avoids modifying the original array.
    */
   public getLongestWordWidth(
-    context: CanvasRenderingContext2D,
+    context: Pick<CanvasRenderingContext2D, 'measureText'>,
     words: string[]
   ) {
+    if (words.length === 0) {
+      return 0;
+    }
+
     const longest = this.getLongestWord(context, words.slice());
     return longest.width;
   }
 
-  private getLongestWord(context: CanvasRenderingContext2D, words: string[]) {
+  private getLongestWord(
+    context: Pick<CanvasRenderingContext2D, 'measureText'>,
+    words: string[]
+  ) {
     const measuredWords = this.measureWords(context, words);
 
     const sorted = measuredWords.sort((a, b) => a.width - b.width);
@@ -21,7 +28,10 @@ export class WordMeasurementService {
     return result;
   }
 
-  private measureWords(context: CanvasRenderingContext2D, words: string[]) {
+  private measureWords(
+    context: Pick<CanvasRenderingContext2D, 'measureText'>,
+    words: string[]
+  ) {
     return words.map((word) => {
       return {
         word,
