@@ -2,9 +2,14 @@
 
 .wordSearchGeneratorForm {
     flex: 1 0 @formWidth;
+    height: 100vh;
+    min-height: 0;
+    overflow-y: auto;
 
     @media (max-width: @mediumScreen) {
         flex: 1 0 100%;
+        height: auto;
+        overflow-y: visible;
     }
 
     form button {
