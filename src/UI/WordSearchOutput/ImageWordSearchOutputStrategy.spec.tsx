@@ -52,7 +52,7 @@ describe('ImageWordSearchOutputStrategy', () => {
 
     expect(context.font).toBe('20px sans-serif');
     expect(canvas.width).toBe(80);
-    expect(canvas.height).toBe(40);
+    expect(canvas.height).toBe(60);
   });
 
   it('centers the word list under the puzzle and sizes the image to its rows', () => {
@@ -153,6 +153,6 @@ describe('ImageWordSearchOutputStrategy', () => {
       { text: 'Puzzle title', y: 5 },
       { text: 'A', y: 35 },
     ]);
-    expect(canvas.height).toBe(35);
+    expect(canvas.height).toBe(40);
   });
 });
