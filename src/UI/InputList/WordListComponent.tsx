@@ -4,24 +4,17 @@ import './WordList.less';
 
 interface Props {
   handleChange: (e: React.ChangeEvent) => void;
+  value: string;
 }
 
-const WordListComponent: React.FC<Props> = ({ handleChange }) => {
-  const [value, setValue] = React.useState('');
-  const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleChange(e);
-
-    const value = e.target.value;
-    setValue(value);
-  };
-
+const WordListComponent: React.FC<Props> = ({ handleChange, value }) => {
   return (
     <div className='word-list'>
       <div className='word-list-container'>
         <InputComponent
           as='textarea'
           name='wordList'
-          updated={(e) => handleUpdate(e)}
+          updated={handleChange}
           value={value}
         />
       </div>

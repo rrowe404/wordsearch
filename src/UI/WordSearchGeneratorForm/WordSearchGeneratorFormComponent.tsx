@@ -122,7 +122,10 @@ const WordSearchGeneratorForm: React.FC = () => {
                 title='Word List'
                 popoverText={wordListPopoverText}
               >
-                <WordListComponent handleChange={props.handleChange} />
+                <WordListComponent
+                  handleChange={props.handleChange}
+                  value={props.values.wordList}
+                />
               </CardComponent>
 
               <CardComponent title='Output'>
