@@ -25,6 +25,17 @@ const WordSearchOutput: React.FC = () => {
     wordSearchGenerationOptions
   );
 
+  if (!wordSearchState.wordList.length) {
+    return (
+      <WordSearchOutputContainer>
+        <div role='alert'>
+          No words could be placed. Try using shorter words or increasing the
+          grid size.
+        </div>
+      </WordSearchOutputContainer>
+    );
+  }
+
   const output = wordSearchOutputStrategyFactory.createOutputStrategy(
     wordSearchState.outputOption
   );
