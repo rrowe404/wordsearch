@@ -1,4 +1,7 @@
-import { WordSearchGenerationOptions } from '../WordSearchGenerationOptions/WordSearchGenerationOptions';
+import {
+  WordSearchGenerationOptions,
+  WordSearchOutputOption,
+} from '../WordSearchGenerationOptions/WordSearchGenerationOptions';
 
 /** This class should ONLY be referred to in .spec.ts files! */
 export class TestUtils {
@@ -17,7 +20,8 @@ export class TestUtils {
       allowHorizontal: true,
       allowOverlaps: true,
       zealousOverlaps: false,
-      outputOption: 'image',
+      outputOption: WordSearchOutputOption.Image,
+      fontSize: 10,
     };
   }
 

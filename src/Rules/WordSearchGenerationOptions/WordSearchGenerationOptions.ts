@@ -1,4 +1,13 @@
-export interface WordSearchGenerationOptions {
+export const WordSearchOutputOption = {
+  Image: 'image',
+  Playable: 'playable',
+  Console: 'console',
+} as const;
+
+export type WordSearchOutputOptionValue =
+  (typeof WordSearchOutputOption)[keyof typeof WordSearchOutputOption];
+
+export interface WordSearchGenerationOptionsBase {
   height: number;
   width: number;
 
@@ -16,6 +25,15 @@ export interface WordSearchGenerationOptions {
   allowBackwards: boolean;
   allowOverlaps: boolean;
   zealousOverlaps: boolean;
-
-  outputOption: string;
 }
+
+export type WordSearchGenerationOptions =
+  | (WordSearchGenerationOptionsBase & {
+      outputOption: typeof WordSearchOutputOption.Image;
+      fontSize: number;
+    })
+  | (WordSearchGenerationOptionsBase & {
+      outputOption:
+        | typeof WordSearchOutputOption.Playable
+        | typeof WordSearchOutputOption.Console;
+    });

@@ -1,5 +1,10 @@
-import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import {
+  WordSearchGenerationOptionsBase,
+  WordSearchOutputOptionValue,
+} from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 
-export interface WordSearchGeneratorFormState {
-  generationOptions: WordSearchGenerationOptions;
+export interface WordSearchGeneratorFormState
+  extends WordSearchGenerationOptionsBase {
+  outputOption: WordSearchOutputOptionValue;
+  fontSize: number;
 }

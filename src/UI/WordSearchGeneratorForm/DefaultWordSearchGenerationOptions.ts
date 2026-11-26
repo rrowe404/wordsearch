@@ -1,5 +1,5 @@
 import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
-import outputOptions from './MethodDropdownOptions';
+import { PlayableWordSearchOutputStrategy } from '../WordSearchOutput/PlayableWordSearchOutputStrategy';
 
 export const DefaultWordSearchGenerationOptions: WordSearchGenerationOptions = {
   height: 10,
@@ -15,5 +15,9 @@ export const DefaultWordSearchGenerationOptions: WordSearchGenerationOptions = {
   allowBackwards: false,
   allowOverlaps: false,
   zealousOverlaps: false,
-  outputOption: outputOptions[0].value,
+  outputOption: PlayableWordSearchOutputStrategy.getValue(),
+};
+
+export const DefaultImageWordSearchGenerationOptions = {
+  fontSize: 10,
 };

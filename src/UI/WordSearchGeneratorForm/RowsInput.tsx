@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { FormikProps } from 'formik';
-import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { WordSearchGeneratorFormState } from './WordSearchGeneratorFormState';
 import { InputComponent } from '../Input/ReactInputComponent';
 
-const RowsInput: React.FC<FormikProps<WordSearchGenerationOptions>> = ({
+const RowsInput: React.FC<FormikProps<WordSearchGeneratorFormState>> = ({
   handleChange,
   values,
 }) => {

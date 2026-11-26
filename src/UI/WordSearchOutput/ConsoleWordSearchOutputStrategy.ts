@@ -1,9 +1,10 @@
 import { WordSearchOutputStrategyBase } from '../../Rules/WordSearchOutput/WordSearchOutputStrategyBase';
+import { WordSearchOutputOption } from '../../Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 
 /** Debug only. Should not be available in prod mode. */
 export class ConsoleWordSearchOutputStrategy extends WordSearchOutputStrategyBase {
-    public static getValue() {
-        return 'console';
+    public static getValue(): typeof WordSearchOutputOption.Console {
+        return WordSearchOutputOption.Console;
     }
 
     public static getViewValue() {
