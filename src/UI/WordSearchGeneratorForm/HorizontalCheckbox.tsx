@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { FormikProps } from 'formik';
-import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { WordSearchGeneratorFormState } from './WordSearchGeneratorFormState';
 import { CheckboxComponent } from '../Checkbox/CheckboxComponent';
 
 const HorizontalCheckbox: React.FC<
-  FormikProps<WordSearchGenerationOptions>
+  FormikProps<WordSearchGeneratorFormState>
 > = ({ handleChange, values }) => {
   return (
     <CheckboxComponent

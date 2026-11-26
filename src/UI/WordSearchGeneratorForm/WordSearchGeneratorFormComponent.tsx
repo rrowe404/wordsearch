@@ -1,9 +1,8 @@
 import * as React from 'react';
-import * as yup from 'yup';
 import { CardComponent } from '../Card/CardComponent';
 import { CheckboxComponent } from '../Checkbox/CheckboxComponent';
 import { Form, Formik } from 'formik';
-import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { WordSearchGeneratorFormState } from './WordSearchGeneratorFormState';
 import './WordSearchGeneratorFormStyles.less';
 import { CustomErrorMessage } from '../CustomErrorMessage/CustomErrorMessage';
 import { MethodDropdown } from './MethodDropdown';
@@ -14,50 +13,23 @@ import { RowsInput } from './RowsInput';
 import { HorizontalCheckbox } from './HorizontalCheckbox';
 import { VerticalCheckbox } from './VerticalCheckbox';
 import { DiagonalCheckbox } from './DiagonalCheckbox';
-import { DefaultWordSearchGenerationOptions } from './DefaultWordSearchGenerationOptions';
+import {
+  DefaultImageWordSearchGenerationOptions,
+  DefaultWordSearchGenerationOptions,
+} from './DefaultWordSearchGenerationOptions';
 import { WordListComponent } from '../InputList/WordListComponent';
 import { WordSearchOutputContext } from '../WordSearchOutputContext/WordSearchOutputContext';
-
-const min = 5;
-const max = 30;
-const minMaxMessage = `(${min}-${max})`;
+import { ImageWordSearchOutputStrategy } from '../WordSearchOutput/ImageWordSearchOutputStrategy';
+import { ImageFontSizeInput } from './ImageFontSizeInput';
+import { WordSearchGeneratorFormSchema } from './WordSearchGeneratorFormSchema';
 
 const WordSearchGeneratorForm: React.FC = () => {
   const { setWordSearchGenerationOptions } = React.useContext(
     WordSearchOutputContext
   );
 
-  const schema = yup.object({
-    width: yup
-      .number()
-      .required('Required')
-      .min(min, minMaxMessage)
-      .max(max, minMaxMessage),
-    height: yup
-      .number()
-      .required('Required')
-      .min(min, minMaxMessage)
-      .max(max, minMaxMessage),
-    direction: yup
-      .object()
-      .test(
-        'direction',
-        'At least one direction must be selected!',
-        function () {
-          const parent = this.parent as WordSearchGenerationOptions;
-
-          return (
-            parent.allowHorizontal ||
-            parent.allowVertical ||
-            parent.allowDiagonal
-          );
-        }
-      ),
-    wordList: yup.string().required('At least one word must be present!'),
-  });
-
-  const generate = (values: WordSearchGenerationOptions) => {
-    setWordSearchGenerationOptions(values);
+  const generate = (values: WordSearchGeneratorFormState) => {
+      setWordSearchGenerationOptions(values);
   };
 
   const wordListPopoverText = `
@@ -68,12 +40,15 @@ const WordSearchGeneratorForm: React.FC = () => {
 
   return (
     <div className='wordSearchGeneratorForm'>
-      <Formik
-        initialValues={DefaultWordSearchGenerationOptions}
+      <Formik<WordSearchGeneratorFormState>
+        initialValues={{
+          ...DefaultWordSearchGenerationOptions,
+          ...DefaultImageWordSearchGenerationOptions,
+        }}
         onSubmit={(values) => {
           generate(values);
         }}
-        validationSchema={schema}
+        validationSchema={WordSearchGeneratorFormSchema}
       >
         {(props) => (
           <Form>
@@ -152,6 +127,13 @@ const WordSearchGeneratorForm: React.FC = () => {
 
               <CardComponent title='Output'>
                 <MethodDropdown {...props} />
+                {props.values.outputOption ===
+                ImageWordSearchOutputStrategy.getValue() ? (
+                  <ImageFontSizeInput
+                    handleChange={props.handleChange}
+                    value={props.values.fontSize}
+                  />
+                ) : null}
               </CardComponent>
 
               <SubmitButton {...props} />

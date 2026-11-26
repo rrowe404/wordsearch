@@ -1,9 +1,9 @@
 import { FormikProps } from 'formik';
 import * as React from 'react';
-import { WordSearchGenerationOptions } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
+import { WordSearchGeneratorFormState } from './WordSearchGeneratorFormState';
 import { ButtonComponent } from '../Button/ReactButtonComponent';
 
-const SubmitButton: React.FC<FormikProps<WordSearchGenerationOptions>> = ({
+const SubmitButton: React.FC<FormikProps<WordSearchGeneratorFormState>> = ({
   isValid,
   touched,
 }) => {

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { WordSearchOutputStrategy } from 'src/Rules/WordSearchOutput/WordSearchOutputStrategy';
 import { WordSearchState } from 'src/Rules/WordSearchState/WordSearchState';
+import { WordSearchOutputOption } from 'src/Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 import { PlayableWordSearchComponent } from 'src/UI/PlayableWordSearch/PlayableWordSearchComponent';
 
 /**
@@ -10,8 +11,8 @@ import { PlayableWordSearchComponent } from 'src/UI/PlayableWordSearch/PlayableW
 export class PlayableWordSearchOutputStrategy
   implements WordSearchOutputStrategy
 {
-  public static getValue() {
-    return 'playable';
+  public static getValue(): typeof WordSearchOutputOption.Playable {
+    return WordSearchOutputOption.Playable;
   }
 
   public static getViewValue() {

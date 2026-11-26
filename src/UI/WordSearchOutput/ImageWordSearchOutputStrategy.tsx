@@ -4,6 +4,7 @@ import { WordSearchState } from '../../Rules/WordSearchState/WordSearchState';
 import { WordSearchOutputStrategy } from '../../Rules/WordSearchOutput/WordSearchOutputStrategy';
 import { WordMeasurementService } from '../CanvasUtils/WordMeasurementService';
 import { ElementRemovalService } from '../HTMLUtils/ElementRemovalService';
+import { WordSearchOutputOption } from '../../Rules/WordSearchGenerationOptions/WordSearchGenerationOptions';
 
 export class ImageWordSearchOutputStrategy
   extends WordSearchOutputStrategyBase
@@ -18,8 +19,8 @@ export class ImageWordSearchOutputStrategy
   private letterGap = 20;
   private titleSpace = 20;
 
-  public static getValue() {
-    return 'image';
+  public static getValue(): typeof WordSearchOutputOption.Image {
+    return WordSearchOutputOption.Image;
   }
 
   public static getViewValue() {
@@ -27,11 +28,19 @@ export class ImageWordSearchOutputStrategy
   }
 
   public output(currentState: WordSearchState) {
+    const options = currentState.options;
+    if (options.outputOption !== ImageWordSearchOutputStrategy.getValue()) {
+      throw new Error('Image output requires image generation options');
+    }
+
     this.currentState = currentState;
+    this.letterGap = options.fontSize * 2;
+    this.titleSpace = this.letterGap;
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
     this.canvas.width = this.getCanvasWidth();
     this.canvas.height = this.getCanvasHeight();
+    this.context.font = `${options.fontSize}px sans-serif`;
     super.output(currentState);
     this.fillBackground();
     const src = this.canvas.toDataURL();
