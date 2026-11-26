@@ -20,8 +20,41 @@ import { Position } from 'src/Rules/Position/Position';
 // these are kinda magical, just numbers that feel good
 const MIN_LETTER_SIZE = 10;
 const MAX_LETTER_SIZE = 50;
+const DRAG_GRACE_AREA = 12;
 
 const wordBuilderService = new WordBuilderService();
+
+const getDragSelection = (start: Position, end: Position): Position[] => {
+  const rowDistance = end.row - start.row;
+  const columnDistance = end.column - start.column;
+  const distance = Math.max(Math.abs(rowDistance), Math.abs(columnDistance));
+
+  if (
+    rowDistance !== 0 &&
+    columnDistance !== 0 &&
+    Math.abs(rowDistance) !== Math.abs(columnDistance)
+  ) {
+    return [start];
+  }
+
+  const rowStep = Math.sign(rowDistance);
+  const columnStep = Math.sign(columnDistance);
+
+  return Array.from({ length: distance + 1 }, (_, step) => ({
+    row: start.row + rowStep * step,
+    column: start.column + columnStep * step,
+  }));
+};
+
+const isWithinDragGraceArea = (
+  x: number,
+  y: number,
+  bounds: DOMRect
+): boolean =>
+  x >= bounds.left - DRAG_GRACE_AREA &&
+  x <= bounds.right + DRAG_GRACE_AREA &&
+  y >= bounds.top - DRAG_GRACE_AREA &&
+  y <= bounds.bottom + DRAG_GRACE_AREA;
 
 interface Props {
   wordSearchState: WordSearchState;
@@ -30,8 +63,13 @@ interface Props {
 const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
   const [letterSize, setLetterSize] = React.useState(0);
   const [tableWidth, setTableWidth] = React.useState(0);
+  const [dragPosition, setDragPosition] = React.useState<Position>(null);
+  const [dragBounds, setDragBounds] = React.useState<DOMRect>(null);
   const titleRef = React.useRef<HTMLDivElement>(null);
   const wordListRef = React.useRef<HTMLDivElement>(null);
+  const dragStartRef = React.useRef<Position>(null);
+  const dragPositionRef = React.useRef<Position>(null);
+  const ignoreNextClickRef = React.useRef(false);
   const size = getSize(wordSearchState);
   const { columns, wordList } = wordSearchState;
   const wordTracker = useWordTracker(wordList);
@@ -117,12 +155,103 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
   };
 
   const markLetter = (position: Position) => {
+    if (ignoreNextClickRef.current) {
+      ignoreNextClickRef.current = false;
+      return;
+    }
+
     if (startLetterTracker.hasPending()) {
       endLetterTracker.setPending(position);
     } else {
       startLetterTracker.setPending(position);
     }
   };
+
+  const startDrag = (position: Position) => {
+    ignoreNextClickRef.current = false;
+    dragStartRef.current = position;
+    dragPositionRef.current = position;
+    setDragPosition(position);
+  };
+
+  const endDrag = (position: Position) => {
+    const start = dragStartRef.current;
+    dragStartRef.current = null;
+    dragPositionRef.current = null;
+    setDragPosition(null);
+    setDragBounds(null);
+
+    if (
+      start &&
+      (start.row !== position.row || start.column !== position.column)
+    ) {
+      startLetterTracker.setPending(start);
+      endLetterTracker.setPending(position);
+      ignoreNextClickRef.current = true;
+    }
+  };
+
+  const cancelDrag = () => {
+    dragStartRef.current = null;
+    dragPositionRef.current = null;
+    setDragPosition(null);
+    setDragBounds(null);
+  };
+
+  const onGameMouseLeave = (
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    if (!dragStartRef.current) {
+      return;
+    }
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+    if (isWithinDragGraceArea(event.clientX, event.clientY, bounds)) {
+      setDragBounds(bounds);
+    } else {
+      cancelDrag();
+    }
+  };
+
+  const updateDrag = (position: Position) => {
+    if (dragStartRef.current) {
+      dragPositionRef.current = position;
+      setDragPosition(position);
+    }
+  };
+
+  React.useEffect(() => {
+    if (!dragBounds || !dragStartRef.current) {
+      return;
+    }
+
+    const handleMouseMove = (event: MouseEvent) => {
+      if (!isWithinDragGraceArea(event.clientX, event.clientY, dragBounds)) {
+        cancelDrag();
+      }
+    };
+    const handleMouseUp = () => {
+      const position = dragPositionRef.current;
+      if (position) {
+        endDrag(position);
+      } else {
+        cancelDrag();
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [dragBounds]);
+
+  const dragSelection =
+    dragStartRef.current && dragPosition
+      ? getDragSelection(dragStartRef.current, dragPosition)
+      : [];
 
   const winner = wordTracker.isComplete();
 
@@ -141,7 +270,7 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
       >
         <div className='playable'>
           <Title ref={titleRef} />
-          <GameWrapper>
+          <GameWrapper onMouseLeave={onGameMouseLeave}>
             {size.rows.map((row) => {
               return (
                 <div className='row' key={row}>
@@ -152,6 +281,13 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
                       <Cell
                         key={`${row}-${column}`}
                         onClick={() => markLetter(position)}
+                        onMouseDown={() => startDrag(position)}
+                        onMouseEnter={() => updateDrag(position)}
+                        onMouseUp={() => endDrag(position)}
+                        isDragPending={dragSelection.some(
+                          (selected) =>
+                            selected.row === row && selected.column === column
+                        )}
                         position={position}
                       />
                     );
