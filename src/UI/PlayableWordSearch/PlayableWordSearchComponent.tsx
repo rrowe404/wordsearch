@@ -69,6 +69,7 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
   const wordListRef = React.useRef<HTMLDivElement>(null);
   const dragStartRef = React.useRef<Position>(null);
   const dragPositionRef = React.useRef<Position>(null);
+  const activePointerIdRef = React.useRef<number>(null);
   const ignoreNextClickRef = React.useRef(false);
   const size = getSize(wordSearchState);
   const { columns, wordList } = wordSearchState;
@@ -167,15 +168,26 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
     }
   };
 
-  const startDrag = (position: Position) => {
+  const startDrag = (position: Position, pointerId: number) => {
+    if (activePointerIdRef.current !== null) {
+      return;
+    }
+
     ignoreNextClickRef.current = false;
+    activePointerIdRef.current = pointerId;
     dragStartRef.current = position;
     dragPositionRef.current = position;
     setDragPosition(position);
   };
 
-  const endDrag = (position: Position) => {
+  const endDrag = (position: Position, pointerId: number) => {
+    if (activePointerIdRef.current !== pointerId) {
+      return;
+    }
+
     const start = dragStartRef.current;
+    const end = dragPositionRef.current ?? position;
+    activePointerIdRef.current = null;
     dragStartRef.current = null;
     dragPositionRef.current = null;
     setDragPosition(null);
@@ -183,25 +195,33 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
 
     if (
       start &&
-      (start.row !== position.row || start.column !== position.column)
+      (start.row !== end.row || start.column !== end.column)
     ) {
       startLetterTracker.setPending(start);
-      endLetterTracker.setPending(position);
+      endLetterTracker.setPending(end);
       ignoreNextClickRef.current = true;
     }
   };
 
-  const cancelDrag = () => {
+  const cancelDrag = (pointerId?: number) => {
+    if (
+      pointerId !== undefined &&
+      activePointerIdRef.current !== pointerId
+    ) {
+      return;
+    }
+
+    activePointerIdRef.current = null;
     dragStartRef.current = null;
     dragPositionRef.current = null;
     setDragPosition(null);
     setDragBounds(null);
   };
 
-  const onGameMouseLeave = (
-    event: React.MouseEvent<HTMLDivElement>
+  const onGamePointerLeave = (
+    event: React.PointerEvent<HTMLDivElement>
   ) => {
-    if (!dragStartRef.current) {
+    if (activePointerIdRef.current !== event.pointerId) {
       return;
     }
 
@@ -209,14 +229,59 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
     if (isWithinDragGraceArea(event.clientX, event.clientY, bounds)) {
       setDragBounds(bounds);
     } else {
-      cancelDrag();
+      cancelDrag(event.pointerId);
     }
   };
 
-  const updateDrag = (position: Position) => {
-    if (dragStartRef.current) {
+  const updateDrag = (position: Position, pointerId: number) => {
+    if (activePointerIdRef.current === pointerId && dragStartRef.current) {
       dragPositionRef.current = position;
       setDragPosition(position);
+    }
+  };
+
+  const onGamePointerMove = (
+    event: React.PointerEvent<HTMLDivElement>
+  ) => {
+    if (activePointerIdRef.current !== event.pointerId) {
+      return;
+    }
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const isInsideGame =
+      event.clientX >= bounds.left &&
+      event.clientX <= bounds.right &&
+      event.clientY >= bounds.top &&
+      event.clientY <= bounds.bottom;
+
+    if (!isInsideGame) {
+      if (isWithinDragGraceArea(event.clientX, event.clientY, bounds)) {
+        setDragBounds((currentBounds) => currentBounds ?? bounds);
+      } else {
+        cancelDrag(event.pointerId);
+      }
+
+      return;
+    }
+
+    setDragBounds(null);
+
+    const target =
+      typeof document.elementFromPoint === 'function'
+        ? document.elementFromPoint(event.clientX, event.clientY)
+        : event.target;
+    const cell =
+      target instanceof Element
+        ? target.closest<HTMLElement>('.cell')
+        : null;
+
+    if (cell && event.currentTarget.contains(cell)) {
+      const row = Number(cell.dataset.row);
+      const column = Number(cell.dataset.column);
+
+      if (Number.isInteger(row) && Number.isInteger(column)) {
+        updateDrag({ row, column }, event.pointerId);
+      }
     }
   };
 
@@ -225,26 +290,37 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
       return;
     }
 
-    const handleMouseMove = (event: MouseEvent) => {
-      if (!isWithinDragGraceArea(event.clientX, event.clientY, dragBounds)) {
-        cancelDrag();
+    const handlePointerMove = (event: PointerEvent) => {
+      if (
+        event.pointerId === activePointerIdRef.current &&
+        !isWithinDragGraceArea(event.clientX, event.clientY, dragBounds)
+      ) {
+        cancelDrag(event.pointerId);
       }
     };
-    const handleMouseUp = () => {
+    const handlePointerUp = (event: PointerEvent) => {
+      if (event.pointerId !== activePointerIdRef.current) {
+        return;
+      }
+
       const position = dragPositionRef.current;
       if (position) {
-        endDrag(position);
+        endDrag(position, event.pointerId);
       } else {
-        cancelDrag();
+        cancelDrag(event.pointerId);
       }
     };
+    const handlePointerCancel = (event: PointerEvent) =>
+      cancelDrag(event.pointerId);
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('pointercancel', handlePointerCancel);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerCancel);
     };
   }, [dragBounds]);
 
@@ -270,7 +346,11 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
       >
         <div className='playable'>
           <Title ref={titleRef} />
-          <GameWrapper onMouseLeave={onGameMouseLeave}>
+          <GameWrapper
+            onPointerCancel={(event) => cancelDrag(event.pointerId)}
+            onPointerLeave={onGamePointerLeave}
+            onPointerMove={onGamePointerMove}
+          >
             {size.rows.map((row) => {
               return (
                 <div className='row' key={row}>
@@ -281,9 +361,15 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
                       <Cell
                         key={`${row}-${column}`}
                         onClick={() => markLetter(position)}
-                        onMouseDown={() => startDrag(position)}
-                        onMouseEnter={() => updateDrag(position)}
-                        onMouseUp={() => endDrag(position)}
+                        onPointerDown={(pointerId) =>
+                          startDrag(position, pointerId)
+                        }
+                        onPointerEnter={(pointerId) =>
+                          updateDrag(position, pointerId)
+                        }
+                        onPointerUp={(pointerId) =>
+                          endDrag(position, pointerId)
+                        }
                         isDragPending={dragSelection.some(
                           (selected) =>
                             selected.row === row && selected.column === column
