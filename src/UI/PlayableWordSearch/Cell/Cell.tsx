@@ -4,18 +4,18 @@ import { PlayableWordSearchContext } from '../PlayableWordSearchContext';
 
 interface Props {
   onClick: () => void;
-  onMouseDown: () => void;
-  onMouseEnter: () => void;
-  onMouseUp: () => void;
+  onPointerDown: (pointerId: number) => void;
+  onPointerEnter: (pointerId: number) => void;
+  onPointerUp: (pointerId: number) => void;
   isDragPending: boolean;
   position: Position;
 }
 
 const Cell: React.FC<Props> = ({
   onClick,
-  onMouseDown,
-  onMouseEnter,
-  onMouseUp,
+  onPointerDown,
+  onPointerEnter,
+  onPointerUp,
   isDragPending,
   position,
 }) => {
@@ -46,23 +46,21 @@ const Cell: React.FC<Props> = ({
 
   return (
     <div
-      onMouseDown={(event) => {
-        if (event.button === 0) {
+      onPointerDown={(event) => {
+        if (event.button === 0 && event.isPrimary) {
           event.preventDefault();
-          onMouseDown();
+          onPointerDown(event.pointerId);
         }
       }}
-      onMouseEnter={() => onMouseEnter()}
-      onMouseUp={(event) => {
-        if (event.button === 0) {
-          onMouseUp();
-        }
-      }}
+      onPointerEnter={(event) => onPointerEnter(event.pointerId)}
+      onPointerUp={(event) => onPointerUp(event.pointerId)}
       onDragStart={(event) => event.preventDefault()}
       onClick={() => onClick()}
       className={getTdClasses()}
       style={getTdStyles()}
       draggable={false}
+      data-row={row}
+      data-column={column}
     >
       {wordSearchState.getValueAt(row, column)}
     </div>

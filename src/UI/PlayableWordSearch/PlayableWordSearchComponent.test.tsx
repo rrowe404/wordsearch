@@ -10,6 +10,42 @@ import { PlayableWordSearchComponent } from './PlayableWordSearchComponent';
 
 jest.mock('./PlayableWordSearchComponent.less', () => ({}));
 
+const originalElementFromPointDescriptor = Object.getOwnPropertyDescriptor(
+  document,
+  'elementFromPoint'
+);
+
+interface PointerEventOptions {
+  pointerId?: number;
+  pointerType?: 'mouse' | 'touch';
+  clientX?: number;
+  clientY?: number;
+  relatedTarget?: EventTarget | null;
+}
+
+const firePointer = (
+  target: EventTarget,
+  type: string,
+  options: PointerEventOptions = {}
+) => {
+  const event = new Event(type, { bubbles: true, cancelable: true });
+
+  Object.defineProperties(event, {
+    button: { value: 0 },
+    clientX: { value: options.clientX ?? 0 },
+    clientY: { value: options.clientY ?? 0 },
+    isPrimary: { value: true },
+    pointerId: { value: options.pointerId ?? 1 },
+    pointerType: { value: options.pointerType ?? 'mouse' },
+    relatedTarget: { value: options.relatedTarget ?? null },
+  });
+
+  act(() => {
+    target.dispatchEvent(event);
+  });
+  return event;
+};
+
 describe('PlayableWordSearchComponent', () => {
   const createState = () => {
     const matrix = [['w', 'a', 't']];
@@ -31,6 +67,15 @@ describe('PlayableWordSearchComponent', () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
+    if (originalElementFromPointDescriptor) {
+      Object.defineProperty(
+        document,
+        'elementFromPoint',
+        originalElementFromPointDescriptor
+      );
+    } else {
+      Reflect.deleteProperty(document, 'elementFromPoint');
+    }
   });
 
   it('completes a word dragged from its first to its last letter', () => {
@@ -38,29 +83,23 @@ describe('PlayableWordSearchComponent', () => {
       <PlayableWordSearchComponent wordSearchState={createState()} />
     );
     const cells = container.querySelectorAll('.cell');
-    const mouseDownEvent = new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-      button: 0,
+    const pointerDownEvent = firePointer(cells[0], 'pointerdown', {
+      pointerType: 'touch',
     });
-
-    act(() => {
-      cells[0].dispatchEvent(mouseDownEvent);
-    });
-    expect(mouseDownEvent.defaultPrevented).toBe(true);
+    expect(pointerDownEvent.defaultPrevented).toBe(true);
     expect(cells[0].classList.contains('pending')).toBe(true);
 
-    fireEvent.mouseEnter(cells[1]);
+    firePointer(cells[1], 'pointerover', { pointerType: 'touch' });
     expect(cells[0].classList.contains('pending')).toBe(true);
     expect(cells[1].classList.contains('pending')).toBe(true);
     expect(cells[2].classList.contains('pending')).toBe(false);
 
-    fireEvent.mouseEnter(cells[2]);
+    firePointer(cells[2], 'pointerover', { pointerType: 'touch' });
     expect(cells[0].classList.contains('pending')).toBe(true);
     expect(cells[1].classList.contains('pending')).toBe(true);
     expect(cells[2].classList.contains('pending')).toBe(true);
 
-    fireEvent.mouseUp(cells[2], { button: 0 });
+    firePointer(cells[2], 'pointerup', { pointerType: 'touch' });
     fireEvent.click(cells[2]);
 
     expect(
@@ -77,8 +116,8 @@ describe('PlayableWordSearchComponent', () => {
     );
     const cells = container.querySelectorAll('.cell');
     const clickCell = (cell: Element) => {
-      fireEvent.mouseDown(cell, { button: 0 });
-      fireEvent.mouseUp(cell, { button: 0 });
+      firePointer(cell, 'pointerdown');
+      firePointer(cell, 'pointerup');
       fireEvent.click(cell);
     };
 
@@ -96,24 +135,25 @@ describe('PlayableWordSearchComponent', () => {
     );
     const cells = container.querySelectorAll('.cell');
     const clickCell = (cell: Element) => {
-      fireEvent.mouseDown(cell, { button: 0 });
-      fireEvent.mouseUp(cell, { button: 0 });
+      firePointer(cell, 'pointerdown');
+      firePointer(cell, 'pointerup');
       fireEvent.click(cell);
     };
 
-    fireEvent.mouseDown(cells[0], { button: 0 });
-    fireEvent.mouseEnter(cells[1]);
+    firePointer(cells[0], 'pointerdown');
+    firePointer(cells[1], 'pointerover');
     expect(cells[0].classList.contains('pending')).toBe(true);
     expect(cells[1].classList.contains('pending')).toBe(true);
 
-    fireEvent.mouseLeave(container.querySelector('.game'), {
+    firePointer(container.querySelector('.game'), 'pointerout', {
       clientX: 100,
       clientY: 100,
+      relatedTarget: document.body,
     });
 
     expect(cells[0].classList.contains('pending')).toBe(false);
     expect(cells[1].classList.contains('pending')).toBe(false);
-    fireEvent.mouseEnter(cells[2]);
+    firePointer(cells[2], 'pointerover');
     expect(cells[2].classList.contains('pending')).toBe(false);
 
     clickCell(cells[2]);
@@ -142,17 +182,21 @@ describe('PlayableWordSearchComponent', () => {
         toJSON: () => ({}),
       } as DOMRect);
 
-    fireEvent.mouseDown(cells[0], { button: 0 });
-    fireEvent.mouseEnter(cells[1]);
-    fireEvent.mouseLeave(game, { clientX: 405, clientY: 150 });
+    firePointer(cells[0], 'pointerdown');
+    firePointer(cells[1], 'pointerover');
+    firePointer(game, 'pointerout', {
+      clientX: 405,
+      clientY: 150,
+      relatedTarget: document.body,
+    });
 
     expect(cells[0].classList.contains('pending')).toBe(true);
     expect(cells[1].classList.contains('pending')).toBe(true);
 
-    fireEvent.mouseMove(window, { clientX: 411, clientY: 150 });
+    firePointer(window, 'pointermove', { clientX: 411, clientY: 150 });
     expect(cells[1].classList.contains('pending')).toBe(true);
 
-    fireEvent.mouseMove(window, { clientX: 413, clientY: 150 });
+    firePointer(window, 'pointermove', { clientX: 413, clientY: 150 });
     expect(cells[0].classList.contains('pending')).toBe(false);
     expect(cells[1].classList.contains('pending')).toBe(false);
   });
@@ -176,11 +220,15 @@ describe('PlayableWordSearchComponent', () => {
       toJSON: () => ({}),
     } as DOMRect);
 
-    fireEvent.mouseDown(cells[0], { button: 0 });
-    fireEvent.mouseEnter(cells[1]);
-    fireEvent.mouseEnter(cells[2]);
-    fireEvent.mouseLeave(game, { clientX: 405, clientY: 150 });
-    fireEvent.mouseUp(window, { button: 0, clientX: 405, clientY: 150 });
+    firePointer(cells[0], 'pointerdown');
+    firePointer(cells[1], 'pointerover');
+    firePointer(cells[2], 'pointerover');
+    firePointer(game, 'pointerout', {
+      clientX: 405,
+      clientY: 150,
+      relatedTarget: document.body,
+    });
+    firePointer(window, 'pointerup', { clientX: 405, clientY: 150 });
 
     expect(
       container.querySelector('.wordListWord')?.classList.contains('completed')
@@ -188,5 +236,46 @@ describe('PlayableWordSearchComponent', () => {
     expect(cells[0].classList.contains('completed')).toBe(true);
     expect(cells[1].classList.contains('completed')).toBe(true);
     expect(cells[2].classList.contains('completed')).toBe(true);
+  });
+
+  it('tracks touch movement when pointer events remain captured by the first cell', () => {
+    const { container } = render(
+      <PlayableWordSearchComponent wordSearchState={createState()} />
+    );
+    const cells = container.querySelectorAll('.cell');
+    const game = container.querySelector('.game');
+    jest.spyOn(game, 'getBoundingClientRect').mockReturnValue({
+      bottom: 200,
+      height: 100,
+      left: 100,
+      right: 400,
+      top: 100,
+      width: 300,
+      x: 100,
+      y: 100,
+      toJSON: () => ({}),
+    } as DOMRect);
+    Object.defineProperty(document, 'elementFromPoint', {
+      configurable: true,
+      value: jest.fn().mockReturnValue(cells[2]),
+    });
+
+    firePointer(cells[0], 'pointerdown', { pointerType: 'touch' });
+    firePointer(cells[0], 'pointermove', {
+      clientX: 250,
+      clientY: 150,
+      pointerType: 'touch',
+    });
+
+    expect(cells[0].classList.contains('pending')).toBe(true);
+    expect(cells[1].classList.contains('pending')).toBe(true);
+    expect(cells[2].classList.contains('pending')).toBe(true);
+
+    firePointer(cells[0], 'pointerup', { pointerType: 'touch' });
+    fireEvent.click(cells[0]);
+
+    expect(
+      container.querySelector('.wordListWord')?.classList.contains('completed')
+    ).toBe(true);
   });
 });

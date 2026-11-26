@@ -2,16 +2,25 @@ import * as React from 'react';
 import { PlayableWordSearchContext } from '../PlayableWordSearchContext';
 
 interface Props extends React.PropsWithChildren {
-  onMouseLeave: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onPointerLeave: (event: React.PointerEvent<HTMLDivElement>) => void;
+  onPointerMove: (event: React.PointerEvent<HTMLDivElement>) => void;
+  onPointerCancel: (event: React.PointerEvent<HTMLDivElement>) => void;
 }
 
-const GameWrapper: React.FC<Props> = ({ children, onMouseLeave }) => {
+const GameWrapper: React.FC<Props> = ({
+  children,
+  onPointerLeave,
+  onPointerMove,
+  onPointerCancel,
+}) => {
   const { tableWidth } = React.useContext(PlayableWordSearchContext);
 
   return (
     <div
       className='game'
-      onMouseLeave={onMouseLeave}
+      onPointerLeave={onPointerLeave}
+      onPointerMove={onPointerMove}
+      onPointerCancel={onPointerCancel}
       style={{ maxWidth: tableWidth }}
     >
       {children}
