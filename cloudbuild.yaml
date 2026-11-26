@@ -1,7 +1,0 @@
-steps:
-  - name: "gcr.io/kaniko-project/executor:latest"
-    id: "docker-build"
-    args:
-      - --destination=${_DESTINATION}:${TAG_NAME}
-      - --cache=true
-      - --build-arg=NODE_ENV=production
