@@ -169,13 +169,17 @@ export class ImageWordSearchOutputStrategy
   }
 
   private getWordListHeight() {
-    if (this.currentState.showWordList && this.currentState.wordList.length) {
-      const wordListRows = Math.ceil(
-        this.currentState.wordList.length / this.getWordListColumns()
-      );
-      return wordListRows * this.letterGap + this.wordListBottomMargin;
+    if (!this.currentState.showWordList || !this.currentState.wordList.length) {
+      if (!this.currentState.title) {
+        return this.letterGap / 2;
+      }
+
+      return this.wordListBottomMargin;
     }
 
-    return 0;
+    const wordListRows = Math.ceil(
+      this.currentState.wordList.length / this.getWordListColumns()
+    );
+    return wordListRows * this.letterGap + this.wordListBottomMargin;
   }
 }
