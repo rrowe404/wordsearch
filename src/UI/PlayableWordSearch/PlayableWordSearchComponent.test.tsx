@@ -119,6 +119,20 @@ describe('PlayableWordSearchComponent', () => {
     expect(cells[2].classList.contains('completed')).toBe(true);
   });
 
+  it('adds the grid styling only when the grid option is enabled', () => {
+    const state = createState();
+    const { container, rerender } = render(
+      <PlayableWordSearchComponent wordSearchState={state} />
+    );
+
+    expect(container.querySelector('.playable.showGrid')).toBeNull();
+
+    state.setOptions({ ...state.options, showGrid: true });
+    rerender(<PlayableWordSearchComponent wordSearchState={state} />);
+
+    expect(container.querySelector('.playable.showGrid')).not.toBeNull();
+  });
+
   it('completes a word using two clicks', () => {
     const { container } = render(
       <PlayableWordSearchComponent wordSearchState={createState()} />

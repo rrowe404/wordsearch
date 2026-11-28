@@ -93,16 +93,44 @@ export class ImageWordSearchOutputStrategy
 
   protected outputPuzzle() {
     this.context.textAlign = 'center';
-    this.context.textBaseline = 'alphabetic';
+    this.context.textBaseline = this.currentState.showGrid
+      ? 'middle'
+      : 'alphabetic';
     const puzzleOffset =
       (this.canvas.width - (this.currentState.columns + 1) * this.letterGap) /
       2;
+
+    if (this.currentState.showGrid) {
+      this.outputPuzzleGrid(puzzleOffset);
+    }
 
     this.currentState.iterate((letter, row, column) => {
       const x = puzzleOffset + (column + 1) * this.letterGap;
       const y = (row + 1) * this.letterGap + this.getTitleSpace();
       this.context.fillText(letter, x, y);
     });
+  }
+
+  private outputPuzzleGrid(puzzleOffset: number) {
+    const left = puzzleOffset + this.letterGap / 2;
+    const top = this.getTitleSpace() + this.letterGap / 2;
+    const width = this.currentState.columns * this.letterGap;
+    const height = this.currentState.rows * this.letterGap;
+
+    this.context.beginPath();
+    for (let column = 0; column <= this.currentState.columns; column += 1) {
+      const x = left + column * this.letterGap;
+      this.context.moveTo(x, top);
+      this.context.lineTo(x, top + height);
+    }
+    for (let row = 0; row <= this.currentState.rows; row += 1) {
+      const y = top + row * this.letterGap;
+      this.context.moveTo(left, y);
+      this.context.lineTo(left + width, y);
+    }
+    this.context.strokeStyle = 'black';
+    this.context.lineWidth = 1;
+    this.context.stroke();
   }
 
   protected outputTotal() {}
@@ -136,6 +164,7 @@ export class ImageWordSearchOutputStrategy
       const result =
         this.getTitleSpace() +
         this.getPuzzleHeight() +
+        this.getGridWordListSpacing() +
         (row + 1) * this.letterGap;
       return result;
     };
@@ -170,16 +199,34 @@ export class ImageWordSearchOutputStrategy
 
   private getWordListHeight() {
     if (!this.currentState.showWordList || !this.currentState.wordList.length) {
+      if (this.currentState.showGrid) {
+        return this.letterGap;
+      }
+
       if (!this.currentState.title) {
         return this.letterGap / 2;
       }
 
-      return this.wordListBottomMargin;
+      return this.getImageBottomMargin();
     }
 
     const wordListRows = Math.ceil(
       this.currentState.wordList.length / this.getWordListColumns()
     );
-    return wordListRows * this.letterGap + this.wordListBottomMargin;
+    return (
+      wordListRows * this.letterGap +
+      this.getImageBottomMargin() +
+      this.getGridWordListSpacing()
+    );
+  }
+
+  private getImageBottomMargin() {
+    return this.currentState.showGrid
+      ? this.wordListBottomMargin
+      : this.letterGap / 2;
+  }
+
+  private getGridWordListSpacing() {
+    return this.currentState.showGrid ? this.letterGap / 2 : 0;
   }
 }

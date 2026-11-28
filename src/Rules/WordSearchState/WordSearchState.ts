@@ -95,6 +95,10 @@ export class WordSearchState {
     return this._options.showWordList;
   }
 
+  public get showGrid() {
+    return this._options.showGrid;
+  }
+
   public get totalMessage() {
     return `Placed ${this.acceptedWords.length} of ${this.words.length}`;
   }

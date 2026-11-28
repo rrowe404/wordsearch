@@ -55,6 +55,116 @@ describe('ImageWordSearchOutputStrategy', () => {
     expect(canvas.height).toBe(60);
   });
 
+  it('draws cell boundary lines when the grid option is enabled', () => {
+    const canvas = document.createElement('canvas');
+    const contextMock = {
+      beginPath: jest.fn(),
+      fillRect: jest.fn(),
+      fillText: jest.fn(),
+      lineTo: jest.fn(),
+      measureText: jest.fn().mockReturnValue({ width: 0 }),
+      moveTo: jest.fn(),
+      stroke: jest.fn(),
+    };
+    const context = contextMock as unknown as CanvasRenderingContext2D;
+    jest.spyOn(canvas, 'getContext').mockReturnValue(context);
+    jest.spyOn(canvas, 'toDataURL').mockReturnValue('data:image/png;base64,');
+    jest.spyOn(document, 'createElement').mockReturnValue(canvas);
+
+    const options = {
+      ...TestUtils.createOptions([['A', 'B']]),
+      showGrid: true,
+      fontSize: 10,
+    };
+    const state = new WordSearchState();
+    state.setOptions(options);
+    state.seedMatrix([['A', 'B']]);
+
+    new ImageWordSearchOutputStrategy().output(state);
+
+    expect(contextMock.moveTo.mock.calls).toEqual([
+      [10, 10],
+      [30, 10],
+      [50, 10],
+      [10, 10],
+      [10, 30],
+    ]);
+    expect(contextMock.lineTo.mock.calls).toEqual([
+      [10, 30],
+      [30, 30],
+      [50, 30],
+      [50, 10],
+      [50, 30],
+    ]);
+    expect(contextMock.stroke).toHaveBeenCalledTimes(1);
+    expect(context.textBaseline).toBe('middle');
+    expect(contextMock.fillText.mock.calls).toEqual([
+      ['', 30, 5],
+      ['A', 20, 20],
+      ['B', 40, 20],
+    ]);
+  });
+
+  it.each([
+    { title: false, showWordList: false, canvasHeight: 60 },
+    { title: true, showWordList: false, canvasHeight: 75 },
+    { title: false, showWordList: true, canvasHeight: 75 },
+    { title: true, showWordList: true, canvasHeight: 90 },
+  ])(
+    'keeps the grid clear of the image edge and word list with title=$title, word list=$showWordList',
+    ({ title, showWordList, canvasHeight }) => {
+      const canvas = document.createElement('canvas');
+      const textDraws: Array<{ text: string; y: number }> = [];
+      const contextMock = {
+        beginPath: jest.fn(),
+        fillRect: jest.fn(),
+        fillText: jest.fn((text: string, _x: number, y: number) => {
+          textDraws.push({ text, y });
+        }),
+        lineTo: jest.fn(),
+        measureText: jest.fn().mockReturnValue({ width: 0 }),
+        moveTo: jest.fn(),
+        stroke: jest.fn(),
+      };
+      jest
+        .spyOn(canvas, 'getContext')
+        .mockReturnValue(contextMock as unknown as CanvasRenderingContext2D);
+      jest.spyOn(canvas, 'toDataURL').mockReturnValue('data:image/png;base64,');
+      jest.spyOn(document, 'createElement').mockReturnValue(canvas);
+
+      const options = {
+        ...TestUtils.createOptions([
+          ['A', 'B'],
+          ['C', 'D'],
+        ]),
+        showGrid: true,
+        showWordList,
+        title: title ? 'Puzzle title' : '',
+        fontSize: 10,
+      };
+      const state = new WordSearchState();
+      state.setOptions(options);
+      state.seedMatrix([
+        ['A', 'B'],
+        ['C', 'D'],
+      ]);
+      if (showWordList) {
+        state.acceptedWordOverride(['AB']);
+      }
+
+      new ImageWordSearchOutputStrategy().output(state);
+
+      const gridBottom = title ? 65 : 50;
+      expect(canvas.height).toBe(canvasHeight);
+      expect(gridBottom).toBeLessThan(canvas.height);
+
+      if (showWordList) {
+        const wordListDraw = textDraws.find(({ text }) => text === 'AB');
+        expect(wordListDraw.y).toBeGreaterThan(gridBottom);
+      }
+    }
+  );
+
   it('centers the word list under the puzzle and sizes the image to its rows', () => {
     const canvas = document.createElement('canvas');
     const wordListXPositions: number[] = [];
@@ -84,7 +194,7 @@ describe('ImageWordSearchOutputStrategy', () => {
     new ImageWordSearchOutputStrategy().output(state);
 
     expect(canvas.width).toBe(100);
-    expect(canvas.height).toBe(85);
+    expect(canvas.height).toBe(90);
     expect(wordListXPositions).toEqual([20, 60, 20, 60, 20]);
   });
 
@@ -153,6 +263,41 @@ describe('ImageWordSearchOutputStrategy', () => {
       { text: 'Puzzle title', y: 5 },
       { text: 'A', y: 35 },
     ]);
-    expect(canvas.height).toBe(40);
+    expect(canvas.height).toBe(45);
+  });
+
+  it('keeps bottom padding after a title, puzzle, and word list', () => {
+    const canvas = document.createElement('canvas');
+    const textDraws: Array<{ text: string; y: number }> = [];
+    const context = {
+      fillRect: jest.fn(),
+      fillText: jest.fn((text: string, _x: number, y: number) => {
+        textDraws.push({ text, y });
+      }),
+      measureText: jest.fn().mockReturnValue({ width: 0 }),
+    } as unknown as CanvasRenderingContext2D;
+    jest.spyOn(canvas, 'getContext').mockReturnValue(context);
+    jest.spyOn(canvas, 'toDataURL').mockReturnValue('data:image/png;base64,');
+    jest.spyOn(document, 'createElement').mockReturnValue(canvas);
+
+    const options = {
+      ...TestUtils.createOptions([['A']]),
+      title: 'Puzzle title',
+      showWordList: true,
+      fontSize: 10,
+    };
+    const state = new WordSearchState();
+    state.setOptions(options);
+    state.seedMatrix([['A']]);
+    state.acceptedWordOverride(['A']);
+
+    new ImageWordSearchOutputStrategy().output(state);
+
+    expect(textDraws).toEqual([
+      { text: 'Puzzle title', y: 5 },
+      { text: 'A', y: 35 },
+      { text: 'A', y: 55 },
+    ]);
+    expect(canvas.height).toBe(65);
   });
 });
