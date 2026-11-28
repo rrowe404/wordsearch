@@ -13,6 +13,7 @@ export interface WordSearchGenerationOptionsBase {
 
   alphabetizeWordList: boolean;
   showWordList: boolean;
+  showGrid: boolean;
   title: string;
 
   wordList: string;

@@ -11,6 +11,7 @@ export class TestUtils {
       height: matrix.length,
       width: matrix[0].length,
       showWordList: false,
+      showGrid: false,
       title: '',
       wordList: '',
       filterAccidentalProfanity: false,

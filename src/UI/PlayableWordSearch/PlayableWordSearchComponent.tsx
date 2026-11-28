@@ -51,7 +51,7 @@ const PlayableWordSearch: React.FC<Props> = ({ wordSearchState }) => {
         wordSearchState={wordSearchState}
         wordTracker={wordTracker}
       >
-        <div className='playable'>
+        <div className={`playable${wordSearchState.showGrid ? ' showGrid' : ''}`}>
           <Title ref={titleRef} />
           <GameWrapper
             onPointerCancel={(event) => wordSelection.cancelDrag(event.pointerId)}

@@ -6,6 +6,7 @@ export const DefaultWordSearchGenerationOptions: WordSearchGenerationOptions = {
   width: 10,
   alphabetizeWordList: false,
   showWordList: true,
+  showGrid: false,
   title: '',
   wordList: '',
   filterAccidentalProfanity: false,

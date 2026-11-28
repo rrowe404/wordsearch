@@ -72,6 +72,13 @@ const WordSearchGeneratorForm: React.FC = () => {
 
               <CardComponent title='Misc. Options'>
                 <CheckboxComponent
+                  label='Show Grid'
+                  updated={props.handleChange}
+                  name='showGrid'
+                  value={props.values.showGrid}
+                />
+
+                <CheckboxComponent
                   label='Show Word List'
                   updated={props.handleChange}
                   name='showWordList'
